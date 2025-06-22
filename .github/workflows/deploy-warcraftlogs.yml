@@ -1,24 +1,14 @@
-name: Deploy Databricks Job (YAML)
+- name: Install new Databricks CLI (v0.200+)
+  run: |
+    pip uninstall -y databricks-cli
+    pip install "databricks-cli>=0.200.0"
 
-on:
-  push:
-    branches: [ main ]
+- name: Check CLI version
+  run: databricks --version
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Install Databricks CLI v0.200+
-      run: pip install --upgrade databricks-cli
-
-    - name: Deploy job from YAML
-      env:
-        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-      run: |
-        databricks jobs deploy \
-          --yaml bronze-ingestion-extraction.yaml \
-          --overwrite
+- name: Deploy job from YAML
+  env:
+    DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+    DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+  run: |
+    databricks jobs deploy --yaml bronze-ingestion-extraction.yaml --overwrite
