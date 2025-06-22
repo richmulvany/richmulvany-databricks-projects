@@ -1,4 +1,4 @@
-- name: Install new Databricks CLI (v0.200+)
+- name: Install Databricks CLI (v0.200+)
   run: |
     pip uninstall -y databricks-cli
     pip install "databricks-cli>=0.200.0"
