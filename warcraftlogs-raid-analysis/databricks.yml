@@ -1,0 +1,9 @@
+bundle:
+  name: warcraftlogs-pipeline
+
+targets:
+  dev:
+    mode: development
+    workspace:
+      host: https://<your-workspace>.databricks.com
+      root_path: /Users/<your.email@databricks.com>/warcraftlogs-dev
