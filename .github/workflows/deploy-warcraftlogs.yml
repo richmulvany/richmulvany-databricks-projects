@@ -1,4 +1,4 @@
-name: Deploy Databricks Job
+name: Deploy Databricks Job (YAML)
 
 on:
   push:
@@ -11,27 +11,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install Databricks CLI
-      run: pip install databricks-cli
+    - name: Install Databricks CLI v0.200+
+      run: pip install --upgrade databricks-cli
 
-    - name: Configure Databricks CLI
+    - name: Deploy job from YAML
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
       run: |
-        mkdir -p ~/.databricks
-        echo "[DEFAULT]" > ~/.databricks/config
-        echo "host = $DATABRICKS_HOST" >> ~/.databricks/config
-        echo "token = $DATABRICKS_TOKEN" >> ~/.databricks/config
-
-    - name: Deploy Job
-      run: |
-        # If job exists, update; else create
-        JOB_ID=$(databricks jobs list | grep warcraftlogs-raid-analysis/bronze-ingestion-extraction | awk '{print $1}')
-        if [ -z "$JOB_ID" ]; then
-          echo "Creating job..."
-          databricks jobs create --yaml-file jobs/bronze-ingestion-extraction.yaml
-        else
-          echo "Updating job..."
-          databricks jobs reset --job-id "$JOB_ID" --yaml-file warcraftlogs-raid-analysis/jobs/bronze-ingestion-extraction.yaml
-        fi
+        databricks jobs deploy \
+          --yaml bronze-ingestion-extraction.yaml \
+          --overwrite
