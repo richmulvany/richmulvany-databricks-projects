@@ -26,7 +26,8 @@ resources:
       - task-key: bronze-ingestion
           notebook_task:
             notebook_path: ./notebooks/01-bronze/bronze-ingestion.py
+          existing_cluster_id: "{{env.DATABRICKS_CLUSTER_ID}}"
       - task-key: bronze-extraction
           notebook_task:
             notebook_path: ./notebooks/01-bronze/bronze-extraction.py
-    
+          existing_cluster_id: "{{env.DATABRICKS_CLUSTER_ID}}"
