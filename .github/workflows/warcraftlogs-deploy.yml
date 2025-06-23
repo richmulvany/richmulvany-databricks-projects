@@ -36,5 +36,4 @@ jobs:
         env:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
           DATABRICKS_BUNDLE_ENV: default
-          DATABRICKS_HOST_ADDRESS: ${{ secrets.DATABRICKS_HOST_ADDRESS }}
           DATABRICKS_CLUSTER_ID: ${{ secrets.DATABRICKS_CLUSTER_ID }}
