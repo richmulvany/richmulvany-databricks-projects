@@ -19,7 +19,7 @@ targets:
     mode: development
     default: true
     workspace:
-      host: ${{ vars.DATABRICKS_HOST_ADDRESS }}
+      host: "{{env.DATABRICKS_HOST_ADDRESS}}"
       root_path: ~/warcraftlogs-raid-analysis
 
 resources:
@@ -30,8 +30,8 @@ resources:
         - task_key: bronze-ingestion
           notebook_task:
             notebook_path: ./notebooks/01-bronze/bronze-ingestion.py
-          existing_cluster_id: ${{ vars.DATABRICKS_CLUSTER_ID }}
+          existing_cluster_id: "{{env.DATABRICKS_CLUSTER_ID}}"
         - task_key: bronze-extraction
           notebook_task:
             notebook_path: ./notebooks/01-bronze/bronze-extraction.py
-          existing_cluster_id: ${{ vars.DATABRICKS_CLUSTER_ID }}
+          existing_cluster_id: "{{env.DATABRICKS_CLUSTER_ID}}"
