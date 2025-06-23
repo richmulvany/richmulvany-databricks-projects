@@ -19,7 +19,7 @@ targets:
     mode: development
     default: true
     workspace:
-      host: "{{env.DATABRICKS_HOST_ADDRESS}}"
+      host: ${{var.DATABRICKS_HOST_ADDRESS}}
       root_path: ~/warcraftlogs-raid-analysis
 
 resources:
