@@ -11,3 +11,8 @@ targets:
     workspace:
       host: https://dbc-4b3f5758-e807.cloud.databricks.com/
       root_path: ~/warcraftlogs-raid-analysis
+
+resources:
+  jobs:
+    - path: workflows/bronze-ingestion-extraction-job.job.yaml
+    
