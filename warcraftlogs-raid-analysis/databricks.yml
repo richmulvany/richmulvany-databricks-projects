@@ -30,8 +30,6 @@ resources:
         - task_key: bronze-ingestion
           notebook_task:
             notebook_path: ./notebooks/01-bronze/bronze-ingestion.py
-          existing_cluster_id: e0a090f4ac849c84
         - task_key: bronze-extraction
           notebook_task:
             notebook_path: ./notebooks/01-bronze/bronze-extraction.py
-          existing_cluster_id: e0a090f4ac849c84
