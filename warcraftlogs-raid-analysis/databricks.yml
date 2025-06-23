@@ -2,13 +2,11 @@
 # See https://docs.databricks.com/dev-tools/bundles/index.html for documentation
 bundle:
   name: warcraftlogs-pipeline
-
-variables:
-  cluster_id:
-    description: Cluster ID for the given name
-    lookup:
-      cluster: Serverless Starter Warehouse
-
-include:
-  - jobs/*.yml
-  - libraries/*.yml
+ 
+targets:
+  default:
+    mode: development
+    default: true
+    workspace:
+      host: https://.databricks.com
+      root_path: /Repos/richmulvany/richmulvany-databricks-projects/warcraftlogs-raid-analysis
