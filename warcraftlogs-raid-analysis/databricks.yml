@@ -10,4 +10,4 @@ targets:
     default: true
     workspace:
       host: https://dbc-4b3f5758-e807.cloud.databricks.com/
-      root_path: ~/richmulvany-databricks-projects/warcraftlogs-raid-analysis
+      root_path: ~/warcraftlogs-raid-analysis
