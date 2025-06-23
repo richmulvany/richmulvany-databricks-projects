@@ -1,6 +1,6 @@
 # This is a Databricks asset bundle definition for my warcraftlogs-raid-analysis data product
 # See https://docs.databricks.com/dev-tools/bundles/index.html for documentation
-#
+##
 bundle:
   name: warcraftlogs-pipeline
  
