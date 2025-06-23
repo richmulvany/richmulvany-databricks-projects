@@ -14,16 +14,14 @@ jobs:
       - uses: actions/checkout@v3
       - uses: databricks/setup-cli@main
  
-      - name: Deploy Bundle and Run Job
-        run: |
-         databricks bundle deploy
-         databricks bundle run warcraft-job --refresh-all
+      - name: 🚀 Deploy and Run
         working-directory: warcraftlogs-raid-analysis
+        run: |
+          databricks bundle deploy
+          databricks bundle run warcraft-job --refresh-all
         env:
           DATABRICKS_TOKEN: ${{ secrets.SP_TOKEN }}
           DATABRICKS_BUNDLE_ENV: default
-          DATABRICKS_HOST_ADDRESS: ${{ vars.DATABRICKS_HOST_ADDRESS }}
-          DATABRICKS_CLUSTER_ID: ${{ vars.DATABRICKS_CLUSTER_ID }}
           
       - name: 🔄 Substitute values in databricks.yml
         working-directory: warcraftlogs-raid-analysis
