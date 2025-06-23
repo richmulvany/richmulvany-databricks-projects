@@ -1,14 +1,14 @@
 resources:
   jobs:
     bronze_ingestion:
-      name: bronze-ingestion
+      name: bronze-ingestion-extraction-job
       tasks:
-        - task_key: bronze_ingestion
+        - task_key: bronze_ingestion-task
           for_each_task:
             inputs: '["fights", "actors", "events", "tables"]'
             concurrency: 1
             task:
-              task_key: bronze_ingestion_iteration_iteration
+              task_key: bronze_ingestion_iteration
               notebook_task:
                 notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-ingestion
                 base_parameters:
@@ -18,14 +18,14 @@ resources:
                 source: WORKSPACE
               min_retry_interval_millis: 900000
               disable_auto_optimization: true
-        - task_key: bronze_extraction
+        - task_key: bronze_extraction-task
           depends_on:
-            - task_key: bronze_ingestion
+            - task_key: bronze_ingestion-task
           for_each_task:
             inputs: '["fights", "actors", "events", "tables"]'
             concurrency: 1
             task:
-              task_key: bronze_extraction_iteration_iteration
+              task_key: bronze_extraction_iteration
               notebook_task:
                 notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-extraction
                 base_parameters:
