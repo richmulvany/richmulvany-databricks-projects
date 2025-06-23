@@ -4,7 +4,7 @@
 bundle:
   name: warcraftlogs-pipeline
 
-files:
+include:
   - dashboards/**
   - jobs/**
   - notebooks/**
