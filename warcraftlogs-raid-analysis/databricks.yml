@@ -15,7 +15,7 @@ targets:
     mode: development
     default: true
     workspace:
-      host: https://dbc-4b3f5758-e807.cloud.databricks.com/
+      host: "{{env.DATABRICKS_HOST_ADDRESS}}"
       root_path: ~/warcraftlogs-raid-analysis
 
 resources:
