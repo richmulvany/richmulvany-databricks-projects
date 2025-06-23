@@ -24,3 +24,11 @@ jobs:
           DATABRICKS_BUNDLE_ENV: default
           DATABRICKS_HOST_ADDRESS: ${{ vars.DATABRICKS_HOST_ADDRESS }}
           DATABRICKS_CLUSTER_ID: ${{ vars.DATABRICKS_CLUSTER_ID }}
+          
+      - name: 🔍 Show environment variables
+        run: |
+          echo "DATABRICKS_HOST_ADDRESS = $DATABRICKS_HOST_ADDRESS"
+          echo "DATABRICKS_CLUSTER_ID = $DATABRICKS_CLUSTER_ID"
+        env:
+          DATABRICKS_HOST_ADDRESS: ${{ vars.DATABRICKS_HOST_ADDRESS }}
+          DATABRICKS_CLUSTER_ID: ${{ vars.DATABRICKS_CLUSTER_ID }}
