@@ -3,6 +3,12 @@
 ##
 bundle:
   name: warcraftlogs-pipeline
+
+files:
+  - dashboards/**
+  - jobs/**
+  - notebooks/**
+  - utils/**
  
 targets:
   default:
@@ -16,4 +22,11 @@ resources:
   jobs:
     warcraft-job:
       path: workflows/bronze-ingestion-extraction-job.job.yaml
+    tasks:
+      - task-key: bronze-ingestion
+          notebook_task:
+            notebook_path: ./notebooks/01-bronze/bronze-ingestion.py
+      - task-key: bronze-extraction
+          notebook_task:
+            notebook_path: ./notebooks/01-bronze/bronze-extraction.py
     
