@@ -20,5 +20,7 @@ jobs:
          databricks bundle run warcraft-job --refresh-all
         working-directory: warcraftlogs-raid-analysis
         env:
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          DATABRICKS_TOKEN: ${{ secrets.SP_TOKEN }}
           DATABRICKS_BUNDLE_ENV: default
+          DATABRICKS_HOST_ADDRESS: ${{ vars.DATABRICKS_HOST_ADDRESS }}
+          DATABRICKS_CLUSTER_ID: ${{ vars.DATABRICKS_CLUSTER_ID }}
