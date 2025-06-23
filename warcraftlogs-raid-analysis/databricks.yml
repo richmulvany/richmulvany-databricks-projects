@@ -4,14 +4,15 @@
 bundle:
   name: warcraftlogs-pipeline
 
-sync.include:
-  - dashboards/**
-  - jobs/**
-  - notebooks/**
-  - utils/**
-  - workflows/**
-  - databricks.yml
-  - .databricks/**
+sync:
+  include:
+    - dashboards/**
+    - jobs/**
+    - notebooks/**
+    - utils/**
+    - workflows/**
+    - databricks.yml
+    - .databricks/**
 
 targets:
   default:
