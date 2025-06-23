@@ -14,5 +14,6 @@ targets:
 
 resources:
   jobs:
-    path: workflows/bronze-ingestion-extraction-job.job.yaml
+    warcraft-job:
+      path: workflows/bronze-ingestion-extraction-job.job.yaml
     
