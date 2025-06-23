@@ -20,16 +20,13 @@ jobs:
       - name: 💉 Inject job YAML into databricks.yml
         working-directory: warcraftlogs-raid-analysis
         run: |
-          export JOB_DEFINITION="$(sed 's/^/  /' jobs/bronze-ingestion-extraction-job.yaml)"
-          echo "$JOB_DEFINITION"
+          JOB_DEFINITION="$(sed 's/^/      /' jobs/bronze-ingestion-extraction-job.yaml)"
+          export JOB_DEFINITION
           envsubst < databricks.yml.template > databricks.yml
-        env:
-          DATABRICKS_HOST_ADDRESS: ${{ vars.DATABRICKS_HOST_ADDRESS }}
+
       - name: 🐛 Output final databricks.yml for debugging
         working-directory: warcraftlogs-raid-analysis
         run: cat databricks.yml
-
-
 
       - name: 🚀 Deploy and Run Asset Bundle
         working-directory: warcraftlogs-raid-analysis
@@ -40,3 +37,4 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
           DATABRICKS_BUNDLE_ENV: default
           DATABRICKS_CLUSTER_ID: ${{ secrets.DATABRICKS_CLUSTER_ID }}
+          DATABRICKS_HOST_ADDRESS: ${{ vars.DATABRICKS_HOST_ADDRESS }}
