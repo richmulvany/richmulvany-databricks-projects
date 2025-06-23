@@ -14,5 +14,5 @@ targets:
 
 resources:
   jobs:
-    - path: warcraftlogs-raid-analysis/workflows/bronze-ingestion-extraction-job.job.yaml
+    - path: /workflows/bronze-ingestion-extraction-job.job.yaml
     
