@@ -1,6 +1,5 @@
 resources:
   jobs:
-    bronze_ingestion-extraction-job:
       name: bronze-ingestion-extraction-job
       tasks:
         - task_key: bronze_ingestion-task
