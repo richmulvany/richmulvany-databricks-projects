@@ -1,6 +1,7 @@
 resources:
   jobs:
-    name: bronze-ingestion-extraction-job
+    bronze_ingestion-extraction-job:
+      name: bronze-ingestion-extraction-job
       tasks:
         - task_key: bronze_ingestion-task
           for_each_task:
@@ -17,7 +18,6 @@ resources:
                 source: WORKSPACE
               min_retry_interval_millis: 900000
               disable_auto_optimization: true
-      
         - task_key: bronze_extraction-task
           depends_on:
             - task_key: bronze_ingestion-task
@@ -33,8 +33,7 @@ resources:
                   fight_id: ""
                   data_source: "{{input}}"
                 source: WORKSPACE
-      
       queue:
         enabled: true
       performance_target: STANDARD
-
+      
