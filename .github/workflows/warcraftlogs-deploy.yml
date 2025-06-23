@@ -13,6 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: databricks/setup-cli@main
+
+      - name: 🔄 Substitute values in databricks.yml
+        working-directory: warcraftlogs-raid-analysis
+        run: |
+          envsubst < databricks.yml.template > databricks.yml
+        env:
+          DATABRICKS_HOST_ADDRESS: ${{ vars.DATABRICKS_HOST_ADDRESS }}
+          DATABRICKS_CLUSTER_ID: ${{ vars.DATABRICKS_CLUSTER_ID }}
  
       - name: 🚀 Deploy and Run
         working-directory: warcraftlogs-raid-analysis
@@ -23,10 +31,3 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.SP_TOKEN }}
           DATABRICKS_BUNDLE_ENV: default
           
-      - name: 🔄 Substitute values in databricks.yml
-        working-directory: warcraftlogs-raid-analysis
-        run: |
-          envsubst < databricks.yml.template > databricks.yml
-        env:
-          DATABRICKS_HOST_ADDRESS: ${{ vars.DATABRICKS_HOST_ADDRESS }}
-          DATABRICKS_CLUSTER_ID: ${{ vars.DATABRICKS_CLUSTER_ID }}
