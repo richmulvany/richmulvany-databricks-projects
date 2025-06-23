@@ -20,7 +20,7 @@ jobs:
       - name: 💉 Inject job YAML into databricks.yml
         working-directory: warcraftlogs-raid-analysis
         run: |
-          JOB_DEFINITION="$(sed 's/^/      /' jobs/bronze-ingestion-extraction-job.yaml)"
+          JOB_DEFINITION="$(jobs/bronze-ingestion-extraction-job.yaml)"
           export JOB_DEFINITION
           envsubst < databricks.yml.template > databricks.yml
 
