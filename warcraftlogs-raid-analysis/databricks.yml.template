@@ -19,4 +19,6 @@ targets:
       host: "$DATABRICKS_HOST_ADDRESS"
       root_path: ~/warcraftlogs-raid-analysis
 
+resources:
+  jobs:
 $JOB_DEFINITION
