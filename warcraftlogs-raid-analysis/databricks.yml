@@ -1,9 +1,14 @@
+# This is a Databricks asset bundle definition for my warcraftlogs-raid-analysis data product
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation
 bundle:
   name: warcraftlogs-pipeline
 
-targets:
-  dev:
-    mode: development
-    workspace:
-      host: https://<your-workspace>.databricks.com
-      root_path: /Users/<your.email@databricks.com>/warcraftlogs-dev
+variables:
+  cluster_id:
+    description: Cluster ID for the given name
+    lookup:
+      cluster: Serverless Starter Warehouse
+
+include:
+  - jobs/*.yml
+  - libraries/*.yml
