@@ -8,5 +8,5 @@ targets:
     mode: development
     default: true
     workspace:
-      host: https://.databricks.com
+      host: https://dbc-4b3f5758-e807.cloud.databricks.com/
       root_path: /Repos/richmulvany/richmulvany-databricks-projects/warcraftlogs-raid-analysis
