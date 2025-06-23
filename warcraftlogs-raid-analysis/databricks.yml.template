@@ -1,6 +1,16 @@
 bundle:
   name: warcraftlogs-pipeline
 
+sync:
+  include:
+    - dashboards/**
+    - jobs/**
+    - notebooks/**
+    - utils/**
+    - workflows/**
+    - databricks.yml
+    - .databricks/**
+
 targets:
   default:
     mode: development
@@ -11,5 +21,5 @@ targets:
 
 resources:
   jobs:
-    warcraft-job:
-      <<: $JOB_DEFINITION
+    warcraft-job: 
+$JOB_DEFINITION
