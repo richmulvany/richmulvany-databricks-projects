@@ -9,7 +9,10 @@ files:
   - jobs/**
   - notebooks/**
   - utils/**
- 
+  - workflows/**
+  - databricks.yml
+  - .databricks/**
+
 targets:
   default:
     mode: development
@@ -21,13 +24,13 @@ targets:
 resources:
   jobs:
     warcraft-job:
-      path: workflows/bronze-ingestion-extraction-job.job.yaml
-    tasks:
-      - task-key: bronze-ingestion
+      name: warcraft-job
+      tasks:
+        - task_key: bronze-ingestion
           notebook_task:
             notebook_path: ./notebooks/01-bronze/bronze-ingestion.py
           existing_cluster_id: "{{env.DATABRICKS_CLUSTER_ID}}"
-      - task-key: bronze-extraction
+        - task_key: bronze-extraction
           notebook_task:
             notebook_path: ./notebooks/01-bronze/bronze-extraction.py
           existing_cluster_id: "{{env.DATABRICKS_CLUSTER_ID}}"
