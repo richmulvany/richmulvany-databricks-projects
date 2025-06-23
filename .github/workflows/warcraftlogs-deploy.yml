@@ -1,28 +1,23 @@
-name: Deploy WarcraftLogs Bundle
- ##
- 
+name: Deploy and Run WarcraftLogs Job
+
 on:
   push:
     paths:
       - 'warcraftlogs-raid-analysis/**'
- 
+      - '.github/workflows/deploy-warcraftlogs.yml'
+
 jobs:
   deploy-and-run:
     runs-on: ubuntu-latest
- 
-    steps:
-      - uses: actions/checkout@v3
-      - uses: databricks/setup-cli@main
 
-      - name: 🔄 Substitute values in databricks.yml
-        working-directory: warcraftlogs-raid-analysis
-        run: |
-          envsubst < databricks.yml.template > databricks.yml
-        env:
-          DATABRICKS_HOST_ADDRESS: ${{ secrets.DATABRICKS_HOST_ADDRESS }}
-          DATABRICKS_CLUSTER_ID: ${{ secrets.DATABRICKS_CLUSTER_ID }}
- 
-      - name: 🚀 Deploy and Run
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🛠️ Install Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: 🚀 Deploy and Run Asset Bundle
         working-directory: warcraftlogs-raid-analysis
         run: |
           databricks bundle deploy
@@ -30,4 +25,5 @@ jobs:
         env:
           DATABRICKS_TOKEN: ${{ secrets.SP_TOKEN }}
           DATABRICKS_BUNDLE_ENV: default
-          
+          DATABRICKS_HOST_ADDRESS: ${{ secrets.DATABRICKS_HOST_ADDRESS }}
+          DATABRICKS_CLUSTER_ID: ${{ secrets.DATABRICKS_CLUSTER_ID }}
