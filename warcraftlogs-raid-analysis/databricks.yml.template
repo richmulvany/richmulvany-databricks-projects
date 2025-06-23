@@ -1,0 +1,15 @@
+bundle:
+  name: warcraftlogs-pipeline
+
+targets:
+  default:
+    mode: development
+    default: true
+    workspace:
+      host: "$DATABRICKS_HOST_ADDRESS"
+      root_path: ~/warcraftlogs-raid-analysis
+
+resources:
+  jobs:
+    warcraft-job:
+      <<: $JOB_DEFINITION
