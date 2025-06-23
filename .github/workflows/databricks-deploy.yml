@@ -1,0 +1,40 @@
+name: "Databricks: Deploy"
+
+on:
+  workflow_call:
+    inputs:
+      artefact-name:
+        description: The name of the artefact
+        type: string
+        required: false
+  jobs:
+    deploy:
+      name: Databricks Asset Bundle
+      runs-on: ubuntu-latest
+      if: ${{ inputs.artefact-name }}
+      steps:
+        - name: Install the Databricks CLI
+          uses: databricks/setup-cli@v0.252.0
+
+        - name: Configure Databricks
+          shell: bash
+          env:
+            DATABRICKS_HOST:
+            DATABRICKS_TOKEN: 
+          run: |
+            databricks -v
+            databricks configure
+            databricks auth describe
+            databricks current-user me
+
+          - name: Validate Databricks Bundle
+            shell: bash
+            working-directory: directory
+            run: |
+              databricks bundle validate --target ${{ inputs.env }}
+              
+          - name: Deploy Databricks Bundle
+            shell: bash
+            working-directory: directory
+            run: |
+              databricks bundle deploy --target ${{ inputs.env }}
