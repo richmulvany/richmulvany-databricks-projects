@@ -1,10 +1,12 @@
 name: Deploy and Run WarcraftLogs Job
 
 on:
-  push:
-    paths:
-      - 'warcraftlogs-raid-analysis/**'
-      - '.github/workflows/deploy-warcraftlogs.yml'
+  workflow_dispatch:
+    inputs:
+      report_id:
+        description: "Optional: report_id to pass to job"
+        required: false
+        default: "rVnDB4fcb9qZAPLv"
 
 jobs:
   deploy-and-run:
