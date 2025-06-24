@@ -21,4 +21,5 @@ targets:
 
 resources:
   jobs:
+    bronze-ingestion-extraction-job:
 $JOB_DEFINITION
