@@ -34,9 +34,10 @@ tasks:
 
   - task_key: bronze_ingestion_logger-task
     depends_on:
-      - task_key: bronze_ingestion-task
+
+      - task_key: bronze_ingestion_events-task
     notebook_task:
-      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion-logger
+      notebook_path: /Workspace/deploy/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-extraction-logger
       base_parameters:
       source: WORKSPACE
 
@@ -51,7 +52,6 @@ tasks:
         notebook_task:
           notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction
           base_parameters:
-            report_id: ""
             fight_id: ""
             data_source: "{{input}}"
           source: WORKSPACE
