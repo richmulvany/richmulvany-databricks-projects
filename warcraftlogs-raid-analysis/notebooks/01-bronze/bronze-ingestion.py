@@ -200,5 +200,6 @@ elif data_source == "tables":
 
 
 # DBTITLE 1,Post Report ID Variable for Logging
-dbutils.jobs.taskValues.set(key="report_id", value=report_id)
+if data_source == "events":
+    dbutils.jobs.taskValues.set(key="report_id", value=report_id)
 
