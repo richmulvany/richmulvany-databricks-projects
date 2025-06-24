@@ -99,8 +99,7 @@ if is_already_ingested(report_id):
 
 # DBTITLE 1,Ingest Data Based on Source
  
- 
-def save_output(subfolder: str, filename: str, data: dict):
+ def save_output(subfolder: str, filename: str, data: dict):
     path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/{subfolder}/{filename}"
     dbutils.fs.mkdirs(os.path.dirname(path))
     dbutils.fs.put(path, json.dumps(data), overwrite=True)
@@ -184,15 +183,4 @@ elif data_source == "tables":
                 raise Exception(f"GraphQL Error (table {data_type}, fight {fid}): {json_data['errors']}")
             filename = f"{report_id}_fight{fid}_table_{data_type}_{ts}.json"
             save_output("tables", filename, json_data)
- 
-
-# COMMAND ----------
-
-# DBTITLE 1,Log Report as Ingested
- 
-log_df = spark.createDataFrame([(report_id,)], ["report_id"]) \
-    .withColumn("ingested_at", current_timestamp())
- 
-log_df.write.mode("append").saveAsTable("raid_report_tracking")
-print(f"📌 Logged report {report_id} as ingested.")
  
