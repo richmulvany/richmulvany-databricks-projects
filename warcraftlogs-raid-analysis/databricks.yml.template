@@ -4,13 +4,21 @@ bundle:
 
 sync:
   include:
-    - dashboards/**
-    - jobs/**
+    - .databricks/**
     - notebooks/**
+    - jobs/**
+    - dashboards/**
     - utils/**
     - workflows/**
     - databricks.yml
-    - .databricks/**
+  exclude:
+    - .git/**
+    - .github/**
+    - files/**
+    - artifacts/**
+    - state/**
+    - __pycache__/**
+    - '*.pyc'
 
 targets:
   default:
