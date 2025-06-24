@@ -20,10 +20,10 @@ jobs:
       - name: 💉 Inject job YAML into databricks.yml
         working-directory: warcraftlogs-raid-analysis
         run: |
-          sudo apt-get update && sudo apt-get install -y yq
-          JOB_DEFINITION=$(yq '.resources.jobs | to_yaml' jobs/bronze-ingestion-extraction-job.yaml | sed 's/^/    /')
+          JOB_DEFINITION="$(sed 's/^/      /' jobs/bronze-ingestion-extraction-job.yaml)"
           export JOB_DEFINITION
           envsubst < databricks.yml.template > databricks.yml
+
 
       - name: 🐛 Output final databricks.yml for debugging
         working-directory: warcraftlogs-raid-analysis
