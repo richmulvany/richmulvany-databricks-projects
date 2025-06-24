@@ -71,10 +71,14 @@ if not report_id:
     response = requests.post(base_url, json={"query": query}, headers=headers)
     if response.status_code != 200:
         raise Exception(f"Failed to fetch latest report: {response.status_code}")
-    reports = response.json()["data"]["reportData"]["reports"]["data"]
-    if not reports:
+    report_data = response.json()["data"]["reportData"]["reports"]["data"]
+    if not report_data:
         raise Exception("No reports found")
-    report_id = reports[0]["code"]
+    
+    report_meta = report_data[0]
+    report_id = report_meta["code"]
+    report_start_ts = int(report_meta["startTime"]) // 1000  # from ms to s
+    report_start_date = datetime.utcfromtimestamp(report_start_ts).isoformat()
  
 report_section = f'report(code: "{report_id}")'
  
@@ -116,6 +120,7 @@ if data_source == "fights":
     output = response.json()
     if "errors" in output:
         raise Exception(f"GraphQL Error: {output['errors']}")
+    output["__metadata__"] = {"report_id": report_id, "report_start_date": report_start_date}
     save_output("fights", f"{report_id}_fights_{ts}.json", output)
  
 # -- ACTORS --
@@ -125,6 +130,7 @@ elif data_source == "actors":
     output = response.json()
     if "errors" in output:
         raise Exception(f"GraphQL Error: {output['errors']}")
+    output["__metadata__"] = {"report_id": report_id, "report_start_date": report_start_date}
     save_output("actors", f"{report_id}_actors_{ts}.json", output)
  
 # -- EVENTS --
@@ -161,6 +167,7 @@ elif data_source == "events":
                 if not events:
                     break
                 filename = f"{report_id}_fight{fid}_{data_type}_page{page}_{ts}.json"
+                output["__metadata__"] = {"report_id": report_id, "report_start_date": report_start_date}
                 save_output("events", filename, json_data)
                 next_page_ts = json_data["data"]["reportData"]["report"]["events"].get("nextPageTimestamp")
                 if not next_page_ts or next_page_ts >= end_time:
@@ -184,6 +191,7 @@ elif data_source == "tables":
             if "errors" in json_data:
                 raise Exception(f"GraphQL Error (table {data_type}, fight {fid}): {json_data['errors']}")
             filename = f"{report_id}_fight{fid}_table_{data_type}_{ts}.json"
+            output["__metadata__"] = {"report_id": report_id, "report_start_date": report_start_date}
             save_output("tables", filename, json_data)
  
 
