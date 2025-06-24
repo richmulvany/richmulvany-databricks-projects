@@ -19,13 +19,13 @@ tasks:
   - task_key: bronze_ingestion_events-task
     depends_on:
       - task_key: bronze_ingestion-task
-        notebook_task:
-          notebook_path: /Workspace/deploy/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-ingestion
-          base_parameters:
-              report_id: ""
-              fight_id: ""
-              data_source: "events"
-          source: WORKSPACE
+    notebook_task:
+      notebook_path: /Workspace/deploy/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-ingestion
+      base_parameters:
+          report_id: ""
+          fight_id: ""
+          data_source: "events"
+      source: WORKSPACE
 
   - task_key: bronze_ingestion_logger-task
     depends_on:
