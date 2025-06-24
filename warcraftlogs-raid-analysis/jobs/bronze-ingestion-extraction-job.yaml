@@ -7,7 +7,7 @@ tasks:
       task:
         task_key: bronze_ingestion_iteration
         notebook_task:
-          notebook_path: /Workspace/warcraftlogs-raid-analysis/deploy/notebooks/01-bronze/bronze-ingestion
+          notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion
           base_parameters:
             report_id: ""
             fight_id: ""
@@ -20,7 +20,7 @@ tasks:
     depends_on:
       - task_key: bronze_ingestion-task
     notebook_task:
-      notebook_path: /Workspace/warcraftlogs-raid-analysis/deploy/notebooks/01-bronze/bronze-ingestion
+      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion
       base_parameters:
           report_id: ""
           fight_id: ""
@@ -31,7 +31,7 @@ tasks:
     depends_on:
       - task_key: bronze_ingestion-task
     notebook_task:
-      notebook_path: /Workspace/warcraftlogs-raid-analysis/deploy/notebooks/01-bronze/bronze-extraction-logger
+      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction-logger
       base_parameters:
       source: WORKSPACE
 
@@ -44,7 +44,7 @@ tasks:
       task:
         task_key: bronze_extraction_iteration
         notebook_task:
-          notebook_path: /Workspace/warcraftlogs-raid-analysis/deploy/notebooks/01-bronze/bronze-extraction
+          notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction
           base_parameters:
             report_id: ""
             fight_id: ""
