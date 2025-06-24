@@ -36,7 +36,7 @@ tasks:
     depends_on:
       - task_key: bronze_ingestion-task
     notebook_task:
-      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction-logger
+      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion-logger
       base_parameters:
       source: WORKSPACE
 
