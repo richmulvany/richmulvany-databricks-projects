@@ -17,25 +17,31 @@ jobs:
       - name: 🛠️ Install Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: 💉 Inject job YAML into databricks.yml
+      - name: 💉 Inject job YAML into template
         working-directory: warcraftlogs-raid-analysis
         run: |
           JOB_DEFINITION="$(sed 's/^/      /' jobs/bronze-ingestion-extraction-job.yaml)"
           export JOB_DEFINITION
           envsubst < databricks.yml.template > databricks.yml
 
-
-      - name: 🐛 Output final databricks.yml for debugging
-        working-directory: warcraftlogs-raid-analysis
-        run: cat databricks.yml
+      - name: 🧹 Copy only deployable files to deploy-dir
+        run: |
+          mkdir deploy-dir
+          cp warcraftlogs-raid-analysis/databricks.yml deploy-dir/
+          cp -r warcraftlogs-raid-analysis/notebooks deploy-dir/
+          cp -r warcraftlogs-raid-analysis/jobs deploy-dir/
+          cp -r warcraftlogs-raid-analysis/.databricks deploy-dir/
+          cp -r warcraftlogs-raid-analysis/utils deploy-dir/ || true
+          cp -r warcraftlogs-raid-analysis/dashboards deploy-dir/ || true
+          cp -r warcraftlogs-raid-analysis/workflows deploy-dir/ || true
 
       - name: 🚀 Deploy and Run Asset Bundle
-        working-directory: warcraftlogs-raid-analysis
+        working-directory: deploy-dir
         run: |
           databricks bundle deploy
           databricks bundle run bronze-ingestion-extraction-job --refresh-all
         env:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST_ADDRESS }}
           DATABRICKS_BUNDLE_ENV: default
-          DATABRICKS_HOST_ADDRESS: ${{ secrets.DATABRICKS_HOST_ADDRESS }}
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_CLUSTER_ID: ${{ secrets.DATABRICKS_HOST }}
