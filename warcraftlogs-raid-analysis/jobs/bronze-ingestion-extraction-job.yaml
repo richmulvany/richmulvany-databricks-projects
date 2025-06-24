@@ -1,4 +1,9 @@
 name: bronze-ingestion-extraction-job
+
+schedule:
+  quartz_cron_expression: '0 15 22 ? * MON,WED *'
+  timezone_id: 'Europe/London'
+
 tasks:
   - task_key: bronze_ingestion-task
     for_each_task:
