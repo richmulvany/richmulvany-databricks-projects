@@ -9,7 +9,7 @@ tasks:
         notebook_task:
           notebook_path: /Workspace/deploy/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-ingestion
           base_parameters:
-            report_id: rVnDB4fcb9qZAPLv
+            report_id: ""
             fight_id: ""
             data_source: "{{input}}"
           source: WORKSPACE
@@ -46,7 +46,7 @@ tasks:
         notebook_task:
           notebook_path: /Workspace/deploy/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-extraction
           base_parameters:
-            report_id: rVnDB4fcb9qZAPLv
+            report_id: ""
             fight_id: ""
             data_source: "{{input}}"
           source: WORKSPACE

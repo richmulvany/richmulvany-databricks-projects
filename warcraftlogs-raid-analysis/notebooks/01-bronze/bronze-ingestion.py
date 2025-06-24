@@ -99,7 +99,9 @@ if is_already_ingested(report_id):
 
 # DBTITLE 1,Ingest Data Based on Source
  
- def save_output(subfolder: str, filename: str, data: dict):
+
+def save_output(subfolder: str, filename: str, data: dict):
+
     path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/{subfolder}/{filename}"
     dbutils.fs.mkdirs(os.path.dirname(path))
     dbutils.fs.put(path, json.dumps(data), overwrite=True)
@@ -187,5 +189,7 @@ elif data_source == "tables":
 
 # COMMAND ----------
 
+
 # DBTITLE 1,Post Report ID Variable for Logging
 dbutils.jobs.taskValues.set(key="report_id", value=report_id)
+
