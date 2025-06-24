@@ -1,34 +1,30 @@
 # Databricks notebook source
-# DBTITLE 1,Install Libraries
+# DBTITLE 1,Install Dependencies
 # MAGIC %pip install requests_toolbelt
 # MAGIC dbutils.library.restartPython()
-
+ 
 # COMMAND ----------
-
-# DBTITLE 1,Import Dependencies
+ 
+# DBTITLE 1,Import Libraries
 import requests, json, os
 from datetime import datetime
-import uuid
-
+from pyspark.sql.functions import current_timestamp
+ 
 # COMMAND ----------
-
-# DBTITLE 1,Configure Notebook / Assign Variables
+ 
+# DBTITLE 1,Widget Setup
 dbutils.widgets.text("report_id", "")
-report_id = dbutils.widgets.get("report_id")
-
-dbutils.widgets.text("fight_id", "")
-fight_id = dbutils.widgets.get("fight_id") or None
-
+report_id = dbutils.widgets.get("report_id") or None
+ 
 dbutils.widgets.dropdown("data_source", "fights", ["fights", "events", "actors", "tables"])
 data_source = dbutils.widgets.get("data_source")
-
+ 
+# COMMAND ----------
+ 
+# DBTITLE 1,Setup and Auth
 def get_access_token():
-    """
-    Retrieves an OAuth2 access token from WarcraftLogs using client credentials stored in Databricks secrets.
-    """
     client_id = dbutils.secrets.get(scope="warcraftlogs", key="client_id")
     client_secret = dbutils.secrets.get(scope="warcraftlogs", key="client_secret")
-
     response = requests.post(
         "https://www.warcraftlogs.com/oauth/token",
         data={
@@ -38,120 +34,93 @@ def get_access_token():
         }
     )
     return response.json()["access_token"]
-
+ 
 token = get_access_token()
 headers = {"Authorization": f"Bearer {token}"}
 base_url = "https://www.warcraftlogs.com/api/v2/client"
-
+ 
 # COMMAND ----------
-
-# DBTITLE 1,Call API and Write to Volume
-# Fights Call
+ 
+# DBTITLE 1,Determine Report ID
+if not report_id:
+    # Default to most recent report from your guild
+    query = """
+    {
+      reportData {
+        reports(
+          guildName: "Student Council",
+          guildServerSlug: "Twisting Nether",
+          guildServerRegion: "eu",
+          limit: 1
+        ) {
+          data {
+            code
+          }
+        }
+      }
+    }
+    """
+    response = requests.post(base_url, json={"query": query}, headers=headers)
+    if response.status_code != 200:
+        raise Exception(f"Failed to fetch latest report: {response.status_code}")
+    reports = response.json()["data"]["reportData"]["reports"]["data"]
+    if not reports:
+        raise Exception("No reports found")
+    report_id = reports[0]["code"]
+ 
+report_section = f'report(code: "{report_id}")'
+ 
+# COMMAND ----------
+ 
+# DBTITLE 1,Check for Previous Ingestion
+def is_already_ingested(report_id: str) -> bool:
+    try:
+        df = spark.table("raid_report_tracking")
+        return df.filter(df.report_id == report_id).count() > 0
+    except:
+        return False  # Tracking table might not exist yet
+ 
+if is_already_ingested(report_id):
+    print(f"⏭ Report {report_id} already ingested. Skipping.")
+    dbutils.notebook.exit("Skipped - already ingested")
+ 
+# COMMAND ----------
+ 
+# DBTITLE 1,Ingest Data Based on Source
+ 
+def save_output(subfolder: str, filename: str, data: dict):
+    path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/{subfolder}/{filename}"
+    dbutils.fs.mkdirs(os.path.dirname(path))
+    dbutils.fs.put(path, json.dumps(data), overwrite=True)
+    print(f"✅ Saved to: {path}")
+ 
+ts = datetime.utcnow().strftime("%Y%m%dT%H%M%S")
+ 
+# -- FIGHTS --
 if data_source == "fights":
-    query = f"""
-    {{
-      reportData {{
-        report(code: "{report_id}") {{
-          fights {{
-            id
-            name
-            startTime
-            endTime
-            kill
-            difficulty
-          }}
-        }}
-      }}
-    }}
-    """
+    query = f"""{{ reportData {{ {report_section} {{ fights {{ id name startTime endTime kill difficulty }} }} }} }}"""
     response = requests.post(base_url, json={"query": query}, headers=headers)
-    
-    if response.status_code != 200:
-        raise Exception(f"Request failed with status code {response.status_code}")
-    
     output = response.json()
-
     if "errors" in output:
         raise Exception(f"GraphQL Error: {output['errors']}")
-
-    # Save fights to JSON
-    ts = datetime.utcnow().strftime("%Y%m%dT%H%M%S")
-    filename = f"{report_id}_fights_{ts}.json"
-    path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/fights/{filename}"
-    dbutils.fs.mkdirs(os.path.dirname(path))
-    dbutils.fs.put(path, json.dumps(output), overwrite=True)
-    print(f"✅ Saved fights data to: {path}")
-
-# Actors Call
+    save_output("fights", f"{report_id}_fights_{ts}.json", output)
+ 
+# -- ACTORS --
 elif data_source == "actors":
-    query = f"""
-    {{
-      reportData {{
-        report(code: "{report_id}") {{
-          masterData {{
-            actors {{
-              id
-              name
-              type
-              icon
-            }}
-          }}
-        }}
-      }}
-    }}
-    """
+    query = f"""{{ reportData {{ {report_section} {{ masterData {{ actors {{ id name type icon }} }} }} }} }}"""
     response = requests.post(base_url, json={"query": query}, headers=headers)
-    
-    if response.status_code != 200:
-        raise Exception(f"Request failed with status code {response.status_code}")
-    
     output = response.json()
-
     if "errors" in output:
         raise Exception(f"GraphQL Error: {output['errors']}")
-
-    ts = datetime.utcnow().strftime("%Y%m%dT%H%M%S")
-    filename = f"{report_id}_actors_{ts}.json"
-    path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/actors/{filename}"
-    dbutils.fs.mkdirs(os.path.dirname(path))
-    dbutils.fs.put(path, json.dumps(output), overwrite=True)
-    print(f"✅ Saved actor data to: {path}")
-
-# Events call
+    save_output("actors", f"{report_id}_actors_{ts}.json", output)
+ 
+# -- EVENTS --
 elif data_source == "events":
-    # Step 1: Pull fights
-    fight_query = f"""
-    {{
-      reportData {{
-        report(code: "{report_id}") {{
-          fights {{
-            id
-            startTime
-            endTime
-            name
-            kill
-          }}
-        }}
-      }}
-    }}
-    """
+    fight_query = f"""{{ reportData {{ {report_section} {{ fights {{ id startTime endTime name kill }} }} }} }}"""
     fight_response = requests.post(base_url, json={"query": fight_query}, headers=headers)
-    
-    if fight_response.status_code != 200:
-        raise Exception(f"Request failed with status code {fight_response.status_code}")
-    
-    fight_data = fight_response.json()
-
-    if "errors" in fight_data:
-        raise Exception(f"GraphQL Error (fights): {fight_data['errors']}")
-
-    fights = fight_data["data"]["reportData"]["report"]["fights"]
-
-    # Step 2: Loop over dataTypes and fights
-    essential_data_types = [
-        "Casts", "Deaths", "Debuffs"
-    ]
-
+    fights = fight_response.json()["data"]["reportData"]["report"]["fights"]
+ 
+    essential_data_types = ["Casts", "Deaths", "Debuffs"]
     for data_type in essential_data_types:
         for fight in fights:
             fid = fight["id"]
@@ -159,9 +128,7 @@ elif data_source == "events":
             end_time = fight["endTime"]
             page = 1
             current_start = start_time
-
             print(f"▶️ {data_type} for fight {fid} ({fight['name']})")
-
             while True:
                 args = [
                     f"dataType: {data_type}",
@@ -170,116 +137,46 @@ elif data_source == "events":
                     f"endTime: {end_time}"
                 ]
                 arg_block = ", ".join(args)
-                query = f"""
-                {{
-                  reportData {{
-                    report(code: "{report_id}") {{
-                      events({arg_block}) {{
-                        data
-                        nextPageTimestamp
-                      }}
-                    }}
-                  }}
-                }}
-                """
-
+                query = f"""{{ reportData {{ {report_section} {{ events({arg_block}) {{ data nextPageTimestamp }} }} }} }}"""
                 response = requests.post(base_url, json={"query": query}, headers=headers)
-                
-                if response.status_code != 200:
-                    raise Exception(f"Request failed with status code {response.status_code}")
-                
                 json_data = response.json()
-
                 if "errors" in json_data:
-                    raise Exception(f"GraphQL Error ({data_type}, fight {fid}, page {page}): {json_data['errors']}")
-
-                try:
-                    events = json_data["data"]["reportData"]["report"]["events"]["data"]
-                except KeyError:
-                    print(f"❌ Malformed response for {data_type}, fight {fid}, page {page}")
-                    break
-
+                    raise Exception(f"GraphQL Error ({data_type}, fight {fid}): {json_data['errors']}")
+                events = json_data["data"]["reportData"]["report"]["events"]["data"]
                 if not events:
-                    print(f"⚠️ No {data_type} events for fight {fid}, page {page}")
                     break
-
-                ts = datetime.utcnow().strftime("%Y%m%dT%H%M%S")
                 filename = f"{report_id}_fight{fid}_{data_type}_page{page}_{ts}.json"
-                path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/events/{filename}"
-                dbutils.fs.mkdirs(os.path.dirname(path))
-                dbutils.fs.put(path, json.dumps(json_data), overwrite=True)
-                print(f"✅ Saved {data_type} fight {fid}, page {page} to: {path}")
-
-                try:
-                    next_page_ts = json_data["data"]["reportData"]["report"]["events"]["nextPageTimestamp"]
-                    if not next_page_ts or next_page_ts >= end_time:
-                        break
-                    current_start = next_page_ts
-                except KeyError:
+                save_output("events", filename, json_data)
+                next_page_ts = json_data["data"]["reportData"]["report"]["events"].get("nextPageTimestamp")
+                if not next_page_ts or next_page_ts >= end_time:
                     break
-
+                current_start = next_page_ts
                 page += 1
-
-# Fight tables call
+ 
+# -- TABLES --
 elif data_source == "tables":
-    # Step 1: Pull fights
-    fight_query = f"""
-    {{
-      reportData {{
-        report(code: "{report_id}") {{
-          fights {{
-            id
-            startTime
-            endTime
-            name
-            kill
-          }}
-        }}
-      }}
-    }}
-    """
+    fight_query = f"""{{ reportData {{ {report_section} {{ fights {{ id startTime endTime name kill }} }} }} }}"""
     fight_response = requests.post(base_url, json={"query": fight_query}, headers=headers)
-    
-    if fight_response.status_code != 200:
-        raise Exception(f"Request failed with status code {fight_response.status_code}")
-    
-    fight_data = fight_response.json()
-
-    if "errors" in fight_data:
-        raise Exception(f"GraphQL Error (fights): {fight_data['errors']}")
-
-    fights = fight_data["data"]["reportData"]["report"]["fights"]
-
-    # Step 2: Loop over table dataTypes
-    table_data_types = ["DamageDone", "Healing", "Deaths"]  # feel free to expand
-
+    fights = fight_response.json()["data"]["reportData"]["report"]["fights"]
+ 
+    table_data_types = ["DamageDone", "Healing", "Deaths"]
     for data_type in table_data_types:
         for fight in fights:
             fid = fight["id"]
-            query = f"""
-              {{
-              reportData {{
-                report(code: "{report_id}") {{
-                  table(dataType: {data_type}, fightIDs: [{fid}])
-                }}
-              }}
-            }}
-            """
-
+            query = f"""{{ reportData {{ {report_section} {{ table(dataType: {data_type}, fightIDs: [{fid}]) }} }} }}"""
             response = requests.post(base_url, json={"query": query}, headers=headers)
-            
-            if response.status_code != 200:
-                raise Exception(f"Request failed with status code {response.status_code}")
-            
             json_data = response.json()
-
             if "errors" in json_data:
                 raise Exception(f"GraphQL Error (table {data_type}, fight {fid}): {json_data['errors']}")
-
-            # Save to file
-            ts = datetime.utcnow().strftime("%Y%m%dT%H%M%S")
             filename = f"{report_id}_fight{fid}_table_{data_type}_{ts}.json"
-            path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/tables/{filename}"
-            dbutils.fs.mkdirs(os.path.dirname(path))
-            dbutils.fs.put(path, json.dumps(json_data), overwrite=True)
-            print(f"✅ Saved table {data_type} for fight {fid} to: {path}")
+            save_output("tables", filename, json_data)
+ 
+# COMMAND ----------
+ 
+# DBTITLE 1,Log Report as Ingested
+log_df = spark.createDataFrame([(report_id,)], ["report_id"]) \
+    .withColumn("ingested_at", current_timestamp())
+ 
+log_df.write.mode("append").saveAsTable("raid_report_tracking")
+print(f"📌 Logged report {report_id} as ingested.")
+ 
