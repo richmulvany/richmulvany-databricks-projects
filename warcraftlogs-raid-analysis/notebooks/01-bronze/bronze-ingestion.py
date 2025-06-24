@@ -130,9 +130,11 @@ elif data_source == "actors":
 elif data_source == "events":
     fight_query = f"""{{ reportData {{ {report_section} {{ fights {{ id startTime endTime name kill }} }} }} }}"""
     fight_response = requests.post(base_url, json={"query": fight_query}, headers=headers)
+
     fights = fight_response.json()["data"]["reportData"]["report"]["fights"]
  
     essential_data_types = ["Casts", "Deaths", "Debuffs"]
+
     for data_type in essential_data_types:
         for fight in fights:
             fid = fight["id"]
