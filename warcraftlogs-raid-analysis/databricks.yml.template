@@ -17,8 +17,8 @@ targets:
         - dashboards/**
         - utils/**
         - workflows/**
-        - databricks.yml
       exclude:
+        - databricks.yml
         - files/**
         - artifacts/**
         - state/**
