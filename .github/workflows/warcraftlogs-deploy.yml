@@ -27,6 +27,7 @@ jobs:
       - name: 🧹 Copy only deployable files to deploy-dir
         run: |
           mkdir deploy-dir
+          cp warcraftlogs-raid-analysis/databricks.yml deploy-dir/
           cp -r warcraftlogs-raid-analysis/notebooks deploy-dir/ || true
           cp -r warcraftlogs-raid-analysis/jobs deploy-dir/ || true
           cp -r warcraftlogs-raid-analysis/utils deploy-dir/ || true
