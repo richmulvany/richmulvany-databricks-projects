@@ -27,7 +27,7 @@ tasks:
         notebook_task:
           notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-extraction
           base_parameters:
-            report_id: "{{parameters.bronze_ingestion_iteration.values.report_id}}"
+            report_id: rVnDB4fcb9qZAPLv
             fight_id: ""
             data_source: "{{input}}"
           source: WORKSPACE
