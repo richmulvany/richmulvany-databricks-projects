@@ -63,6 +63,7 @@ if not report_id:
         ) {
           data {
             code
+            startTime
           }
         }
       }
