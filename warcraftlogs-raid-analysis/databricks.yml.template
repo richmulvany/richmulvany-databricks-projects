@@ -1,3 +1,36 @@
+bundle:
+  name: warcraftlogs-pipeline
+
+targets:
+  default:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-4b3f5758-e807.cloud.databricks.com/
+      root_path: ~/warcraftlogs-raid-analysis
+
+    sync:
+      include:
+        - .databricks/**
+        - notebooks/**
+        - jobs/**
+        - dashboards/**
+        - utils/**
+        - workflows/**
+        - databricks.yml
+      exclude:
+        - files/**
+        - artifacts/**
+        - state/**
+        - .git/**
+        - .github/**
+        - __pycache__/**
+        - '*.pyc'
+
+resources:
+  jobs:
+    bronze-ingestion-extraction-job:
+$JOB_DEFINITION
 #
 bundle:
   name: warcraftlogs-pipeline
