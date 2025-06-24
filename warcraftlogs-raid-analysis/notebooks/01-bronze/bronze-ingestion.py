@@ -149,8 +149,7 @@ elif data_source == "events":
 
     # Step 2: Loop over dataTypes and fights
     essential_data_types = [
-        "Casts", "DamageDone", "DamageTaken",
-        "Healing", "Deaths", "Buffs", "Debuffs"
+        "Casts", "Deaths", "Debuffs"
     ]
 
     for data_type in essential_data_types:
