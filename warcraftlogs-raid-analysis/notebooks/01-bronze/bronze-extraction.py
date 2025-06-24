@@ -7,8 +7,7 @@ from pyspark.sql.types import StructType, StructField, ArrayType, StringType, Ma
 # COMMAND ----------
 
 # DBTITLE 1,Configure Notebook / Assign Variables
-dbutils.widgets.text("report_id", "")
-report_id = dbutils.widgets.get("report_id")
+report_id = dbutils.variables.get("report_id")
 
 dbutils.widgets.text("fight_id", "")
 fight_id = dbutils.widgets.get("fight_id") or None

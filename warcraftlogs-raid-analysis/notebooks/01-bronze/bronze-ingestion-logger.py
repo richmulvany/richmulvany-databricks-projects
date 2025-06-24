@@ -1,4 +1,8 @@
 # Databricks notebook source
+from pyspark.sql.functions import current_timestamp
+
+# COMMAND ----------
+
 # DBTITLE 1,Retrieve Variable
 report_id = dbutils.jobs.taskValues.get(key="report_id", taskKey="bronze_ingestion_events-task")
 
