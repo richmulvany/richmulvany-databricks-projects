@@ -2,26 +2,32 @@
 # DBTITLE 1,Install Dependencies
 # MAGIC %pip install requests_toolbelt
 # MAGIC dbutils.library.restartPython()
- 
+# MAGIC  
+
 # COMMAND ----------
- 
+
 # DBTITLE 1,Import Libraries
+ 
 import requests, json, os
 from datetime import datetime
 from pyspark.sql.functions import current_timestamp
  
+
 # COMMAND ----------
- 
+
 # DBTITLE 1,Widget Setup
+ 
 dbutils.widgets.text("report_id", "")
 report_id = dbutils.widgets.get("report_id") or None
  
 dbutils.widgets.dropdown("data_source", "fights", ["fights", "events", "actors", "tables"])
 data_source = dbutils.widgets.get("data_source")
  
+
 # COMMAND ----------
- 
+
 # DBTITLE 1,Setup and Auth
+ 
 def get_access_token():
     client_id = dbutils.secrets.get(scope="warcraftlogs", key="client_id")
     client_secret = dbutils.secrets.get(scope="warcraftlogs", key="client_secret")
@@ -39,9 +45,11 @@ token = get_access_token()
 headers = {"Authorization": f"Bearer {token}"}
 base_url = "https://www.warcraftlogs.com/api/v2/client"
  
+
 # COMMAND ----------
- 
+
 # DBTITLE 1,Determine Report ID
+ 
 if not report_id:
     # Default to most recent report from your guild
     query = """
@@ -49,8 +57,8 @@ if not report_id:
       reportData {
         reports(
           guildName: "Student Council",
-          guildServerSlug: "Twisting Nether",
-          guildServerRegion: "eu",
+          guildServerSlug: "twisting-nether",
+          guildServerRegion: "EU",
           limit: 1
         ) {
           data {
@@ -70,9 +78,11 @@ if not report_id:
  
 report_section = f'report(code: "{report_id}")'
  
+
 # COMMAND ----------
- 
+
 # DBTITLE 1,Check for Previous Ingestion
+ 
 def is_already_ingested(report_id: str) -> bool:
     try:
         df = spark.table("raid_report_tracking")
@@ -84,9 +94,11 @@ if is_already_ingested(report_id):
     print(f"⏭ Report {report_id} already ingested. Skipping.")
     dbutils.notebook.exit("Skipped - already ingested")
  
+
 # COMMAND ----------
- 
+
 # DBTITLE 1,Ingest Data Based on Source
+ 
  
 def save_output(subfolder: str, filename: str, data: dict):
     path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/{subfolder}/{filename}"
@@ -171,9 +183,11 @@ elif data_source == "tables":
             filename = f"{report_id}_fight{fid}_table_{data_type}_{ts}.json"
             save_output("tables", filename, json_data)
  
+
 # COMMAND ----------
- 
+
 # DBTITLE 1,Log Report as Ingested
+ 
 log_df = spark.createDataFrame([(report_id,)], ["report_id"]) \
     .withColumn("ingested_at", current_timestamp())
  
