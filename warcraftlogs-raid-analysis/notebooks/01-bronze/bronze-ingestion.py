@@ -184,3 +184,8 @@ elif data_source == "tables":
             filename = f"{report_id}_fight{fid}_table_{data_type}_{ts}.json"
             save_output("tables", filename, json_data)
  
+
+# COMMAND ----------
+
+# DBTITLE 1,Post Report ID Variable for Logging
+dbutils.jobs.taskValues.set(key="report_id", value=report_id)
