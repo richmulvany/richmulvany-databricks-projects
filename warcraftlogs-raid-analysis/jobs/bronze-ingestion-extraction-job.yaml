@@ -37,7 +37,7 @@ tasks:
 
   - task_key: bronze_extraction-task
     depends_on:
-      - task_key: bronze_ingestion_logger-task
+      - task_key: bronze_ingestion_events-task
     for_each_task:
       inputs: '["fights", "actors", "events", "tables"]'
       concurrency: 1
