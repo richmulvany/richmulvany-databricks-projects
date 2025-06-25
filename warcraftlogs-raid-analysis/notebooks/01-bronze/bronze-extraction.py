@@ -7,13 +7,31 @@ from pyspark.sql.types import StructType, StructField, ArrayType, StringType, Ma
 # COMMAND ----------
 
 # DBTITLE 1,Configure Notebook / Assign Variables
-report_id = dbutils.variables.get("report_id")
+# Exit early if report_id is not available as data probably already ingested
+try:
+    report_id = dbutils.variables.get("report_id")
+except Exception as e:
+    print(f"⚠️ Could not retrieve 'report_id' from dbutils.variables: {e}")
+    dbutils.notebook.exit("Exiting: report_id not available via dbutils.variables.")
 
 dbutils.widgets.text("fight_id", "")
 fight_id = dbutils.widgets.get("fight_id") or None
 
 dbutils.widgets.dropdown("data_source", "fights", ["fights", "events", "actors", "tables"])
 data_source = dbutils.widgets.get("data_source")
+
+# COMMAND ----------
+
+def is_already_ingested(report_id: str) -> bool:
+    try:
+        df = spark.table("raid_report_tracking")
+        return df.filter(df.report_id == report_id).count() > 0
+    except:
+        return False  # Tracking table might not exist yet
+ 
+if is_already_ingested(report_id):
+    print(f"⏭ Report {report_id} already ingested. Skipping.")
+    dbutils.notebook.exit("Skipped - already ingested")
 
 # COMMAND ----------
 
