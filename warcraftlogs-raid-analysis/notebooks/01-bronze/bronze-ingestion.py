@@ -7,7 +7,6 @@
 # COMMAND ----------
 
 # DBTITLE 1,Import Libraries
- 
 import requests, json, os
 from datetime import datetime
 from pyspark.sql.functions import current_timestamp
@@ -16,7 +15,6 @@ from pyspark.sql.functions import current_timestamp
 # COMMAND ----------
 
 # DBTITLE 1,Widget Setup
- 
 dbutils.widgets.text("report_id", "")
 report_id = dbutils.widgets.get("report_id") or None
  
@@ -27,7 +25,6 @@ data_source = dbutils.widgets.get("data_source")
 # COMMAND ----------
 
 # DBTITLE 1,Setup and Auth
- 
 def get_access_token():
     client_id = dbutils.secrets.get(scope="warcraftlogs", key="client_id")
     client_secret = dbutils.secrets.get(scope="warcraftlogs", key="client_secret")
@@ -49,8 +46,7 @@ base_url = "https://www.warcraftlogs.com/api/v2/client"
 # COMMAND ----------
 
 # DBTITLE 1,Determine Report ID
- 
-if not report_id:
+ if not report_id:
     # Default to most recent report from your guild
     query = """
     {
@@ -87,10 +83,9 @@ report_section = f'report(code: "{report_id}")'
 # COMMAND ----------
 
 # DBTITLE 1,Check for Previous Ingestion
- 
-def is_already_ingested(report_id: str) -> bool:
+ def is_already_ingested(report_id: str) -> bool:
     try:
-        df = spark.table("raid_report_tracking")
+        df = spark.table("01_bronze.logs.warcraftlogs_ingestion_log")
         return df.filter(df.report_id == report_id).count() > 0
     except:
         return False  # Tracking table might not exist yet
@@ -103,9 +98,7 @@ if is_already_ingested(report_id):
 # COMMAND ----------
 
 # DBTITLE 1,Ingest Data Based on Source
- 
-
-def save_output(subfolder: str, filename: str, data: dict):
+ def save_output(subfolder: str, filename: str, data: dict):
     path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/{subfolder}/{filename}"
     dbutils.fs.mkdirs(os.path.dirname(path))
     dbutils.fs.put(path, json.dumps(data), overwrite=True)
@@ -194,7 +187,6 @@ elif data_source == "tables":
  
 
 # COMMAND ----------
-
 
 # DBTITLE 1,Post Report ID Variable for Logging
 if data_source == "events":

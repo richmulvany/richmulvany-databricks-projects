@@ -54,6 +54,14 @@ tasks:
             fight_id: ""
             data_source: "{{input}}"
           source: WORKSPACE
+    
+  - task_key: bronze_extraction_logger-task
+    depends_on:
+      - task_key: bronze_extraction-task
+    notebook_task:
+      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction-logger
+      base_parameters:
+    source: WORKSPACE
 
 queue:
   enabled: true

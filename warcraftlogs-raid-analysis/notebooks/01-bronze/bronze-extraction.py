@@ -43,7 +43,8 @@ raw_json_path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/{dat
 # DBTITLE 1,Extract & Load
 def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
     """
-    Extracts WarcraftLogs raw JSON into Delta format based on data_source.
+    Extracts WarcraftLogs raw JSON into Delta format based on data_source,
+    with extraction logging to avoid duplicate loads.
 
     Args:
         json_path (str): Path to raw JSON files (e.g., /Volumes/.../events/*.json)
@@ -62,46 +63,52 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         .withColumn("source_file", col("_metadata.file_path"))
     )
 
-    # Initialize exploded_df per data_source
+    # Extract report_start_date
+    raw_with_date_df = raw_json_df.withColumn("report_start_date", col("data.__metadata__.report_start_date"))
+
+    # Filter out already extracted files
+    if spark.catalog.tableExists("01_bronze.logs.warcraftlogs_extraction_log"):
+        extracted_files_df = spark.read.table("01_bronze.logs.warcraftlogs_extraction_log").filter(col("data_source") == data_source)
+        raw_with_date_df = raw_with_date_df.join(
+            extracted_files_df.select("source_file"), on="source_file", how="left_anti"
+        )
+
+    # If no new files remain, exit early
+    if raw_with_date_df.rdd.isEmpty():
+        print(f"⚠️ No new files to extract for {data_source}")
+        return spark.createDataFrame([], schema=None)
+
+    # Proceed with extraction
     if data_source == "events":
-        extracted = raw_json_df.selectExpr("data.reportData.report.events.data as records", "source_file")
-        exploded_df = extracted.withColumn("record", explode(col("records"))).select("record.*", "source_file")
+        extracted = raw_with_date_df.selectExpr("data.reportData.report.events.data as records", "source_file", "report_start_date")
+        exploded_df = extracted.withColumn("record", explode(col("records"))).select("record.*", "source_file", "report_start_date")
 
     elif data_source == "fights":
-        extracted = raw_json_df.selectExpr("data.reportData.report.fights as records", "source_file")
-        exploded_df = extracted.withColumn("record", explode(col("records"))).select("record.*", "source_file")
+        extracted = raw_with_date_df.selectExpr("data.reportData.report.fights as records", "source_file", "report_start_date")
+        exploded_df = extracted.withColumn("record", explode(col("records"))).select("record.*", "source_file", "report_start_date")
 
     elif data_source == "actors":
-        extracted = raw_json_df.selectExpr("data.reportData.report.masterData.actors as records", "source_file")
-        exploded_df = extracted.withColumn("record", explode(col("records"))).select("record.*", "source_file")
+        extracted = raw_with_date_df.selectExpr("data.reportData.report.masterData.actors as records", "source_file", "report_start_date")
+        exploded_df = extracted.withColumn("record", explode(col("records"))).select("record.*", "source_file", "report_start_date")
 
     elif data_source == "tables":
-        # tables return JSON dicts — keep raw
-        exploded_df = raw_json_df.selectExpr("data.reportData.report.table as table_json", "source_file")
+        exploded_df = raw_with_date_df.selectExpr("data.reportData.report.table as table_json", "source_file", "report_start_date")
 
     else:
         raise ValueError(f"❌ Unsupported data_source: {data_source}")
 
     # Add metadata columns
-    if data_source != "tables":
-        final_df = (
-            exploded_df
-            .withColumn("bronze_ingestion_time", current_timestamp())
-            .withColumn("report_id", regexp_extract(col("source_file"), r"/([^/]+)/" + data_source + "/", 1))
-        )
-    else:
-        final_df = (
-            exploded_df
-            .withColumn("bronze_ingestion_time", current_timestamp())
-            .withColumn("report_id", regexp_extract(col("source_file"), r"/([^/]+)/tables/", 1))
-        )
+    report_id_expr = r"/([^/]+)/" + data_source + "/"
+    final_df = (
+        exploded_df
+        .withColumn("bronze_ingestion_time", current_timestamp())
+        .withColumn("report_id", regexp_extract(col("source_file"), report_id_expr, 1))
+    )
 
     # Write to Delta
     table_name = f"01_bronze.warcraftlogs.{data_source}"
     final_df.write.mode("append").format("delta").saveAsTable(table_name)
-    print(f"✅ Extracted and saved: {data_source} → {table_name}")
 
-    return final_df
 
 # COMMAND ----------
 
