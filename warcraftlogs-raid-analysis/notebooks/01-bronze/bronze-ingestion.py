@@ -1,11 +1,4 @@
 # Databricks notebook source
-# DBTITLE 1,Install Dependencies
-# MAGIC %pip install requests_toolbelt
-# MAGIC dbutils.library.restartPython()
-# MAGIC  
-
-# COMMAND ----------
-
 # DBTITLE 1,Import Libraries
 import requests, json, os
 from datetime import datetime
