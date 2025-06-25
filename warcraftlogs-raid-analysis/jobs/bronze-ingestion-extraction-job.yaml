@@ -13,6 +13,9 @@ tasks:
         task_key: bronze_ingestion_iteration
         notebook_task:
           notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion
+          libraries:
+            - pypi:
+                package: requests_toolbelt
           base_parameters:
             report_id: ""
             fight_id: ""
