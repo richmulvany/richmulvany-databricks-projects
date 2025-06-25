@@ -14,9 +14,9 @@ except Exception as e:
 
 # COMMAND ----------
 
-# DBTITLE 1,Log Ingestion
+# DBTITLE 1,Log Extraction
 log_df = spark.createDataFrame([(report_id,)], ["report_id"]) \
-    .withColumn("ingested_at", current_timestamp())
+    .withColumn("extracted_at", current_timestamp())
  
-log_df.write.mode("append").saveAsTable("01_bronze.logs.warcraftlogs_ingestion_log")
-print(f"📌 Logged report {report_id} as ingested.")
+log_df.write.mode("append").saveAsTable("01_bronze.logs.warcraftlogs_extraction_log")
+print(f"📌 Logged report {report_id} as extracted.")
