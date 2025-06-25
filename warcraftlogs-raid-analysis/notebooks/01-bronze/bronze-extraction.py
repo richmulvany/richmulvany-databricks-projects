@@ -22,19 +22,6 @@ data_source = dbutils.widgets.get("data_source")
 
 # COMMAND ----------
 
-def is_already_ingested(report_id: str) -> bool:
-    try:
-        df = spark.table("raid_report_tracking")
-        return df.filter(df.report_id == report_id).count() > 0
-    except:
-        return False  # Tracking table might not exist yet
- 
-if is_already_ingested(report_id):
-    print(f"⏭ Report {report_id} already ingested. Skipping.")
-    dbutils.notebook.exit("Skipped - already ingested")
-
-# COMMAND ----------
-
 # DBTITLE 1,Extract Data from Volume
 raw_json_path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/{data_source}/*.json"
 
