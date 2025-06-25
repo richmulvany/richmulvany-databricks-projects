@@ -9,7 +9,7 @@ from pyspark.sql.types import StructType, StructField, ArrayType, StringType, Ma
 # DBTITLE 1,Configure Notebook / Assign Variables
 # Exit early if report_id is not available as data probably already ingested
 try:
-    report_id = dbutils.variables.get("report_id")
+    report_id = dbutils.jobs.taskValues.get(key="report_id", taskKey="bronze_ingestion_events-task")
 except Exception as e:
     print(f"⚠️ Could not retrieve 'report_id' from dbutils.variables: {e}")
     dbutils.notebook.exit("Exiting: report_id not available via dbutils.variables.")
