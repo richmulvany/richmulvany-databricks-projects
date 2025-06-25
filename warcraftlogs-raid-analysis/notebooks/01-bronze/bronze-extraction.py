@@ -61,9 +61,10 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         )
 
     # If no new files remain, exit early
-    if raw_with_date_df.rdd.isEmpty():
+    if not raw_with_date_df.take(1):
         print(f"⚠️ No new files to extract for {data_source}")
-        return spark.createDataFrame([], schema=None)
+        return spark.createDataFrame([], schema=raw_with_date_df.schema)
+
 
     # Proceed with extraction
     if data_source == "events":
