@@ -3,7 +3,7 @@
 import requests, json, os
 from datetime import datetime
 from pyspark.sql.functions import current_timestamp
- 
+
 
 # COMMAND ----------
 
