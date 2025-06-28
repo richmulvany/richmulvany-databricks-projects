@@ -250,7 +250,7 @@ for name in exploded_tables:
 
 # COMMAND ----------
 
-# DBTITLE 1,Write to Silver
+# DBTITLE 1,Write to Staging Area
 for name, df in exploded_tables.items():
-    table_suffix = name.removeprefix("df_")  # For Python 3.9+
-    df.write.mode("append").saveAsTable(f"02_silver.warcraftlogs.tables_{table_suffix}")
+    table_suffix = name.removeprefix("df_") 
+    df.write.mode("overwrite").saveAsTable(f"02_silver.staging.warcraftlogs_tables_{table_suffix}")

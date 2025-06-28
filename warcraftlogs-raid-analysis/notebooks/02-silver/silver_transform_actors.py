@@ -27,7 +27,7 @@ player_df = player_df.drop("type")
 
 player_df = player_df.withColumn("class_spec", split(col("icon"), "-")) \
         .withColumn("player_class", col("class_spec")[0]) \
-        .withColumn("player_spec", when(size(col("class_spec")) > 1, col("class_spec")[1]).otherwise(None)) \
+        .withColumn("player_spec", when(size(col("class_spec")) > 1, col("class_spec")[1]).otherwise("multiple")) \
         .drop("class_spec","icon")
 
 player_df = player_df.withColumnRenamed("id", "player_id") \
@@ -38,9 +38,5 @@ player_df = player_df.withColumn("report_date", date_format(col("report_date"), 
 
 # COMMAND ----------
 
-display(player_df)
-
-# COMMAND ----------
-
-# DBTITLE 1,Write to Silver
-player_df.write.mode("append").saveAsTable("02_silver.warcraftlogs.actors_players")
+# DBTITLE 1,Write to Staging Area
+player_df.write.mode("overwrite").saveAsTable("02_silver.staging.warcraftlogs_actors_players")

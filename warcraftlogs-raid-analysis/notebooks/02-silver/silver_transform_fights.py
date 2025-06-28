@@ -13,7 +13,6 @@ useful_columns = ["difficulty","id", "name", "startTime", "endTime", "report_sta
 
 # DBTITLE 1,Read Table
 df = spark.read.table("01_bronze.warcraftlogs.fights")
-display(df)
 
 # COMMAND ----------
 
@@ -47,9 +46,5 @@ df = df.withColumn(
 
 # COMMAND ----------
 
-display(df)
-
-# COMMAND ----------
-
-# DBTITLE 1,Write to Silver
-df.write.mode("append").saveAsTable("02_silver.warcraftlogs.fights_boss_pulls")
+# DBTITLE 1,Write TempView
+df.write.mode("overwrite").saveAsTable("02_silver.staging.warcraftlogs_fights_boss_pulls")

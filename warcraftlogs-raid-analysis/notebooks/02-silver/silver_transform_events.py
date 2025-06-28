@@ -74,8 +74,8 @@ df_debuffs = df_debuffs.drop(*cols_to_drop)
 
 # COMMAND ----------
 
-# DBTITLE 1,Write to Silver
-df_casts.write.mode("append").saveAsTable(f"02_silver.warcraftlogs.events_casts")
-df_buffs.write.mode("append").saveAsTable(f"02_silver.warcraftlogs.events_buffs")
-df_debuffs.write.mode("append").saveAsTable(f"02_silver.warcraftlogs.events_debuffs")
-df_deaths.write.mode("append").saveAsTable(f"02_silver.warcraftlogs.events_deaths")
+# DBTITLE 1,Write TempView
+df_casts.write.mode("overwrite").saveAsTable("02_silver.staging.warcraftlogs_events_casts")
+df_buffs.write.mode("overwrite").saveAsTable("02_silver.staging.warcraftlogs_events_buffs")
+df_debuffs.write.mode("overwrite").saveAsTable("02_silver.staging.warcraftlogs_events_debuffs")
+df_deaths.write.mode("overwrite").saveAsTable("02_silver.staging.warcraftlogs_events_deaths")
