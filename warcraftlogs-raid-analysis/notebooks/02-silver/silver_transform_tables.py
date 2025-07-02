@@ -62,6 +62,53 @@ df_deaths = df_deaths.where(col("entry").isNotNull())
 
 # COMMAND ----------
 
+display(df_damage_done)
+
+# COMMAND ----------
+
+df_damage_done_abilities = df_damage_done.select(
+    "report_id",
+    "pull_number",
+    "report_date",
+    col("entry.name").alias("player_name"),
+    explode_outer("entry.abilities").alias("ability")
+)
+
+# COMMAND ----------
+
+display(df_damage_done_abilities)
+
+# COMMAND ----------
+
+df_damage_done_abilities = df_damage_done.select(
+    "report_id",
+    "pull_number",
+    "report_date",
+    explode_outer("entry.abilities").alias("ability")
+)
+
+# COMMAND ----------
+
+display(df_damage_done_abilities)
+
+# COMMAND ----------
+
+df_damage_done_abilities_2 = df_damage_done_abilities.select(
+    "report_id",
+    "pull_number",
+    "report_date",
+    "player_name",
+    col("ability.name").alias("ability_name"),
+    col("ability.petName").alias("ability_pet_name"),
+    col("ability.type").alias("ability_type"),
+    col("ability.total").alias("ability_total"),
+    col("ability.totalReduced").alias("ability_total_reduced")
+)
+
+display(df_damage_done_abilities_2)
+
+# COMMAND ----------
+
 df_damage_done.printSchema()
 df_healing.printSchema()
 df_deaths.printSchema()
