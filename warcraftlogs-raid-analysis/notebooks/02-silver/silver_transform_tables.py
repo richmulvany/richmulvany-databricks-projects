@@ -42,7 +42,6 @@ df_healing = df.where(col("data_type") == "Healing").select(
     "report_id",
     "pull_number",
     col("report_start_date").alias("report_date"),
-    "table_json",
     explode_outer("table_json.data.entries").alias("entry")
 )
 
@@ -50,7 +49,6 @@ df_deaths = df.where(col("data_type") == "Deaths").select(
     "report_id",
     "pull_number",
     col("report_start_date").alias("report_date"),
-    "table_json",
     explode_outer("table_json.data.entries").alias("entry")
 )
 
@@ -62,21 +60,249 @@ df_deaths = df_deaths.where(col("entry").isNotNull())
 
 # COMMAND ----------
 
-display(df_damage_done)
+def dfParser(df):
+    result = {}
+    df_explode = df.select(
+        "report_id",
+        "pull_number",
+        "report_date",
+        explode_outer("entry.abilities").alias("ability"),
+        col("entry.activeTime").alias("active_time"),
+        explode_outer("entry.damage.abilities").alias("damage_ability"),
+        col("entry.damage.ActiveTime").alias("damage_active_time"),
+        col("entry.damage.activeTimeReduced").alias("damage_active_time_reduced"),
+        col("entry.damage.blocked").alias("damage_blocked"),
+        explode_outer("entry.damage.damageAbilities").alias("damage_damage_ability"),
+        col("entry.damage.overheal").alias("damage_overheal"),
+        explode_outer("entry.damage.sources").alias("damage_sources"),
+        col("entry.damage.total").alias("damage_total"),
+        col("entry.damage.totalReduced").alias("damage_total_reduced"),
+        explode_outer("entry.damageAbilities").alias("damage_abilities"),
+        col("entry.deathWindow").alias("death_window"),
+        explode_outer("entry.events").alias("event"),
+        "entry.fight",
+        explode_outer("entry.gear").alias("gear"),
+        explode_outer("entry.healing.abilities").alias("healing_abilities"),
+        col("entry.healing.activeTime").alias("healing_active_time"),
+        col("entry.healing.activeTimeReduced").alias("healing_active_time_reduced"),
+        explode_outer("entry.healing.damageAbilities").alias("healing_damage_ability"),
+        explode_outer("entry.healing.sources").alias("healing_sources"),
+        col("entry.healing.total").alias("healing_total"),
+        col("entry.healing.totalReduced").alias("healing_total_reduced"),
+        col("entry.itemLevel").alias("item_level"),
+        col("entry.killingBlow.abilityIcon").alias("killing_blow_ability_icon"),
+        col("entry.killingBlow.guid").alias("killing_blow_guid"),
+        col("entry.killingBlow.name").alias("killing_blow_name"),
+        col("entry.killingBlow.type").alias("killing_blow_type"),
+        col("entry.name").alias("player_name"),
+        "entry.overheal",
+        "entry.overkill",
+        explode_outer("entry.pets").alias("pets"),
+        explode_outer("entry.talents").alias("talents"),
+        explode_outer("entry.targets").alias("targets"),
+        col("entry.timestamp").alias("timestamp"),
+        "entry.total",
+        col("entry.totalReduced").alias("total_reduced"),
+        col("entry.type").alias("player_class")
+    )
+    result[f"{df}_explode"] = df_explode
+
+    # --- Abilities
+    result[f"{df}_abilities"] = df_explode.select(
+        "report_id",
+        "pull_number",
+        "report_date",
+        col("ability.name").alias("ability_name"),
+        col("ability.petName").alias("ability_pet_name"),
+        col("ability.total").alias("ability_total"),
+        col("ability.totalReduced").alias("ability_total_reduced"),
+        col("ability.type").alias("ability_type")
+    )
+
+    # --- Damaging Ability
+    result[f"{df}_ability"] = df_explode.select(
+        "report_id",
+        "pull_number",
+        "report_date",
+        col("damage_ability.name").alias("damage_ability_name"),
+        col("damage_ability.total").alias("damage_ability_total"),
+        col("damage_ability.totalReduced").alias("damage_ability_total_reduced")
+        )
+
+    # --- Damage Abilities
+    result[f"{df}_abilities"] = df_explode.select(
+        "report_id",
+        "pull_number",
+        "report_date",
+        col("damage_abilities.name").alias("damage_abilities_name"),
+        col("damage_abilities.total").alias("damage_abilities_total"),
+        col("damage_abilities.totalReduced").alias("damage_abilities_total_reduced"),
+        col("damage_abilities.type").alias("damage_abilities_type")
+    )
+
+    # --- Damage Events
+    result[f"{df}_events"] = df_explode.select(
+        "report_id",
+        "pull_number",
+        "report_date",
+        col("event.ability.abilityIcon").alias("ability_icon"),
+        col("event.ability.guid").alias("ability_guid"),
+        col("event.ability.name").alias("ability_name"),
+        col("event.ability.type").alias("ability_type"),
+        col("event.absorbed").alias("absorbed"),
+        col("event.amount").alias("amount"),
+        col("event.blocked").alias("blocked"),
+        col("event.fight").alias("fight"),
+        col("event.hitType").alias("hit_type"),
+        col("event.isAoE").alias("is_aoe"),
+        col("event.mitigated").alias("mitigated"),
+        col("event.overkill").alias("overkill"),
+        col("event.source.guid").alias("source_guid"),
+        col("event.source.icon").alias("source_icon"),
+        col("event.source.id").alias("source_id"),
+        col("event.source.name").alias("source_name"),
+        col("event.source.type").alias("source_type"),
+        col("event.sourceID").alias("source_id"),
+        col("event.sourceInstance").alias("source_instance"),
+        col("event.sourceIsFriendly").alias("source_is_friendly"),
+        col("event.targetID").alias("target_id"),
+        col("event.targetIsFriendly").alias("target_is_friendly"),
+        col("event.targetMarker").alias("target_marker"),
+        col("event.tick").alias("tick"),
+        col("event.timestamp").alias("timestamp"),
+        col("event.type").alias("event_type"),
+        col("event.unmitigatedAmount").alias("unmitigated_amount")
+    )
+
+    # --- Gear
+    result[f"{df}_gear"] = df_explode.select(
+        "report_id",
+        "pull_number",
+        "report_date",
+        explode_outer("gear.bonusIDs").alias("bonus_id"),
+        explode_outer("gear.gems").alias("gem"),
+        col("gear.icon").alias("gear_icon"),
+        col("gear.id").alias("gear_id"),
+        col("gear.itemLevel").alias("gear_item_level"),
+        col("gear.name").alias("gear_name"),
+        col("gear.permanentEnchant").alias("gear_permanent_enchant"),
+        col("gear.permanentEnchantName").alias("gear_permanent_enchant_name"),
+        col("gear.quality").alias("gear_quality"),
+        col("gear.setID").alias("gear_set_id"),
+        col("gear.slot").alias("gear_slot"),
+        col("gear.temporaryEnchant").alias("gear_temporary_enchant"),
+        col("gear.temporaryEnchantName").alias("gear_temporary_enchant_name")
+    )
+
+    # Healing
+    result[f"{df}_healing"] = df_explode.select(
+        "report_id",
+        "pull_number",
+        "report_date",
+        col("healing_abilities.name").alias("healing_abilities_name"),
+        col("healing_abilities.petName").alias("healing_abilities_pet_name"),
+        col("healing_abilities.total").alias("healing_abilities_total"),
+        col("healing_abilities.totalReduced").alias("healing_abilities_total_reduced"),
+        col("healing_abilities.type").alias("healing_abilities_type"),
+        "healing_active_time",
+        "healing_active_time_reduced",
+        col("healing_damage_ability.name").alias("healing_damage_ability_name"),
+        col("healing_damage_ability.total").alias("healing_damage_ability_total"),
+        col("healing_damage_ability.totalReduced").alias("healing_damage_ability_total_reduced"),
+        col("healing_damage_ability.type").alias("healing_damage_ability_type"),
+        col("healing_sources.name").alias("healing_sources_name"),
+        col("healing_sources.total").alias("healing_sources_total"),
+        col("healing_sources.totalReduced").alias("healing_sources_total_reduced"),
+        col("healing_sources.type").alias("healing_sources_type"),
+        "healing_total",
+        "healing_total_reduced"
+    )
+
+    # --- Pets
+    result[f"{df}_pets"] = df_explode.select(
+        "report_id",
+        "pull_number",
+        "report_date",
+        col("pets.activeTime").alias("pet_active_time"),
+        col("pets.guid").alias("pet_guid"),
+        col("pets.icon").alias("pet_icon"),
+        col("pets.id").alias("pet_id"),
+        col("pets.name").alias("pet_name"),
+        col("pets.total").alias("pet_total"),
+        col("pets.totalReduced").alias("pet_total_reduced"),
+        col("pets.type").alias("pet_type")
+    )
+
+    # --- Talents
+    result[f"{df}_talents"] = df_explode.select(
+        "report_id",
+        "pull_number",
+        "report_date",
+        "talents"
+    )
+
+    # --- Targets
+    result[f"{df}_targets"] = df_explode.select(
+        "report_id",
+        "pull_number",
+        "report_date",
+        col("targets.name").alias("target_name"),
+        col("targets.total").alias("target_total"),
+        col("targets.totalReduced").alias("target_total_reduced"),
+        col("targets.type").alias("target_type")
+    )
+
+    return result
 
 # COMMAND ----------
 
-df_damage_done_abilities = df_damage_done.select(
+damage_done_dict = dfParser(df_damage_done)
+
+# COMMAND ----------
+
+print(damage_done_dict.keys())
+
+# COMMAND ----------
+
+df_damage_done_explode.printSchema()
+
+# COMMAND ----------
+
+print("damage_done_abilities:")
+display(df_damage_done_abilities)
+print("damage_ability:")
+display(df_damage_ability)
+print("damage_abilities:")
+display(df_damage_abilities)
+print("damage_events:")
+display(df_damage_events)
+print("gear:")
+display(df_gear)
+print("healing:")
+display(df_healing)
+print("pets:")
+display(df_pets)
+print("talents:")
+display(df_talents)
+print("targets:")
+display(df_targets)
+
+# COMMAND ----------
+
+df_deaths.printSchema()
+
+# COMMAND ----------
+
+df_healing_explode = df_healing.select(
     "report_id",
     "pull_number",
     "report_date",
-    col("entry.name").alias("player_name"),
-    explode_outer("entry.abilities").alias("ability")
+
 )
 
 # COMMAND ----------
 
-display(df_damage_done_abilities)
+display(df_damage_done_explode)
 
 # COMMAND ----------
 
