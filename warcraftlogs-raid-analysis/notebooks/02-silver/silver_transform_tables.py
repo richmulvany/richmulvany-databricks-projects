@@ -60,7 +60,7 @@ df_deaths = df_deaths.where(col("entry").isNotNull())
 
 # COMMAND ----------
 
-def dfParser(df):
+def dfParser(df, name):
     result = {}
     df_explode = df.select(
         "report_id",
@@ -105,10 +105,10 @@ def dfParser(df):
         col("entry.totalReduced").alias("total_reduced"),
         col("entry.type").alias("player_class")
     )
-    result[f"{df}_explode"] = df_explode
+    result[f"df_{name}_explode"] = df_explode
 
     # --- Abilities
-    result[f"{df}_abilities"] = df_explode.select(
+    result[f"df_{name}_abilities"] = df_explode.select(
         "report_id",
         "pull_number",
         "report_date",
@@ -120,7 +120,7 @@ def dfParser(df):
     )
 
     # --- Damaging Ability
-    result[f"{df}_ability"] = df_explode.select(
+    result[f"df_{name}_ability"] = df_explode.select(
         "report_id",
         "pull_number",
         "report_date",
@@ -130,7 +130,7 @@ def dfParser(df):
         )
 
     # --- Damage Abilities
-    result[f"{df}_abilities"] = df_explode.select(
+    result[f"df_{name}_abilities"] = df_explode.select(
         "report_id",
         "pull_number",
         "report_date",
@@ -141,7 +141,7 @@ def dfParser(df):
     )
 
     # --- Damage Events
-    result[f"{df}_events"] = df_explode.select(
+    result[f"df_{name}_events"] = df_explode.select(
         "report_id",
         "pull_number",
         "report_date",
@@ -175,7 +175,7 @@ def dfParser(df):
     )
 
     # --- Gear
-    result[f"{df}_gear"] = df_explode.select(
+    result[f"df_{name}_gear"] = df_explode.select(
         "report_id",
         "pull_number",
         "report_date",
@@ -195,7 +195,7 @@ def dfParser(df):
     )
 
     # Healing
-    result[f"{df}_healing"] = df_explode.select(
+    result[f"df_{name}_healing"] = df_explode.select(
         "report_id",
         "pull_number",
         "report_date",
@@ -219,7 +219,7 @@ def dfParser(df):
     )
 
     # --- Pets
-    result[f"{df}_pets"] = df_explode.select(
+    result[f"df_{name}_pets"] = df_explode.select(
         "report_id",
         "pull_number",
         "report_date",
@@ -242,7 +242,7 @@ def dfParser(df):
     )
 
     # --- Targets
-    result[f"{df}_targets"] = df_explode.select(
+    result[f"df_{name}_targets"] = df_explode.select(
         "report_id",
         "pull_number",
         "report_date",
@@ -256,7 +256,7 @@ def dfParser(df):
 
 # COMMAND ----------
 
-damage_done_dict = dfParser(df_damage_done)
+damage_done_dict = dfParser(df_damage_done, "damage")
 
 # COMMAND ----------
 
