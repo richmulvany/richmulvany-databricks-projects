@@ -1,4 +1,9 @@
 # Databricks notebook source
+# DBTITLE 1,Install Lobraries
+%pip install databricks-labs-dqx==0.6.0
+dbutils.library.restartPython()
+
+# COMMAND ----------
 # DBTITLE 1,Import Dependencies
 from databricks.labs.dqx.engine import DQEngine
 from databricks.labs.dqx.profiler.profiler import DQProfiler
