@@ -245,13 +245,7 @@ elif data_source == "tables":
             {{
               reportData {{
                 {report_section} {{
-                  table(dataType: {data_type}, fightIDs: [{fid}]) {{
-                    data {{
-                      entries {{
-                        {fields}
-                      }}
-                    }}
-                  }}
+                  table(dataType: {data_type}, fightIDs: [{fid}])
                 }}
               }}
             }}
