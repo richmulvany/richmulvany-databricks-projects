@@ -14,15 +14,15 @@ from databricks.sdk import WorkspaceClient
 
 # DBTITLE 1,Read Tables
 tables = {
-    "tables_player_summary": spark.read.table("02_silver.staging.warcraftlogs_tables_player_summary"),
-    "tables_player_abilities": spark.read.table("02_silver.staging.warcraftlogs_tables_player_abilities"),
-    "tables_player_damage_abilities": spark.read.table("02_silver.staging.warcraftlogs_tables_player_damage_abilities"),
-    "tables_player_healing_abilities": spark.read.table("02_silver.staging.warcraftlogs_tables_player_healing_abilities"),
-    "tables_player_events": spark.read.table("02_silver.staging.warcraftlogs_tables_player_events"),
-    "tables_player_gear": spark.read.table("02_silver.staging.warcraftlogs_tables_player_gear"),
-    "tables_player_pets": spark.read.table("02_silver.staging.warcraftlogs_tables_player_pets"),
-    "tables_player_talents": spark.read.table("02_silver.staging.warcraftlogs_tables_player_talents"),
-    "tables_player_targets": spark.read.table("02_silver.staging.warcraftlogs_tables_player_targets")
+    "tables_damage_abilities": spark.read.table("02_silver.staging.warcraftlogs_tables_damage_abilities"),
+    "tables_healing_abilities": spark.read.table("02_silver.staging.warcraftlogs_tables_healing_abilities"),
+    "tables_events": spark.read.table("02_silver.staging.warcraftlogs_tables_events"),
+    "tables_gear_damage_done": spark.read.table("02_silver.staging.warcraftlogs_tables_gear_DamageDone"),
+    "tables_gear_healing": spark.read.table("02_silver.staging.warcraftlogs_tables_gear_Healing"),
+    "tables_gear_deaths": spark.read.table("02_silver.staging.warcraftlogs_tables_gear_Deaths"),
+    "tables_pets_damage_done": spark.read.table("02_silver.staging.warcraftlogs_tables_pets_DamageDone"),
+    "tables_pets_healing": spark.read.table("02_silver.staging.warcraftlogs_tables_pets_Healing"),
+    "tables_pets_deaths": spark.read.table("02_silver.staging.warcraftlogs_tables_pets_Deaths")
 }
 
 # COMMAND ----------

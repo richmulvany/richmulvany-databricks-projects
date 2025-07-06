@@ -166,10 +166,97 @@ elif data_source == "tables":
     fights = fight_response.json()["data"]["reportData"]["report"]["fights"]
 
     table_data_types = ["DamageDone", "Healing", "Deaths"]
+
     for data_type in table_data_types:
         for fight in fights:
             fid = fight["id"]
-            query = f"""{{ reportData {{ {report_section} {{ table(dataType: {data_type}, fightIDs: [{fid}]) }} }} }}"""
+
+            # Nested fields to include per data_type
+            if data_type == "DamageDone":
+                fields = """
+                  name
+                  total
+                  type
+                  damage {
+                    abilities {
+                      name
+                      total
+                      totalReduced
+                      type
+                    }
+                  }
+                  gear {
+                    id name icon itemLevel slot
+                  }
+                  pets {
+                    name guid total type
+                  }
+                """
+            elif data_type == "Healing":
+                fields = """
+                  name
+                  total
+                  type
+                  healing {
+                    abilities {
+                      name
+                      total
+                      totalReduced
+                      type
+                    }
+                  }
+                  gear {
+                    id name icon itemLevel slot
+                  }
+                  pets {
+                    name guid total type
+                  }
+                """
+            elif data_type == "Deaths":
+                fields = """
+                  name
+                  total
+                  type
+                  damage {
+                    abilities {
+                      name
+                      total
+                      totalReduced
+                      type
+                    }
+                  }
+                  events {
+                    timestamp
+                    amount
+                    type
+                    ability { name type }
+                    source { name }
+                    targetID
+                  }
+                  gear {
+                    id name icon itemLevel slot
+                  }
+                  pets {
+                    name guid total type
+                  }
+                """
+
+            query = f"""
+            {{
+              reportData {{
+                {report_section} {{
+                  table(dataType: {data_type}, fightIDs: [{fid}]) {{
+                    data {{
+                      entries {{
+                        {fields}
+                      }}
+                    }}
+                  }}
+                }}
+              }}
+            }}
+            """
+
             response = requests.post(base_url, json={"query": query}, headers=headers)
             output = response.json()
             if "errors" in output:
@@ -177,6 +264,7 @@ elif data_source == "tables":
             filename = f"{report_id}_fight{fid}_table_{data_type}_{ts}.json"
             output["__metadata__"] = {"report_id": report_id, "report_start_date": report_start_date}
             save_output("tables", filename, output)
+
  
 
 # COMMAND ----------
