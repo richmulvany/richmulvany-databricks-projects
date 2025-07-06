@@ -30,4 +30,6 @@ targets:
 resources:
   jobs:
     bronze-ingestion-extraction-job:
-$JOB_DEFINITION
+$BRONZE_JOB_DEFINITION
+    silver-transformation-validation-job:P
+$SILVER_JOB_DEFINITION
