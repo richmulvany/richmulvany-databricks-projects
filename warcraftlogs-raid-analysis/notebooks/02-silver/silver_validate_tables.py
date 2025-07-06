@@ -1,9 +1,4 @@
 # Databricks notebook source
-# MAGIC %pip install databricks-labs-dqx
-# MAGIC dbutils.library.restartPython()
-
-# COMMAND ----------
-
 # DBTITLE 1,Import Dependencies
 from databricks.labs.dqx.engine import DQEngine
 from databricks.labs.dqx.profiler.profiler import DQProfiler
