@@ -1,8 +1,9 @@
 # Databricks notebook source
 # DBTITLE 1,Import Dependencies
-from pyspark.sql.functions import col, expr, split, lower, lit, when, size, date_format, count, explode_outer, explode
+from pyspark.sql.functions import col, expr, split, lower, lit, when, size, date_format, count, explode_outer, explode, sum, regexp_extract
 from pyspark.sql.types import StringType
 import re
+from pyspark.sql import DataFrame
 
 # COMMAND ----------
 
@@ -16,241 +17,172 @@ df = spark.read.table("01_bronze.warcraftlogs.tables")
 
 # COMMAND ----------
 
-# DBTITLE 1,Explode Dataframe
-# Explode the already-parsed entries field
-df_exploded = df.withColumn("entry", explode(col("table_json.data.entries")))
-
-# Flatten and select
-df_flat = df_exploded.select(
-    "report_id",
-    "report_start_date",
-    col("entry.*")
-)
-
-df_flat.printSchema()
+display(df)
 
 # COMMAND ----------
 
-# DBTITLE 1,Read Fights Table
-fights_df = spark.read.table("02_silver.warcraftlogs.fights_boss_pulls")
+# DBTITLE 1,Extract Metadata from Filename
+def prepare_entries_df(df):
+    df = df.withColumn("pull_number", expr("try_cast(regexp_extract(source_file, '_fight(\\\d+)', 1) AS INT)"))
+    df = df.withColumn("data_type", regexp_extract("source_file", "_table_([^_]+)", 1))
+    df = df.withColumn("report_start_date", date_format(col("report_start_date"), "yyyy-MM-dd EE"))
+
+    return df.select(
+        "report_id",
+        "pull_number",
+        col("report_start_date").alias("report_date"),
+        "data_type",
+        explode_outer("table_json.data.entries").alias("entry")
+    ).where(col("entry").isNotNull())
+
+entry_df = prepare_entries_df(df)
 
 # COMMAND ----------
 
-# DBTITLE 1,Extract Individual Tables
-# Summary
-df_summary = df_flat.select(
-    "report_id",
-    "report_start_date",
-    col("fight").alias("pull_number"),
-    "total",
-    "overkill",
-    "overheal",
-    "guid",
-    col("name").alias("player_name"),
-    col("type").alias("player_class"),
-    col("activeTime").alias("active_time"),
-    col("deathWindow").alias("death_window"),
-    col("itemLevel").alias("item_level"),
-).join(fights_df, on=["report_id", "pull_number"], how="inner")
+# DBTITLE 1,Establish Parsers
+def _extract_healing_summary(df):
+    return df.where(col("data_type") == "Healing").select(
+        "report_id", "pull_number", "report_date",
+        col("entry.name").alias("player_name"),
+        col("entry.total").alias("healing_total"),
+        col("entry.overheal").alias("overhealing"),
+        col("entry.activeTime").alias("active_time"),
+        col("entry.type").alias("player_class"),
+        col("entry.itemLevel").alias("item_level")
+    )
 
-# Abilities
-df_abilities = df_flat.select(
-    "report_id",
-    "report_start_date",
-    col("fight").alias("pull_number"),
-    col("name").alias("actor_name"),
-    explode_outer("abilities").alias("ability")
-).select(
-    "report_id", "report_start_date", "pull_number", "actor_name",
-    col("ability.name").alias("ability_name"),
-    col("ability.petName").alias("pet_name"),
-    col("ability.total").alias("total"),
-    col("ability.totalReduced").alias("total_reduced"),
-    col("ability.type").alias("ability_type")
-).join(fights_df, on=["report_id", "pull_number"], how="inner")
+def _extract_deaths_summary(df):
+    return df.where(col("data_type") == "Deaths").select(
+        "report_id", "pull_number", "report_date",
+        col("entry.name").alias("player_name"),
+        col("entry.timestamp").alias("death_timestamp"),
+        col("entry.deathWindow").alias("death_window"),
+        col("entry.type").alias("player_class")
+    )
 
-# Damage abilities
-df_damage_abilities = df_flat.select(
-    "report_id", "report_start_date", col("fight").alias("pull_number"),
-    col("name").alias("actor_name"),
-    explode_outer("damageAbilities").alias("damage_ability")
-).select(
-    "report_id", "report_start_date", "pull_number", "actor_name",
-    col("damage_ability.name").alias("ability_name"),
-    col("damage_ability.total").alias("total"),
-    col("damage_ability.totalReduced").alias("total_reduced"),
-    col("damage_ability.type").alias("ability_type")
-).join(fights_df, on=["report_id", "pull_number"], how="inner")
+def _extract_damage_summary(df):
+    return df.where(col("data_type") == "DamageDone").select(
+        "report_id", "pull_number", "report_date",
+        col("entry.name").alias("player_name"),
+        col("entry.total").alias("damage_total"),
+        col("entry.activeTime").alias("active_time"),
+        col("entry.type").alias("player_class"),
+        col("entry.itemLevel").alias("item_level")
+    )
 
-# Events
-df_events = df_flat.select(
-    "report_id", "report_start_date", col("fight").alias("pull_number"),
-    col("name").alias("actor_name"),
-    explode_outer("events").alias("event")
-).select(
-    "report_id", "report_start_date", "pull_number", "actor_name",
-    col("event.timestamp"),
-    col("event.type").alias("event_type"),
-    col("event.amount"),
-    col("event.absorbed"),
-    col("event.overkill"),
-    col("event.unmitigatedAmount").alias("unmitigated_amount"),
-    col("event.ability.name").alias("ability_name"),
-    col("event.ability.guid").alias("ability_guid"),
-    col("event.sourceID").alias("source_id"),
-    col("event.targetID").alias("target_id"),
-    col("event.sourceIsFriendly").alias("source_is_friendly"),
-    col("event.targetIsFriendly").alias("target_is_friendly"),
-    col("event.tick")
-).join(fights_df, on=["report_id", "pull_number"], how="inner")
+def _extract_abilities(df):
+    return df.select(
+        "report_id", "pull_number", "report_date",
+        col("entry.name").alias("player_name"),
+        explode_outer("entry.abilities").alias("ability")
+    ).select(
+        "report_id", "pull_number", "report_date", "player_name",
+        col("ability.name").alias("ability_name"),
+        col("ability.total").alias("ability_total"),
+        col("ability.totalReduced").alias("ability_total_reduced"),
+        col("ability.type").alias("ability_type")
+    )
 
-# Gear
-df_gear = df_flat.select(
-    "report_id", "report_start_date", col("fight").alias("pull_number"),
-    col("name").alias("actor_name"),
-    explode_outer("gear").alias("gear_item")
-).select(
-    "report_id", "report_start_date", "pull_number", "actor_name",
-    col("gear_item.name").alias("item_name"),
-    col("gear_item.id").alias("item_id"),
-    col("gear_item.slot").alias("slot"),
-    col("gear_item.itemLevel").alias("item_level"),
-    col("gear_item.quality").alias("quality"),
-    col("gear_item.setID").alias("set_id")
-).join(fights_df, on=["report_id", "pull_number"], how="inner")
+def _extract_targets(df):
+    return df.select(
+        "report_id", "pull_number", "report_date",
+        col("entry.name").alias("player_name"),
+        explode_outer("entry.targets").alias("target")
+    ).select(
+        "report_id", "pull_number", "report_date", "player_name",
+        col("target.name").alias("target_name"),
+        col("target.total").alias("target_total"),
+        col("target.totalReduced").alias("target_total_reduced"),
+        col("target.type").alias("target_type")
+    )
 
-# Pets
-df_pets = df_flat.select(
-    "report_id", "report_start_date", col("fight").alias("pull_number"),
-    col("name").alias("actor_name"),
-    explode_outer("pets").alias("pet")
-).select(
-    "report_id", "report_start_date", "pull_number", "actor_name",
-    col("pet.name").alias("pet_name"),
-    col("pet.guid").alias("pet_guid"),
-    col("pet.total"),
-    col("pet.totalReduced").alias("total_reduced"),
-    col("pet.type").alias("pet_type")
-).join(fights_df, on=["report_id", "pull_number"], how="inner")
+def _extract_pets(df):
+    return df.where(col("entry.pets").isNotNull()).select(
+        "report_id", "pull_number", "report_date",
+        col("entry.name").alias("player_name"),
+        explode_outer("entry.pets").alias("pet")
+    ).select(
+        "report_id", "pull_number", "report_date", "player_name",
+        col("pet.name").alias("pet_name"),
+        col("pet.total").alias("pet_total"),
+        col("pet.type").alias("pet_type"),
+        col("pet.guid").alias("pet_guid")
+    )
 
-# Talents
-df_talents = df_flat.select(
-    "report_id", "report_start_date", col("fight").alias("pull_number"),
-    col("name").alias("actor_name"),
-    explode_outer("talents").alias("talent_id")
-).select(
-    "report_id", "report_start_date", "pull_number", "actor_name", "talent_id"
-).join(fights_df, on=["report_id", "pull_number"], how="inner")
-
-# Targets
-df_targets = df_flat.select(
-    "report_id", "report_start_date", col("fight").alias("pull_number"),
-    col("name").alias("actor_name"),
-    explode_outer("targets").alias("target")
-).select(
-    "report_id", "report_start_date", "pull_number", "actor_name",
-    col("target.name").alias("target_name"),
-    col("target.total").alias("total"),
-    col("target.totalReduced").alias("total_reduced"),
-    col("target.type").alias("target_type")
-).join(fights_df, on=["report_id", "pull_number"], how="inner")
-
-# Nested: damage.abilities
-df_damage_abilities_nested = df_flat.select(
-    "report_id", "report_start_date", col("fight").alias("pull_number"),
-    col("name").alias("actor_name"),
-    explode_outer("damage.abilities").alias("damage_ability")
-).select(
-    "report_id", "report_start_date", "pull_number", "actor_name",
-    col("damage_ability.name").alias("ability_name"),
-    col("damage_ability.total").alias("total"),
-    col("damage_ability.totalReduced").alias("total_reduced"),
-    col("damage_ability.type").alias("ability_type")
-).join(fights_df, on=["report_id", "pull_number"], how="inner")
-
-# Nested: damage.sources
-df_damage_sources = df_flat.select(
-    "report_id", "report_start_date", col("fight").alias("pull_number"),
-    col("name").alias("actor_name"),
-    explode_outer("damage.sources").alias("damage_source")
-).select(
-    "report_id", "report_start_date", "pull_number", "actor_name",
-    col("damage_source.name").alias("source_name"),
-    col("damage_source.total").alias("total"),
-    col("damage_source.totalReduced").alias("total_reduced"),
-    col("damage_source.type").alias("source_type")
-).join(fights_df, on=["report_id", "pull_number"], how="inner")
-
-# Nested: healing.abilities
-df_healing_abilities = df_flat.select(
-    "report_id", "report_start_date", col("fight").alias("pull_number"),
-    col("name").alias("actor_name"),
-    explode_outer("healing.abilities").alias("healing_ability")
-).select(
-    "report_id", "report_start_date", "pull_number", "actor_name",
-    col("healing_ability.name").alias("ability_name"),
-    col("healing_ability.total").alias("total"),
-    col("healing_ability.totalReduced").alias("total_reduced"),
-    col("healing_ability.type").alias("ability_type")
-).join(fights_df, on=["report_id", "pull_number"], how="inner")
-
-# Nested: healing.sources
-df_healing_sources = df_flat.select(
-    "report_id", "report_start_date", col("fight").alias("pull_number"),
-    col("name").alias("actor_name"),
-    explode_outer("healing.sources").alias("healing_source")
-).select(
-    "report_id", "report_start_date", "pull_number", "actor_name",
-    col("healing_source.name").alias("source_name"),
-    col("healing_source.total").alias("total"),
-    col("healing_source.totalReduced").alias("total_reduced"),
-    col("healing_source.type").alias("source_type")
-).join(fights_df, on=["report_id", "pull_number"], how="inner")
+def _extract_gear(df):
+    return df.where(col("entry.gear").isNotNull()).select(
+        "report_id", "pull_number", "report_date",
+        col("entry.name").alias("player_name"),
+        explode_outer("entry.gear").alias("gear")
+    ).select(
+        "report_id", "pull_number", "report_date", "player_name",
+        col("gear.id").alias("gear_id"),
+        col("gear.name").alias("gear_name"),
+        col("gear.itemLevel").alias("gear_item_level"),
+        col("gear.slot").alias("gear_slot"),
+        col("gear.icon").alias("gear_icon")
+    )
 
 # COMMAND ----------
 
-# DBTITLE 1,Transform
-# Lowercase string columns in all tables
-def lowercase_string_columns(df, exclude_cols=None):
+# DBTITLE 1,Transform and Export
+def _lowercase_string_columns(df, exclude_cols=None):
+    import re
     if exclude_cols is None:
         exclude_cols = []
 
-    string_cols = [f.name for f in df.schema.fields 
-                   if isinstance(f.dataType, StringType) and f.name not in exclude_cols]
+    for field in df.schema.fields:
+        col_name = field.name
+        if field.dataType.simpleString() == "string" and col_name not in exclude_cols:
+            # Convert CamelCase to snake_case
+            snake_case = re.sub(r'(?<!^)(?=[A-Z])', '_', col_name).lower()
+            df = df.withColumnRenamed(col_name, snake_case)
+            df = df.withColumn(snake_case, lower(col(snake_case)))
 
-    for col_name in string_cols:
-        df = df.withColumn(col_name, lower(col(col_name)))
-    
     return df
 
-exploded_tables = {
-    "df_summary": df_summary,
-    "df_abilities": df_abilities,
-    "df_damage_abilities": df_damage_abilities,
-    "df_events": df_events,
-    "df_gear": df_gear,
-    "df_pets": df_pets,
-    "df_talents": df_talents,
-    "df_targets": df_targets,
-    "df_damage_abilities_nested": df_damage_abilities_nested,
-    "df_damage_sources": df_damage_sources,
-    "df_healing_abilities": df_healing_abilities,
-    "df_healing_sources": df_healing_sources
+def clean_and_export(dfs, exclude_cols=None):
+    summary = dfs.get("df_player_summary")
+    print("✅ Summary schema:", summary.columns)
+    # Ensure player_name and player_class are explicitly selected if missing
+    expected_cols = ["player_name", "player_class"]
+    missing_cols = [col for col in expected_cols if col not in summary.columns]
+    if missing_cols:
+        summary = summary.withColumns({
+            "player_name": col("entry.name"),
+            "player_class": col("entry.type")
+        })
+    if "player_name" in summary.columns and "player_class" in summary.columns:
+        summary.select("player_name", "player_class").limit(1).show()
+    else:
+        print("❌ Required columns missing in summary. Available columns:", summary.columns)
+    
+    
+    summary = summary.where(col("player_class").isNotNull()).where(col("player_class") != "npc")
+    player_names = [row["player_name"] for row in summary.select("player_name").distinct().collect()]
+
+    for name, df in dfs.items():
+        if not hasattr(df, "schema"):
+            print(f"⚠️ Skipping {name}: not a DataFrame")
+            continue
+        df = _lowercase_string_columns(df, exclude_cols or None)
+        if "player_name" in df.columns and "damage_total" in df.columns:
+            df = df.where(col("player_name").isin(player_names))
+        table_suffix = name.removeprefix("df_") if name.startswith("df_") else name
+        df.write.mode("overwrite").saveAsTable(f"02_silver.staging.warcraftlogs_tables_{table_suffix}")
+
+summary_df = _extract_damage_summary(entry_df)
+print(f"✅ Extracted summary rows: {summary_df.count()}")
+summary_df.select("player_name", "damage_total", "player_class").show(10, truncate=False)
+
+output = {
+    "df_player_summary": summary_df,
+    "df_player_abilities": _extract_abilities(entry_df),
+    "df_player_targets": _extract_targets(entry_df),
+    "df_player_pets": _extract_pets(entry_df),
+    "df_player_gear": _extract_gear(entry_df),
+    "df_healing_summary": _extract_healing_summary(entry_df),
+    "df_deaths_summary": _extract_deaths_summary(entry_df),
 }
 
-for name in exploded_tables:
-    exploded_tables[name] = lowercase_string_columns(exploded_tables[name], exclude_cols)
-
-# Remove NPC's from summary
-exploded_tables["df_summary"] = exploded_tables["df_summary"].where(col("player_class") != "npc")
-
-# Drop redundant report_start_date columns
-for name in exploded_tables:
-    exploded_tables[name] = exploded_tables[name].drop("report_start_date")
-
-# COMMAND ----------
-
-# DBTITLE 1,Write to Staging Area
-for name, df in exploded_tables.items():
-    table_suffix = name.removeprefix("df_") 
-    df.write.mode("overwrite").saveAsTable(f"02_silver.staging.warcraftlogs_tables_{table_suffix}")
+clean_and_export(output, exclude_cols)

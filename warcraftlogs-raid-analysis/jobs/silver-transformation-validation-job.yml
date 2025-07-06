@@ -8,36 +8,36 @@ trigger:
 tasks:
   - task_key: actors_silver_transformation-task
     notebook_task:
-      notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver_transform_actors
+      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_actors
       source: WORKSPACE
   - task_key: actors_silver_validation-task
     depends_on:
       - task_key: actors_silver_transformation-task
     notebook_task:
-      notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver_validate_actors
+      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_actors
       source: WORKSPACE
   - task_key: events_silver_transformation-task
     notebook_task:
-      notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver_transform_events
+      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_events
       source: WORKSPACE
   - task_key: events_silver_validation-task
     depends_on:
       - task_key: events_silver_transformation-task
     notebook_task:
-      notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver_validate_events
+      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_events
       libraries:
         - pypi:
             package: databricks-labs-dqx==0.6.0
       source: WORKSPACE
   - task_key: fights_silver_transformation-task
     notebook_task:
-      notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver_transform_fights
+      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_fights
       source: WORKSPACE
   - task_key: fights_silver_validation-task
     depends_on:
       - task_key: fights_silver_transformation-task
     notebook_task:
-      notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver_validate_fights
+      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_fights
       libraries:
         - pypi:
             package: databricks-labs-dqx==0.6.0
@@ -46,7 +46,7 @@ tasks:
     depends_on:
       - task_key: fights_silver_validation-task
     notebook_task:
-      notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver_transform_tables
+      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_tables
       libraries:
         - pypi:
             package: databricks-labs-dqx==0.6.0
@@ -55,7 +55,7 @@ tasks:
     depends_on:
       - task_key: tables_silver_transformation-task
     notebook_task:
-      notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver_validate_tables
+      notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_tables
       libraries:
         - pypi:
             package: databricks-labs-dqx==0.6.0
