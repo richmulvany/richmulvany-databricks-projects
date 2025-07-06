@@ -22,8 +22,10 @@ jobs:
       - name: 💉 Inject job YAML into template
         working-directory: warcraftlogs-raid-analysis
         run: |
-          JOB_DEFINITION="$(sed 's/^/      /' jobs/bronze-ingestion-extraction-job.yml)"
-          export JOB_DEFINITION
+          BRONZE_JOB_DEFINITION="$(sed 's/^/      /' jobs/bronze-ingestion-extraction-job.yml)"
+          SILVER_JOB_DEFINITION="$(sed 's/^/      /' jobs/silver-transformation-validation-job.yml)"
+          export BRONZE_JOB_DEFINITION
+          export SILVER_JOB_DEFINITION
           envsubst < databricks.yml.template > databricks.yml
 
       - name: 🧹 Copy only deployable files to deploy-dir
