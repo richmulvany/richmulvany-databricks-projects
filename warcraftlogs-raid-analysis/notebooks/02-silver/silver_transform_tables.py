@@ -14,9 +14,6 @@ exclude_cols = ["report_id", "report_start_date", "report_date"]
 df = spark.read.table("01_bronze.warcraftlogs.tables")
 
 # COMMAND ----------
-display(df)
-
-# COMMAND ----------
 # DBTITLE 1,Extract Metadata from Filename
 def prepare_entries_df(df):
     df = df.withColumn("pull_number", expr("try_cast(regexp_extract(source_file, '_fight(\\d+)', 1) AS INT)"))
