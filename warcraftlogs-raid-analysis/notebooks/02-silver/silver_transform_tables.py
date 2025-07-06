@@ -6,24 +6,20 @@ import re
 from pyspark.sql import DataFrame
 
 # COMMAND ----------
-
 # DBTITLE 1,Configure Notebook / Assign Variables
 exclude_cols = ["report_id", "report_start_date", "report_date"]
 
 # COMMAND ----------
-
 # DBTITLE 1,Read Table
 df = spark.read.table("01_bronze.warcraftlogs.tables")
 
 # COMMAND ----------
-
 display(df)
 
 # COMMAND ----------
-
 # DBTITLE 1,Extract Metadata from Filename
 def prepare_entries_df(df):
-    df = df.withColumn("pull_number", expr("try_cast(regexp_extract(source_file, '_fight(\\\d+)', 1) AS INT)"))
+    df = df.withColumn("pull_number", expr("try_cast(regexp_extract(source_file, '_fight(\\d+)', 1) AS INT)"))
     df = df.withColumn("data_type", regexp_extract("source_file", "_table_([^_]+)", 1))
     df = df.withColumn("report_start_date", date_format(col("report_start_date"), "yyyy-MM-dd EE"))
 
@@ -38,7 +34,6 @@ def prepare_entries_df(df):
 entry_df = prepare_entries_df(df)
 
 # COMMAND ----------
-
 # DBTITLE 1,Establish Parsers
 def _extract_healing_summary(df):
     return df.where(col("data_type") == "Healing").select(
@@ -124,17 +119,14 @@ def _extract_gear(df):
     )
 
 # COMMAND ----------
-
 # DBTITLE 1,Transform and Export
 def _lowercase_string_columns(df, exclude_cols=None):
-    import re
     if exclude_cols is None:
         exclude_cols = []
 
     for field in df.schema.fields:
         col_name = field.name
         if field.dataType.simpleString() == "string" and col_name not in exclude_cols:
-            # Convert CamelCase to snake_case
             snake_case = re.sub(r'(?<!^)(?=[A-Z])', '_', col_name).lower()
             df = df.withColumnRenamed(col_name, snake_case)
             df = df.withColumn(snake_case, lower(col(snake_case)))
@@ -144,20 +136,20 @@ def _lowercase_string_columns(df, exclude_cols=None):
 def clean_and_export(dfs, exclude_cols=None):
     summary = dfs.get("df_player_summary")
     print("✅ Summary schema:", summary.columns)
-    # Ensure player_name and player_class are explicitly selected if missing
+
     expected_cols = ["player_name", "player_class"]
-    missing_cols = [col for col in expected_cols if col not in summary.columns]
+    missing_cols = [c for c in expected_cols if c not in summary.columns]
     if missing_cols:
         summary = summary.withColumns({
             "player_name": col("entry.name"),
             "player_class": col("entry.type")
         })
+
     if "player_name" in summary.columns and "player_class" in summary.columns:
         summary.select("player_name", "player_class").limit(1).show()
     else:
         print("❌ Required columns missing in summary. Available columns:", summary.columns)
-    
-    
+
     summary = summary.where(col("player_class").isNotNull()).where(col("player_class") != "npc")
     player_names = [row["player_name"] for row in summary.select("player_name").distinct().collect()]
 
@@ -166,7 +158,7 @@ def clean_and_export(dfs, exclude_cols=None):
             print(f"⚠️ Skipping {name}: not a DataFrame")
             continue
         df = _lowercase_string_columns(df, exclude_cols or None)
-        if "player_name" in df.columns and "damage_total" in df.columns:
+        if name != "df_player_summary" and "player_name" in df.columns and "damage_total" in df.columns:
             df = df.where(col("player_name").isin(player_names))
         table_suffix = name.removeprefix("df_") if name.startswith("df_") else name
         df.write.mode("overwrite").saveAsTable(f"02_silver.staging.warcraftlogs_tables_{table_suffix}")
