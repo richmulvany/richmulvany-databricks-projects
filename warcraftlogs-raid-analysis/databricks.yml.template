@@ -31,5 +31,5 @@ resources:
   jobs:
     bronze-ingestion-extraction-job:
 $BRONZE_JOB_DEFINITION
-    silver-transformation-validation-job:P
+    silver-transformation-validation-job:
 $SILVER_JOB_DEFINITION
