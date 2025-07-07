@@ -5,12 +5,13 @@ targets:
   default:
     workspace:
       host: https://dbc-4b3f5758-e807.cloud.databricks.com
-      root_path: /Workspace/warcraftlogs-raid-analysis
+      path: /Workspace/warcraftlogs-raid-analysis
 
 resources:
   jobs:
-    bronze-ingestion-extraction-job:
-      job_file: jobs/bronze-ingestion-extraction-job.yml
-    silver-transformation-validation-job:
-      job_file: jobs/silver-transformation-validation-job.yml
+    bronze-ingestion-extraction-job: &bronze_job
+      <<: *include jobs/bronze-ingestion-extraction-job.yml
+
+    silver-transformation-validation-job: &silver_job
+      <<: *include jobs/silver-transformation-validation-job.yml
       
