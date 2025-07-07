@@ -8,6 +8,4 @@ targets:
       root_path: /Workspace/warcraftlogs-raid-analysis
 
 resources:
-  jobs:
-    bronze-ingestion-extraction-job: (( include("jobs/bronze-ingestion-extraction-job.yml") ))
-    silver-transformation-validation-job: (( include("jobs/silver-transformation-validation-job.yml") ))
+  jobs: (( include("jobs/") ))
