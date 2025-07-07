@@ -45,7 +45,7 @@ jobs:
       - name: 🚀 Deploy and Run Asset Bundle
         working-directory: deploy-dir
         run: |
-          databricks bundle deploy
+          databricks bundle deploy --force-lock
           databricks bundle run bronze-ingestion-extraction-job --refresh-all -p report_id=${{ github.event.inputs.report_id }}
         env:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
