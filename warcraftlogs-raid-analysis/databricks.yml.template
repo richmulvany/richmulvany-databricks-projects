@@ -6,7 +6,7 @@ targets:
     mode: production
     default: true
     workspace:
-      host: ${DATABRICKS_HOST}
+      host: https://dbc-4b3f5758-e807.cloud.databricks.com
       root_path: /Workspace/warcraftlogs-raid-analysis
 
 resources:
