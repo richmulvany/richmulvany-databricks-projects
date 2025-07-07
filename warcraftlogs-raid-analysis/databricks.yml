@@ -16,23 +16,23 @@ resources:
         quartz_cron_expression: '0 15 22 ? * MON,WED *'
         timezone_id: 'Europe/London'
 
+      parameters:
+        - name: report_id
+          default: ""
+
       tasks:
         - task_key: bronze_ingestion-task
           for_each_task:
-            inputs: '["fights", "actors", "tables"]'
+            inputs: ["fights", "actors", "tables"]
             concurrency: 1
             task:
               task_key: bronze_ingestion_iteration
               notebook_task:
                 notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion
-                libraries:
-                  - pypi:
-                      package: requests_toolbelt
                 base_parameters:
-                  report_id: ""
+                  report_id: "{{report_id}}"
                   fight_id: ""
                   data_source: "{{input}}"
-                source: WORKSPACE
               min_retry_interval_millis: 900000
               disable_auto_optimization: true
       
@@ -42,24 +42,22 @@ resources:
           notebook_task:
             notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion
             base_parameters:
-                report_id: ""
-                fight_id: ""
-                data_source: "events"
-            source: WORKSPACE
-      
+              report_id: "{{report_id}}"
+              fight_id: ""
+              data_source: "events"
+
         - task_key: bronze_ingestion_logger-task
           depends_on:
             - task_key: bronze_ingestion_events-task
           notebook_task:
             notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion-logger
-            base_parameters:
-            source: WORKSPACE
-      
+            base_parameters: {}
+
         - task_key: bronze_extraction-task
           depends_on:
             - task_key: bronze_ingestion_events-task
           for_each_task:
-            inputs: '["fights", "actors", "events", "tables"]'
+            inputs: ["fights", "actors", "events", "tables"]
             concurrency: 1
             task:
               task_key: bronze_extraction_iteration
@@ -68,84 +66,83 @@ resources:
                 base_parameters:
                   fight_id: ""
                   data_source: "{{input}}"
-                source: WORKSPACE
-          
+      
         - task_key: bronze_extraction_logger-task
           depends_on:
             - task_key: bronze_extraction-task
           notebook_task:
             notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction-logger
-            base_parameters:
-          source: WORKSPACE
-      
+            base_parameters: {}
+
       queue:
         enabled: true
       performance_target: STANDARD
       
     silver-transformation-validation-job: 
       name: silver-transformation-validation-job
-        trigger:
-          pause_status: UNPAUSED
-          file_arrival:
-            url: /Volumes/01_bronze/warcraftlogs/raw_api_calls/
-            min_time_between_triggers_seconds: 86400
-            wait_after_last_change_seconds: 600
-        tasks:
-          - task_key: actors_silver_transformation-task
-            notebook_task:
-              notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_actors
-              source: WORKSPACE
-          - task_key: actors_silver_validation-task
-            depends_on:
-              - task_key: actors_silver_transformation-task
-            notebook_task:
-              notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_actors
-              source: WORKSPACE
-          - task_key: events_silver_transformation-task
-            notebook_task:
-              notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_events
-              source: WORKSPACE
-          - task_key: events_silver_validation-task
-            depends_on:
-              - task_key: events_silver_transformation-task
-            notebook_task:
-              notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_events
-              libraries:
-                - pypi:
-                    package: databricks-labs-dqx==0.6.0
-              source: WORKSPACE
-          - task_key: fights_silver_transformation-task
-            notebook_task:
-              notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_fights
-              source: WORKSPACE
-          - task_key: fights_silver_validation-task
-            depends_on:
-              - task_key: fights_silver_transformation-task
-            notebook_task:
-              notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_fights
-              libraries:
-                - pypi:
-                    package: databricks-labs-dqx==0.6.0
-              source: WORKSPACE
-          - task_key: tables_silver_transformation-task
-            depends_on:
-              - task_key: fights_silver_validation-task
-            notebook_task:
-              notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_tables
-              libraries:
-                - pypi:
-                    package: databricks-labs-dqx==0.6.0
-              source: WORKSPACE
-          - task_key: tables_silver_validation-task
-            depends_on:
-              - task_key: tables_silver_transformation-task
-            notebook_task:
-              notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_tables
-              libraries:
-                - pypi:
-                    package: databricks-labs-dqx==0.6.0
-              source: WORKSPACE
-        queue:
-          enabled: true
-        performance_target: STANDARD
-              
+
+      trigger:
+        pause_status: UNPAUSED
+        file_arrival:
+          url: /Volumes/01_bronze/warcraftlogs/raw_api_calls/
+          min_time_between_triggers_seconds: 86400
+          wait_after_last_change_seconds: 600
+
+      tasks:
+        - task_key: actors_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_actors
+
+        - task_key: actors_silver_validation-task
+          depends_on:
+            - task_key: actors_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_actors
+
+        - task_key: events_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_events
+
+        - task_key: events_silver_validation-task
+          depends_on:
+            - task_key: events_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_events
+            libraries:
+              - pypi:
+                  package: databricks-labs-dqx==0.6.0
+
+        - task_key: fights_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_fights
+
+        - task_key: fights_silver_validation-task
+          depends_on:
+            - task_key: fights_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_fights
+            libraries:
+              - pypi:
+                  package: databricks-labs-dqx==0.6.0
+
+        - task_key: tables_silver_transformation-task
+          depends_on:
+            - task_key: fights_silver_validation-task
+          notebook_task:
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_tables
+            libraries:
+              - pypi:
+                  package: databricks-labs-dqx==0.6.0
+
+        - task_key: tables_silver_validation-task
+          depends_on:
+            - task_key: tables_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_tables
+            libraries:
+              - pypi:
+                  package: databricks-labs-dqx==0.6.0
+
+      queue:
+        enabled: true
+      performance_target: STANDARD
