@@ -9,25 +9,9 @@ targets:
       host: ${DATABRICKS_HOST}
       root_path: /Workspace/warcraftlogs-raid-analysis
 
-    sync:
-      include:
-        - .databricks/**
-        - notebooks/**
-        - jobs/**
-        - dashboards/**
-        - utils/**
-        - workflows/**
-      exclude:
-        - databricks.yml
-        - files/**
-        - artifacts/**
-        - state/**
-        - .git/**
-        - .github/**
-        - __pycache__/**
-        - '*.pyc'
-
 resources:
   jobs:
-    <<: (( include("jobs/bronze-ingestion-extraction-job.yml") ))
-    <<: (( include("jobs/silver-transformation-validation-job.yml") ))
+    bronze-ingestion-extraction-job:
+      <<: (( include("jobs/bronze-ingestion-extraction-job.yml") ))
+    silver-transformation-validation-job:
+      <<: (( include("jobs/silver-transformation-validation-job.yml") ))
