@@ -1,6 +1,13 @@
 bundle:
   name: warcraftlogs-pipeline
 
+environments:
+  default:
+    workspace:
+      host: ${DATABRICKS_HOST}
+    auth:
+      type: token
+
 targets:
   default:
     mode: production
