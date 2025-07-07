@@ -29,7 +29,5 @@ targets:
 
 resources:
   jobs:
-    bronze-ingestion-extraction-job: |
-$BRONZE_JOB_DEFINITION
-    silver-transformation-validation-job: |
-$SILVER_JOB_DEFINITION
+    <<: (( include("jobs/bronze-ingestion-extraction-job.yml") ))
+    <<: (( include("jobs/silver-transformation-validation-job.yml") ))
