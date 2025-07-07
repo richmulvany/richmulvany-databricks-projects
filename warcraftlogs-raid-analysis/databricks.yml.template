@@ -1,19 +1,12 @@
 bundle:
   name: warcraftlogs-pipeline
 
-environments:
-  default:
-    workspace:
-      host: ${DATABRICKS_HOST}
-    auth:
-      type: token
-
 targets:
   default:
     mode: production
     default: true
     workspace:
-      host: https://dbc-4b3f5758-e807.cloud.databricks.com/
+      host: ${DATABRICKS_HOST}
       root_path: /Workspace/warcraftlogs-raid-analysis
 
     sync:
