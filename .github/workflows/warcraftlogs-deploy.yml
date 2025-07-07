@@ -31,6 +31,9 @@ jobs:
       - name: ✅ Validate DAB Bundle
         working-directory: deploy-dir
         run: databricks bundle validate
+        env:
+          DATABRICKS_CONFIG: >-
+            { "host": "https://dbc-4b3f5758-e807.cloud.databricks.com", "token": "${{ secrets.DATABRICKS_TOKEN }}" }
 
       - name: 🧪 Echo CLI invocation
         run: |
