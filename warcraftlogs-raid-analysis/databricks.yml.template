@@ -3,16 +3,11 @@ bundle:
 
 targets:
   default:
-    mode: production
-    default: true
     workspace:
       host: https://dbc-4b3f5758-e807.cloud.databricks.com
       root_path: /Workspace/warcraftlogs-raid-analysis
 
 resources:
   jobs:
-    bronze-ingestion-extraction-job:
-      job: (( include("jobs/bronze-ingestion-extraction-job.yml") ))
-
-    silver-transformation-validation-job:
-      job: (( include("jobs/silver-transformation-validation-job.yml") ))
+    bronze-ingestion-extraction-job: (( include("jobs/bronze-ingestion-extraction-job.yml") ))
+    silver-transformation-validation-job: (( include("jobs/silver-transformation-validation-job.yml") ))
