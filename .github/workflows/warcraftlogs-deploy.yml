@@ -46,3 +46,9 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
           DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST_ADDRESS }}
           DATABRICKS_BUNDLE_ENV: default
+
+      - name: 🧪 Echo CLI invocation
+        run: |
+          echo "Running with report_id=${{ github.event.inputs.report_id }}"
+          echo "Command: databricks bundle run bronze-ingestion-extraction-job --refresh-all -p report_id=${{ github.event.inputs.report_id }}"
+
