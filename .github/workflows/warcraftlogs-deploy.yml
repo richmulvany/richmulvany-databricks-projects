@@ -41,8 +41,7 @@ jobs:
         working-directory: deploy-dir
         run: |
           databricks bundle deploy
-          databricks bundle run bronze-ingestion-extraction-job --refresh-all
-            -p report_id=${{ github.event.inputs.report_id }}
+          databricks bundle run bronze-ingestion-extraction-job --refresh-all -p report_id=${{ github.event.inputs.report_id }}
         env:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
           DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST_ADDRESS }}
