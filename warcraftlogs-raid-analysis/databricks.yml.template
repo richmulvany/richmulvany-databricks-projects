@@ -11,5 +11,7 @@ targets:
 
 resources:
   jobs:
-    bronze-ingestion-extraction-job: (( include("jobs/bronze-ingestion-extraction-job.yml") ))
-    silver-transformation-validation-job: (( include("jobs/silver-transformation-validation-job.yml") ))
+    bronze-ingestion-extraction-job:
+      job_file: ./jobs/bronze-ingestion-extraction-job.yml
+    silver-transformation-validation-job:
+      job_file: ./jobs/silver-transformation-validation-job.yml
