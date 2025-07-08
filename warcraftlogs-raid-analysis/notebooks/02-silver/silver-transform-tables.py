@@ -6,14 +6,17 @@ import re
 from pyspark.sql import DataFrame
 
 # COMMAND ----------
+
 # DBTITLE 1,Configure Notebook / Assign Variables
 exclude_cols = ["report_id", "report_start_date", "report_date"]
 
 # COMMAND ----------
+
 # DBTITLE 1,Read Table
 df = spark.read.table("01_bronze.warcraftlogs.tables")
 
 # COMMAND ----------
+
 # DBTITLE 1,Extract Metadata from Filename
 def prepare_entries_df(df):
     df = df.withColumn("pull_number", expr("try_cast(regexp_extract(source_file, '_fight(\\d+)', 1) AS INT)"))
@@ -31,6 +34,7 @@ def prepare_entries_df(df):
 entry_df = prepare_entries_df(df)
 
 # COMMAND ----------
+
 # DBTITLE 1,Establish Parsers
 def _extract_healing_summary(df):
     return df.where(col("data_type") == "Healing").select(
@@ -116,6 +120,7 @@ def _extract_gear(df):
     )
 
 # COMMAND ----------
+
 # DBTITLE 1,Transform and Export
 def _lowercase_string_columns(df, exclude_cols=None):
     if exclude_cols is None:

@@ -3,7 +3,9 @@ name: bronze-ingestion-extraction-job
 schedule:
   quartz_cron_expression: '0 15 22 ? * MON,WED *'
   timezone_id: 'Europe/London'
-
+parameters:
+  - name: report_id
+    default: ""
 tasks:
   - task_key: bronze_ingestion-task
     for_each_task:
@@ -17,7 +19,7 @@ tasks:
             - pypi:
                 package: requests_toolbelt
           base_parameters:
-            report_id: ""
+            report_id: "{{report_id}}"
             fight_id: ""
             data_source: "{{input}}"
           source: WORKSPACE
@@ -30,7 +32,7 @@ tasks:
     notebook_task:
       notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion
       base_parameters:
-          report_id: ""
+          report_id: "{{report_id}}"
           fight_id: ""
           data_source: "events"
       source: WORKSPACE
