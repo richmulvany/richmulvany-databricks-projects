@@ -43,8 +43,11 @@ jobs:
       - name: 🚀 Deploy and Run Asset Bundle
         working-directory: deploy-dir
         env:
-          DATABRICKS_HOST: https://dbc-4b3f5758-e807.cloud.databricks.com
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          DATABRICKS_CONFIG: |
+            {
+              "host": "https://dbc-4b3f5758-e807.cloud.databricks.com",
+              "token": "${{ secrets.DATABRICKS_TOKEN }}"
+            }
         run: |
           databricks bundle deploy --force-lock
           databricks bundle run bronze-ingestion-extraction-job --refresh-all -p report_id=${{ github.event.inputs.report_id }}
