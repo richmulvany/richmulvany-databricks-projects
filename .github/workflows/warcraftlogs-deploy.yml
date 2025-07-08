@@ -54,4 +54,4 @@ jobs:
           databricks bundle deploy --force-lock
           databricks bundle run bronze-ingestion-extraction-job \
             --refresh-all \
-            -p report_id=${{ github.event.inputs.report_id }}
+            --params report_id=${{ github.event.inputs.report_id }}
