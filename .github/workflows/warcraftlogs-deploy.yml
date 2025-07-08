@@ -18,14 +18,23 @@ jobs:
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
     steps:
+  steps:
       - name: 📥 Checkout repo
         uses: actions/checkout@v3
 
       - name: 🛠️ Install Databricks CLI
         uses: databricks/setup-cli@main
-        with:
-          host: ${{ secrets.DATABRICKS_HOST }}
-          token: ${{ secrets.DATABRICKS_TOKEN }}
+
+      - name: ⚙️ Configure Databricks CLI
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          cat <<EOF > ~/.databrickscfg
+          [DEFAULT]
+          host = $DATABRICKS_HOST
+          token = $DATABRICKS_TOKEN
+          EOF
 
       - name: 🧹 Copy deployable files
         run: |
