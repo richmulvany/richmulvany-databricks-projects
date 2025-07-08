@@ -19,16 +19,6 @@ jobs:
       - name: 🛠️ Install Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: 🔐 Configure Databricks auth
-        run: |
-          mkdir -p ~/.databricks
-          echo "[DEFAULT]" > ~/.databricks/.databrickscfg
-          echo "host = https://dbc-4b3f5758-e807.cloud.databricks.com" >> ~/.databricks/.databrickscfg
-          echo "token = ${{ secrets.DATABRICKS_TOKEN }}" >> ~/.databricks/.databrickscfg
-        env:
-          DATABRICKS_HOST: https://dbc-4b3f5758-e807.cloud.databricks.com
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-
       - name: 🧹 Copy deployable files
         run: |
           mkdir deploy-dir
@@ -42,8 +32,11 @@ jobs:
         working-directory: deploy-dir
         run: databricks bundle validate
         env:
-          DATABRICKS_HOST: https://dbc-4b3f5758-e807.cloud.databricks.com
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          DATABRICKS_CONFIG: |
+            {
+              "host": "https://dbc-4b3f5758-e807.cloud.databricks.com",
+              "token": "${{ secrets.DATABRICKS_TOKEN }}"
+            }
 
       - name: 🧪 Echo CLI invocation
         run: |
@@ -56,5 +49,8 @@ jobs:
           databricks bundle deploy --force-lock
           databricks bundle run bronze-ingestion-extraction-job --refresh-all -p report_id=${{ github.event.inputs.report_id }}
         env:
-          DATABRICKS_HOST: https://dbc-4b3f5758-e807.cloud.databricks.com
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          DATABRICKS_CONFIG: |
+            {
+              "host": "https://dbc-4b3f5758-e807.cloud.databricks.com",
+              "token": "${{ secrets.DATABRICKS_TOKEN }}"
+            }
