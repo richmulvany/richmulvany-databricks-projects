@@ -90,45 +90,45 @@ resources:
       tasks:
         - task_key: actors_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_actors
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-transform-actors
 
         - task_key: actors_silver_validation-task
           depends_on:
             - task_key: actors_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_actors
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-actors
 
         - task_key: events_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_events
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-transform-events
 
         - task_key: events_silver_validation-task
           depends_on:
             - task_key: events_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_events
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-events
 
         - task_key: fights_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_fights
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-transform-fights
 
         - task_key: fights_silver_validation-task
           depends_on:
             - task_key: fights_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_fights
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-fights
 
         - task_key: tables_silver_transformation-task
           depends_on:
             - task_key: fights_silver_validation-task
           notebook_task:
-            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_transform_tables
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-transform-tables
 
         - task_key: tables_silver_validation-task
           depends_on:
             - task_key: tables_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver_validate_tables
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-tables
 
       queue:
         enabled: true
