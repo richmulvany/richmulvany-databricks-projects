@@ -3,6 +3,7 @@ bundle:
 
 targets:
   default:
+    auth_type: env 
     workspace:
       host: https://dbc-4b3f5758-e807.cloud.databricks.com
 
