@@ -11,6 +11,11 @@ on:
 jobs:
   deploy-and-run:
     runs-on: ubuntu-latest
+    environment: prod
+
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
     steps:
       - name: 📥 Checkout repo
@@ -18,36 +23,22 @@ jobs:
 
       - name: 🛠️ Install Databricks CLI
         uses: databricks/setup-cli@main
+        with:
+          host: ${{ secrets.DATABRICKS_HOST }}
+          token: ${{ secrets.DATABRICKS_TOKEN }}
 
       - name: 🧹 Copy deployable files
         run: |
           mkdir deploy-dir
-          cp warcraftlogs-raid-analysis/databricks.yml deploy-dir/
-          cp -r warcraftlogs-raid-analysis/jobs deploy-dir/
-          cp -r warcraftlogs-raid-analysis/notebooks deploy-dir/
-          cp -r warcraftlogs-raid-analysis/utils deploy-dir/
-          cp -r warcraftlogs-raid-analysis/dashboards deploy-dir/
-
+          … 
       - name: ✅ Validate DAB Bundle
         working-directory: deploy-dir
-        env:
-          DATABRICKS_HOST: https://dbc-4b3f5758-e807.cloud.databricks.com
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle validate
-
-      - name: 🧪 Echo CLI invocation
-        run: |
-          echo "Running with report_id=${{ github.event.inputs.report_id }}"
-          echo "Command: databricks bundle run bronze-ingestion-extraction-job --refresh-all -p report_id=${{ github.event.inputs.report_id }}"
 
       - name: 🚀 Deploy and Run Asset Bundle
         working-directory: deploy-dir
-        env:
-          DATABRICKS_CONFIG: |
-            {
-              "host": "https://dbc-4b3f5758-e807.cloud.databricks.com",
-              "token": "${{ secrets.DATABRICKS_TOKEN }}"
-            }
         run: |
           databricks bundle deploy --force-lock
-          databricks bundle run bronze-ingestion-extraction-job --refresh-all -p report_id=${{ github.event.inputs.report_id }}
+          databricks bundle run bronze-ingestion-extraction-job \
+            --refresh-all \
+            -p report_id=${{ github.event.inputs.report_id }}
