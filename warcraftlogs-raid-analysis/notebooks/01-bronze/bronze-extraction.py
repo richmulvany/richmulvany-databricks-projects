@@ -91,7 +91,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
 
     # Write to Delta
     table_name = f"01_bronze.warcraftlogs.{data_source}"
-    final_df.write.mode("append").format("delta").saveAsTable(table_name)
+    final_df.write.mode("append").format("delta").option("mergeSchema", True).saveAsTable(table_name)
     print(f"✅ Extracted and saved: {data_source} → {table_name}")
 
     return final_df
