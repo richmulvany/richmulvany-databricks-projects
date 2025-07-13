@@ -1,4 +1,4 @@
-# warcraftlogs_streamlit_app.py
+# deaths.py
 import streamlit as st
 import pandas as pd
 import requests
