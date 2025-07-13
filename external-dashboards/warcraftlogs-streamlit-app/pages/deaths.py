@@ -6,7 +6,7 @@ import altair as alt
 from io import StringIO
 
 # --- GitHub raw base URL ---
-REPO_URL = "https://github.com/richmulvany/richmulvany-databricks-projects/tree/main/data-exports/"
+REPO_URL = "https://raw.githubusercontent.com/richmulvany/richmulvany-databricks-projects/main/data-exports"
 
 # --- Helper to load CSVs directly from GitHub ---
 def load_csv(file_name: str) -> pd.DataFrame:
@@ -25,8 +25,12 @@ st.logo(
 
 st.markdown(f"""
 <div style="display: flex; align-items: center;">
-    <img src={logo_path} width="64" style="border-radius: 100%; border: 2px solid #FFFFFF; margin-right: 12px;">
-    <h1 style="margin: 0;">sc warcraftlogs</h1>
+    <a href="/" style="text-decoration: none;">
+        <img src="{logo_path}" width="64" style="border-radius: 100%; border: 2px solid #FFFFFF; margin-right: 12px;">
+    </a>
+    <a href="/" style="text-decoration: none; color: inherit;">
+        <h1 style="margin: 0;">sc warcraftlogs</h1>
+    </a>
 </div>
 """, unsafe_allow_html=True)
 
