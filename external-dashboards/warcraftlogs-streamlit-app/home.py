@@ -24,5 +24,3 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 st.header("death statistics")
-
-page = st.sidebar.radio("data type:",["deaths", "damage", "healing"])
