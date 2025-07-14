@@ -1,8 +1,7 @@
 bundle:
-  name: warcraftlogs-pipeline
+  name: warcraftlogs-raid-analysis
 
 targets:
-  default:
     workspace:
       host: https://dbc-4b3f5758-e807.cloud.databricks.com
 
