@@ -83,4 +83,4 @@ triggering_deaths = triggering_deaths.select(
 output_table = "03_gold.warcraftlogs.player_inting"
 triggering_deaths.write.mode("overwrite").saveAsTable(output_table)
 
-print(f"✅ Player DPS table written to {output_table}")
+print(f"✅ Player inting table written to {output_table}")
