@@ -64,6 +64,9 @@ with st.spinner("Loading data..."):
     # Player class map
     class_map = first_deaths[["player_name", "player_class"]].drop_duplicates()
 
+    # Player disastrous deaths
+    disastrous_deaths = load_csv("player_inting.csv")
+
 # --- Aggregate first-death counts ---
 first_death_counts = (
     first_deaths.groupby(["player_name", "boss_name"])
@@ -138,6 +141,62 @@ bar_chart = (
         width="container",
         height=400,
         title=f"first death % per player on {selected_boss}"
+    )
+)
+
+st.altair_chart(bar_chart, use_container_width=True)
+
+# --- Aggregate disastrous-death counts ---
+disastrous_death_counts = (
+    disastrous_deaths.groupby(["player_name", "boss_name"])
+    .size()
+    .reset_index(name="disastrous_death_count")
+)
+
+# --- Merge everything ---
+df = (
+    disastrous_death_counts
+    .merge(pulls, on=["player_name", "boss_name"], how="left")
+    .merge(class_map, on="player_name", how="left")
+)
+
+# --- Compute percentage ---
+df["disastrous_death_perc"] = round(100 * df["disastrous_death_count"] / df["boss_pulls"], 2)
+df = df.dropna(subset=["disastrous_death_perc"])  # Remove missing pull data
+
+# --- Filter boss ---
+chart_data = df[df["boss_name"] == selected_boss].sort_values("disastrous_death_perc", ascending=False)
+
+st.subheader(f"disastrous deaths on {selected_boss}")
+st.dataframe(
+    chart_data[["player_name", "player_class", "disastrous_death_count", "boss_pulls", "disastrous_death_perc"]],
+    hide_index=True,
+)
+
+# Build chart
+bar_chart = (
+    alt.Chart(chart_data)
+    .mark_bar()
+    .encode(
+        x=alt.X("player_name:N",
+                sort=chart_data["player_name"].tolist(),
+                title=""),
+        y=alt.Y("disastrous_death_perc:Q", title="% of pulls with disastrous death"),
+        color=alt.Color("player_class:N", title="class",
+                        scale=alt.Scale(domain=list(CLASS_COLOURS.keys()),
+                                        range=list(CLASS_COLOURS.values()))).legend(None),
+        tooltip=[
+            alt.Tooltip("player_name", title="player"),
+            alt.Tooltip("player_class", title="class"),
+            alt.Tooltip("disastrous_death_count", title="disastrous deaths"),
+            alt.Tooltip("boss_pulls", title="pulls"),
+            alt.Tooltip("disastrous_death_perc", title="death %"),
+        ],
+    )
+    .properties(
+        width="container",
+        height=400,
+        title=f"disastrous death % per player on {selected_boss}"
     )
 )
 
