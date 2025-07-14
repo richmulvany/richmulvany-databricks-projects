@@ -6,7 +6,7 @@ on:
       report_id:
         description: "Optional: report_id to pass to job"
         required: false
-        default: "rVnDB4fcb9qZAPLv"
+        default: ""
 
 jobs:
   deploy-and-run:
