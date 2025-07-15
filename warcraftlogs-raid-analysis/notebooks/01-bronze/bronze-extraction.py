@@ -14,10 +14,12 @@ except Exception as e:
     print(f"⚠️ Could not retrieve 'report_id' from dbutils.variables: {e}")
     dbutils.notebook.exit("Exiting: report_id not available via dbutils.variables.")
 
+report_id = "TDN4yGgpzt7B1vk8"
+
 dbutils.widgets.text("fight_id", "")
 fight_id = dbutils.widgets.get("fight_id") or None
 
-dbutils.widgets.dropdown("data_source", "fights", ["fights", "events", "actors", "tables", "game_data", "world_data", "guild_roster", "player_details"])
+dbutils.widgets.dropdown("data_source", "fights", ["fights", "events", "actors", "tables", "attendance", "game_data", "world_data", "guild_roster", "player_details"])
 data_source = dbutils.widgets.get("data_source")
 
 raw_json_path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/{data_source}/*.json"
@@ -96,6 +98,16 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
             "source_file", "report_start"
         )
 
+    elif data_source == "attendance":
+        extracted = raw_json_df.selectExpr(
+            "attendance.players AS records",
+            "attendance.zone.name AS raid_name",
+            "source_file", "report_start"
+        )
+        exploded_df = extracted \
+            .withColumn("record", explode(col("records"))) \
+            .select("record.*", "raid_name", "source_file", "report_start")
+
     elif data_source == "game_data":
         exploded_df = raw_json_df.selectExpr(
             "gameData.abilities.data   AS abilities",
@@ -138,8 +150,13 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         .withColumn("report_id", regexp_extract(col("source_file"), report_id_expr, 1))
 
     # Write to Delta
+    append = ["fights", "events", "actors", "tables", "attendance", "player_details"]
+    overwrite = ["game_data", "world_data", "guild_roster"]
     table_name = f"01_bronze.warcraftlogs.{data_source}"
-    final_df.write.mode("append").format("delta").option("mergeSchema", True).saveAsTable(table_name)
+    if data_source in append:
+        final_df.write.mode("append").format("delta").option("mergeSchema", True).saveAsTable(table_name)
+    elif data_source in overwrite:
+        final_df.write.mode("overwrite").format("delta").option("mergeSchema", True).saveAsTable(table_name)
 
     print(f"✅ Extracted and saved: {data_source} → {table_name}")
     return final_df

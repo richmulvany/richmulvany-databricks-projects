@@ -1,42 +1,83 @@
 # Databricks notebook source
 # DBTITLE 1,Import Dependencies
+from pyspark.sql.types import StringType
 from pyspark.sql.functions import col, expr, split, lower, lit, when, size, date_format
+import re
 
 # COMMAND ----------
 
-# DBTITLE 1,Configure Notebook / Assign Variables
-lower_columns = ["icon", "name", "type"]
-useful_columns = ["icon","id", "name", "type", "report_start_date", "report_id"]
+# DBTITLE 1,Read Tables
+actors_raw = spark.table("01_bronze.warcraftlogs.actors")
+pd_raw = spark.table("01_bronze.warcraftlogs.player_details")
 
 # COMMAND ----------
 
-# DBTITLE 1,Read Table
-df = spark.read.table("01_bronze.warcraftlogs.actors")
+# DBTITLE 1,Define Functions
+def camel_to_snake(name):
+    # normal transitions (e.g. GameID → Game_ID)
+    name = re.sub(r'(.)([A-Z][a-z]+)', r'\1_\2', name) 
+    # handle acronyms at end (e.g. GameID → Game_ID)
+    name = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', name)       
+    return name.lower()
+
+# Create a UDF from the camel_to_snake function
+camel_to_snake_udf = udf(camel_to_snake, StringType())
 
 # COMMAND ----------
 
 # DBTITLE 1,Transform
-df = df.select(useful_columns)
+# Flatten player_details: one row per combatant with their role & spec slug
+player_details = (
+    pd_raw
+    .select(
+        col("id").alias("actor_id"),
+        col("specs"),    # spec slug
+        col("role")         # tank/healer/melee/ranged
+    )
+    .dropDuplicates(["actor_id"])
+)
 
-for column in lower_columns:
-  df = df.withColumn(column, lower(col(column)))
+# Filter to players, join row & specName
+players = (
+    actors_raw
+    .filter(col("type") == "Player")
+    .join(player_details, actors_raw.id == player_details.actor_id, how="left")
+)
 
-player_df = df.where((col("type") == "player") & (col("icon") != "unknown"))
+# Parse class & spec from `icon` (e.g. "warrior-fury")
+df = (
+    players
+    .withColumn("icon", lower(col("icon")))
+    .withColumn("cls_spec", split(col("icon"), "-"))
+    .withColumn("player_class", col("cls_spec")[0])
+    .withColumn("player_spec", when(size(col("cls_spec")) > 1, col("cls_spec")[1]).otherwise("multiple"))
+    .drop("cls_spec", "icon", "type", "gameID", "subType", "petOwner", "actor_id")
+    .withColumnRenamed("id", "player_id")
+    .withColumnRenamed("name", "player_name")
+    .withColumn("player_name", lower(col("player_name")))
+    .withColumnRenamed("server", "player_server")
+    .withColumn("player_server", camel_to_snake_udf(col("player_server")))
+    .withColumnRenamed("report_start", "report_date")
+    .withColumn("report_date", date_format(col("report_date"), "yyyy-MM-dd E"))
+    .withColumnRenamed("role", "player_role")
+    .select(
+        "player_id",
+        "player_name",
+        "player_server",
+        "player_class",
+        "player_spec",
+        "player_role",
+        "report_date",
+        "report_id",
+        "bronze_ingestion_time"
+    )
+)
 
-player_df = player_df.drop("type")
+# COMMAND ----------
 
-player_df = player_df.withColumn("class_spec", split(col("icon"), "-")) \
-        .withColumn("player_class", col("class_spec")[0]) \
-        .withColumn("player_spec", when(size(col("class_spec")) > 1, col("class_spec")[1]).otherwise("multiple")) \
-        .drop("class_spec","icon")
-
-player_df = player_df.withColumnRenamed("id", "player_id") \
-        .withColumnRenamed("report_start_date", "report_date") \
-        .withColumnRenamed("name", "player_name")
-
-player_df = player_df.withColumn("report_date", date_format(col("report_date"), "yyyy-MM-dd EE"))
+df.show()
 
 # COMMAND ----------
 
 # DBTITLE 1,Write to Staging Area
-player_df.write.mode("overwrite").saveAsTable("02_silver.staging.warcraftlogs_actors_players")
+df.write.mode("overwrite").saveAsTable("02_silver.staging.warcraftlogs_actors_players")
