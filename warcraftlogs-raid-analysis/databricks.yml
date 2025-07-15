@@ -23,7 +23,7 @@ resources:
                 base_parameters:
                   report_id: "{{report_id}}"
                   fight_id: ""
-                  data_source: "{{item}}"
+                  data_source: "{{input}}"
                 source: WORKSPACE
               min_retry_interval_millis: 900000
               disable_auto_optimization: true
@@ -58,7 +58,7 @@ resources:
                 notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/01-bronze/bronze-extraction
                 base_parameters:
                   fight_id: ""
-                  data_source: "{{item}}"
+                  data_source: "{{input}}"
                 source: WORKSPACE
 
         - task_key: bronze_extraction_logger-task
