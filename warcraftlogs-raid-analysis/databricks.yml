@@ -123,5 +123,6 @@ resources:
             notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-tables
 
 targets:
-  dev:
+  default:
     default: true
+    workspace_root: /Workspace/Projects/WarcraftLogs
