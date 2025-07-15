@@ -1,6 +1,12 @@
 bundle:
   name: warcraftlogs-raid-analysis
 
+workspace:
+  root_path: /Workspace/${bundle.name}/${bundle.target}
+  file_path: ${workspace.root}/files
+  artifact_path: ${workspace.root}/artifacts
+  state_path: ${workspace.root}/state
+
 resources:
   jobs:
     bronze-ingestion-extraction-job:
