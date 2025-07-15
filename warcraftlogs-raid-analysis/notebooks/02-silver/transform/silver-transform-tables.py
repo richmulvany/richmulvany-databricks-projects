@@ -8,7 +8,7 @@ from pyspark.sql import DataFrame
 # COMMAND ----------
 
 # DBTITLE 1,Configure Notebook / Assign Variables
-exclude_cols = ["report_id", "report_start_date", "report_date"]
+exclude_cols = ["report_id", "report_start", "report_date"]
 
 # COMMAND ----------
 
@@ -17,16 +17,20 @@ df = spark.read.table("01_bronze.warcraftlogs.tables")
 
 # COMMAND ----------
 
+display(df)
+
+# COMMAND ----------
+
 # DBTITLE 1,Extract Metadata from Filename
 def prepare_entries_df(df):
     df = df.withColumn("pull_number", expr("try_cast(regexp_extract(source_file, '_fight(\\d+)', 1) AS INT)"))
     df = df.withColumn("data_type", regexp_extract("source_file", "_table_([^_]+)", 1))
-    df = df.withColumn("report_start_date", date_format(col("report_start_date"), "yyyy-MM-dd EE"))
+    df = df.withColumn("report_start", date_format(col("report_start"), "yyyy-MM-dd EE"))
 
     return df.select(
         "report_id",
         "pull_number",
-        col("report_start_date").alias("report_date"),
+        col("report_start").alias("report_date"),
         "data_type",
         explode_outer("table_json.data.entries").alias("entry")
     ).where(col("entry").isNotNull())
@@ -118,6 +122,14 @@ def _extract_gear(df):
         col("gear.slot").alias("gear_slot"),
         col("gear.icon").alias("gear_icon")
     )
+
+# COMMAND ----------
+
+display(entry_df.select("data_type").distinct())
+
+# COMMAND ----------
+
+display(entry_df)
 
 # COMMAND ----------
 

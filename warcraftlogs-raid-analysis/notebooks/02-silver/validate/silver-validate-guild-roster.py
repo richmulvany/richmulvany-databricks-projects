@@ -17,7 +17,7 @@ from databricks.sdk import WorkspaceClient
 # COMMAND ----------
 
 # DBTITLE 1,Read Table
-df = spark.read.table("02_silver.staging.warcraftlogs_actors_players")
+df = spark.read.table("02_silver.staging.warcraftlogs_guild_roster")
 
 # COMMAND ----------
 
@@ -40,10 +40,10 @@ checks = [
 engine = DQEngine(spark)
 valid_df, quarantine_df = engine.apply_checks_by_metadata_and_split(df, checks)
 
-valid_df.write.mode("overwrite").saveAsTable("02_silver.warcraftlogs.actors_players")
-quarantine_df.write.mode("overwrite").saveAsTable("02_silver.dq_monitoring.warcraftlogs_quarantine_actors_players")
+valid_df.write.mode("overwrite").saveAsTable("02_silver.warcraftlogs.d_guild_roster")
+quarantine_df.write.mode("overwrite").saveAsTable("02_silver.dq_monitoring.warcraftlogs_quarantine_guild_roster")
 
 # COMMAND ----------
 
 # DBTITLE 1,Clean Staging Area
-spark.sql("DROP TABLE IF EXISTS 02_silver.staging.warcraftlogs_actors_players")
+spark.sql("DROP TABLE IF EXISTS 02_silver.staging.warcraftlogs_guild_roster")

@@ -26,8 +26,8 @@ widgets.text("report_id", "")
 widgets.dropdown(
     "data_source", "fights",
     [
-        "fights", "actors", "events", "tables", "attendance",
-        "game_data", "world_data", "guild_roster", "player_details"
+        "fights", "actors", "events", "tables", "player_details",
+        "game_data", "world_data", "guild_roster"
     ]
 )
  
@@ -144,72 +144,6 @@ def save_json(subfolder: str, filename: str, payload: dict):
             f,
         )
     print(f"✅ {subfolder}: {path}")
-
-def fetch_attendance(limit: int = 25, zone_id: int = None):
-    page = 1
-    found = False
-    while True:
-        # Query one page of guild attendance
-        q = '''query(
-            $name: String!,
-            $slug: String!,
-            $region: String!,
-            $limit: Int!,
-            $page: Int!,
-            $zoneID: Int
-        ) {
-          guildData {
-            guild(
-              name: $name,
-              serverSlug: $slug,
-              serverRegion: $region
-            ) {
-              attendance(
-                limit: $limit,
-                page: $page,
-                zoneID: $zoneID
-              ) {
-                data {
-                  code
-                  startTime
-                  zone { id name }
-                  players { name type presence }
-                }
-                has_more_pages
-              }
-            }
-          }
-        }'''
-        vars = {
-            "name":   GUILD_NAME,
-            "slug":   GUILD_SERVER_SLUG,
-            "region": GUILD_SERVER_REGION,
-            "limit":  limit,
-            "page":   page,
-            "zoneID": zone_id
-        }
-        result = gql_query(q, vars)
-        attn_page = result["guildData"]["guild"]["attendance"]
-        
-        # Filter this page for report_id
-        matches = [r for r in attn_page["data"] if r["code"] == report_id]
-        if matches:
-            save_json(
-                "attendance",
-                f"{report_id}_attendance_{datetime.utcnow():%Y%m%dT%H%M%S}.json",
-                {"attendance": matches[0]}
-            )
-            found = True
-            break
-        
-        # If no more pages, stop
-        if not attn_page["has_more_pages"]:
-            break
-        
-        page += 1
-    
-    if not found:
-        print(f"⚠️ No attendance record found for report {report_id}")
 
 def fetch_fights():
     q = """query($code: String!) { reportData { report(code: $code) {
@@ -354,7 +288,7 @@ def fetch_guild_roster(limit: int = 100):
 
 
 def fetch_player_details():
-    # Step 1: Get all fight IDs for the report
+    # Get all fight IDs for the report
     fights_q = """query($code:String!){
       reportData {
         report(code:$code) {
@@ -365,7 +299,7 @@ def fetch_player_details():
     fights_data = gql_query(fights_q, {"code": report_id})
     fight_ids = [f["id"] for f in fights_data["reportData"]["report"]["fights"]]
 
-    # Step 2: Fetch playerDetails using those fight IDs
+    # Fetch playerDetails using those fight IDs
     pd_q = """query($code:String!,$fids:[Int!]!) {
       reportData {
         report(code:$code) {
@@ -391,8 +325,6 @@ elif data_source == "events":
     fetch_events()
 elif data_source == "tables":
     fetch_tables()
-elif data_source == "attendance":
-    fetch_attendance()
 elif data_source == "game_data":
     fetch_game_data()
 elif data_source == "world_data":

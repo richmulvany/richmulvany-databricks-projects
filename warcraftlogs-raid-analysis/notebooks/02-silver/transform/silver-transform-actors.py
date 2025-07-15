@@ -44,6 +44,9 @@ players = (
     .join(player_details, actors_raw.id == player_details.actor_id, how="left")
 )
 
+# Drop null for server - avoids udf errors
+players = players.filter(col("server").isNotNull())
+
 # Parse class & spec from `icon` (e.g. "warrior-fury")
 df = (
     players
@@ -72,10 +75,6 @@ df = (
         "bronze_ingestion_time"
     )
 )
-
-# COMMAND ----------
-
-df.show()
 
 # COMMAND ----------
 
