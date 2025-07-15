@@ -102,7 +102,6 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
             "gameData.classes          AS classes",
             "gameData.items.data       AS items",
             "gameData.zones.data       AS zones",
-            "gameData.encounters.data  AS encounters",
             "source_file", "report_start"
         )
 
