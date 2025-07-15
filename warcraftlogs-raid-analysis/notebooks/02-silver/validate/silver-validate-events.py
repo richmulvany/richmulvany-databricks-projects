@@ -50,7 +50,7 @@ for name, df in tables.items():
     valid_df, quarantine_df = engine.apply_checks_by_metadata_and_split(df, checks)
 
     # Save
-    valid_df.write.mode("overwrite").option("mergeSchema", "true").saveAsTable(f"02_silver.warcraftlogs.events_{name}")
+    valid_df.write.mode("overwrite").option("mergeSchema", "true").saveAsTable(f"02_silver.warcraftlogs.f_events_{name}")
     quarantine_df.write.mode("overwrite").option("mergeSchema", "true").saveAsTable(f"02_silver.dq_monitoring.warcraftlogs_quarantine_events_{name}")
 
     # Clean staging area

@@ -43,7 +43,7 @@ resources:
           depends_on:
             - task_key: bronze_ingestion_events-task
           notebook_task:
-            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/01-bronze/bronze-ingestion-logger
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion-logger
             source: WORKSPACE
 
         - task_key: bronze_extraction-task
@@ -65,8 +65,15 @@ resources:
           depends_on:
             - task_key: bronze_extraction-task
           notebook_task:
-            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/01-bronze/bronze-extraction-logger
-            source: WORKSPACE
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction-logger
+          source: WORKSPACE
+      
+      queue:
+        enabled: true
+      performance_target: STANDARD
+      
+    silver-transformation-validation-job: 
+      name: silver-transformation-validation-job
 
     silver-transformation-validation-job:
       name: silver-transformation-validation-job

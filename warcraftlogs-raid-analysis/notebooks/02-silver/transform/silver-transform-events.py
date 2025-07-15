@@ -26,7 +26,7 @@ def camel_to_snake(name):
 df = df.toDF(*[camel_to_snake(column_name) for column_name in df.columns])
 
 df = df.withColumnRenamed("fight", "pull_number") \
-  .withColumnRenamed("report_start_date", "report_date")
+  .withColumnRenamed("report_start", "report_date")
 
 df = df.withColumn("report_date", date_format(col("report_date"), "yyyy-MM-dd EE"))
 

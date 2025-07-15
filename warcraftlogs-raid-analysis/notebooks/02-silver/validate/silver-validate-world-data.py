@@ -1,5 +1,5 @@
 # Databricks notebook source
-# DBTITLE 1,Install Lobraries
+# DBTITLE 1,Install Libraries
 # MAGIC %pip install databricks-labs-dqx==0.6.0
 # MAGIC dbutils.library.restartPython()
 
@@ -15,13 +15,8 @@ from databricks.sdk import WorkspaceClient
 
 # DBTITLE 1,Read Tables
 tables = {
-    "tables_player_summary": spark.read.table("02_silver.staging.warcraftlogs_tables_player_summary"),
-    "tables_player_abilities": spark.read.table("02_silver.staging.warcraftlogs_tables_player_abilities"),
-    "tables_player_targets": spark.read.table("02_silver.staging.warcraftlogs_tables_player_targets"),
-    "tables_player_pets": spark.read.table("02_silver.staging.warcraftlogs_tables_player_pets"),
-    "tables_player_gear": spark.read.table("02_silver.staging.warcraftlogs_tables_player_gear"),
-    "tables_healing_summary": spark.read.table("02_silver.staging.warcraftlogs_tables_healing_summary"),
-    "tables_deaths_summary": spark.read.table("02_silver.staging.warcraftlogs_tables_deaths_summary")
+    "world_data_expansions": spark.read.table("02_silver.staging.warcraftlogs_world_data_expansions"),
+    "world_data_zones": spark.read.table("02_silver.staging.warcraftlogs_world_data_zones")
 }
 
 # COMMAND ----------
@@ -53,7 +48,7 @@ for name, df in tables.items():
     valid_df, quarantine_df = engine.apply_checks_by_metadata_and_split(df, checks)
 
     # Save
-    valid_df.write.mode("overwrite").saveAsTable(f"02_silver.warcraftlogs.{name}")
+    valid_df.write.mode("overwrite").saveAsTable(f"02_silver.warcraftlogs.d_{name}")
     quarantine_df.write.mode("overwrite").saveAsTable(f"02_silver.dq_monitoring.warcraftlogs_quarantine_{name}")
 
     # Clean staging area
