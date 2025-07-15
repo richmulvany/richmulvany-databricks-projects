@@ -14,7 +14,7 @@ resources:
       tasks:
         - task_key: bronze_ingestion-task
           for_each_task:
-            inputs: '["fights", "actors", "tables", "attendance", "game_data", "world_data", "guild_roster", "player_details"]'
+            inputs: '["fights", "actors", "tables", "game_data", "world_data", "guild_roster", "player_details"]'
             concurrency: 7
             task:
               task_key: bronze_ingestion_iteration
@@ -50,8 +50,8 @@ resources:
           depends_on:
             - task_key: bronze_ingestion_events-task
           for_each_task:
-            inputs: '["fights", "actors", "tables", "attendance", "game_data", "world_data", "guild_roster", "player_details", "events"]'
-            concurrency: 8
+            inputs: '["fights", "actors", "tables", "game_data", "world_data", "guild_roster", "player_details", "events"]'
+            concurrency: 7
             task:
               task_key: bronze_extraction_iteration
               notebook_task:
@@ -86,45 +86,85 @@ resources:
       tasks:
         - task_key: actors_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/silver-transform-actors
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/transform/silver-transform-actors
 
         - task_key: actors_silver_validation-task
           depends_on:
             - task_key: actors_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/silver-validate-actors
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/validate/silver-validate-actors
 
         - task_key: events_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/silver-transform-events
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/transform/silver-transform-events
 
         - task_key: events_silver_validation-task
           depends_on:
             - task_key: events_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/silver-validate-events
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/validate/silver-validate-events
 
         - task_key: fights_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/silver-transform-fights
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/transform/silver-transform-fights
 
         - task_key: fights_silver_validation-task
           depends_on:
             - task_key: fights_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/silver-validate-fights
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/validate/silver-validate-fights
 
         - task_key: tables_silver_transformation-task
           depends_on:
             - task_key: fights_silver_validation-task
           notebook_task:
-            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/silver-transform-tables
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/transform/silver-transform-tables
 
         - task_key: tables_silver_validation-task
           depends_on:
             - task_key: tables_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/silver-validate-tables
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/validate/silver-validate-tables
+
+        - task_key: game_data_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/transform/silver-transform-game-data
+
+        - task_key: game_data_silver_validation-task
+          depends_on:
+            - task_key: game_data_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/validate/silver-validate-game-data
+
+        - task_key: world_data_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/transform/silver-transform-world-data
+
+        - task_key: world_data_silver_validation-task
+          depends_on:
+            - task_key: world_data_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/validate/silver-validate-world-data    
+
+        - task_key: player_details_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/transform/silver-transform-player-details
+
+        - task_key: player_details_silver_validation-task
+          depends_on:
+            - task_key: player_details_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/validate/silver-validate-player-details
+
+        - task_key: guild_roster_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/transform/silver-transform-guild-roster
+
+        - task_key: guild_roster_silver_validation-task
+          depends_on:
+            - task_key: guild_roster_silver_transformation-task
+          notebook_task:
+            notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/02-silver/validate/silver-validate-guild-roster         
 
 targets:
   default:
