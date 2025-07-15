@@ -2,6 +2,15 @@ bundle:
   name: warcraftlogs-raid-analysis
 
 resources:
+
+  workspace:
+    - source: notebooks
+      target: /Workspace/projects/warcraftlogs-raid-analysis/notebooks
+    - source: utils
+      target: /Workspace/projects/warcraftlogs-raid-analysis/utils
+    - source: dashboards
+      target: /Workspace/projects/warcraftlogs-raid-analysis/dashboards
+
   jobs:
     bronze-ingestion-extraction-job:
       name: bronze-ingestion-extraction-job
@@ -18,24 +27,24 @@ resources:
             concurrency: 7
             task:
               task_key: bronze_ingestion_iteration
+              libraries:
+                - pypi:
+                    package: requests_toolbelt
               notebook_task:
-                notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion
-                libraries:
-                  - pypi:
-                      package: requests_toolbelt
+                notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-ingestion
                 base_parameters:
                   report_id: "$${report_id}"
                   fight_id: ""
                   data_source: "$${item}"
                 source: WORKSPACE
-            min_retry_interval_millis: 900000
-            disable_auto_optimization: true
+              min_retry_interval_millis: 900000
+              disable_auto_optimization: true
 
         - task_key: bronze_ingestion_events-task
           depends_on:
             - task_key: bronze_ingestion-task
           notebook_task:
-            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion
+            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-ingestion
             base_parameters:
               report_id: "$${report_id}"
               fight_id: ""
@@ -46,7 +55,7 @@ resources:
           depends_on:
             - task_key: bronze_ingestion_events-task
           notebook_task:
-            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion-logger
+            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-ingestion-logger
             source: WORKSPACE
 
         - task_key: bronze_extraction-task
@@ -58,7 +67,7 @@ resources:
             task:
               task_key: bronze_extraction_iteration
               notebook_task:
-                notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction
+                notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-extraction
                 base_parameters:
                   fight_id: ""
                   data_source: "$${item}"
@@ -68,7 +77,7 @@ resources:
           depends_on:
             - task_key: bronze_extraction-task
           notebook_task:
-            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction-logger
+            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-extraction-logger
             source: WORKSPACE
 
     silver-transformation-validation-job:
@@ -82,47 +91,46 @@ resources:
       tasks:
         - task_key: actors_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-transform-actors
+            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver-transform-actors
 
         - task_key: actors_silver_validation-task
           depends_on:
             - task_key: actors_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-actors
+            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver-validate-actors
 
         - task_key: events_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-transform-events
+            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver-transform-events
 
         - task_key: events_silver_validation-task
           depends_on:
             - task_key: events_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-events
+            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver-validate-events
 
         - task_key: fights_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-transform-fights
+            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver-transform-fights
 
         - task_key: fights_silver_validation-task
           depends_on:
             - task_key: fights_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-fights
+            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver-validate-fights
 
         - task_key: tables_silver_transformation-task
           depends_on:
             - task_key: fights_silver_validation-task
           notebook_task:
-            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-transform-tables
+            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver-transform-tables
 
         - task_key: tables_silver_validation-task
           depends_on:
             - task_key: tables_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-tables
+            notebook_path: /Workspace/projects/warcraftlogs-raid-analysis/notebooks/02-silver/silver-validate-tables
 
 targets:
   default:
     default: true
-    workspace_root: /Workspace/projects
