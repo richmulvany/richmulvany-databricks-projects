@@ -1,5 +1,5 @@
 bundle:
-  name: warcraftlogs-raid-analysis   
+  name: warcraftlogs-raid-analysis
 
 resources:
   jobs:
@@ -14,72 +14,59 @@ resources:
       tasks:
         - task_key: bronze_ingestion-task
           for_each_task:
-            inputs:
-              - fights
-              - actors
-              - tables
-              - game_data
-              - world_data
-              - guild_roster
-              - player_details
+            inputs: '["fights","actors","tables","game_data","world_data","guild_roster","player_details"]'
             concurrency: 7
-          task:
-            notebook_task:
-              notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion
-              libraries:
-                - pypi:
-                    package: requests_toolbelt
-              base_parameters:
-                report_id: "${report_id}"
-                fight_id: ""
-                data_source: "${item}"
-              source: WORKSPACE
+            task:
+              task_key: bronze_ingestion_iteration
+              notebook_task:
+                notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion
+                libraries:
+                  - pypi:
+                      package: requests_toolbelt
+                base_parameters:
+                  report_id: "$${report_id}"
+                  fight_id: ""
+                  data_source: "$${item}"
+                source: WORKSPACE
             min_retry_interval_millis: 900000
             disable_auto_optimization: true
 
         - task_key: bronze_ingestion_events-task
           depends_on:
-            - bronze_ingestion-task
+            - task_key: bronze_ingestion-task
           notebook_task:
             notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion
             base_parameters:
-              report_id: "${report_id}"
+              report_id: "$${report_id}"
               fight_id: ""
               data_source: "events"
             source: WORKSPACE
 
         - task_key: bronze_ingestion_logger-task
           depends_on:
-            - bronze_ingestion_events-task
+            - task_key: bronze_ingestion_events-task
           notebook_task:
             notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion-logger
             source: WORKSPACE
 
         - task_key: bronze_extraction-task
           depends_on:
-            - bronze_ingestion_events-task
+            - task_key: bronze_ingestion_events-task
           for_each_task:
-            inputs:
-              - fights
-              - actors
-              - tables
-              - game_data
-              - world_data
-              - guild_roster
-              - player_details
-              - events
+            inputs: '["fights","actors","tables","game_data","world_data","guild_roster","player_details","events"]'
             concurrency: 8
-          task:
-            notebook_task:
-              notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction
-              base_parameters:
-                fight_id: ""
-                data_source: "${item}"
-              source: WORKSPACE
+            task:
+              task_key: bronze_extraction_iteration
+              notebook_task:
+                notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction
+                base_parameters:
+                  fight_id: ""
+                  data_source: "$${item}"
+                source: WORKSPACE
 
         - task_key: bronze_extraction_logger-task
           depends_on:
-            - bronze_extraction-task
+            - task_key: bronze_extraction-task
           notebook_task:
             notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction-logger
             source: WORKSPACE
@@ -99,7 +86,7 @@ resources:
 
         - task_key: actors_silver_validation-task
           depends_on:
-            - actors_silver_transformation-task
+            - task_key: actors_silver_transformation-task
           notebook_task:
             notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-actors
 
@@ -109,7 +96,7 @@ resources:
 
         - task_key: events_silver_validation-task
           depends_on:
-            - events_silver_transformation-task
+            - task_key: events_silver_transformation-task
           notebook_task:
             notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-events
 
@@ -119,22 +106,22 @@ resources:
 
         - task_key: fights_silver_validation-task
           depends_on:
-            - fights_silver_transformation-task
+            - task_key: fights_silver_transformation-task
           notebook_task:
             notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-fights
 
         - task_key: tables_silver_transformation-task
           depends_on:
-            - fights_silver_validation-task
+            - task_key: fights_silver_validation-task
           notebook_task:
             notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-transform-tables
 
         - task_key: tables_silver_validation-task
           depends_on:
-            - tables_silver_transformation-task
+            - task_key: tables_silver_transformation-task
           notebook_task:
             notebook_path: /Workspace/.bundle/warcraftlogs-raid-analysis/files/notebooks/02-silver/silver-validate-tables
 
 targets:
   dev:
-    default: true                  # <— picks up your ~/.databrickscfg “DEFAULT” profile  [oai_citation:1‡docs.databricks.com](https://docs.databricks.com/aws/en/dev-tools/bundles/settings)
+    default: true
