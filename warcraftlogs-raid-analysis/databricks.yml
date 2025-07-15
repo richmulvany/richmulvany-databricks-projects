@@ -21,9 +21,9 @@ resources:
               notebook_task:
                 notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/01-bronze/bronze-ingestion
                 base_parameters:
-                  report_id: "$${report_id}"
+                  report_id: "{{report_id}}"
                   fight_id: ""
-                  data_source: "$${item}"
+                  data_source: "{{item}}"
                 source: WORKSPACE
               min_retry_interval_millis: 900000
               disable_auto_optimization: true
@@ -34,7 +34,7 @@ resources:
           notebook_task:
             notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/01-bronze/bronze-ingestion
             base_parameters:
-              report_id: "$${report_id}"
+              report_id: "{{report_id}}"
               fight_id: ""
               data_source: "events"
             source: WORKSPACE
@@ -58,7 +58,7 @@ resources:
                 notebook_path: /Workspace/Users/ricard.mulvany@gmail.com/.bundle/warcraftlogs-raid-analysis/default/files/notebooks/01-bronze/bronze-extraction
                 base_parameters:
                   fight_id: ""
-                  data_source: "$${item}"
+                  data_source: "{{item}}"
                 source: WORKSPACE
 
         - task_key: bronze_extraction_logger-task
