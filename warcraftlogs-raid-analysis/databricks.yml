@@ -20,7 +20,7 @@ resources:
       tasks:
         - task_key: bronze_ingestion-task
           for_each_task:
-            inputs: '["fights", "actors", "tables", "game_data", "world_data", "guild_roster", "player_details"]'
+            inputs: '["fights", "actors", "tables", "attendance", "game_data", "world_data", "guild_roster", "player_details"]'
             concurrency: 7
             task:
               task_key: bronze_ingestion_iteration
@@ -53,14 +53,13 @@ resources:
             - task_key: bronze_ingestion_events-task
           notebook_task:
             notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-ingestion-logger
-            base_parameters:
             source: WORKSPACE
       
         - task_key: bronze_extraction-task
           depends_on:
             - task_key: bronze_ingestion_events-task
           for_each_task:
-            inputs: '["fights", "actors", "tables", "game_data", "world_data", "guild_roster", "player_details", "events"]'
+            inputs: '["fights", "actors", "tables", "attendance", "game_data", "world_data", "guild_roster", "player_details", "events"]'
             concurrency: 8
             task:
               task_key: bronze_extraction_iteration
@@ -76,7 +75,6 @@ resources:
             - task_key: bronze_extraction-task
           notebook_task:
             notebook_path: /Workspace/warcraftlogs-raid-analysis/files/notebooks/01-bronze/bronze-extraction-logger
-            base_parameters:
           source: WORKSPACE
       
       queue:
