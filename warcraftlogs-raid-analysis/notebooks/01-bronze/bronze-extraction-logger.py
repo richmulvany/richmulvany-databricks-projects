@@ -18,5 +18,7 @@ except Exception as e:
 log_df = spark.createDataFrame([(report_id,)], ["report_id"]) \
     .withColumn("extracted_at", current_timestamp())
  
-log_df.write.mode("append").saveAsTable("01_bronze.logs.warcraftlogs_extraction_log")
+log_df.write.mode("append") \
+    .option("mergeSchema", "true") \
+    .saveAsTable("01_bronze.logs.warcraftlogs_extraction_log")
 print(f"📌 Logged report {report_id} as extracted.")

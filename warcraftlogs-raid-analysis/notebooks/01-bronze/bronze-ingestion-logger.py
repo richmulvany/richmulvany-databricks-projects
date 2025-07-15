@@ -17,6 +17,9 @@ except Exception as e:
 # DBTITLE 1,Log Ingestion
 log_df = spark.createDataFrame([(report_id,)], ["report_id"]) \
     .withColumn("ingested_at", current_timestamp())
- 
-log_df.write.mode("append").saveAsTable("01_bronze.logs.warcraftlogs_ingestion_log")
+
+log_df.write.mode("append") \
+    .option("mergeSchema", "true") \
+    .saveAsTable("01_bronze.logs.warcraftlogs_ingestion_log")
+
 print(f"📌 Logged report {report_id} as ingested.")
