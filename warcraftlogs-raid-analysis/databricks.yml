@@ -125,4 +125,4 @@ resources:
 targets:
   default:
     default: true
-    workspace_root: /Workspace/Projects/WarcraftLogs
+    workspace_root: /Workspace/Projects
