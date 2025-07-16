@@ -204,7 +204,7 @@ def fetch_tables():
     )["reportData"]["report"]["fights"]
     for fight in fights:
         fid = fight["id"]
-        for dt in ["Summary", "Survivability", "Debuffs", "Dispels"]:
+        for dt in ["Summary", "Survivability", "DamageDone", "Dispels", "Healing", "Buffs", "Casts"]:
             q = f"""query {{ reportData {{ report(code: "{report_id}") {{ table(dataType: {dt}, fightIDs: [{fid}]) }} }} }}"""
             res = gql_query(q)
             fname = f"{report_id}_fight{fid}_table_{dt}_{datetime.utcnow():%Y%m%dT%H%M%S}.json"

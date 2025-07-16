@@ -15,10 +15,15 @@ from databricks.sdk import WorkspaceClient
 
 # DBTITLE 1,Read Tables
 tables = {
+    "all": spark.read.table("02_silver.staging.warcraftlogs_events_all"),
     "casts": spark.read.table("02_silver.staging.warcraftlogs_events_casts"),
-    "deaths": spark.read.table("02_silver.staging.warcraftlogs_events_deaths"),
-    "buffs": spark.read.table("02_silver.staging.warcraftlogs_events_buffs"),
-    "debuffs": spark.read.table("02_silver.staging.warcraftlogs_events_debuffs"),
+    "aura": spark.read.table("02_silver.staging.warcraftlogs_events_aura"),
+    "combatant": spark.read.table("02_silver.staging.warcraftlogs_events_combatant"),
+    "damage": spark.read.table("02_silver.staging.warcraftlogs_events_damage"),
+    "dispel": spark.read.table("02_silver.staging.warcraftlogs_events_dispel"),
+    "heal": spark.read.table("02_silver.staging.warcraftlogs_events_heal"),
+    "lifecycle": spark.read.table("02_silver.staging.warcraftlogs_events_lifecycle"),
+    "resource": spark.read.table("02_silver.staging.warcraftlogs_events_resource")
 }
 
 # COMMAND ----------
@@ -55,3 +60,5 @@ for name, df in tables.items():
 
     # Clean staging area
     spark.sql(f"""DROP TABLE IF EXISTS 02_silver.staging.warcraftlogs_events_{name}""")    
+    print(f"Validation complete for {name}.")
+print(f"✅ All tables validated.")
