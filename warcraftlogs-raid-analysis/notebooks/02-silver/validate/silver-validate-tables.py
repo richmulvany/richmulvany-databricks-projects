@@ -56,8 +56,8 @@ for name, df in tables.items():
     valid_df, quarantine_df = engine.apply_checks_by_metadata_and_split(df, checks)
 
     # Save
-    valid_df.write.mode("append").saveAsTable(f"02_silver.warcraftlogs.f_{name}")
-    quarantine_df.write.mode("append").saveAsTable(f"02_silver.dq_monitoring.warcraftlogs_quarantine_{name}")
+    valid_df.write.mode("overwrite").saveAsTable(f"02_silver.warcraftlogs.f_{name}")
+    quarantine_df.write.mode("overwrite").saveAsTable(f"02_silver.dq_monitoring.warcraftlogs_quarantine_{name}")
 
     # Clean staging area
     spark.sql(f"""DROP TABLE IF EXISTS 02_silver.staging.warcraftlogs_tables_{name}""")
