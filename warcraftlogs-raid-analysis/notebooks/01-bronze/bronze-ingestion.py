@@ -338,17 +338,6 @@ else:
 
 # COMMAND ----------
 
-# DBTITLE 1,Log Ingestion
-if data_source == "events":
-    log_df = spark.createDataFrame(
-        [(report_id, meta["start_iso"], data_source, datetime.utcnow().astimezone(timezone.utc).isoformat())],
-        schema=["report_id", "report_start", "source", "ingest_timestamp"]
-    )
-    log_df.write.mode("append").saveAsTable(INGEST_LOG_TABLE, overwrite=False)
- 
-
-# COMMAND ----------
-
 # DBTITLE 1,Propogate Report ID for Downstream
 if data_source == "events":
     dbutils.jobs.taskValues.set(key="report_id", value=report_id)
