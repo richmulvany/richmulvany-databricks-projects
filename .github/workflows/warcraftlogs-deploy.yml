@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       report_ids:
-        description: 'JSON array of report IDs, e.g. ["rptA","rptB"]'
+        description: 'JSON array of report IDs'
         required: false
         default: '[]'
 
@@ -16,6 +16,7 @@ jobs:
   deploy-bundle:
     name: "📦 Deploy Asset Bundle"
     runs-on: ubuntu-latest
+
     steps:
       - name: "📥 Checkout repo"
         uses: actions/checkout@v3
@@ -54,6 +55,7 @@ jobs:
     name: "🔁 Run Bronze Ingestion for each report_id"
     needs: deploy-bundle
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         report_id: ${{ fromJson(github.event.inputs.report_ids) }}
@@ -76,7 +78,7 @@ jobs:
           EOF
 
       - name: "🚀 Run Bronze Ingestion for ${{ matrix.report_id }}"
-        working-directory: deploy-dir
+        working-directory: warcraftlogs-raid-analysis
         run: |
           databricks bundle run bronze-ingestion-extraction-job \
             --refresh-all \
