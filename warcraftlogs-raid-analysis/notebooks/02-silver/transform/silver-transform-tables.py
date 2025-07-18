@@ -1,7 +1,3 @@
-Here’s your silver‐transform‐tables notebook with just two fixes:
-	1.	Import udf so camel_to_snake_udf works
-	2.	Drop the stray ) after the casts_df.filter(...)
-
 # Databricks notebook source
 # DBTITLE 1,Import Dependencies
 from pyspark.sql.functions import (
