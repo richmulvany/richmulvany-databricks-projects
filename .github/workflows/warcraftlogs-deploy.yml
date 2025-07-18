@@ -52,7 +52,7 @@ jobs:
         run: databricks bundle deploy --force-lock
 
   run-bronze:
-    name: "🔁 Run Bronze for report_id"
+    name: "🔁 Run Bronze"
     needs: deploy-bundle
     runs-on: ubuntu-latest
 
