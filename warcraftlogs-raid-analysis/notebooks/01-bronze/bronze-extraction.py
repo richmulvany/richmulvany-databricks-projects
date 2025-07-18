@@ -142,6 +142,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         .withColumn("report_id", regexp_extract(col("source_file"), report_id_expr, 1))
 
     # Write to Delta
+    spark.conf.set("spark.databricks.delta.schema.autoMerge.enabled", "true")
     append = ["fights", "events", "actors", "tables", "player_details"]
     overwrite = ["game_data", "world_data", "guild_roster"]
     table_name = f"01_bronze.warcraftlogs.{data_source}"
