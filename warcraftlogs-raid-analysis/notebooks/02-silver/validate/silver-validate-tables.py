@@ -60,6 +60,6 @@ for name, df in tables.items():
     quarantine_df.write.mode("append").saveAsTable(f"02_silver.dq_monitoring.warcraftlogs_quarantine_{name}")
 
     # Clean staging area
-    spark.sql(f"""DROP TABLE IF EXISTS 02_silver.staging.warcraftlogs_{name}""")
+    spark.sql(f"""DROP TABLE IF EXISTS 02_silver.staging.warcraftlogs_tables_{name}""")
     print(f"Validation complete for {name}.")
 print(f"✅ All tables validated.")
