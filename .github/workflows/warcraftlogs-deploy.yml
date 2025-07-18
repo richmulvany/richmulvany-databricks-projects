@@ -48,34 +48,39 @@ jobs:
         run: databricks bundle deploy --force-lock
 
   run-bronze:
-    name: 🔁 Run Bronze Ingestion for each report_id
-    needs: deploy-bundle
-    runs-on: ubuntu-latest
+  name: 🔁 Run Bronze Ingestion for each report_id
+  needs: deploy-bundle
+  runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        report_id: ${{ fromJson(github.event.inputs.report_ids) }}
-      # set to 1 to force sequential; remove or bump for parallel
-      max-parallel: 5
+  strategy:
+    matrix:
+      report_id: ${{ fromJson(github.event.inputs.report_ids) }}
+    max-parallel: 1
 
-    steps:
-      - name: 📥 Checkout repo
-        uses: actions/checkout@v3
+  steps:
+    - name: 📥 Checkout repo
+      uses: actions/checkout@v3
 
-      - name: 🛠️ Install Databricks CLI
-        uses: databricks/setup-cli@main
+    - name: 🛠️ Install Databricks CLI
+      uses: databricks/setup-cli@main
 
-      - name: ⚙️ Configure Databricks CLI
-        run: |
-          cat <<EOF > ~/.databrickscfg
-          [DEFAULT]
-          host = $DATABRICKS_HOST
-          token = $DATABRICKS_TOKEN
-          EOF
+    - name: ⚙️ Configure Databricks CLI
+      run: |
+        cat <<EOF > ~/.databrickscfg
+        [DEFAULT]
+        host = $DATABRICKS_HOST
+        token = $DATABRICKS_TOKEN
+        EOF
 
-      - name: 🚀 Run Bronze Ingestion for ${{ matrix.report_id }}
-        working-directory: deploy-dir
-        run: |
-          databricks bundle run bronze-ingestion-extraction-job \
-            --refresh-all \
-            --params report_id=${{ matrix.report_id }}
+    - name: 🧹 Copy deployable files
+      run: |
+        mkdir deploy-dir
+        cp warcraftlogs-raid-analysis/databricks.yml    deploy-dir/
+        cp -r warcraftlogs-raid-analysis/{jobs,notebooks,utils,dashboards} deploy-dir/
+
+    - name: 🚀 Run Bronze Ingestion for ${{ matrix.report_id }}
+      working-directory: deploy-dir
+      run: |
+        databricks bundle run bronze-ingestion-extraction-job \
+          --refresh-all \
+          --params report_id=${{ matrix.report_id }}
