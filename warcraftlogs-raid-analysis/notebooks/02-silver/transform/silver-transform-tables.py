@@ -248,6 +248,34 @@ casts_df = casts_df \
     .filter(
         col("player_class").isin(classes)
     )
+)
+
+per_pull_totals = (
+    healing_pulls_df
+      .groupBy(
+          "report_id",
+          "report_date",
+          "pull_number",
+          "player_name",
+          "player_id",
+          "player_guid",
+          "player_class",
+          "player_spec"
+      )
+      .agg(
+          sum("healing_done").alias("healing_done_total")
+      )
+      .orderBy(
+          "report_id",
+          "pull_number",
+          "player_name"
+      )
+)
+
+# COMMAND ----------
+
+display(healing_pulls_df.where(col("pull_number") == 2))
+display(per_pull_totals)
 
 # --- Healing ---
 healing_df = healing_df.filter(
