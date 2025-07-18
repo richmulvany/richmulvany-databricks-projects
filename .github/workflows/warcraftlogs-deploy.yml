@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       report_ids:
-        description: 'JSON array of report IDs'
+        description: 'JSON array of report IDs, e.g. ["rptA","rptB"]'
         required: false
         default: '[]'
 
@@ -13,74 +13,71 @@ env:
   DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
 jobs:
-
   deploy-bundle:
-    name: 📦 Deploy Asset Bundle
+    name: "📦 Deploy Asset Bundle"
     runs-on: ubuntu-latest
-
     steps:
-      - name: 📥 Checkout repo
+      - name: "📥 Checkout repo"
         uses: actions/checkout@v3
 
-      - name: 🛠️ Install Databricks CLI
+      - name: "🛠️ Install Databricks CLI"
         uses: databricks/setup-cli@main
 
-      - name: ⚙️ Configure Databricks CLI
+      - name: "⚙️ Configure Databricks CLI"
         run: |
+          mkdir -p ~/.databricks
           cat <<EOF > ~/.databrickscfg
           [DEFAULT]
           host = $DATABRICKS_HOST
           token = $DATABRICKS_TOKEN
           EOF
 
-      - name: 🧹 Copy deployable files
+      - name: "🧹 Copy deployable files"
         run: |
           mkdir deploy-dir
-          cp warcraftlogs-raid-analysis/databricks.yml    deploy-dir/
-          cp -r warcraftlogs-raid-analysis/{jobs,notebooks,utils,dashboards} deploy-dir/
+          cp warcraftlogs-raid-analysis/databricks.yml deploy-dir/
+          cp -r warcraftlogs-raid-analysis/jobs \
+                warcraftlogs-raid-analysis/notebooks \
+                warcraftlogs-raid-analysis/utils \
+                warcraftlogs-raid-analysis/dashboards \
+                deploy-dir/
 
-      - name: ✅ Validate DAB Bundle
+      - name: "✅ Validate DAB Bundle"
         working-directory: deploy-dir
         run: databricks bundle validate
 
-      - name: 🚀 Deploy Asset Bundle
+      - name: "🚀 Deploy Asset Bundle"
         working-directory: deploy-dir
         run: databricks bundle deploy --force-lock
 
   run-bronze:
-  name: 🔁 Run Bronze Ingestion for each report_id
-  needs: deploy-bundle
-  runs-on: ubuntu-latest
+    name: "🔁 Run Bronze Ingestion for each report_id"
+    needs: deploy-bundle
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        report_id: ${{ fromJson(github.event.inputs.report_ids) }}
+      max-parallel: 1
 
-  strategy:
-    matrix:
-      report_id: ${{ fromJson(github.event.inputs.report_ids) }}
-    max-parallel: 1
+    steps:
+      - name: "📥 Checkout repo"
+        uses: actions/checkout@v3
 
-  steps:
-    - name: 📥 Checkout repo
-      uses: actions/checkout@v3
+      - name: "🛠️ Install Databricks CLI"
+        uses: databricks/setup-cli@main
 
-    - name: 🛠️ Install Databricks CLI
-      uses: databricks/setup-cli@main
+      - name: "⚙️ Configure Databricks CLI"
+        run: |
+          mkdir -p ~/.databricks
+          cat <<EOF > ~/.databrickscfg
+          [DEFAULT]
+          host = $DATABRICKS_HOST
+          token = $DATABRICKS_TOKEN
+          EOF
 
-    - name: ⚙️ Configure Databricks CLI
-      run: |
-        cat <<EOF > ~/.databrickscfg
-        [DEFAULT]
-        host = $DATABRICKS_HOST
-        token = $DATABRICKS_TOKEN
-        EOF
-
-    - name: 🧹 Copy deployable files
-      run: |
-        mkdir deploy-dir
-        cp warcraftlogs-raid-analysis/databricks.yml    deploy-dir/
-        cp -r warcraftlogs-raid-analysis/{jobs,notebooks,utils,dashboards} deploy-dir/
-
-    - name: 🚀 Run Bronze Ingestion for ${{ matrix.report_id }}
-      working-directory: deploy-dir
-      run: |
-        databricks bundle run bronze-ingestion-extraction-job \
-          --refresh-all \
-          --params report_id=${{ matrix.report_id }}
+      - name: "🚀 Run Bronze Ingestion for ${{ matrix.report_id }}"
+        working-directory: deploy-dir
+        run: |
+          databricks bundle run bronze-ingestion-extraction-job \
+            --refresh-all \
+            --params report_id=${{ matrix.report_id }}
