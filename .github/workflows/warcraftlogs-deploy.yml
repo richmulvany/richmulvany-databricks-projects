@@ -57,7 +57,7 @@ jobs:
     strategy:
       matrix:
         report_id: ${{ fromJson(github.event.inputs.report_ids) }}
-      max-parallel: 1
+      max-parallel: 5
 
     steps:
       - name: "📥 Checkout repo"
