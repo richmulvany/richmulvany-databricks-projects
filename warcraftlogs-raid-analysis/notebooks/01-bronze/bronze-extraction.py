@@ -27,19 +27,24 @@ dbutils.widgets.dropdown(
 )
 data_source = dbutils.widgets.get("data_source")
 
-# Path to raw JSON
+# Path to raw JSON files
 raw_json_path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/{data_source}/*.json"
 
 # COMMAND ----------
 # DBTITLE 1,Define Extract & Load
+
 def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
     """
     Extracts WarcraftLogs raw JSON into Delta format based on data_source,
     enforcing a stable schema for the 'tables' data_source to avoid merge conflicts.
     """
+    # --------------------------------------------------
+    # 1) Read raw JSON with explicit schema for tables
+    # --------------------------------------------------
     if data_source == "tables":
-        # Define nested schema for `table.data`
+        # Build nested schema for `reportData.report.table.data`
         data_fields = [
+            # Auras
             StructField("auras", ArrayType(
                 StructType([
                     StructField("name", StringType(), True),
@@ -56,6 +61,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
                     ), True)
                 ])
             ), True),
+            # Generic entries (DamageDone, Casts, Healing, Dispels)
             StructField("entries", ArrayType(
                 StructType([
                     StructField("name", StringType(), True),
@@ -82,6 +88,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
                     ), True)
                 ])
             ), True),
+            # Composition
             StructField("composition", ArrayType(
                 StructType([
                     StructField("name", StringType(), True),
@@ -96,6 +103,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
                     ), True)
                 ])
             ), True),
+            # Summary fields
             StructField("healingDone", ArrayType(
                 StructType([
                     StructField("name", StringType(), True),
@@ -148,16 +156,11 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
             StructField("endTime", LongType(), True),
             StructField("logVersion", IntegerType(), True),
             StructField("gameVersion", IntegerType(), True),
-            StructField("logFileDetails", StringType(), True),
-            StructField("playerDetails", StructType([
-                StructField("healers", ArrayType(StringType()), True),
-                StructField("tanks", ArrayType(StringType()), True),
-                StructField("dps", ArrayType(StringType()), True)
-            ]), True)
+            StructField("logFileDetails", StringType(), True)
         ]
         table_struct = StructType([StructField("data", StructType(data_fields), True)])
 
-        # Full schema including ingestion metadata
+        # Full schema: metadata + table
         full_schema = StructType([
             StructField("__metadata__", StructType([
                 StructField("report_id", StringType(), True),
@@ -173,7 +176,6 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
             ]), True)
         ])
 
-        # Read with explicit schema and includeMetadata
         raw_json_df = (
             spark.read
                 .schema(full_schema)
@@ -184,7 +186,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
                 .withColumn("report_start", col("__metadata__.report_start"))
         )
     else:
-        # Generic reader for other data_sources
+        # Generic reader for other sources
         raw_json_df = (
             spark.read
                 .option("multiline", True)
@@ -194,11 +196,112 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
                 .withColumn("report_start", col("__metadata__.report_start"))
         )
 
-    # ... rest of extraction logic unchanged (explode branches, write out)
+    # --------------------------------------------------
+    # 2) Explode & select per data_source
+    # --------------------------------------------------
+    if data_source == "player_details":
+        pd_struct = raw_json_df.selectExpr(
+            "reportData.report.playerDetails.data.playerDetails AS pd",
+            "source_file", "report_start"
+        )
+        tanks_df = pd_struct.selectExpr("pd.tanks AS recs", "source_file", "report_start") \
+            .withColumn("record", explode(col("recs"))) \
+            .select(col("record.*"), lit("tank").alias("role"), "source_file", "report_start")
+        healers_df = pd_struct.selectExpr("pd.healers AS recs", "source_file", "report_start") \
+            .withColumn("record", explode(col("recs"))) \
+            .select(col("record.*"), lit("healer").alias("role"), "source_file", "report_start")
+        dps_df = pd_struct.selectExpr("pd.dps AS recs", "source_file", "report_start") \
+            .withColumn("record", explode(col("recs"))) \
+            .select(col("record.*"), lit("dps").alias("role"), "source_file", "report_start")
+        exploded_df = tanks_df.unionByName(healers_df).unionByName(dps_df)
 
-    # Simplified: delegate to original processing for brevity
-    # [Insert your existing branching & write logic here]
+    elif data_source == "events":
+        extracted = raw_json_df.selectExpr(
+            "reportData.report.events.data AS records",
+            "source_file", "report_start"
+        )
+        exploded_df = extracted \
+            .withColumn("record", explode(col("records"))) \
+            .select("record.*", "source_file", "report_start")
 
+    elif data_source == "fights":
+        extracted = raw_json_df.selectExpr(
+            "reportData.report.fights AS records",
+            "source_file", "report_start"
+        )
+        exploded_df = extracted \
+            .withColumn("record", explode(col("records"))) \
+            .select("record.*", "source_file", "report_start")
+
+    elif data_source == "actors":
+        extracted = raw_json_df.selectExpr(
+            "reportData.report.masterData.actors AS records",
+            "source_file", "report_start"
+        )
+        exploded_df = extracted \
+            .withColumn("record", explode(col("records"))) \
+            .select("record.*", "source_file", "report_start")
+
+    elif data_source == "tables":
+        exploded_df = raw_json_df.selectExpr(
+            "reportData.report.table AS table_json",
+            "source_file", "report_start"
+        )
+
+    elif data_source == "game_data":
+        exploded_df = raw_json_df.selectExpr(
+            "gameData.abilities.data   AS abilities",
+            "gameData.classes          AS classes",
+            "gameData.items.data       AS items",
+            "gameData.zones.data       AS zones",
+            "source_file", "report_start"
+        )
+
+    elif data_source == "world_data":
+        extracted = raw_json_df.selectExpr(
+            "worldData.expansions   AS expansions",
+            "worldData.regions      AS regions",
+            "worldData.zones        AS zones",
+            "source_file", "report_start"
+        )
+        exploded_df = extracted
+
+    elif data_source == "guild_roster":
+        extracted = raw_json_df.selectExpr(
+            "guildData.guild.id           AS guild_id",
+            "guildData.guild.name         AS guild_name",
+            "guildData.guild.members.data AS records",
+            "source_file", "report_start"
+        )
+        exploded_df = extracted \
+            .withColumn("member", explode(col("records"))) \
+            .select(
+                "guild_id", "guild_name",
+                col("member.*"),
+                "source_file", "report_start"
+            )
+
+    else:
+        raise ValueError(f"Unsupported data_source: {data_source}")
+
+    # --------------------------------------------------
+    # 3) Append ingestion metadata & write to Delta
+    # --------------------------------------------------
+    report_id_expr = r"/([^/]+)/" + data_source + "/"
+    final_df = exploded_df \
+        .withColumn("bronze_ingestion_time", current_timestamp()) \
+        .withColumn("report_id", regexp_extract(col("source_file"), report_id_expr, 1))
+
+    append = ["fights", "events", "actors", "tables", "player_details"]
+    overwrite = ["game_data", "world_data", "guild_roster"]
+    table_name = f"01_bronze.warcraftlogs.{data_source}"
+
+    if data_source in append:
+        final_df.write.mode("append").format("delta").option("mergeSchema", True).saveAsTable(table_name)
+    else:
+        final_df.write.mode("overwrite").format("delta").option("mergeSchema", True).saveAsTable(table_name)
+
+    print(f"✅ Extracted and saved: {data_source} → {table_name}")
     return final_df
 
 # COMMAND ----------
