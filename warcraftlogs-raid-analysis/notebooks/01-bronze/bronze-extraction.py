@@ -1,6 +1,6 @@
 # Databricks notebook source
 # DBTITLE 1,Import Dependencies
-from pyspark.sql.functions import col, explode, lit, regexp_extract, current_timestamp
+from pyspark.sql.functions import col, explode, lit, regexp_extract, current_timestamp, from_json
 from pyspark.sql import DataFrame
 from pyspark.sql.types import (
     StructType, StructField,
@@ -32,7 +32,6 @@ raw_json_path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/{dat
 
 # COMMAND ----------
 # DBTITLE 1,Define Extract & Load
-
 def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
     """
     Extracts WarcraftLogs raw JSON into Delta format based on data_source,
@@ -42,7 +41,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
     # 1) Read raw JSON with explicit schema for tables
     # --------------------------------------------------
     if data_source == "tables":
-        # Build nested schema for `reportData.report.table.data`
+        # Build nested StructType for `reportData.report.table.data`
         data_fields = [
             # Auras
             StructField("auras", ArrayType(
@@ -61,7 +60,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
                     ), True)
                 ])
             ), True),
-            # Generic entries (DamageDone, Casts, Healing, Dispels)
+            # Generic entries
             StructField("entries", ArrayType(
                 StructType([
                     StructField("name", StringType(), True),
@@ -103,7 +102,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
                     ), True)
                 ])
             ), True),
-            # Summary fields
+            # Summary arrays
             StructField("healingDone", ArrayType(
                 StructType([
                     StructField("name", StringType(), True),
@@ -160,14 +159,11 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         ]
         table_struct = StructType([StructField("data", StructType(data_fields), True)])
 
-        # Full schema: metadata + table
+        # Combine with only __metadata__ (no user-defined _metadata)
         full_schema = StructType([
             StructField("__metadata__", StructType([
                 StructField("report_id", StringType(), True),
                 StructField("report_start", StringType(), True)
-            ]), True),
-            StructField("_metadata", StructType([
-                StructField("file_path", StringType(), True)
             ]), True),
             StructField("reportData", StructType([
                 StructField("report", StructType([
@@ -176,14 +172,18 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
             ]), True)
         ])
 
-        raw_json_df = (
+        raw_base = (
             spark.read
-                .schema(full_schema)
-                .option("multiline", True)
-                .option("includeMetadata", True)
-                .json(json_path)
-                .withColumn("source_file", col("_metadata.file_path"))
-                .withColumn("report_start", col("__metadata__.report_start"))
+                 .schema(full_schema)
+                 .option("multiline", True)
+                 .option("includeMetadata", True)
+                 .json(json_path)
+        )
+        # Inject file path and metadata
+        raw_json_df = (
+            raw_base
+              .withColumn("source_file", col("_metadata.file_path"))
+              .withColumn("report_start", col("__metadata__.report_start"))
         )
     else:
         # Generic reader for other sources
