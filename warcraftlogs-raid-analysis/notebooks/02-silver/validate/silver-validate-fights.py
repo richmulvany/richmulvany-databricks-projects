@@ -43,7 +43,7 @@ engine = DQEngine(spark)
 valid_df, quarantine_df = engine.apply_checks_by_metadata_and_split(df, checks)
 
 # Save results
-valid_df.write.mode("overwrite").saveAsTable("02_silver.warcraftlogs.f_fights_boss_pulls")
+valid_df.write.mode("append").saveAsTable("02_silver.warcraftlogs.f_fights_boss_pulls")
 quarantine_df.write.mode("overwrite").saveAsTable("02_silver.dq_monitoring.warcraftlogs_quarantine_fights_boss_pulls")
 
 # COMMAND ----------

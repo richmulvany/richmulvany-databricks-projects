@@ -15,13 +15,16 @@ from databricks.sdk import WorkspaceClient
 
 # DBTITLE 1,Read Tables
 tables = {
-    "tables_player_summary": spark.read.table("02_silver.staging.warcraftlogs_tables_player_summary"),
-    "tables_player_abilities": spark.read.table("02_silver.staging.warcraftlogs_tables_player_abilities"),
-    "tables_player_targets": spark.read.table("02_silver.staging.warcraftlogs_tables_player_targets"),
-    "tables_player_pets": spark.read.table("02_silver.staging.warcraftlogs_tables_player_pets"),
-    "tables_player_gear": spark.read.table("02_silver.staging.warcraftlogs_tables_player_gear"),
-    "tables_healing_summary": spark.read.table("02_silver.staging.warcraftlogs_tables_healing_summary"),
-    "tables_deaths_summary": spark.read.table("02_silver.staging.warcraftlogs_tables_deaths_summary")
+    "dispels": spark.read.table("02_silver.staging.warcraftlogs_tables_dispels"),
+    "buffs": spark.read.table("02_silver.staging.warcraftlogs_tables_buffs"),
+    "summary_healing": spark.read.table("02_silver.staging.warcraftlogs_tables_summary_healing"),
+    "summary_damage": spark.read.table("02_silver.staging.warcraftlogs_tables_summary_damage"),
+    "summary_damage_taken": spark.read.table("02_silver.staging.warcraftlogs_tables_summary_damage_taken"),
+    "summary_metadata": spark.read.table("02_silver.staging.warcraftlogs_tables_summary_metadata"),
+    "composition": spark.read.table("02_silver.staging.warcraftlogs_tables_composition"),
+    "casts": spark.read.table("02_silver.staging.warcraftlogs_tables_casts"),
+    "healing": spark.read.table("02_silver.staging.warcraftlogs_tables_healing"),
+    "damage_done": spark.read.table("02_silver.staging.warcraftlogs_tables_damage_done")
 }
 
 # COMMAND ----------
@@ -53,8 +56,10 @@ for name, df in tables.items():
     valid_df, quarantine_df = engine.apply_checks_by_metadata_and_split(df, checks)
 
     # Save
-    valid_df.write.mode("overwrite").saveAsTable(f"02_silver.warcraftlogs.f_{name}")
-    quarantine_df.write.mode("overwrite").saveAsTable(f"02_silver.dq_monitoring.warcraftlogs_quarantine_{name}")
+    valid_df.write.mode("append").saveAsTable(f"02_silver.warcraftlogs.f_{name}")
+    quarantine_df.write.mode("append").saveAsTable(f"02_silver.dq_monitoring.warcraftlogs_quarantine_{name}")
 
     # Clean staging area
     spark.sql(f"""DROP TABLE IF EXISTS 02_silver.staging.warcraftlogs_{name}""")
+    print(f"Validation complete for {name}.")
+print(f"✅ All tables validated.")
