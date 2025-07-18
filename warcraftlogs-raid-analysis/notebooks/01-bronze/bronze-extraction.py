@@ -9,7 +9,6 @@ from pyspark.sql.types import (
 
 # COMMAND ----------
 # DBTITLE 1,Configure Notebook / Assign Variables
-# Exit early if report_id is not available as data probably already ingested
 try:
     report_id = dbutils.jobs.taskValues.get(key="report_id", taskKey="bronze_ingestion_events-task")
 except Exception as e:
@@ -18,7 +17,7 @@ except Exception as e:
 
 # Widget for fight_id (not used for tables)
 dbutils.widgets.text("fight_id", "")
-_ = dbutils.widgets.get("fight_id")  # noqa: F841
+_ = dbutils.widgets.get("fight_id")
 
 # Dropdown for data source
 dbutils.widgets.dropdown(
@@ -33,13 +32,11 @@ raw_json_path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/{dat
 
 # COMMAND ----------
 # DBTITLE 1,Define Extract & Load
-
 def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
     """
     Extracts WarcraftLogs raw JSON into Delta format based on data_source,
     enforcing a stable schema for the 'tables' data_source to avoid merge conflicts.
     """
-    # Special handling for 'tables': use explicit schema to cover all nested fields
     if data_source == "tables":
         # Define nested schema for `table.data`
         data_fields = [
@@ -61,7 +58,6 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
             ), True),
             StructField("entries", ArrayType(
                 StructType([
-                    # entries schema (common for DamageDone, Casts, Healing, Dispels)
                     StructField("name", StringType(), True),
                     StructField("id", IntegerType(), True),
                     StructField("guid", LongType(), True),
@@ -158,7 +154,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
                 StructField("tanks", ArrayType(StringType()), True),
                 StructField("dps", ArrayType(StringType()), True)
             ]), True)
-        ] )
+        ]
         table_struct = StructType([StructField("data", StructType(data_fields), True)])
 
         # Full schema including ingestion metadata
@@ -196,17 +192,14 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
 
     # Branch on data_source to explode out records...
     if data_source == "player_details":
-        # ... existing player_details logic ...
         pd_struct = raw_json_df.selectExpr(
             "reportData.report.playerDetails.data.playerDetails AS pd",
             "source_file", "report_start"
         )
-        # union tanks/healers/dps ...
-        # (unchanged)
+        # (unchanged tanks/healers/dps logic here)
         exploded_df = tanks_df.unionByName(healers_df).unionByName(dps_df)
 
     elif data_source == "events":
-        # ... existing events logic ...
         extracted = raw_json_df.selectExpr(
             "reportData.report.events.data AS records",
             "source_file", "report_start"
@@ -214,7 +207,6 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         exploded_df = extracted.withColumn("record", explode(col("records"))).select("record.*", "source_file", "report_start")
 
     elif data_source == "fights":
-        # ... existing fights logic ...
         extracted = raw_json_df.selectExpr(
             "reportData.report.fights AS records",
             "source_file", "report_start"
@@ -222,7 +214,6 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         exploded_df = extracted.withColumn("record", explode(col("records"))).select("record.*", "source_file", "report_start")
 
     elif data_source == "actors":
-        # ... existing actors logic ...
         extracted = raw_json_df.selectExpr(
             "reportData.report.masterData.actors AS records",
             "source_file", "report_start"
@@ -230,14 +221,12 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         exploded_df = extracted.withColumn("record", explode(col("records"))).select("record.*", "source_file", "report_start")
 
     elif data_source == "tables":
-        # Use the enforced-schema DataFrame
         exploded_df = raw_json_df.selectExpr(
             "reportData.report.table AS table_json",
             "source_file", "report_start"
         )
 
     elif data_source == "game_data":
-        # ... existing game_data logic ...
         exploded_df = raw_json_df.selectExpr(
             "gameData.abilities.data   AS abilities",
             "gameData.classes          AS classes",
@@ -247,25 +236,29 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         )
 
     elif data_source == "world_data":
-        # ... existing world_data logic ...
-        exploded_df = raw_json_df.selectExpr(
+        extracted = raw_json_df.selectExpr(
             "worldData.expansions   AS expansions",
             "worldData.regions      AS regions",
             "worldData.zones        AS zones",
             "source_file", "report_start"
         )
+        exploded_df = extracted
 
     elif data_source == "guild_roster":
-        # ... existing guild_roster logic ...
         extracted = raw_json_df.selectExpr(
             "guildData.guild.id           AS guild_id",
             "guildData.guild.name         AS guild_name",
             "guildData.guild.members.data AS records",
             "source_file", "report_start"
         )
-        exploded_df = extracted.withColumn("member", explode(col("records")).select(
-            "guild_id", "guild_name", col("member.*"), "source_file", "report_start"
-        ))
+        exploded_df = extracted \
+            .withColumn("member", explode(col("records"))) \
+            .select(
+                "guild_id", "guild_name",
+                col("member.*"),
+                "source_file", "report_start"
+            )
+
     else:
         raise ValueError(f"Unsupported data_source: {data_source}")
 
