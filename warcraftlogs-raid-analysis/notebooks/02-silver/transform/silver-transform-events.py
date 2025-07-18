@@ -82,35 +82,3 @@ print(f"✅ All individual tables written to {path}.warcraftlogs_*.")
     .saveAsTable(f"{path}.warcraftlogs_events_all")
 )
 print(f"✅ events_all written to {path}.warcraftlogs_events_all.")
-
-# COMMAND ----------
-
-# DBTITLE 1,Transform
-def camel_to_snake(name):
-    # normal transitions (e.g. GameID → Game_ID)
-    name = re.sub(r'(.)([A-Z][a-z]+)', r'\1_\2', name) 
-    # handle acronyms at end (e.g. GameID → Game_ID)
-    name = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', name)       
-    return name.lower()
-
-df = df.toDF(*[camel_to_snake(column_name) for column_name in df.columns])
-
-df = df.withColumnRenamed("fight", "pull_number") \
-  .withColumnRenamed("report_start", "report_date")
-
-df = df.withColumn("report_date", date_format(col("report_date"), "yyyy-MM-dd EE"))
-
-# COMMAND ----------
-
-# DBTITLE 1,Write Type Tables
-for table_name, types in table_map.items():
-    (base_df
-        .filter(base_df.type.isin(types))
-        .write
-        .mode("overwrite")
-        .partitionBy("fight")
-        .saveAsTable(f"{path}.warcraftlogs_{table_name}")
-        .option("mergeSchema", "true")
-    )
-    print(f"{table_name} written to {path}.warcraftlogs_{table_name}.")
-print(f"✅ All individual tables written to {path}.warcraftlogs_*.")
