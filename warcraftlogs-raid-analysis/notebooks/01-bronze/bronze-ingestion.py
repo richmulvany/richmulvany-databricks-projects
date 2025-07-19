@@ -3,6 +3,9 @@
 import os
 import json
 import requests
+import time
+import random
+import logging
 from datetime import datetime, timezone
 from pathlib import Path
 from pyspark.sql import SparkSession
@@ -45,7 +48,7 @@ GUILD_SERVER_REGION = widgets.get("guild_server_region")
 
 # COMMAND ----------
 
-# DBTITLE 1,Authenticate
+# DBTITLE 1,Authenticate and GraphQL Helper with Retries
 def get_access_token():
     client_id = dbutils.secrets.get(scope="warcraftlogs", key="client_id")
     client_secret = dbutils.secrets.get(scope="warcraftlogs", key="client_secret")
@@ -61,16 +64,36 @@ def get_access_token():
 _token = get_access_token()
 HEADERS = {"Authorization": f"Bearer {_token}"}
 
-def gql_query(query: str, variables: dict = None) -> dict:
-    body = {"query": query}
-    if variables:
-        body["variables"] = variables
-    resp = requests.post(BASE_URL, json=body, headers=HEADERS)
-    resp.raise_for_status()
-    data = resp.json()
-    if "errors" in data:
-        raise RuntimeError(f"GraphQL errors: {data['errors']}")
-    return data.get("data")
+def gql_query(query: str, variables: dict = None, max_retries: int = 5) -> dict:
+    """
+    Execute a GraphQL query with retries and exponential backoff on failures.
+    """
+    last_error = None
+    for attempt in range(1, max_retries + 1):
+        body = {"query": query}
+        if variables:
+            body["variables"] = variables
+        try:
+            resp = requests.post(BASE_URL, json=body, headers=HEADERS)
+            resp.raise_for_status()
+            data = resp.json()
+            if "errors" not in data:
+                return data.get("data")
+            # GraphQL-level errors
+            error_list = data["errors"]
+            logging.warning(f"GraphQL errors on attempt {attempt}: {error_list}")
+            last_error = RuntimeError(f"GraphQL errors: {error_list}")
+        except Exception as e:
+            logging.warning(f"Exception on attempt {attempt}: {e}")
+            last_error = e
+
+        if attempt == max_retries:
+            # All retries exhausted
+            raise last_error
+
+        # Exponential backoff with jitter
+        backoff_seconds = (2 ** attempt) + random.random()
+        time.sleep(backoff_seconds)
 
 # COMMAND ----------
 
