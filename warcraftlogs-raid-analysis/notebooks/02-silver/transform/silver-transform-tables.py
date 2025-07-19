@@ -245,8 +245,9 @@ healing_df = (
     .select(
         "report_id", "report_date", "pull_number",
         lower(col("entry.name")).alias("player_name"),
-        camel_to_snake_udf(split(col("entry.icon"), "-")[0]).alias("player_class"),
-        camel_to_snake_udf(split(col("entry.icon"), "-")[1]).alias("player_spec"),
+        .withColumn("cls_spec", split(col("icon"), "-"))
+        .withColumn("player_class", col("cls_spec")[0])
+        .withColumn("player_spec", when(size(col("cls_spec")) > 1, col("cls_spec")[1]).otherwise("unknown"))
         explode("entry.abilities").alias("ability"),
         explode("entry.damageAbilities").alias("incoming_ability")
     )
