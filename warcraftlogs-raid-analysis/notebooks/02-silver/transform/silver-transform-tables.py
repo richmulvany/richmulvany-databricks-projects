@@ -245,9 +245,9 @@ healing_df = (
     .select(
         "report_id", "report_date", "pull_number",
         lower(col("entry.name")).alias("player_name"),
-        .withColumn("cls_spec", split(col("icon"), "-"))
-        .withColumn("player_class", col("cls_spec")[0])
-        .withColumn("player_spec", when(size(col("cls_spec")) > 1, col("cls_spec")[1]).otherwise("unknown"))
+        .withColumn("cls_spec", split(col("icon"), "-")),
+        .withColumn("player_class", col("cls_spec")[0]),
+        .withColumn("player_spec", when(size(col("cls_spec")) > 1, col("cls_spec")[1]).otherwise("unknown")),
         explode("entry.abilities").alias("ability"),
         explode("entry.damageAbilities").alias("incoming_ability")
     )
@@ -281,8 +281,8 @@ damage_done_df = (
         lower(col("entry.icon")).alias("icon"),
         explode("entry.abilities").alias("ability")
     )
-    .withColumn("cls_spec", split(col("icon"), "-"))
-    .withColumn("player_class", col("cls_spec")[0])
+    .withColumn("cls_spec", split(col("icon"), "-")),
+    .withColumn("player_class", col("cls_spec")[0]),
     .withColumn("player_spec", when(size(col("cls_spec")) > 1, col("cls_spec")[1]).otherwise("unknown"))
     .select(
         "report_id", "report_date", "pull_number",
