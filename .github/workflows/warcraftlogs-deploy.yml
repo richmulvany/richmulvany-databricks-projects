@@ -55,7 +55,7 @@ jobs:
     name: "🔁 Run Bronze"
     needs: deploy-bundle
     runs-on: ubuntu-latest
-    
+    strategy:
       matrix:
         report_id: ${{ fromJson(github.event.inputs.report_ids) }}
       max-parallel: 1
