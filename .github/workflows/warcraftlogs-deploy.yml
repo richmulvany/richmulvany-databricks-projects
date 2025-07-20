@@ -57,6 +57,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         report_id: ${{ fromJson(github.event.inputs.report_ids) }}
       max-parallel: 1
