@@ -6,7 +6,7 @@ import altair as alt
 from io import StringIO
 
 # --- GitHub raw base URL ---
-REPO_URL = "https://raw.githubusercontent.com/richmulvany/richmulvany-databricks-projects/main/data-exports"
+REPO_URL = "https://raw.githubusercontent.com/richmulvany/richmulvany-databricks-projects/test/warcraftlogs-gold-data-exports/data-exports"
 
 # --- Streamlit UI ---
 logo_path = "https://pbs.twimg.com/profile_images/1490380290962952192/qZk9xi5l_200x200.jpg"
