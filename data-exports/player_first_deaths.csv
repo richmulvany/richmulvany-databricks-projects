@@ -1,235 +1,180 @@
-report_id,report_date,pull_number,killer_id,killing_ability_game_id,source_id,boss_difficulty,boss_name,start_time,end_time,player_name,death_timestamp,death_window,player_class
-MymtjWk9brQ6aBqR,2025-06-23 Mon,4,56,469062,-1,mythic,"mug'zee, heads of security",1172999,1204715,lenus,1191844,,demonhunter
-MymtjWk9brQ6aBqR,2025-06-23 Mon,45,12,466974,-1,mythic,"mug'zee, heads of security",11325232,11653640,lenus,11581913,,demonhunter
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,34,75,469062,-1,mythic,"mug'zee, heads of security",7998067,8067195,hobbyalkis,8019148,,rogue
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,9,4,469377,-1,mythic,"mug'zee, heads of security",1590558,1719452,yeviel,1641506,,paladin
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,15,72,1220551,-1,mythic,"mug'zee, heads of security",2876573,2917073,yeviel,2898594,,paladin
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,26,83,470910,-1,mythic,"mug'zee, heads of security",4939311,5226843,yeviel,5041676,,paladin
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,29,4,1218077,-1,mythic,"mug'zee, heads of security",6575895,6871035,yeviel,6812581,,paladin
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,33,4,1216143,-1,mythic,"mug'zee, heads of security",7690542,7769095,yeviel,7755408,,paladin
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,49,72,469061,-1,mythic,"mug'zee, heads of security",10794032,10854899,yeviel,10812971,,paladin
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,3,75,469061,-1,mythic,"mug'zee, heads of security",1749588,2017787,budgetgoku,1901562,,paladin
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,5,29,1217291,-1,mythic,chrome king gallywix,1942612,2058227,brickyd,2041810,,warrior
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,56,29,467184,-1,mythic,chrome king gallywix,10936420,11169942,brickyd,11135932,,warrior
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,36,4,1218077,-1,mythic,"mug'zee, heads of security",8046922,8372607,rizzleton,8257956,,shaman
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,46,4,466480,-1,mythic,"mug'zee, heads of security",10314518,10504139,rizzleton,10418714,,shaman
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,33,29,469326,-1,mythic,chrome king gallywix,7202288,7297296,yeviel,7243861,,paladin
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,38,29,469326,-1,mythic,chrome king gallywix,7779789,7942875,yeviel,7878203,,paladin
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,42,29,469295,-1,mythic,chrome king gallywix,8376574,8499337,yeviel,8494754,,paladin
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,47,29,469326,-1,mythic,chrome king gallywix,9267634,9431085,yeviel,9369326,,paladin
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,22,4,470245,-1,mythic,"mug'zee, heads of security",5030721,5157033,pattern,5146893,,warlock
-MymtjWk9brQ6aBqR,2025-06-23 Mon,17,12,1218432,-1,mythic,"mug'zee, heads of security",4085296,4213886,budgetgoku,4204870,,paladin
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,11,-1,469052,-1,mythic,"mug'zee, heads of security",3099226,3376214,yeviel,3250417,,paladin
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,25,68,469061,-1,mythic,"mug'zee, heads of security",5440797,5495092,yeviel,5463538,,paladin
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,31,3,470245,-1,mythic,"mug'zee, heads of security",5879609,6212497,yeviel,5993424,,paladin
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,51,68,469061,-1,mythic,"mug'zee, heads of security",11422941,11475088,yeviel,11445396,,paladin
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,58,68,1221224,-1,mythic,"mug'zee, heads of security",12600429,12770800,yeviel,12747287,,paladin
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,54,29,1214226,-1,mythic,chrome king gallywix,10520260,10683440,rizzleton,10523496,,shaman
-BfWcKMdxybL1j9P7,2025-06-09 Mon,44,-1,469052,-1,mythic,"mug'zee, heads of security",9126532,9299100,bigboiples,9271808,,druid
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,39,85,469377,-1,mythic,"mug'zee, heads of security",4959008,5028136,koriekin,5009978,,druid
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,52,85,1216143,-1,mythic,"mug'zee, heads of security",8425237,8493260,koriekin,8490190,,druid
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,56,85,466480,-1,mythic,"mug'zee, heads of security",8992446,9276693,koriekin,9097754,,druid
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,69,85,1216143,-1,mythic,"mug'zee, heads of security",11653940,11726555,koriekin,11718677,,druid
-MymtjWk9brQ6aBqR,2025-06-23 Mon,9,12,1218077,-1,mythic,"mug'zee, heads of security",2332319,2590023,turbohot,2545426,,hunter
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,27,4,466974,-1,mythic,"mug'zee, heads of security",6240304,6506425,enjiie,6240651,,demonhunter
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,20,-1,469052,-1,mythic,"mug'zee, heads of security",4384394,4568655,unrecorded,4535210,,mage
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,42,3,1218077,-1,mythic,"mug'zee, heads of security",9248763,9554670,unrecorded,9472079,,mage
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,45,3,468665,-1,mythic,"mug'zee, heads of security",10525815,10804244,unrecorded,10732788,,mage
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,18,-1,469052,-1,mythic,"mug'zee, heads of security",3222309,3382693,jumzo,3246843,,paladin
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,20,4,469719,-1,mythic,"mug'zee, heads of security",3456897,3591628,jumzo,3559488,,paladin
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,22,4,468665,-1,mythic,"mug'zee, heads of security",3670852,3977818,jumzo,3893552,,paladin
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,34,83,1,-1,mythic,"mug'zee, heads of security",7828711,7958662,jumzo,7929838,,paladin
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,14,4,466480,-1,mythic,"mug'zee, heads of security",3376096,3669785,willowwisp,3480210,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,15,4,466480,-1,mythic,"mug'zee, heads of security",3788675,3967593,willowwisp,3892951,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,21,-1,469052,-1,mythic,"mug'zee, heads of security",4824657,4951387,willowwisp,4854489,,druid
-BfWcKMdxybL1j9P7,2025-06-09 Mon,46,74,469061,-1,mythic,"mug'zee, heads of security",9440290,9567653,lenus,9460222,,demonhunter
-MymtjWk9brQ6aBqR,2025-06-23 Mon,35,56,1221224,-1,mythic,"mug'zee, heads of security",8866486,9030656,jumzo,9011035,,paladin
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,38,4,1218182,-1,mythic,"mug'zee, heads of security",8455340,8730089,wanchan,8667096,,mage
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,43,96,469061,-1,mythic,"mug'zee, heads of security",5370123,5496295,lenus,5389283,,demonhunter
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,57,85,1218432,-1,mythic,"mug'zee, heads of security",9511420,9795502,lenus,9608406,,demonhunter
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,25,78,467381,-1,mythic,"mug'zee, heads of security",5489381,5771419,magicwingers,5649146,,evoker
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,26,75,469061,-1,mythic,"mug'zee, heads of security",5862474,5996206,magicwingers,5883384,,evoker
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,27,29,466153,-1,mythic,chrome king gallywix,5221933,5447458,ashyminge,5320494,,mage
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,12,3,466480,-1,mythic,"mug'zee, heads of security",3479021,3608814,wanchan,3584806,,mage
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,27,3,466480,-1,mythic,"mug'zee, heads of security",5549039,5675305,wanchan,5652754,,mage
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,46,3,466519,-1,mythic,"mug'zee, heads of security",10889415,11015666,wanchan,10979857,,mage
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,51,96,469061,-1,mythic,"mug'zee, heads of security",7850516,8133398,jumzo,7996210,,paladin
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,66,96,469061,-1,mythic,"mug'zee, heads of security",11052433,11192787,jumzo,11072770,,paladin
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,68,96,469061,-1,mythic,"mug'zee, heads of security",11416377,11604201,jumzo,11438099,,paladin
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,9,68,1220551,-1,mythic,"mug'zee, heads of security",2961691,3029507,yearning,2991580,,monk
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,14,3,472057,-1,mythic,"mug'zee, heads of security",3706795,3931528,yearning,3807312,,monk
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,36,-1,469052,-1,mythic,"mug'zee, heads of security",7143416,7364447,yearning,7283904,,monk
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,35,29,1214226,-1,mythic,chrome king gallywix,7436153,7561005,koriekin,7439397,,druid
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,52,29,466578,-1,mythic,chrome king gallywix,10353495,10449838,koriekin,10448197,,druid
-BfWcKMdxybL1j9P7,2025-06-09 Mon,14,74,469062,-1,mythic,"mug'zee, heads of security",2732215,2797301,hobbyalkis,2751130,,rogue
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,11,4,1218182,-1,mythic,"mug'zee, heads of security",1823524,2107111,koriekin,2028686,,druid
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,13,72,1221224,-1,mythic,"mug'zee, heads of security",2789942,2828776,koriekin,2814531,,druid
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,16,72,469061,-1,mythic,"mug'zee, heads of security",3001255,3159670,koriekin,3146764,,druid
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,30,4,1216143,-1,mythic,"mug'zee, heads of security",6960250,7088885,koriekin,7084554,,druid
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,21,-1,469052,-1,mythic,"mug'zee, heads of security",4642793,4687853,magicwingers,4668537,,evoker
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,56,68,1220551,-1,mythic,"mug'zee, heads of security",12320651,12513735,magicwingers,12473318,,evoker
-BfWcKMdxybL1j9P7,2025-06-09 Mon,17,4,1216143,-1,mythic,"mug'zee, heads of security",3043145,3111148,koriekin,3107414,,druid
-BfWcKMdxybL1j9P7,2025-06-09 Mon,26,4,468665,-1,mythic,"mug'zee, heads of security",4487175,4797631,koriekin,4587209,,druid
-BfWcKMdxybL1j9P7,2025-06-09 Mon,36,74,1221224,-1,mythic,"mug'zee, heads of security",7352983,7619195,koriekin,7384413,,druid
-BfWcKMdxybL1j9P7,2025-06-09 Mon,39,4,1218077,-1,mythic,"mug'zee, heads of security",8131761,8413359,koriekin,8340780,,druid
-MymtjWk9brQ6aBqR,2025-06-23 Mon,27,57,467381,-1,mythic,"mug'zee, heads of security",6568912,6880865,willowwisp,6726287,,druid
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,29,68,1221224,-1,mythic,"mug'zee, heads of security",5769823,5817004,koriekin,5798270,,druid
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,43,3,1218077,-1,mythic,"mug'zee, heads of security",9638614,9921811,koriekin,9884088,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,32,4,466480,-1,mythic,"mug'zee, heads of security",7680304,7837957,jumzo,7784400,,paladin
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,16,3,1216143,-1,mythic,"mug'zee, heads of security",4023351,4093748,jumzo,4089281,,paladin
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,33,74,472659,-1,mythic,"mug'zee, heads of security",6309498,6432033,jumzo,6410131,,paladin
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,44,68,469061,-1,mythic,"mug'zee, heads of security",10006606,10335834,jumzo,10030834,,paladin
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,55,68,469061,-1,mythic,"mug'zee, heads of security",11889389,12212338,jumzo,12037546,,paladin
-MymtjWk9brQ6aBqR,2025-06-23 Mon,7,12,466480,-1,mythic,"mug'zee, heads of security",1349259,1605767,unrecorded,1453404,,mage
-MymtjWk9brQ6aBqR,2025-06-23 Mon,32,56,1221224,-1,mythic,"mug'zee, heads of security",8036093,8307952,unrecorded,8191502,,mage
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,41,4,466480,-1,mythic,"mug'zee, heads of security",9600707,9882178,mægisk,9704422,,rogue
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,12,4,466480,-1,mythic,"mug'zee, heads of security",2249641,2561978,wanchan,2355923,,mage
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,13,29,1219280,-1,mythic,chrome king gallywix,2838897,3012744,willowwisp,2857854,,druid
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,16,29,469326,-1,mythic,chrome king gallywix,3404560,3575124,willowwisp,3446612,,druid
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,41,96,469061,-1,mythic,"mug'zee, heads of security",5168508,5236993,unrecorded,5187789,,mage
-MymtjWk9brQ6aBqR,2025-06-23 Mon,15,12,466480,-1,mythic,"mug'zee, heads of security",3424663,3577117,hobbyalkis,3529114,,rogue
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,40,72,1221224,-1,mythic,"mug'zee, heads of security",9359969,9527286,televisions,9508118,,priest
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,48,-1,469052,-1,mythic,"mug'zee, heads of security",10566846,10727319,televisions,10714077,,priest
-BfWcKMdxybL1j9P7,2025-06-09 Mon,9,4,466480,-1,mythic,"mug'zee, heads of security",1776112,1965406,yearning,1880604,,monk
-BfWcKMdxybL1j9P7,2025-06-09 Mon,19,4,466480,-1,mythic,"mug'zee, heads of security",3172343,3416886,yearning,3276801,,monk
-BfWcKMdxybL1j9P7,2025-06-09 Mon,22,4,469377,-1,mythic,"mug'zee, heads of security",3894023,4079043,yearning,3945049,,monk
-BfWcKMdxybL1j9P7,2025-06-09 Mon,42,-1,469052,-1,mythic,"mug'zee, heads of security",8815821,8977205,yearning,8966876,,monk
-BfWcKMdxybL1j9P7,2025-06-09 Mon,48,4,466480,-1,mythic,"mug'zee, heads of security",9655296,9816879,yearning,9760228,,monk
-BfWcKMdxybL1j9P7,2025-06-09 Mon,51,4,469719,-1,mythic,"mug'zee, heads of security",10311425,10495036,yearning,10335552,,monk
-MymtjWk9brQ6aBqR,2025-06-23 Mon,25,78,466517,-1,mythic,"mug'zee, heads of security",4979770,5192585,magicwingers,5103046,,evoker
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,17,79,1215488,-1,mythic,"mug'zee, heads of security",4368417,4556878,yearning,4426660,,monk
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,28,4,466480,-1,mythic,"mug'zee, heads of security",6943881,7130344,yearning,7048801,,monk
-MymtjWk9brQ6aBqR,2025-06-23 Mon,16,12,1218077,-1,mythic,"mug'zee, heads of security",3656313,3970530,enjiie,3865442,,demonhunter
-MymtjWk9brQ6aBqR,2025-06-23 Mon,26,12,466974,-1,mythic,"mug'zee, heads of security",5300879,5487687,enjiie,5301207,,demonhunter
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,30,85,466480,-1,mythic,"mug'zee, heads of security",3556340,3699744,enjiie,3662258,,demonhunter
-BfWcKMdxybL1j9P7,2025-06-09 Mon,15,74,1221224,-1,mythic,"mug'zee, heads of security",2942113,2980687,jumzo,2964429,,paladin
-BfWcKMdxybL1j9P7,2025-06-09 Mon,40,74,469061,-1,mythic,"mug'zee, heads of security",8581840,8723996,jumzo,8600797,,paladin
-BfWcKMdxybL1j9P7,2025-06-09 Mon,55,74,469061,-1,mythic,"mug'zee, heads of security",10917575,11076709,jumzo,11057706,,paladin
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,59,85,469719,-1,mythic,"mug'zee, heads of security",9912235,10041297,yearning,9963293,,monk
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,67,96,1221224,-1,mythic,"mug'zee, heads of security",11293597,11352278,yearning,11316130,,monk
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,35,96,469061,-1,mythic,"mug'zee, heads of security",4250562,4410876,turbohot,4277833,,hunter
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,9,29,1214226,-1,mythic,chrome king gallywix,2312432,2378259,pattern,2315689,,warlock
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,28,29,1214226,-1,mythic,chrome king gallywix,5621914,5685033,pattern,5625169,,warlock
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,49,85,466480,-1,mythic,"mug'zee, heads of security",7611158,7782520,ashyminge,7716286,,mage
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,48,85,1218432,-1,mythic,"mug'zee, heads of security",7274492,7461683,mægisk,7367793,,rogue
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,62,22,424564,-1,mythic,"mug'zee, heads of security",10368811,10622699,mægisk,10567518,,rogue
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,3,29,469326,-1,mythic,chrome king gallywix,1690032,1814289,cutefist,1732347,,monk
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,21,29,1219333,-1,mythic,chrome king gallywix,4024476,4189033,cutefist,4155229,,monk
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,23,29,469326,-1,mythic,chrome king gallywix,4272631,4499471,cutefist,4370496,,monk
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,40,29,469326,-1,mythic,chrome king gallywix,8067555,8230418,cutefist,8110446,,monk
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,44,29,466338,-1,mythic,chrome king gallywix,8563313,8728157,cutefist,8726962,,monk
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,14,29,1214448,-1,mythic,chrome king gallywix,3108502,3270284,yearning,3125994,,monk
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,40,4,1218182,-1,mythic,"mug'zee, heads of security",8814159,9108023,rizzleton,9033551,,shaman
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,45,29,1219313,-1,mythic,chrome king gallywix,9110953,9170431,enjiie,9163323,,demonhunter
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,7,29,474447,-1,mythic,chrome king gallywix,2141644,2206269,bigboiples,2204215,,druid
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,11,29,1214226,-1,mythic,chrome king gallywix,2537038,2701303,bigboiples,2540317,,druid
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,25,29,469326,-1,mythic,chrome king gallywix,4940655,5128564,bigboiples,5038638,,druid
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,23,72,469061,-1,mythic,"mug'zee, heads of security",4250534,4311314,willowwisp,4269716,,druid
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,25,72,1220551,-1,mythic,"mug'zee, heads of security",4392156,4715062,willowwisp,4543146,,druid
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,18,3,469719,-1,mythic,"mug'zee, heads of security",4180597,4299329,pattern,4280705,,warlock
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,50,68,469061,-1,mythic,"mug'zee, heads of security",11156821,11343000,pattern,11302318,,warlock
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,53,-1,469052,-1,mythic,"mug'zee, heads of security",11584883,11804782,pattern,11731522,,warlock
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,10,75,469061,-1,mythic,"mug'zee, heads of security",2673908,2828255,explorer,2820991,,paladin
-BfWcKMdxybL1j9P7,2025-06-09 Mon,12,4,1216143,-1,mythic,"mug'zee, heads of security",2567398,2638140,glizzyrider,2632635,,monk
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,32,72,1220551,-1,mythic,"mug'zee, heads of security",7160560,7467749,unrecorded,7187496,,mage
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,37,74,467381,-1,mythic,"mug'zee, heads of security",8620254,8950399,unrecorded,8776892,,mage
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,38,-1,469052,-1,mythic,"mug'zee, heads of security",9044918,9280500,unrecorded,9191273,,mage
-BfWcKMdxybL1j9P7,2025-06-09 Mon,27,4,466974,-1,mythic,"mug'zee, heads of security",4828848,4855523,televisions,4829042,,priest
-BfWcKMdxybL1j9P7,2025-06-09 Mon,53,4,469377,-1,mythic,"mug'zee, heads of security",10597162,10816961,televisions,10648138,,priest
-MymtjWk9brQ6aBqR,2025-06-23 Mon,8,12,472057,-1,mythic,"mug'zee, heads of security",1711263,2003842,wanchan,1827070,,mage
-MymtjWk9brQ6aBqR,2025-06-23 Mon,43,-1,469052,-1,mythic,"mug'zee, heads of security",11197656,11255975,wanchan,11223162,,mage
-MymtjWk9brQ6aBqR,2025-06-23 Mon,39,56,469062,-1,mythic,"mug'zee, heads of security",10103772,10386568,mægisk,10247740,,rogue
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,5,3,1218432,-1,mythic,"mug'zee, heads of security",2550273,2678005,hobbyalkis,2673549,,rogue
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,7,68,469062,-1,mythic,"mug'zee, heads of security",2737850,2895592,hobbyalkis,2878932,,rogue
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,35,3,466480,-1,mythic,"mug'zee, heads of security",6520707,6861034,hobbyalkis,6626157,,rogue
-BfWcKMdxybL1j9P7,2025-06-09 Mon,58,4,469719,-1,mythic,"mug'zee, heads of security",11566025,11837989,explorer,11775574,,paladin
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,40,3,466480,-1,mythic,"mug'zee, heads of security",8617374,8922573,televisions,8890671,,priest
-MymtjWk9brQ6aBqR,2025-06-23 Mon,41,-1,469052,-1,mythic,"mug'zee, heads of security",10938456,11114839,delvur,11084379,,paladin
-BfWcKMdxybL1j9P7,2025-06-09 Mon,24,74,469061,-1,mythic,"mug'zee, heads of security",4230664,4373760,enjiie,4358426,,demonhunter
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,32,96,1221224,-1,mythic,"mug'zee, heads of security",3774225,3814337,televisions,3796064,,priest
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,45,85,472057,-1,mythic,"mug'zee, heads of security",5571802,5738568,televisions,5678644,,priest
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,54,85,466480,-1,mythic,"mug'zee, heads of security",8678255,8868067,televisions,8783941,,priest
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,24,-1,469052,-1,mythic,"mug'zee, heads of security",5222929,5408483,koriekin,5376852,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,42,4,1216143,-1,mythic,"mug'zee, heads of security",9886136,9957490,koriekin,9950756,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,44,75,1221224,-1,mythic,"mug'zee, heads of security",10014628,10192102,koriekin,10165615,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,48,4,469708,-1,mythic,"mug'zee, heads of security",10623731,10646772,koriekin,10629779,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,36,75,469061,-1,mythic,"mug'zee, heads of security",8138919,8343095,televisions,8161179,,priest
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,46,4,466480,-1,mythic,"mug'zee, heads of security",10307657,10587202,televisions,10412763,,priest
-BfWcKMdxybL1j9P7,2025-06-09 Mon,32,74,469061,-1,mythic,"mug'zee, heads of security",5838371,5905606,iustitiæ,5861389,,warrior
-BfWcKMdxybL1j9P7,2025-06-09 Mon,33,74,469061,-1,mythic,"mug'zee, heads of security",6818525,6979968,iustitiæ,6837322,,warrior
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,1,29,1214448,-1,mythic,chrome king gallywix,1502624,1598562,magicwingers,1522993,,evoker
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,19,29,1214226,-1,mythic,chrome king gallywix,3871749,3938695,magicwingers,3875052,,evoker
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,36,29,469326,-1,mythic,chrome king gallywix,7642924,7706275,magicwingers,7686446,,evoker
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,49,29,469326,-1,mythic,chrome king gallywix,9600651,9859898,magicwingers,9761321,,evoker
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,18,29,466204,-1,mythic,chrome king gallywix,3664562,3774482,lenus,3703838,,demonhunter
-BfWcKMdxybL1j9P7,2025-06-09 Mon,34,4,1218432,-1,mythic,"mug'zee, heads of security",7103141,7262400,budgetgoku,7199346,,paladin
-BfWcKMdxybL1j9P7,2025-06-09 Mon,50,74,469062,-1,mythic,"mug'zee, heads of security",9904211,10185448,budgetgoku,10054213,,paladin
-F9xXwVZj8P4KmkyT,2025-06-25 Wed,44,72,469061,-1,mythic,"mug'zee, heads of security",9969128,10228107,budgetgoku,10116401,,paladin
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,34,85,466480,-1,mythic,"mug'zee, heads of security",3940919,4124199,pattern,4046936,,warlock
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,37,-1,469052,-1,mythic,"mug'zee, heads of security",4513210,4703658,pattern,4663064,,warlock
-MymtjWk9brQ6aBqR,2025-06-23 Mon,11,57,467381,-1,mythic,"mug'zee, heads of security",2742260,3002336,cutefist,2898877,,monk
-MymtjWk9brQ6aBqR,2025-06-23 Mon,19,56,469061,-1,mythic,"mug'zee, heads of security",4355092,4414543,cutefist,4373982,,monk
-MymtjWk9brQ6aBqR,2025-06-23 Mon,29,12,469708,-1,mythic,"mug'zee, heads of security",7086739,7272316,cutefist,7211688,,monk
-MymtjWk9brQ6aBqR,2025-06-23 Mon,31,56,469061,-1,mythic,"mug'zee, heads of security",7538375,7823657,cutefist,7561044,,monk
-MymtjWk9brQ6aBqR,2025-06-23 Mon,38,12,1218077,-1,mythic,"mug'zee, heads of security",9495788,9797643,cutefist,9710830,,monk
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,16,96,469062,-1,heroic,"mug'zee, heads of security",2168039,2338853,cutefist,2332792,,monk
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,64,85,466480,-1,mythic,"mug'zee, heads of security",10741234,10906125,cutefist,10847272,,monk
-MymtjWk9brQ6aBqR,2025-06-23 Mon,13,12,466480,-1,mythic,"mug'zee, heads of security",3136054,3339892,yearning,3240484,,monk
-MymtjWk9brQ6aBqR,2025-06-23 Mon,23,57,467381,-1,mythic,"mug'zee, heads of security",4677968,4902575,yearning,4836044,,monk
-MymtjWk9brQ6aBqR,2025-06-23 Mon,30,12,1218432,-1,mythic,"mug'zee, heads of security",7350141,7470997,yearning,7444832,,monk
-MymtjWk9brQ6aBqR,2025-06-23 Mon,37,12,469719,-1,mythic,"mug'zee, heads of security",9151929,9428567,yearning,9312025,,monk
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,5,75,1221224,-1,mythic,"mug'zee, heads of security",2143763,2303152,bensbear,2291464,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,7,4,1216143,-1,mythic,"mug'zee, heads of security",2382669,2450682,bensbear,2448060,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,9,4,1216143,-1,mythic,"mug'zee, heads of security",2514265,2587660,bensbear,2579383,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,12,75,469061,-1,mythic,"mug'zee, heads of security",2918841,3222564,bensbear,2940952,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,19,75,1221224,-1,mythic,"mug'zee, heads of security",4654419,4720942,bensbear,4686782,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,41,4,1216143,-1,mythic,"mug'zee, heads of security",9248267,9315771,bensbear,9312504,,druid
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,50,75,1221224,-1,mythic,"mug'zee, heads of security",10762425,10918586,bensbear,10902334,,druid
-MymtjWk9brQ6aBqR,2025-06-23 Mon,21,56,469061,-1,mythic,"mug'zee, heads of security",4504951,4546218,pattern,4529134,,warlock
-MymtjWk9brQ6aBqR,2025-06-23 Mon,28,12,469708,-1,mythic,"mug'zee, heads of security",6912019,6938769,pattern,6917573,,warlock
-MymtjWk9brQ6aBqR,2025-06-23 Mon,40,57,467381,-1,mythic,"mug'zee, heads of security",10514532,10795366,pattern,10672268,,warlock
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,31,29,466578,-1,mythic,chrome king gallywix,6866259,7027060,jumzo,7026444,,paladin
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,16,4,466480,-1,mythic,"mug'zee, heads of security",4081943,4272344,turbohot,4186885,,hunter
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,31,4,466480,-1,mythic,"mug'zee, heads of security",7416064,7602755,turbohot,7521878,,hunter
-BfWcKMdxybL1j9P7,2025-06-09 Mon,38,4,1218432,-1,mythic,"mug'zee, heads of security",7758708,7901097,turbohot,7860527,,hunter
-MymtjWk9brQ6aBqR,2025-06-23 Mon,34,57,467381,-1,mythic,"mug'zee, heads of security",8450800,8743435,televisions,8609165,,priest
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,23,69,467381,-1,mythic,"mug'zee, heads of security",4758178,5016855,willowwisp,4915983,,druid
-RqBF9J8d7jKzpVDM,2025-06-30 Mon,38,3,466480,-1,mythic,"mug'zee, heads of security",8410189,8537617,bigboiples,8515539,,druid
-BfWcKMdxybL1j9P7,2025-06-09 Mon,10,4,470245,-1,mythic,"mug'zee, heads of security",2072245,2323856,magicwingers,2188812,,evoker
-BfWcKMdxybL1j9P7,2025-06-09 Mon,20,4,469708,-1,mythic,"mug'zee, heads of security",3547627,3794352,magicwingers,3548229,,evoker
-BfWcKMdxybL1j9P7,2025-06-09 Mon,28,80,472659,-1,mythic,"mug'zee, heads of security",4960092,5274830,magicwingers,5041688,,evoker
-BfWcKMdxybL1j9P7,2025-06-09 Mon,30,4,466480,-1,mythic,"mug'zee, heads of security",5406292,5638253,magicwingers,5511950,,evoker
-BfWcKMdxybL1j9P7,2025-06-09 Mon,57,-1,469052,-1,mythic,"mug'zee, heads of security",11199682,11475835,magicwingers,11353455,,evoker
-rVnDB4fcb9qZAPLv,2025-06-16 Mon,29,75,469061,-1,mythic,"mug'zee, heads of security",7231290,7299273,cutefist,7250114,,monk
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,46,96,469062,-1,mythic,"mug'zee, heads of security",6916634,7171421,wanchan,6937877,,mage
-jmpyLVFaKX8qvZD7,2025-06-11 Wed,60,96,469062,-1,mythic,"mug'zee, heads of security",10147120,10274462,wanchan,10174441,,mage
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,5,29,1217291,-1,mythic,chrome king gallywix,1942612,2058227,brickyd,2041810,,warrior
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,56,29,467184,-1,mythic,chrome king gallywix,10936420,11169942,brickyd,11135932,,warrior
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,33,29,469326,-1,mythic,chrome king gallywix,7202288,7297296,yeviel,7243861,,paladin
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,38,29,469326,-1,mythic,chrome king gallywix,7779789,7942875,yeviel,7878203,,paladin
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,42,29,469295,-1,mythic,chrome king gallywix,8376574,8499337,yeviel,8494754,,paladin
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,47,29,469326,-1,mythic,chrome king gallywix,9267634,9431085,yeviel,9369326,,paladin
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,54,29,1214226,-1,mythic,chrome king gallywix,10520260,10683440,rizzleton,10523496,,shaman
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,27,29,466153,-1,mythic,chrome king gallywix,5221933,5447458,ashyminge,5320494,,mage
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,35,29,1214226,-1,mythic,chrome king gallywix,7436153,7561005,koriekin,7439397,,druid
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,52,29,466578,-1,mythic,chrome king gallywix,10353495,10449838,koriekin,10448197,,druid
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,13,29,1219280,-1,mythic,chrome king gallywix,2838897,3012744,willowwisp,2857854,,druid
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,16,29,469326,-1,mythic,chrome king gallywix,3404560,3575124,willowwisp,3446612,,druid
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,9,29,1214226,-1,mythic,chrome king gallywix,2312432,2378259,pattern,2315689,,warlock
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,28,29,1214226,-1,mythic,chrome king gallywix,5621914,5685033,pattern,5625169,,warlock
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,3,29,469326,-1,mythic,chrome king gallywix,1690032,1814289,cutefist,1732347,,monk
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,21,29,1219333,-1,mythic,chrome king gallywix,4024476,4189033,cutefist,4155229,,monk
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,23,29,469326,-1,mythic,chrome king gallywix,4272631,4499471,cutefist,4370496,,monk
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,40,29,469326,-1,mythic,chrome king gallywix,8067555,8230418,cutefist,8110446,,monk
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,44,29,466338,-1,mythic,chrome king gallywix,8563313,8728157,cutefist,8726962,,monk
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,14,29,1214448,-1,mythic,chrome king gallywix,3108502,3270284,yearning,3125994,,monk
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,45,29,1219313,-1,mythic,chrome king gallywix,9110953,9170431,enjiie,9163323,,demonhunter
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,7,29,474447,-1,mythic,chrome king gallywix,2141644,2206269,bigboiples,2204215,,druid
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,11,29,1214226,-1,mythic,chrome king gallywix,2537038,2701303,bigboiples,2540317,,druid
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,25,29,469326,-1,mythic,chrome king gallywix,4940655,5128564,bigboiples,5038638,,druid
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,1,29,1214448,-1,mythic,chrome king gallywix,1502624,1598562,magicwingers,1522993,,evoker
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,19,29,1214226,-1,mythic,chrome king gallywix,3871749,3938695,magicwingers,3875052,,evoker
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,36,29,469326,-1,mythic,chrome king gallywix,7642924,7706275,magicwingers,7686446,,evoker
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,49,29,469326,-1,mythic,chrome king gallywix,9600651,9859898,magicwingers,9761321,,evoker
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,18,29,466204,-1,mythic,chrome king gallywix,3664562,3774482,lenus,3703838,,demonhunter
-pWxYMRbVZgAq3cJT,2025-07-09 Wed,31,29,466578,-1,mythic,chrome king gallywix,6866259,7027060,jumzo,7026444,,paladin
+report_id,report_date,pull_number,raid_name,boss_name,raid_difficulty,player_id,player_guid,player_name,player_class,player_spec,death_time,death_ability_guid,death_ability_name
+BfWcKMdxybL1j9P7,2025-06-09 Mon,9,liberation of undermine,"mug'zee, heads of security",mythic,44,187165539,yearning,monk,windwalker,104492,466480,frostshatter_spear
+BfWcKMdxybL1j9P7,2025-06-09 Mon,10,liberation of undermine,"mug'zee, heads of security",mythic,2,185198826,magicwingers,evoker,preservation,116567,470245,stormfury_finger_gun
+BfWcKMdxybL1j9P7,2025-06-09 Mon,12,liberation of undermine,"mug'zee, heads of security",mythic,28,261507174,glizzyrider,monk,windwalker,65237,1216143,double-minded_fury
+BfWcKMdxybL1j9P7,2025-06-09 Mon,14,liberation of undermine,"mug'zee, heads of security",mythic,36,188570273,hobbyalkis,rogue,assassination,18915,469062,unstable_crawler_mines
+BfWcKMdxybL1j9P7,2025-06-09 Mon,15,liberation of undermine,"mug'zee, heads of security",mythic,12,218508076,jumzo,paladin,retribution,22316,1221224,unstable_cluster_bomb
+BfWcKMdxybL1j9P7,2025-06-09 Mon,17,liberation of undermine,"mug'zee, heads of security",mythic,29,218980796,koriekin,druid,balance,64269,1216143,double-minded_fury
+BfWcKMdxybL1j9P7,2025-06-09 Mon,19,liberation of undermine,"mug'zee, heads of security",mythic,44,187165539,yearning,monk,windwalker,104458,466480,frostshatter_spear
+BfWcKMdxybL1j9P7,2025-06-09 Mon,20,liberation of undermine,"mug'zee, heads of security",mythic,2,185198826,magicwingers,evoker,preservation,602,469708,uncontrolled_destruction
+BfWcKMdxybL1j9P7,2025-06-09 Mon,22,liberation of undermine,"mug'zee, heads of security",mythic,44,187165539,yearning,monk,windwalker,51026,469377,explosive_payload
+BfWcKMdxybL1j9P7,2025-06-09 Mon,24,liberation of undermine,"mug'zee, heads of security",mythic,40,189169346,enjiie,demonhunter,havoc,127762,469061,unstable_crawler_mines
+BfWcKMdxybL1j9P7,2025-06-09 Mon,26,liberation of undermine,"mug'zee, heads of security",mythic,29,218980796,koriekin,druid,balance,100034,468665,elemental_calamity
+BfWcKMdxybL1j9P7,2025-06-09 Mon,27,liberation of undermine,"mug'zee, heads of security",mythic,26,186549150,televisions,priest,discipline,194,466974,goblin_gun
+BfWcKMdxybL1j9P7,2025-06-09 Mon,28,liberation of undermine,"mug'zee, heads of security",mythic,2,185198826,magicwingers,evoker,preservation,81596,472659,shakedown
+BfWcKMdxybL1j9P7,2025-06-09 Mon,30,liberation of undermine,"mug'zee, heads of security",mythic,2,185198826,magicwingers,evoker,preservation,105658,466480,frostshatter_spear
+BfWcKMdxybL1j9P7,2025-06-09 Mon,32,liberation of undermine,"mug'zee, heads of security",mythic,42,186961005,iustitiæ,warrior,fury,23018,469061,unstable_crawler_mines
+BfWcKMdxybL1j9P7,2025-06-09 Mon,33,liberation of undermine,"mug'zee, heads of security",mythic,42,186961005,iustitiæ,warrior,fury,18797,469061,unstable_crawler_mines
+BfWcKMdxybL1j9P7,2025-06-09 Mon,34,liberation of undermine,"mug'zee, heads of security",mythic,39,189084733,budgetgoku,paladin,protection,96205,1218432,molten_gold_pool
+BfWcKMdxybL1j9P7,2025-06-09 Mon,36,liberation of undermine,"mug'zee, heads of security",mythic,29,218980796,koriekin,druid,balance,31430,1221224,unstable_cluster_bomb
+BfWcKMdxybL1j9P7,2025-06-09 Mon,38,liberation of undermine,"mug'zee, heads of security",mythic,38,193151689,turbohot,hunter,marksmanship,101819,1218432,molten_gold_pool
+BfWcKMdxybL1j9P7,2025-06-09 Mon,39,liberation of undermine,"mug'zee, heads of security",mythic,29,218980796,koriekin,druid,balance,209019,1218077,bullet
+BfWcKMdxybL1j9P7,2025-06-09 Mon,40,liberation of undermine,"mug'zee, heads of security",mythic,12,218508076,jumzo,paladin,retribution,18957,469061,unstable_crawler_mines
+BfWcKMdxybL1j9P7,2025-06-09 Mon,42,liberation of undermine,"mug'zee, heads of security",mythic,44,187165539,yearning,monk,windwalker,151055,469052,searing_shrapnel
+BfWcKMdxybL1j9P7,2025-06-09 Mon,44,liberation of undermine,"mug'zee, heads of security",mythic,37,148361229,bigboiples,druid,restoration,145276,469052,searing_shrapnel
+BfWcKMdxybL1j9P7,2025-06-09 Mon,46,liberation of undermine,"mug'zee, heads of security",mythic,5,178678382,lenus,demonhunter,vengeance,19932,469061,unstable_crawler_mines
+BfWcKMdxybL1j9P7,2025-06-09 Mon,48,liberation of undermine,"mug'zee, heads of security",mythic,44,187165539,yearning,monk,windwalker,104932,466480,frostshatter_spear
+BfWcKMdxybL1j9P7,2025-06-09 Mon,50,liberation of undermine,"mug'zee, heads of security",mythic,39,189084733,budgetgoku,paladin,protection,150002,469062,unstable_crawler_mines
+BfWcKMdxybL1j9P7,2025-06-09 Mon,51,liberation of undermine,"mug'zee, heads of security",mythic,44,187165539,yearning,monk,windwalker,24127,469719,uncontrolled_burn
+BfWcKMdxybL1j9P7,2025-06-09 Mon,53,liberation of undermine,"mug'zee, heads of security",mythic,26,186549150,televisions,priest,discipline,50976,469377,explosive_payload
+BfWcKMdxybL1j9P7,2025-06-09 Mon,55,liberation of undermine,"mug'zee, heads of security",mythic,12,218508076,jumzo,paladin,retribution,140131,469061,unstable_crawler_mines
+BfWcKMdxybL1j9P7,2025-06-09 Mon,57,liberation of undermine,"mug'zee, heads of security",mythic,2,185198826,magicwingers,evoker,devastation,153773,469052,searing_shrapnel
+BfWcKMdxybL1j9P7,2025-06-09 Mon,58,liberation of undermine,"mug'zee, heads of security",mythic,13,191511951,explorer,paladin,retribution,209549,469719,uncontrolled_burn
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,11,liberation of undermine,"mug'zee, heads of security",heroic,45,187612608,ollieyay,deathknight,unholy,113959,1220398,double_whammy_shot
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,13,liberation of undermine,chrome king gallywix,heroic,16,193266682,evereld,priest,discipline,80497,466419,scatterblast_canisters
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,14,liberation of undermine,chrome king gallywix,heroic,38,148361229,bigboiples,druid,restoration,65664,474447,canister_detonation
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,15,liberation of undermine,chrome king gallywix,heroic,16,193266682,evereld,priest,discipline,371479,466338,zagging_zizzler
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,23,liberation of undermine,rik reverb,heroic,45,187612608,ollieyay,deathknight,unholy,128307,467992,blaring_drop
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,27,liberation of undermine,sprocketmonger lockenstock,heroic,3,185198826,magicwingers,evoker,preservation,170877,1218342,unstable_shrapnel
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,34,liberation of undermine,vexie and the geargrinders,mythic,20,178487898,wanchan,mage,fire,65531,468223,incendiary_fire
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,41,liberation of undermine,cauldron of carnage,mythic,19,187165539,yearning,monk,windwalker,34675,1214035,molten_phlegm
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,42,liberation of undermine,cauldron of carnage,mythic,45,187612608,ollieyay,deathknight,unholy,47059,474322,thunderdrum_salvo
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,43,liberation of undermine,cauldron of carnage,mythic,40,175140887,yeviel,paladin,holy,46235,473653,scrapbomb
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,44,liberation of undermine,cauldron of carnage,mythic,9,182363715,cutefist,monk,mistweaver,110135,472225,galvanized_spite
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,51,liberation of undermine,rik reverb,mythic,21,193151689,turbohot,hunter,beastmastery,83720,467297,static_jolt
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,52,liberation of undermine,rik reverb,mythic,19,187165539,yearning,monk,windwalker,108019,465795,noise_pollution
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,53,liberation of undermine,rik reverb,mythic,40,175140887,yeviel,paladin,holy,29904,472297,sparkblast_ignition
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,54,liberation of undermine,rik reverb,mythic,21,193151689,turbohot,hunter,beastmastery,90991,1217126,lingering_voltage
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,55,liberation of undermine,rik reverb,mythic,43,186961005,iustitiæ,warrior,fury,129300,467992,blaring_drop
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,56,liberation of undermine,rik reverb,mythic,17,191084596,willowwisp,druid,balance,110581,467297,static_jolt
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,57,liberation of undermine,rik reverb,mythic,15,219667865,rizzleton,shaman,elemental,146343,467992,blaring_drop
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,58,liberation of undermine,rik reverb,mythic,10,218508076,jumzo,paladin,retribution,129162,467992,blaring_drop
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,59,liberation of undermine,rik reverb,mythic,21,193151689,turbohot,hunter,beastmastery,106544,467297,static_jolt
+J1QWahcLq2XGz76y,2025-03-24 Mon,5,liberation of undermine,vexie and the geargrinders,mythic,45,191511951,explorer,paladin,retribution,33696,460021,hot_wheels
+J1QWahcLq2XGz76y,2025-03-24 Mon,7,liberation of undermine,vexie and the geargrinders,mythic,41,178083954,yevie,priest,discipline,288235,468223,incendiary_fire
+J1QWahcLq2XGz76y,2025-03-24 Mon,9,liberation of undermine,vexie and the geargrinders,mythic,2,185198826,magicwingers,evoker,preservation,64993,468223,incendiary_fire
+J1QWahcLq2XGz76y,2025-03-24 Mon,12,liberation of undermine,vexie and the geargrinders,mythic,26,182363715,cutefist,monk,mistweaver,87282,468147,exhaust_fumes
+J1QWahcLq2XGz76y,2025-03-24 Mon,15,liberation of undermine,vexie and the geargrinders,mythic,45,191511951,explorer,paladin,retribution,104849,1216740,oil_canister
+J1QWahcLq2XGz76y,2025-03-24 Mon,20,liberation of undermine,cauldron of carnage,mythic,8,186961005,iustitiæ,warrior,arms,46738,472242,blastburn_roarcannon
+J1QWahcLq2XGz76y,2025-03-24 Mon,22,liberation of undermine,cauldron of carnage,mythic,7,178487898,wanchan,mage,fire,49549,474322,thunderdrum_salvo
+J1QWahcLq2XGz76y,2025-03-24 Mon,24,liberation of undermine,cauldron of carnage,mythic,26,182363715,cutefist,monk,mistweaver,47581,474322,thunderdrum_salvo
+J1QWahcLq2XGz76y,2025-03-24 Mon,26,liberation of undermine,cauldron of carnage,mythic,2,185198826,magicwingers,evoker,preservation,118187,473653,scrapbomb
+J1QWahcLq2XGz76y,2025-03-24 Mon,27,liberation of undermine,cauldron of carnage,mythic,38,148361229,bigboiples,druid,restoration,139643,472242,blastburn_roarcannon
+J1QWahcLq2XGz76y,2025-03-24 Mon,28,liberation of undermine,cauldron of carnage,mythic,3,187165539,yearning,monk,windwalker,57093,472222,blistering_spite
+J1QWahcLq2XGz76y,2025-03-24 Mon,29,liberation of undermine,cauldron of carnage,mythic,43,218508076,jumzo,paladin,retribution,46507,472242,blastburn_roarcannon
+J1QWahcLq2XGz76y,2025-03-24 Mon,31,liberation of undermine,cauldron of carnage,mythic,3,187165539,yearning,monk,windwalker,46605,472242,blastburn_roarcannon
+J1QWahcLq2XGz76y,2025-03-24 Mon,33,liberation of undermine,cauldron of carnage,mythic,8,186961005,iustitiæ,warrior,fury,49570,474322,thunderdrum_salvo
+J1QWahcLq2XGz76y,2025-03-24 Mon,34,liberation of undermine,cauldron of carnage,mythic,9,191459534,bpd,warlock,destruction,46654,472242,blastburn_roarcannon
+J1QWahcLq2XGz76y,2025-03-24 Mon,35,liberation of undermine,cauldron of carnage,mythic,3,187165539,yearning,monk,windwalker,137429,1221825,tiny_tussle
+J1QWahcLq2XGz76y,2025-03-24 Mon,36,liberation of undermine,cauldron of carnage,mythic,7,178487898,wanchan,mage,fire,47545,474322,thunderdrum_salvo
+J1QWahcLq2XGz76y,2025-03-24 Mon,37,liberation of undermine,cauldron of carnage,mythic,39,191084596,willowwisp,druid,balance,141154,473653,scrapbomb
+J1QWahcLq2XGz76y,2025-03-24 Mon,39,liberation of undermine,cauldron of carnage,mythic,40,188570273,hobbyalkis,rogue,assassination,46924,472242,blastburn_roarcannon
+J1QWahcLq2XGz76y,2025-03-24 Mon,40,liberation of undermine,cauldron of carnage,mythic,7,178487898,wanchan,mage,fire,141806,472242,blastburn_roarcannon
+J1QWahcLq2XGz76y,2025-03-24 Mon,42,liberation of undermine,cauldron of carnage,mythic,39,191084596,willowwisp,druid,balance,47080,474322,thunderdrum_salvo
+J1QWahcLq2XGz76y,2025-03-24 Mon,43,liberation of undermine,cauldron of carnage,mythic,45,191511951,explorer,paladin,retribution,153297,1221825,tiny_tussle
+MymtjWk9brQ6aBqR,2025-06-23 Mon,4,liberation of undermine,"mug'zee, heads of security",mythic,2,178678382,lenus,demonhunter,vengeance,18845,469062,unstable_crawler_mines
+MymtjWk9brQ6aBqR,2025-06-23 Mon,7,liberation of undermine,"mug'zee, heads of security",mythic,24,187383955,unrecorded,mage,arcane,104145,466480,frostshatter_spear
+MymtjWk9brQ6aBqR,2025-06-23 Mon,8,liberation of undermine,"mug'zee, heads of security",mythic,3,178487898,wanchan,mage,fire,115807,472057,hot_mess
+MymtjWk9brQ6aBqR,2025-06-23 Mon,9,liberation of undermine,"mug'zee, heads of security",mythic,13,193151689,turbohot,hunter,marksmanship,213107,1218077,bullet
+MymtjWk9brQ6aBqR,2025-06-23 Mon,11,liberation of undermine,"mug'zee, heads of security",mythic,14,182363715,cutefist,monk,mistweaver,156617,467381,goblin-guided_rocket
+MymtjWk9brQ6aBqR,2025-06-23 Mon,13,liberation of undermine,"mug'zee, heads of security",mythic,47,187165539,yearning,monk,windwalker,104430,466480,frostshatter_spear
+MymtjWk9brQ6aBqR,2025-06-23 Mon,15,liberation of undermine,"mug'zee, heads of security",mythic,32,188570273,hobbyalkis,rogue,assassination,104451,466480,frostshatter_spear
+MymtjWk9brQ6aBqR,2025-06-23 Mon,16,liberation of undermine,"mug'zee, heads of security",mythic,16,189169346,enjiie,demonhunter,havoc,209129,1218077,bullet
+MymtjWk9brQ6aBqR,2025-06-23 Mon,17,liberation of undermine,"mug'zee, heads of security",mythic,15,189084733,budgetgoku,paladin,protection,119574,1218432,molten_gold_pool
+MymtjWk9brQ6aBqR,2025-06-23 Mon,19,liberation of undermine,"mug'zee, heads of security",mythic,14,182363715,cutefist,monk,mistweaver,18890,469061,unstable_crawler_mines
+MymtjWk9brQ6aBqR,2025-06-23 Mon,21,liberation of undermine,"mug'zee, heads of security",mythic,7,192722819,pattern,warlock,destruction,24183,469061,unstable_crawler_mines
+MymtjWk9brQ6aBqR,2025-06-23 Mon,23,liberation of undermine,"mug'zee, heads of security",mythic,47,187165539,yearning,monk,windwalker,158076,467381,goblin-guided_rocket
+MymtjWk9brQ6aBqR,2025-06-23 Mon,25,liberation of undermine,"mug'zee, heads of security",mythic,1,185198826,magicwingers,evoker,devastation,123276,466517,stormfury_cloud
+MymtjWk9brQ6aBqR,2025-06-23 Mon,26,liberation of undermine,"mug'zee, heads of security",mythic,16,189169346,enjiie,demonhunter,havoc,328,466974,goblin_gun
+MymtjWk9brQ6aBqR,2025-06-23 Mon,27,liberation of undermine,"mug'zee, heads of security",mythic,21,191084596,willowwisp,druid,balance,157375,467381,goblin-guided_rocket
+MymtjWk9brQ6aBqR,2025-06-23 Mon,28,liberation of undermine,"mug'zee, heads of security",mythic,7,192722819,pattern,warlock,destruction,5554,469708,uncontrolled_destruction
+MymtjWk9brQ6aBqR,2025-06-23 Mon,29,liberation of undermine,"mug'zee, heads of security",mythic,14,182363715,cutefist,monk,mistweaver,124949,469708,uncontrolled_destruction
+MymtjWk9brQ6aBqR,2025-06-23 Mon,30,liberation of undermine,"mug'zee, heads of security",mythic,47,187165539,yearning,monk,windwalker,94691,1218432,molten_gold_pool
+MymtjWk9brQ6aBqR,2025-06-23 Mon,31,liberation of undermine,"mug'zee, heads of security",mythic,14,182363715,cutefist,monk,mistweaver,22669,469061,unstable_crawler_mines
+MymtjWk9brQ6aBqR,2025-06-23 Mon,32,liberation of undermine,"mug'zee, heads of security",mythic,24,187383955,unrecorded,mage,arcane,155409,1221224,unstable_cluster_bomb
+MymtjWk9brQ6aBqR,2025-06-23 Mon,34,liberation of undermine,"mug'zee, heads of security",mythic,33,186549150,televisions,priest,discipline,158365,467381,goblin-guided_rocket
+MymtjWk9brQ6aBqR,2025-06-23 Mon,35,liberation of undermine,"mug'zee, heads of security",mythic,20,218508076,jumzo,paladin,retribution,144549,1221224,unstable_cluster_bomb
+MymtjWk9brQ6aBqR,2025-06-23 Mon,37,liberation of undermine,"mug'zee, heads of security",mythic,47,187165539,yearning,monk,windwalker,160096,469719,uncontrolled_burn
+MymtjWk9brQ6aBqR,2025-06-23 Mon,38,liberation of undermine,"mug'zee, heads of security",mythic,14,182363715,cutefist,monk,mistweaver,215042,1218077,bullet
+MymtjWk9brQ6aBqR,2025-06-23 Mon,39,liberation of undermine,"mug'zee, heads of security",mythic,23,189862882,mægisk,rogue,outlaw,143968,469062,unstable_crawler_mines
+MymtjWk9brQ6aBqR,2025-06-23 Mon,40,liberation of undermine,"mug'zee, heads of security",mythic,7,192722819,pattern,warlock,destruction,157736,467381,goblin-guided_rocket
+MymtjWk9brQ6aBqR,2025-06-23 Mon,41,liberation of undermine,"mug'zee, heads of security",mythic,5,187148477,delvur,paladin,retribution,145923,469052,searing_shrapnel
+MymtjWk9brQ6aBqR,2025-06-23 Mon,43,liberation of undermine,"mug'zee, heads of security",mythic,3,178487898,wanchan,mage,fire,25506,469052,searing_shrapnel
+MymtjWk9brQ6aBqR,2025-06-23 Mon,45,liberation of undermine,"mug'zee, heads of security",mythic,2,178678382,lenus,demonhunter,vengeance,256681,466974,goblin_gun
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,9,liberation of undermine,one-armed bandit,mythic,65,190156111,ashyminge,mage,fire,58230,461390,flame_and_coin
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,10,liberation of undermine,one-armed bandit,mythic,46,187383955,unrecorded,mage,arcane,93231,460424,pay-line
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,11,liberation of undermine,one-armed bandit,mythic,5,219667865,rizzleton,shaman,elemental,100763,1223999,traveling_flames
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,12,liberation of undermine,one-armed bandit,mythic,25,178487898,wanchan,mage,fire,144853,1223999,traveling_flames
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,13,liberation of undermine,one-armed bandit,mythic,5,219667865,rizzleton,shaman,elemental,36114,460430,crushed!
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,14,liberation of undermine,one-armed bandit,mythic,7,178678382,lenus,demonhunter,vengeance,193245,473009,explosive_shrapnel
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,16,liberation of undermine,one-armed bandit,mythic,36,193151689,turbohot,hunter,beastmastery,141676,460873,electric_blast
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,17,liberation of undermine,one-armed bandit,mythic,25,178487898,wanchan,mage,fire,107861,460576,shocking_field
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,18,liberation of undermine,one-armed bandit,mythic,46,187383955,unrecorded,mage,arcane,94463,460424,pay-line
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,19,liberation of undermine,one-armed bandit,mythic,8,218980796,koriekin,druid,balance,104206,1223999,traveling_flames
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,20,liberation of undermine,one-armed bandit,mythic,1,150043779,stwrithe,warlock,destruction,139174,460427,pay-line
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,21,liberation of undermine,one-armed bandit,mythic,29,189084733,budgetgoku,paladin,protection,114135,460472,the_big_hit
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,22,liberation of undermine,one-armed bandit,mythic,29,189084733,budgetgoku,paladin,protection,156802,1,melee
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,23,liberation of undermine,one-armed bandit,mythic,27,191084596,willowwisp,druid,balance,44050,1223999,traveling_flames
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,25,liberation of undermine,one-armed bandit,mythic,6,189169346,enjiie,demonhunter,havoc,105657,1223999,traveling_flames
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,26,liberation of undermine,one-armed bandit,mythic,68,186549150,televisions,priest,shadow,51584,461390,flame_and_coin
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,28,liberation of undermine,one-armed bandit,mythic,3,185198826,magicwingers,evoker,preservation,218147,1223999,traveling_flames
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,29,liberation of undermine,one-armed bandit,mythic,26,187165539,yearning,monk,windwalker,150922,474665,coin_magnet
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,30,liberation of undermine,one-armed bandit,mythic,8,218980796,koriekin,druid,balance,146481,471927,withering_flames
+NydaKxcRtAhBj9D4,2025-03-31 Mon,6,liberation of undermine,cauldron of carnage,mythic,8,185198826,magicwingers,evoker,preservation,41943,463925,lingering_electricity
+NydaKxcRtAhBj9D4,2025-03-31 Mon,9,liberation of undermine,cauldron of carnage,mythic,8,185198826,magicwingers,evoker,preservation,36854,1214024,voltaic_image
+NydaKxcRtAhBj9D4,2025-03-31 Mon,10,liberation of undermine,cauldron of carnage,mythic,50,187165539,yearning,monk,windwalker,14064,474322,thunderdrum_salvo
+NydaKxcRtAhBj9D4,2025-03-31 Mon,11,liberation of undermine,cauldron of carnage,mythic,8,185198826,magicwingers,evoker,preservation,46095,474322,thunderdrum_salvo
+NydaKxcRtAhBj9D4,2025-03-31 Mon,13,liberation of undermine,cauldron of carnage,mythic,43,193151689,turbohot,hunter,beastmastery,44593,472242,blastburn_roarcannon
+NydaKxcRtAhBj9D4,2025-03-31 Mon,15,liberation of undermine,cauldron of carnage,mythic,59,189084733,budgetgoku,paladin,protection,220101,1214190,eruption_stomp
+NydaKxcRtAhBj9D4,2025-03-31 Mon,16,liberation of undermine,cauldron of carnage,mythic,55,186549150,televisions,priest,shadow,46162,473653,scrapbomb
+NydaKxcRtAhBj9D4,2025-03-31 Mon,17,liberation of undermine,cauldron of carnage,mythic,55,186549150,televisions,priest,shadow,160627,472242,blastburn_roarcannon
+NydaKxcRtAhBj9D4,2025-03-31 Mon,22,liberation of undermine,rik reverb,mythic,43,193151689,turbohot,hunter,beastmastery,53619,472990,haywire
+NydaKxcRtAhBj9D4,2025-03-31 Mon,23,liberation of undermine,rik reverb,mythic,9,219667865,rizzleton,shaman,elemental,84736,1217126,lingering_voltage
+NydaKxcRtAhBj9D4,2025-03-31 Mon,24,liberation of undermine,rik reverb,mythic,56,182363715,cutefist,monk,mistweaver,102033,472297,sparkblast_ignition
+NydaKxcRtAhBj9D4,2025-03-31 Mon,25,liberation of undermine,rik reverb,mythic,10,186961005,iustitiæ,warrior,fury,53601,1217126,lingering_voltage
+NydaKxcRtAhBj9D4,2025-03-31 Mon,26,liberation of undermine,rik reverb,mythic,56,182363715,cutefist,monk,mistweaver,33299,472297,sparkblast_ignition
+NydaKxcRtAhBj9D4,2025-03-31 Mon,28,liberation of undermine,rik reverb,mythic,2,191511951,explorer,paladin,retribution,112091,467297,static_jolt
+NydaKxcRtAhBj9D4,2025-03-31 Mon,39,liberation of undermine,rik reverb,mythic,2,191511951,explorer,paladin,retribution,34053,472297,sparkblast_ignition
+NydaKxcRtAhBj9D4,2025-03-31 Mon,40,liberation of undermine,rik reverb,mythic,43,193151689,turbohot,hunter,beastmastery,107140,1217126,lingering_voltage
+NydaKxcRtAhBj9D4,2025-03-31 Mon,41,liberation of undermine,rik reverb,mythic,55,186549150,televisions,priest,shadow,30618,472297,sparkblast_ignition
+NydaKxcRtAhBj9D4,2025-03-31 Mon,42,liberation of undermine,rik reverb,mythic,62,187612608,ollieyay,deathknight,unholy,128623,467992,blaring_drop
+NydaKxcRtAhBj9D4,2025-03-31 Mon,43,liberation of undermine,rik reverb,mythic,153,218508076,jumzo,paladin,retribution,116502,472297,sparkblast_ignition
+NydaKxcRtAhBj9D4,2025-03-31 Mon,44,liberation of undermine,rik reverb,mythic,62,187612608,ollieyay,deathknight,unholy,128014,465795,noise_pollution
+NydaKxcRtAhBj9D4,2025-03-31 Mon,46,liberation of undermine,rik reverb,mythic,153,218508076,jumzo,paladin,retribution,91874,472297,sparkblast_ignition
+NydaKxcRtAhBj9D4,2025-03-31 Mon,48,liberation of undermine,rik reverb,mythic,43,193151689,turbohot,hunter,beastmastery,96367,1217126,lingering_voltage
+NydaKxcRtAhBj9D4,2025-03-31 Mon,50,liberation of undermine,rik reverb,mythic,8,185198826,magicwingers,evoker,preservation,104864,467297,static_jolt
+NydaKxcRtAhBj9D4,2025-03-31 Mon,51,liberation of undermine,rik reverb,mythic,5,191459534,bpd,warlock,destruction,89316,1217126,lingering_voltage
+NydaKxcRtAhBj9D4,2025-03-31 Mon,52,liberation of undermine,rik reverb,mythic,50,187165539,yearning,monk,windwalker,129118,472294,grand_finale
+NydaKxcRtAhBj9D4,2025-03-31 Mon,54,liberation of undermine,rik reverb,mythic,62,187612608,ollieyay,deathknight,unholy,128419,467992,blaring_drop
+NydaKxcRtAhBj9D4,2025-03-31 Mon,56,liberation of undermine,rik reverb,mythic,5,191459534,bpd,warlock,destruction,111187,1217126,lingering_voltage
+NydaKxcRtAhBj9D4,2025-03-31 Mon,57,liberation of undermine,rik reverb,mythic,2,191511951,explorer,paladin,retribution,109997,465795,noise_pollution
+NydaKxcRtAhBj9D4,2025-03-31 Mon,59,liberation of undermine,rik reverb,mythic,25,191084596,willowwisp,druid,balance,104818,467297,static_jolt
+NydaKxcRtAhBj9D4,2025-03-31 Mon,60,liberation of undermine,rik reverb,mythic,10,186961005,iustitiæ,warrior,fury,150280,467992,blaring_drop
+NydaKxcRtAhBj9D4,2025-03-31 Mon,62,liberation of undermine,rik reverb,mythic,55,186549150,televisions,priest,shadow,132088,467992,blaring_drop
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,26,liberation of undermine,one-armed bandit,mythic,14,148361229,bigboiples,druid,restoration,56492,460427,pay-line
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,27,liberation of undermine,one-armed bandit,mythic,1,185198826,magicwingers,evoker,devastation,55582,461390,flame_and_coin
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,28,liberation of undermine,one-armed bandit,mythic,22,186549150,televisions,priest,shadow,49032,460430,crushed!
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,30,liberation of undermine,one-armed bandit,mythic,27,193151689,turbohot,hunter,beastmastery,51156,1223999,traveling_flames
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,32,liberation of undermine,one-armed bandit,mythic,27,193151689,turbohot,hunter,beastmastery,103309,460576,shocking_field
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,33,liberation of undermine,one-armed bandit,mythic,27,193151689,turbohot,hunter,beastmastery,92059,460424,pay-line
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,34,liberation of undermine,one-armed bandit,mythic,1,185198826,magicwingers,evoker,devastation,52238,461390,flame_and_coin
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,35,liberation of undermine,one-armed bandit,mythic,35,189169346,enjiie,demonhunter,havoc,104377,1223999,traveling_flames
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,36,liberation of undermine,one-armed bandit,mythic,30,178487898,wanchan,mage,fire,61467,461390,flame_and_coin
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,38,liberation of undermine,one-armed bandit,mythic,27,193151689,turbohot,hunter,beastmastery,40974,460424,pay-line
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,39,liberation of undermine,one-armed bandit,mythic,22,186549150,televisions,priest,shadow,209037,460430,crushed!
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,40,liberation of undermine,one-armed bandit,mythic,27,193151689,turbohot,hunter,beastmastery,40665,460424,pay-line
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,41,liberation of undermine,one-armed bandit,mythic,26,191511951,explorer,paladin,retribution,164263,1223999,traveling_flames
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,42,liberation of undermine,one-armed bandit,mythic,38,191084596,willowwisp,druid,balance,194248,1223999,traveling_flames
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,43,liberation of undermine,one-armed bandit,mythic,36,189084733,budgetgoku,paladin,protection,102315,1,melee
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,44,liberation of undermine,one-armed bandit,mythic,22,186549150,televisions,priest,shadow,141085,460424,pay-line
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,45,liberation of undermine,one-armed bandit,mythic,39,175140887,yeviel,paladin,holy,60943,1223999,traveling_flames
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,46,liberation of undermine,one-armed bandit,mythic,32,187165539,yearning,monk,windwalker,67816,460164,foul_exhaust
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,47,liberation of undermine,one-armed bandit,mythic,15,186961005,iustitiæ,warrior,protection,101112,1223999,traveling_flames
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,48,liberation of undermine,one-armed bandit,mythic,9,187383955,unrecorded,mage,arcane,113709,1223999,traveling_flames
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,49,liberation of undermine,one-armed bandit,mythic,35,189169346,enjiie,demonhunter,havoc,51165,1,melee
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,50,liberation of undermine,one-armed bandit,mythic,22,186549150,televisions,priest,shadow,44037,1223999,traveling_flames
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,51,liberation of undermine,one-armed bandit,mythic,39,175140887,yeviel,paladin,holy,101842,460164,foul_exhaust
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,52,liberation of undermine,one-armed bandit,mythic,1,185198826,magicwingers,evoker,devastation,173057,1223999,traveling_flames
+XyFknKqWVBzcP2fM,2025-07-02 Wed,6,liberation of undermine,"mug'zee, heads of security",mythic,59,206917925,bensbear,druid,balance,142604,469719,uncontrolled_burn
+XyFknKqWVBzcP2fM,2025-07-02 Wed,7,liberation of undermine,"mug'zee, heads of security",mythic,40,191084596,willowwisp,druid,balance,156840,467381,goblin-guided_rocket
+XyFknKqWVBzcP2fM,2025-07-02 Wed,8,liberation of undermine,"mug'zee, heads of security",mythic,56,187165539,yearning,monk,windwalker,154148,469052,searing_shrapnel
