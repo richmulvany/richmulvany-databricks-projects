@@ -20,6 +20,7 @@ tables = {
     "summary_healing": spark.read.table("02_silver.staging.warcraftlogs_tables_summary_healing"),
     "summary_damage": spark.read.table("02_silver.staging.warcraftlogs_tables_summary_damage"),
     "summary_damage_taken": spark.read.table("02_silver.staging.warcraftlogs_tables_summary_damage_taken"),
+    "summary_deaths": spark.read.table("02_silver.staging.warcraftlogs_tables_summary_deaths"),
     "summary_metadata": spark.read.table("02_silver.staging.warcraftlogs_tables_summary_metadata"),
     "composition": spark.read.table("02_silver.staging.warcraftlogs_tables_composition"),
     "casts": spark.read.table("02_silver.staging.warcraftlogs_tables_casts"),
@@ -56,8 +57,8 @@ for name, df in tables.items():
     valid_df, quarantine_df = engine.apply_checks_by_metadata_and_split(df, checks)
 
     # Save
-    valid_df.write.mode("overwrite").saveAsTable(f"02_silver.warcraftlogs.f_{name}")
-    quarantine_df.write.mode("overwrite").saveAsTable(f"02_silver.dq_monitoring.warcraftlogs_quarantine_{name}")
+    valid_df.write.mode("overwrite").saveAsTable(f"02_silver.warcraftlogs.f_tables_{name}")
+    quarantine_df.write.mode("overwrite").saveAsTable(f"02_silver.dq_monitoring.warcraftlogs_quarantine_tables_{name}")
 
     # Clean staging area
     spark.sql(f"""DROP TABLE IF EXISTS 02_silver.staging.warcraftlogs_tables_{name}""")

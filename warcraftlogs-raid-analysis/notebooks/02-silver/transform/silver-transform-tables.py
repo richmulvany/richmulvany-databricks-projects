@@ -11,6 +11,7 @@ from pyspark.sql import DataFrame
 from pyspark.sql.window import Window
 
 # COMMAND ----------
+
 # DBTITLE 1,Configure Notebook / Assign Variables
 spark.sql("USE CATALOG 02_silver")
 spark.sql("USE SCHEMA staging")
@@ -19,6 +20,7 @@ class_defs = spark.table("02_silver.warcraftlogs.d_game_data_classes")
 classes = [r["class_name"] for r in class_defs.select("class_name").distinct().collect()]
 
 # COMMAND ----------
+
 # DBTITLE 1,Establish Functions
 def camel_to_snake(s: str) -> str:
     tmp = re.sub(r'(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])', '_', s)
@@ -28,10 +30,12 @@ def camel_to_snake(s: str) -> str:
 camel_to_snake_udf = udf(camel_to_snake, StringType())
 
 # COMMAND ----------
+
 # DBTITLE 1,Read Bronze “tables”
 raw_tables_df = spark.read.table("01_bronze.warcraftlogs.tables")
 
 # COMMAND ----------
+
 # DBTITLE 1,Parse Dataframes
 tables_df = (
     raw_tables_df
@@ -56,6 +60,7 @@ for dt in data_types:
 print(f"Created {len(data_types)} DataFrames")
 
 # COMMAND ----------
+
 # DBTITLE 1,Transform
 # --- Dispels ---
 dispels_df = dispels_df.filter(
@@ -172,6 +177,38 @@ summary_df_damage_taken = (
         lower(col("damage_taken.type")).alias("damaging_ability_type"),
         col("damage_taken.total").alias("damage_taken_total")
     )
+)
+
+# --- Summary Deaths ---
+summary_df_deaths = summary_df.filter(
+    (col("table_json.data.deathEvents").isNotNull()) &
+    (size(col("table_json.data.deathEvents")) > 0)
+)
+summary_df_deaths = (
+    summary_df_deaths
+    .select(
+    "report_id", "report_date", "pull_number",
+    explode("table_json.data.deathEvents").alias("death_event")
+    )
+    .select(
+        "report_id", "report_date", "pull_number",
+        col("death_event.guid").alias("player_guid"),
+        col("death_event.id").alias("player_id"),
+        lower(col("death_event.name")).alias("player_name"),
+        lower(col("death_event.icon")).alias("icon"),
+        col("death_event.deathTime").alias("death_time"),
+        col("death_event.ability.guid").alias("death_ability_guid"),
+        regexp_replace(lower(col("death_event.ability.name")), r' ', '_').alias("death_ability_name")
+    )
+    .withColumn("cls_spec", split(col("icon"), "-"))
+    .withColumn("player_class", col("cls_spec")[0])
+    .withColumn("player_spec", when(size(col("cls_spec")) > 1, col("cls_spec")[1]).otherwise("unknown"))
+    .select(
+        "report_id", "report_date", "pull_number",
+        "player_id", "player_guid", "player_name", "player_class",
+        "player_spec", "death_time", "death_ability_guid", "death_ability_name"
+    )
+    .filter(col("player_class").isin(classes))
 )
 
 # --- Summary Metadata ---
@@ -297,6 +334,7 @@ damage_done_df = (
 )
 
 # COMMAND ----------
+
 # DBTITLE 1,Export
 tbls = {
     "dispels": dispels_df,
@@ -304,6 +342,7 @@ tbls = {
     "summary_healing": summary_df_healing,
     "summary_damage": summary_df_damage,
     "summary_damage_taken": summary_df_damage_taken,
+    "summary_deaths": summary_df_deaths,
     "summary_metadata": summary_df_metadata,
     "composition": composition_df,
     "casts": casts_df,
