@@ -1,14 +1,10 @@
 [theme]
 base = "dark"
-primaryColor = "#A8DADC"
-backgroundColor = "#2C2C2C"
-secondaryBackgroundColor = "#E4E4E4"
-textColor = "#FAFAFA"
-font = "sans serif"  # Options: "sans serif", "serif", "monospace"
+font = "monospace"  # Options: "sans serif", "serif", "monospace"
 
 
 [client]
-toolbarMode = "fullscreen"  # Options: "auto", "minimal", "fullscreen"
+toolbarMode = "auto"  # Options: "auto", "minimal", "fullscreen"
 
 [logger]
 level = "info"  # Options: "debug", "info", "warning", "error"
