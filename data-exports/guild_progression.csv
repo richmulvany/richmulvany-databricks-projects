@@ -1,0 +1,872 @@
+report_id,report_date,pull_number,boss_name,raid_difficulty,fight_duration_sec,fight_outcome,boss_hp_remaining_pct,boss_hp_lowest_pull,encounter_order
+DFANHypwvLTzfWaQ,2025-03-19 Wed,9,cauldron of carnage,heroic,210.478,kill,0.0,0.0,1
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,10,cauldron of carnage,heroic,185.75,kill,0.0,0.0,2
+J1QWahcLq2XGz76y,2025-03-24 Mon,20,cauldron of carnage,mythic,113.132,wipe,78.78,78.78,1
+J1QWahcLq2XGz76y,2025-03-24 Mon,22,cauldron of carnage,mythic,223.939,wipe,56.28,56.28,2
+J1QWahcLq2XGz76y,2025-03-24 Mon,24,cauldron of carnage,mythic,211.444,wipe,61.86,56.28,3
+J1QWahcLq2XGz76y,2025-03-24 Mon,26,cauldron of carnage,mythic,158.687,wipe,64.11,56.28,4
+J1QWahcLq2XGz76y,2025-03-24 Mon,27,cauldron of carnage,mythic,306.422,wipe,40.55,40.55,5
+J1QWahcLq2XGz76y,2025-03-24 Mon,28,cauldron of carnage,mythic,220.409,wipe,47.26,40.55,6
+J1QWahcLq2XGz76y,2025-03-24 Mon,29,cauldron of carnage,mythic,285.632,wipe,35.84,35.84,7
+J1QWahcLq2XGz76y,2025-03-24 Mon,31,cauldron of carnage,mythic,181.399,wipe,56.8,35.84,8
+J1QWahcLq2XGz76y,2025-03-24 Mon,33,cauldron of carnage,mythic,361.004,wipe,19.66,19.66,9
+J1QWahcLq2XGz76y,2025-03-24 Mon,34,cauldron of carnage,mythic,396.089,wipe,19.15,19.15,10
+J1QWahcLq2XGz76y,2025-03-24 Mon,35,cauldron of carnage,mythic,484.529,wipe,2.41,2.41,11
+J1QWahcLq2XGz76y,2025-03-24 Mon,36,cauldron of carnage,mythic,178.471,wipe,58.84,2.41,12
+J1QWahcLq2XGz76y,2025-03-24 Mon,37,cauldron of carnage,mythic,258.957,wipe,38.16,2.41,13
+J1QWahcLq2XGz76y,2025-03-24 Mon,39,cauldron of carnage,mythic,283.638,wipe,38.02,2.41,14
+J1QWahcLq2XGz76y,2025-03-24 Mon,40,cauldron of carnage,mythic,210.287,wipe,54.22,2.41,15
+J1QWahcLq2XGz76y,2025-03-24 Mon,42,cauldron of carnage,mythic,304.353,wipe,36.19,2.41,16
+J1QWahcLq2XGz76y,2025-03-24 Mon,43,cauldron of carnage,mythic,429.204,kill,0.0,0.0,17
+NydaKxcRtAhBj9D4,2025-03-31 Mon,6,cauldron of carnage,mythic,221.926,wipe,51.5,0.0,18
+NydaKxcRtAhBj9D4,2025-03-31 Mon,9,cauldron of carnage,mythic,166.555,wipe,59.02,0.0,19
+NydaKxcRtAhBj9D4,2025-03-31 Mon,10,cauldron of carnage,mythic,145.148,wipe,66.87,0.0,20
+NydaKxcRtAhBj9D4,2025-03-31 Mon,11,cauldron of carnage,mythic,94.583,wipe,77.97,0.0,21
+NydaKxcRtAhBj9D4,2025-03-31 Mon,13,cauldron of carnage,mythic,118.121,wipe,75.63,0.0,22
+NydaKxcRtAhBj9D4,2025-03-31 Mon,15,cauldron of carnage,mythic,368.479,wipe,15.26,0.0,23
+NydaKxcRtAhBj9D4,2025-03-31 Mon,16,cauldron of carnage,mythic,403.244,wipe,21.74,0.0,24
+NydaKxcRtAhBj9D4,2025-03-31 Mon,17,cauldron of carnage,mythic,404.718,kill,0.0,0.0,25
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,41,cauldron of carnage,mythic,87.53,wipe,78.97,0.0,26
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,42,cauldron of carnage,mythic,384.234,wipe,11.15,0.0,27
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,43,cauldron of carnage,mythic,70.598,wipe,79.86,0.0,28
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,44,cauldron of carnage,mythic,374.795,kill,0.0,0.0,29
+c8PFLg3WkCAvBazr,2025-04-09 Wed,22,cauldron of carnage,mythic,372.366,kill,0.0,0.0,30
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,34,cauldron of carnage,mythic,338.577,kill,0.0,0.0,31
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,26,cauldron of carnage,mythic,99.394,wipe,77.06,0.0,32
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,28,cauldron of carnage,mythic,392.843,kill,0.0,0.0,33
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,27,cauldron of carnage,mythic,251.801,wipe,32.14,0.0,34
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,28,cauldron of carnage,mythic,370.138,kill,0.0,0.0,35
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,28,cauldron of carnage,mythic,317.425,kill,0.0,0.0,36
+DFANHypwvLTzfWaQ,2025-03-19 Wed,53,chrome king gallywix,heroic,64.22,wipe,82.16,82.16,1
+DFANHypwvLTzfWaQ,2025-03-19 Wed,55,chrome king gallywix,heroic,161.449,wipe,67.69,67.69,2
+DFANHypwvLTzfWaQ,2025-03-19 Wed,56,chrome king gallywix,heroic,96.975,wipe,78.37,67.69,3
+DFANHypwvLTzfWaQ,2025-03-19 Wed,57,chrome king gallywix,heroic,152.222,wipe,69.39,67.69,4
+DFANHypwvLTzfWaQ,2025-03-19 Wed,58,chrome king gallywix,heroic,379.492,wipe,41.8,41.8,5
+DFANHypwvLTzfWaQ,2025-03-19 Wed,59,chrome king gallywix,heroic,125.11,wipe,71.96,41.8,6
+DFANHypwvLTzfWaQ,2025-03-19 Wed,61,chrome king gallywix,heroic,203.241,wipe,58.33,41.8,7
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,43,chrome king gallywix,heroic,202.093,wipe,51.86,41.8,8
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,44,chrome king gallywix,heroic,101.442,wipe,72.74,41.8,9
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,45,chrome king gallywix,heroic,269.358,wipe,49.55,41.8,10
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,47,chrome king gallywix,heroic,132.094,wipe,70.66,41.8,11
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,48,chrome king gallywix,heroic,427.797,wipe,12.44,12.44,12
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,49,chrome king gallywix,heroic,305.281,wipe,47.47,12.44,13
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,50,chrome king gallywix,heroic,524.984,wipe,4.53,4.53,14
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,51,chrome king gallywix,heroic,466.207,kill,0.0,0.0,15
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,13,chrome king gallywix,heroic,229.345,wipe,48.96,0.0,16
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,14,chrome king gallywix,heroic,101.838,wipe,78.63,0.0,17
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,15,chrome king gallywix,heroic,429.757,kill,0.0,0.0,18
+c8PFLg3WkCAvBazr,2025-04-09 Wed,19,chrome king gallywix,heroic,408.65,kill,0.0,0.0,19
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,16,chrome king gallywix,heroic,104.359,wipe,70.78,0.0,20
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,18,chrome king gallywix,heroic,159.505,wipe,56.5,0.0,21
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,20,chrome king gallywix,heroic,311.839,wipe,31.46,0.0,22
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,21,chrome king gallywix,heroic,367.489,kill,0.0,0.0,23
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,15,chrome king gallywix,heroic,350.208,wipe,2.24,0.0,24
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,16,chrome king gallywix,heroic,345.446,kill,0.0,0.0,25
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,14,chrome king gallywix,heroic,381.293,kill,0.0,0.0,26
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,17,chrome king gallywix,heroic,341.134,kill,0.0,0.0,27
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,22,chrome king gallywix,heroic,298.978,kill,0.0,0.0,28
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,17,chrome king gallywix,heroic,281.136,kill,0.0,0.0,29
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,19,chrome king gallywix,heroic,275.902,kill,0.0,0.0,30
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,21,chrome king gallywix,heroic,277.759,kill,0.0,0.0,31
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,2,chrome king gallywix,mythic,20.63,wipe,100.0,100.0,1
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,3,chrome king gallywix,mythic,61.892,wipe,95.8,95.8,2
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,5,chrome king gallywix,mythic,67.853,wipe,92.06,92.06,3
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,7,chrome king gallywix,mythic,76.49,wipe,90.09,90.09,4
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,8,chrome king gallywix,mythic,78.316,wipe,90.31,90.09,5
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,9,chrome king gallywix,mythic,70.225,wipe,89.95,89.95,6
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,11,chrome king gallywix,mythic,72.626,wipe,92.05,89.95,7
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,13,chrome king gallywix,mythic,24.104,wipe,99.99,89.95,8
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,15,chrome king gallywix,mythic,67.925,wipe,90.91,89.95,9
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,17,chrome king gallywix,mythic,77.708,wipe,92.56,89.95,10
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,19,chrome king gallywix,mythic,87.718,wipe,88.89,88.89,11
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,20,chrome king gallywix,mythic,93.601,wipe,87.59,87.59,12
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,22,chrome king gallywix,mythic,93.021,wipe,86.82,86.82,13
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,23,chrome king gallywix,mythic,116.73,wipe,81.52,81.52,14
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,24,chrome king gallywix,mythic,63.058,wipe,91.06,81.52,15
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,26,chrome king gallywix,mythic,70.282,wipe,91.98,81.52,16
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,28,chrome king gallywix,mythic,114.12,wipe,82.35,81.52,17
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,30,chrome king gallywix,mythic,65.564,wipe,89.15,81.52,18
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,32,chrome king gallywix,mythic,165.232,wipe,70.53,70.53,19
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,34,chrome king gallywix,mythic,41.348,wipe,97.57,70.53,20
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,36,chrome king gallywix,mythic,126.303,wipe,79.06,70.53,21
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,38,chrome king gallywix,mythic,93.529,wipe,83.95,70.53,22
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,40,chrome king gallywix,mythic,165.321,wipe,73.33,70.53,23
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,42,chrome king gallywix,mythic,164.306,wipe,74.52,70.53,24
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,44,chrome king gallywix,mythic,127.419,wipe,77.57,70.53,25
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,46,chrome king gallywix,mythic,20.306,wipe,100.0,70.53,26
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,48,chrome king gallywix,mythic,164.768,wipe,73.86,70.53,27
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,49,chrome king gallywix,mythic,127.496,wipe,77.03,70.53,28
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,51,chrome king gallywix,mythic,67.887,wipe,89.53,70.53,29
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,53,chrome king gallywix,mythic,163.993,wipe,71.28,70.53,30
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,55,chrome king gallywix,mythic,72.03,wipe,88.69,70.53,31
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,57,chrome king gallywix,mythic,63.082,wipe,88.24,70.53,32
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,59,chrome king gallywix,mythic,122.644,wipe,78.34,70.53,33
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,61,chrome king gallywix,mythic,113.945,wipe,82.32,70.53,34
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,63,chrome king gallywix,mythic,199.062,wipe,65.03,65.03,35
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,65,chrome king gallywix,mythic,162.833,wipe,72.21,65.03,36
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,67,chrome king gallywix,mythic,68.018,wipe,89.37,65.03,37
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,69,chrome king gallywix,mythic,114.07,wipe,80.42,65.03,38
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,71,chrome king gallywix,mythic,65.633,wipe,92.63,65.03,39
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,73,chrome king gallywix,mythic,163.022,wipe,69.91,65.03,40
+pFXAZdVQRn1D3Yxy,2025-07-07 Mon,75,chrome king gallywix,mythic,76.385,wipe,90.64,65.03,41
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,1,chrome king gallywix,mythic,95.938,wipe,85.2,65.03,42
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,3,chrome king gallywix,mythic,124.257,wipe,77.87,65.03,43
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,5,chrome king gallywix,mythic,115.615,wipe,79.63,65.03,44
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,7,chrome king gallywix,mythic,64.625,wipe,87.93,65.03,45
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,9,chrome king gallywix,mythic,65.827,wipe,88.47,65.03,46
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,11,chrome king gallywix,mythic,164.265,wipe,70.07,65.03,47
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,13,chrome king gallywix,mythic,173.847,wipe,69.5,65.03,48
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,14,chrome king gallywix,mythic,161.782,wipe,69.21,65.03,49
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,16,chrome king gallywix,mythic,170.564,wipe,68.89,65.03,50
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,18,chrome king gallywix,mythic,109.92,wipe,79.66,65.03,51
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,19,chrome king gallywix,mythic,66.946,wipe,92.09,65.03,52
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,21,chrome king gallywix,mythic,164.557,wipe,68.41,65.03,53
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,23,chrome king gallywix,mythic,226.84,wipe,55.43,55.43,54
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,25,chrome king gallywix,mythic,187.909,wipe,64.12,55.43,55
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,27,chrome king gallywix,mythic,225.525,wipe,54.8,54.8,56
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,28,chrome king gallywix,mythic,63.119,wipe,89.7,54.8,57
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,31,chrome king gallywix,mythic,160.801,wipe,68.72,54.8,58
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,33,chrome king gallywix,mythic,95.008,wipe,83.52,54.8,59
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,35,chrome king gallywix,mythic,124.852,wipe,77.22,54.8,60
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,36,chrome king gallywix,mythic,63.351,wipe,90.24,54.8,61
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,38,chrome king gallywix,mythic,163.086,wipe,69.04,54.8,62
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,40,chrome king gallywix,mythic,162.863,wipe,70.68,54.8,63
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,42,chrome king gallywix,mythic,122.763,wipe,77.04,54.8,64
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,44,chrome king gallywix,mythic,164.844,wipe,68.65,54.8,65
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,45,chrome king gallywix,mythic,59.478,wipe,90.53,54.8,66
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,47,chrome king gallywix,mythic,163.451,wipe,68.27,54.8,67
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,49,chrome king gallywix,mythic,259.247,wipe,52.36,52.36,68
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,52,chrome king gallywix,mythic,96.343,wipe,82.83,52.36,69
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,54,chrome king gallywix,mythic,163.18,wipe,68.49,52.36,70
+pWxYMRbVZgAq3cJT,2025-07-09 Wed,56,chrome king gallywix,mythic,233.522,wipe,55.59,52.36,71
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,1,chrome king gallywix,mythic,62.01,wipe,89.45,52.36,72
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,3,chrome king gallywix,mythic,64.232,wipe,88.28,52.36,73
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,5,chrome king gallywix,mythic,159.525,wipe,67.97,52.36,74
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,7,chrome king gallywix,mythic,227.586,wipe,54.57,52.36,75
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,9,chrome king gallywix,mythic,186.004,wipe,62.46,52.36,76
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,11,chrome king gallywix,mythic,35.54,wipe,97.75,52.36,77
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,13,chrome king gallywix,mythic,32.787,wipe,98.18,52.36,78
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,15,chrome king gallywix,mythic,247.828,wipe,49.9,49.9,79
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,17,chrome king gallywix,mythic,272.05,wipe,48.42,48.42,80
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,18,chrome king gallywix,mythic,160.217,wipe,67.51,48.42,81
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,19,chrome king gallywix,mythic,164.056,wipe,69.45,48.42,82
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,21,chrome king gallywix,mythic,287.301,wipe,49.58,48.42,83
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,22,chrome king gallywix,mythic,161.977,wipe,68.36,48.42,84
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,24,chrome king gallywix,mythic,64.465,wipe,88.3,48.42,85
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,26,chrome king gallywix,mythic,252.879,wipe,49.41,48.42,86
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,28,chrome king gallywix,mythic,162.928,wipe,67.43,48.42,87
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,30,chrome king gallywix,mythic,323.343,wipe,40.02,40.02,88
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,33,chrome king gallywix,mythic,29.101,wipe,98.43,40.02,89
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,35,chrome king gallywix,mythic,364.552,wipe,29.52,29.52,90
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,37,chrome king gallywix,mythic,369.619,wipe,22.93,22.93,91
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,39,chrome king gallywix,mythic,162.071,wipe,67.34,22.93,92
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,41,chrome king gallywix,mythic,92.574,wipe,84.34,22.93,93
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,43,chrome king gallywix,mythic,231.107,wipe,55.81,22.93,94
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,45,chrome king gallywix,mythic,278.961,wipe,44.15,22.93,95
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,47,chrome king gallywix,mythic,325.953,wipe,34.77,22.93,96
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,49,chrome king gallywix,mythic,413.546,wipe,11.53,11.53,97
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,51,chrome king gallywix,mythic,55.742,wipe,90.65,11.53,98
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,53,chrome king gallywix,mythic,452.398,wipe,5.04,5.04,99
+hwb4B9Afxn7F3gWm,2025-07-14 Mon,54,chrome king gallywix,mythic,357.832,wipe,26.44,5.04,100
+j9t2WnbC14fTGvY6,2025-07-16 Wed,1,chrome king gallywix,mythic,62.734,wipe,87.52,5.04,101
+j9t2WnbC14fTGvY6,2025-07-16 Wed,2,chrome king gallywix,mythic,255.011,wipe,47.71,5.04,102
+j9t2WnbC14fTGvY6,2025-07-16 Wed,3,chrome king gallywix,mythic,268.625,wipe,45.59,5.04,103
+j9t2WnbC14fTGvY6,2025-07-16 Wed,5,chrome king gallywix,mythic,164.013,wipe,67.35,5.04,104
+j9t2WnbC14fTGvY6,2025-07-16 Wed,6,chrome king gallywix,mythic,225.743,wipe,54.33,5.04,105
+j9t2WnbC14fTGvY6,2025-07-16 Wed,7,chrome king gallywix,mythic,226.337,wipe,51.78,5.04,106
+j9t2WnbC14fTGvY6,2025-07-16 Wed,9,chrome king gallywix,mythic,162.501,wipe,66.93,5.04,107
+j9t2WnbC14fTGvY6,2025-07-16 Wed,10,chrome king gallywix,mythic,377.891,wipe,21.71,5.04,108
+j9t2WnbC14fTGvY6,2025-07-16 Wed,12,chrome king gallywix,mythic,213.812,wipe,54.89,5.04,109
+j9t2WnbC14fTGvY6,2025-07-16 Wed,14,chrome king gallywix,mythic,188.257,wipe,60.45,5.04,110
+j9t2WnbC14fTGvY6,2025-07-16 Wed,16,chrome king gallywix,mythic,192.338,wipe,62.32,5.04,111
+j9t2WnbC14fTGvY6,2025-07-16 Wed,18,chrome king gallywix,mythic,341.658,wipe,26.25,5.04,112
+j9t2WnbC14fTGvY6,2025-07-16 Wed,20,chrome king gallywix,mythic,164.679,wipe,66.78,5.04,113
+j9t2WnbC14fTGvY6,2025-07-16 Wed,21,chrome king gallywix,mythic,167.576,wipe,66.56,5.04,114
+j9t2WnbC14fTGvY6,2025-07-16 Wed,22,chrome king gallywix,mythic,254.241,wipe,47.1,5.04,115
+j9t2WnbC14fTGvY6,2025-07-16 Wed,24,chrome king gallywix,mythic,436.032,kill,0.0,0.0,116
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,28,"mug'zee, heads of security",heroic,77.986,wipe,78.88,78.88,1
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,31,"mug'zee, heads of security",heroic,74.069,wipe,84.84,78.88,2
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,33,"mug'zee, heads of security",heroic,255.615,wipe,45.2,45.2,3
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,35,"mug'zee, heads of security",heroic,66.929,wipe,88.98,45.2,4
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,37,"mug'zee, heads of security",heroic,377.487,wipe,14.04,14.04,5
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,38,"mug'zee, heads of security",heroic,325.585,wipe,18.73,14.04,6
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,39,"mug'zee, heads of security",heroic,391.348,wipe,1.35,1.35,7
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,40,"mug'zee, heads of security",heroic,119.433,wipe,71.93,1.35,8
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,42,"mug'zee, heads of security",heroic,274.707,wipe,35.96,1.35,9
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,43,"mug'zee, heads of security",heroic,275.418,wipe,36.51,1.35,10
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,44,"mug'zee, heads of security",heroic,338.602,wipe,13.75,1.35,11
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,45,"mug'zee, heads of security",heroic,363.825,kill,0.0,0.0,12
+DFANHypwvLTzfWaQ,2025-03-19 Wed,40,"mug'zee, heads of security",heroic,369.577,wipe,2.97,0.0,13
+DFANHypwvLTzfWaQ,2025-03-19 Wed,41,"mug'zee, heads of security",heroic,357.102,wipe,2.87,0.0,14
+DFANHypwvLTzfWaQ,2025-03-19 Wed,46,"mug'zee, heads of security",heroic,141.409,wipe,60.34,0.0,15
+DFANHypwvLTzfWaQ,2025-03-19 Wed,47,"mug'zee, heads of security",heroic,312.655,wipe,14.01,0.0,16
+DFANHypwvLTzfWaQ,2025-03-19 Wed,48,"mug'zee, heads of security",heroic,353.818,wipe,3.27,0.0,17
+DFANHypwvLTzfWaQ,2025-03-19 Wed,49,"mug'zee, heads of security",heroic,305.204,wipe,9.56,0.0,18
+DFANHypwvLTzfWaQ,2025-03-19 Wed,50,"mug'zee, heads of security",heroic,319.842,wipe,9.41,0.0,19
+DFANHypwvLTzfWaQ,2025-03-19 Wed,51,"mug'zee, heads of security",heroic,337.538,kill,0.0,0.0,20
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,39,"mug'zee, heads of security",heroic,302.478,wipe,8.2,0.0,21
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,40,"mug'zee, heads of security",heroic,79.477,wipe,76.85,0.0,22
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,42,"mug'zee, heads of security",heroic,317.156,kill,0.0,0.0,23
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,11,"mug'zee, heads of security",heroic,300.836,kill,0.0,0.0,24
+c8PFLg3WkCAvBazr,2025-04-09 Wed,17,"mug'zee, heads of security",heroic,285.104,kill,0.0,0.0,25
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,14,"mug'zee, heads of security",heroic,267.516,kill,0.0,0.0,26
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,11,"mug'zee, heads of security",heroic,241.32,kill,0.0,0.0,27
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,12,"mug'zee, heads of security",heroic,224.1,kill,0.0,0.0,28
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,15,"mug'zee, heads of security",heroic,217.572,kill,0.0,0.0,29
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,17,"mug'zee, heads of security",heroic,196.946,kill,0.0,0.0,30
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,12,"mug'zee, heads of security",heroic,166.252,kill,0.0,0.0,31
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,15,"mug'zee, heads of security",heroic,172.445,kill,0.0,0.0,32
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,16,"mug'zee, heads of security",heroic,170.814,kill,0.0,0.0,33
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,25,"mug'zee, heads of security",mythic,51.778,wipe,89.42,89.42,1
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,26,"mug'zee, heads of security",mythic,55.906,wipe,88.84,88.84,2
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,28,"mug'zee, heads of security",mythic,75.475,wipe,80.94,80.94,3
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,30,"mug'zee, heads of security",mythic,112.802,wipe,73.59,73.59,4
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,32,"mug'zee, heads of security",mythic,67.953,wipe,82.83,73.59,5
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,36,"mug'zee, heads of security",mythic,129.115,wipe,67.19,67.19,6
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,38,"mug'zee, heads of security",mythic,111.798,wipe,77.04,67.19,7
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,40,"mug'zee, heads of security",mythic,59.424,wipe,85.14,67.19,8
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,42,"mug'zee, heads of security",mythic,125.364,wipe,69.02,67.19,9
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,44,"mug'zee, heads of security",mythic,128.995,wipe,67.03,67.03,10
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,47,"mug'zee, heads of security",mythic,131.219,wipe,67.16,67.03,11
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,48,"mug'zee, heads of security",mythic,148.526,wipe,61.46,61.46,12
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,50,"mug'zee, heads of security",mythic,181.122,wipe,58.37,58.37,13
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,52,"mug'zee, heads of security",mythic,183.884,wipe,58.98,58.37,14
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,53,"mug'zee, heads of security",mythic,155.723,wipe,61.38,58.37,15
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,55,"mug'zee, heads of security",mythic,176.26,wipe,62.29,58.37,16
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,57,"mug'zee, heads of security",mythic,185.089,wipe,52.58,52.58,17
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,59,"mug'zee, heads of security",mythic,261.787,wipe,39.44,39.44,18
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,60,"mug'zee, heads of security",mythic,165.602,wipe,57.4,39.44,19
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,62,"mug'zee, heads of security",mythic,123.873,wipe,70.91,39.44,20
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,64,"mug'zee, heads of security",mythic,73.985,wipe,79.52,39.44,21
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,66,"mug'zee, heads of security",mythic,161.154,wipe,57.87,39.44,22
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,67,"mug'zee, heads of security",mythic,222.507,wipe,53.03,39.44,23
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,68,"mug'zee, heads of security",mythic,158.213,wipe,58.7,39.44,24
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,69,"mug'zee, heads of security",mythic,243.763,wipe,50.65,39.44,25
+BfWcKMdxybL1j9P7,2025-06-09 Mon,9,"mug'zee, heads of security",mythic,189.294,wipe,53.25,39.44,26
+BfWcKMdxybL1j9P7,2025-06-09 Mon,10,"mug'zee, heads of security",mythic,251.611,wipe,44.42,39.44,27
+BfWcKMdxybL1j9P7,2025-06-09 Mon,12,"mug'zee, heads of security",mythic,70.742,wipe,78.57,39.44,28
+BfWcKMdxybL1j9P7,2025-06-09 Mon,14,"mug'zee, heads of security",mythic,65.086,wipe,85.99,39.44,29
+BfWcKMdxybL1j9P7,2025-06-09 Mon,15,"mug'zee, heads of security",mythic,38.574,wipe,88.85,39.44,30
+BfWcKMdxybL1j9P7,2025-06-09 Mon,17,"mug'zee, heads of security",mythic,68.003,wipe,79.9,39.44,31
+BfWcKMdxybL1j9P7,2025-06-09 Mon,19,"mug'zee, heads of security",mythic,244.543,wipe,41.63,39.44,32
+BfWcKMdxybL1j9P7,2025-06-09 Mon,20,"mug'zee, heads of security",mythic,246.725,wipe,41.49,39.44,33
+BfWcKMdxybL1j9P7,2025-06-09 Mon,22,"mug'zee, heads of security",mythic,185.02,wipe,55.67,39.44,34
+BfWcKMdxybL1j9P7,2025-06-09 Mon,24,"mug'zee, heads of security",mythic,143.096,wipe,63.97,39.44,35
+BfWcKMdxybL1j9P7,2025-06-09 Mon,26,"mug'zee, heads of security",mythic,310.456,wipe,29.69,29.69,36
+BfWcKMdxybL1j9P7,2025-06-09 Mon,27,"mug'zee, heads of security",mythic,26.675,wipe,99.94,29.69,37
+BfWcKMdxybL1j9P7,2025-06-09 Mon,28,"mug'zee, heads of security",mythic,314.738,wipe,28.34,28.34,38
+BfWcKMdxybL1j9P7,2025-06-09 Mon,30,"mug'zee, heads of security",mythic,231.961,wipe,41.89,28.34,39
+BfWcKMdxybL1j9P7,2025-06-09 Mon,32,"mug'zee, heads of security",mythic,67.235,wipe,77.86,28.34,40
+BfWcKMdxybL1j9P7,2025-06-09 Mon,33,"mug'zee, heads of security",mythic,161.443,wipe,52.66,28.34,41
+BfWcKMdxybL1j9P7,2025-06-09 Mon,34,"mug'zee, heads of security",mythic,159.259,wipe,52.86,28.34,42
+BfWcKMdxybL1j9P7,2025-06-09 Mon,36,"mug'zee, heads of security",mythic,266.212,wipe,29.46,28.34,43
+BfWcKMdxybL1j9P7,2025-06-09 Mon,38,"mug'zee, heads of security",mythic,142.389,wipe,57.72,28.34,44
+BfWcKMdxybL1j9P7,2025-06-09 Mon,39,"mug'zee, heads of security",mythic,281.598,wipe,23.73,23.73,45
+BfWcKMdxybL1j9P7,2025-06-09 Mon,40,"mug'zee, heads of security",mythic,142.156,wipe,59.28,23.73,46
+BfWcKMdxybL1j9P7,2025-06-09 Mon,42,"mug'zee, heads of security",mythic,161.384,wipe,50.35,23.73,47
+BfWcKMdxybL1j9P7,2025-06-09 Mon,44,"mug'zee, heads of security",mythic,172.568,wipe,49.08,23.73,48
+BfWcKMdxybL1j9P7,2025-06-09 Mon,46,"mug'zee, heads of security",mythic,127.363,wipe,63.26,23.73,49
+BfWcKMdxybL1j9P7,2025-06-09 Mon,48,"mug'zee, heads of security",mythic,161.583,wipe,51.32,23.73,50
+BfWcKMdxybL1j9P7,2025-06-09 Mon,50,"mug'zee, heads of security",mythic,281.237,wipe,25.33,23.73,51
+BfWcKMdxybL1j9P7,2025-06-09 Mon,51,"mug'zee, heads of security",mythic,183.611,wipe,49.89,23.73,52
+BfWcKMdxybL1j9P7,2025-06-09 Mon,53,"mug'zee, heads of security",mythic,219.799,wipe,40.04,23.73,53
+BfWcKMdxybL1j9P7,2025-06-09 Mon,55,"mug'zee, heads of security",mythic,159.134,wipe,51.58,23.73,54
+BfWcKMdxybL1j9P7,2025-06-09 Mon,57,"mug'zee, heads of security",mythic,276.153,wipe,26.37,23.73,55
+BfWcKMdxybL1j9P7,2025-06-09 Mon,58,"mug'zee, heads of security",mythic,271.964,wipe,24.11,23.73,56
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,30,"mug'zee, heads of security",mythic,143.404,wipe,54.75,23.73,57
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,32,"mug'zee, heads of security",mythic,40.112,wipe,85.99,23.73,58
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,34,"mug'zee, heads of security",mythic,183.28,wipe,48.33,23.73,59
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,35,"mug'zee, heads of security",mythic,160.314,wipe,50.52,23.73,60
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,37,"mug'zee, heads of security",mythic,190.448,wipe,42.59,23.73,61
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,39,"mug'zee, heads of security",mythic,69.128,wipe,74.64,23.73,62
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,41,"mug'zee, heads of security",mythic,68.485,wipe,73.4,23.73,63
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,43,"mug'zee, heads of security",mythic,126.172,wipe,62.53,23.73,64
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,45,"mug'zee, heads of security",mythic,166.766,wipe,50.87,23.73,65
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,46,"mug'zee, heads of security",mythic,254.787,wipe,30.88,23.73,66
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,48,"mug'zee, heads of security",mythic,187.191,wipe,45.34,23.73,67
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,49,"mug'zee, heads of security",mythic,171.362,wipe,48.83,23.73,68
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,51,"mug'zee, heads of security",mythic,282.882,wipe,20.89,20.89,69
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,52,"mug'zee, heads of security",mythic,68.023,wipe,74.36,20.89,70
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,54,"mug'zee, heads of security",mythic,189.812,wipe,45.18,20.89,71
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,56,"mug'zee, heads of security",mythic,284.247,wipe,22.5,20.89,72
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,57,"mug'zee, heads of security",mythic,284.082,wipe,22.12,20.89,73
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,59,"mug'zee, heads of security",mythic,129.062,wipe,59.14,20.89,74
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,60,"mug'zee, heads of security",mythic,127.342,wipe,60.9,20.89,75
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,62,"mug'zee, heads of security",mythic,253.888,wipe,27.35,20.89,76
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,64,"mug'zee, heads of security",mythic,164.891,wipe,49.11,20.89,77
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,66,"mug'zee, heads of security",mythic,140.354,wipe,55.89,20.89,78
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,67,"mug'zee, heads of security",mythic,58.681,wipe,82.83,20.89,79
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,68,"mug'zee, heads of security",mythic,187.824,wipe,46.08,20.89,80
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,69,"mug'zee, heads of security",mythic,72.615,wipe,73.54,20.89,81
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,3,"mug'zee, heads of security",mythic,268.199,wipe,30.65,20.89,82
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,5,"mug'zee, heads of security",mythic,159.389,wipe,50.36,20.89,83
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,7,"mug'zee, heads of security",mythic,68.013,wipe,73.08,20.89,84
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,9,"mug'zee, heads of security",mythic,73.395,wipe,73.29,20.89,85
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,10,"mug'zee, heads of security",mythic,154.347,wipe,50.59,20.89,86
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,12,"mug'zee, heads of security",mythic,303.723,wipe,22.95,20.89,87
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,14,"mug'zee, heads of security",mythic,293.689,wipe,21.36,20.89,88
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,15,"mug'zee, heads of security",mythic,178.918,wipe,47.16,20.89,89
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,16,"mug'zee, heads of security",mythic,190.401,wipe,42.44,20.89,90
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,17,"mug'zee, heads of security",mythic,188.461,wipe,47.32,20.89,91
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,19,"mug'zee, heads of security",mythic,66.523,wipe,80.09,20.89,92
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,21,"mug'zee, heads of security",mythic,126.73,wipe,59.15,20.89,93
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,22,"mug'zee, heads of security",mythic,126.312,wipe,58.28,20.89,94
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,24,"mug'zee, heads of security",mythic,185.554,wipe,45.83,20.89,95
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,25,"mug'zee, heads of security",mythic,282.038,wipe,21.12,20.89,96
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,26,"mug'zee, heads of security",mythic,133.732,wipe,56.11,20.89,97
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,28,"mug'zee, heads of security",mythic,186.463,wipe,46.76,20.89,98
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,29,"mug'zee, heads of security",mythic,67.983,wipe,74.76,20.89,99
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,31,"mug'zee, heads of security",mythic,186.691,wipe,45.95,20.89,100
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,32,"mug'zee, heads of security",mythic,157.653,wipe,52.0,20.89,101
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,34,"mug'zee, heads of security",mythic,69.128,wipe,75.77,20.89,102
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,36,"mug'zee, heads of security",mythic,204.176,wipe,40.65,20.89,103
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,38,"mug'zee, heads of security",mythic,274.749,wipe,25.35,20.89,104
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,40,"mug'zee, heads of security",mythic,293.864,wipe,18.18,18.18,105
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,41,"mug'zee, heads of security",mythic,67.504,wipe,72.75,18.18,106
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,42,"mug'zee, heads of security",mythic,71.354,wipe,72.46,18.18,107
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,44,"mug'zee, heads of security",mythic,177.474,wipe,47.74,18.18,108
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,46,"mug'zee, heads of security",mythic,279.545,wipe,23.73,18.18,109
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,48,"mug'zee, heads of security",mythic,23.041,wipe,99.92,18.18,110
+rVnDB4fcb9qZAPLv,2025-06-16 Mon,50,"mug'zee, heads of security",mythic,156.161,wipe,51.44,18.18,111
+MymtjWk9brQ6aBqR,2025-06-23 Mon,4,"mug'zee, heads of security",mythic,31.716,wipe,99.81,18.18,112
+MymtjWk9brQ6aBqR,2025-06-23 Mon,7,"mug'zee, heads of security",mythic,256.508,wipe,28.83,18.18,113
+MymtjWk9brQ6aBqR,2025-06-23 Mon,8,"mug'zee, heads of security",mythic,292.579,wipe,20.08,18.18,114
+MymtjWk9brQ6aBqR,2025-06-23 Mon,9,"mug'zee, heads of security",mythic,257.704,wipe,20.92,18.18,115
+MymtjWk9brQ6aBqR,2025-06-23 Mon,11,"mug'zee, heads of security",mythic,260.076,wipe,22.15,18.18,116
+MymtjWk9brQ6aBqR,2025-06-23 Mon,13,"mug'zee, heads of security",mythic,203.838,wipe,38.82,18.18,117
+MymtjWk9brQ6aBqR,2025-06-23 Mon,15,"mug'zee, heads of security",mythic,152.454,wipe,47.86,18.18,118
+MymtjWk9brQ6aBqR,2025-06-23 Mon,16,"mug'zee, heads of security",mythic,314.217,wipe,17.53,17.53,119
+MymtjWk9brQ6aBqR,2025-06-23 Mon,17,"mug'zee, heads of security",mythic,128.59,wipe,56.05,17.53,120
+MymtjWk9brQ6aBqR,2025-06-23 Mon,19,"mug'zee, heads of security",mythic,59.451,wipe,82.89,17.53,121
+MymtjWk9brQ6aBqR,2025-06-23 Mon,21,"mug'zee, heads of security",mythic,41.267,wipe,91.91,17.53,122
+MymtjWk9brQ6aBqR,2025-06-23 Mon,23,"mug'zee, heads of security",mythic,224.607,wipe,34.92,17.53,123
+MymtjWk9brQ6aBqR,2025-06-23 Mon,25,"mug'zee, heads of security",mythic,212.815,wipe,40.38,17.53,124
+MymtjWk9brQ6aBqR,2025-06-23 Mon,26,"mug'zee, heads of security",mythic,186.808,wipe,46.3,17.53,125
+MymtjWk9brQ6aBqR,2025-06-23 Mon,27,"mug'zee, heads of security",mythic,311.953,wipe,15.74,15.74,126
+MymtjWk9brQ6aBqR,2025-06-23 Mon,28,"mug'zee, heads of security",mythic,26.75,wipe,99.98,15.74,127
+MymtjWk9brQ6aBqR,2025-06-23 Mon,29,"mug'zee, heads of security",mythic,185.577,wipe,49.79,15.74,128
+MymtjWk9brQ6aBqR,2025-06-23 Mon,30,"mug'zee, heads of security",mythic,120.856,wipe,67.46,15.74,129
+MymtjWk9brQ6aBqR,2025-06-23 Mon,31,"mug'zee, heads of security",mythic,285.282,wipe,17.53,15.74,130
+MymtjWk9brQ6aBqR,2025-06-23 Mon,32,"mug'zee, heads of security",mythic,271.859,wipe,20.86,15.74,131
+MymtjWk9brQ6aBqR,2025-06-23 Mon,34,"mug'zee, heads of security",mythic,292.635,wipe,16.16,15.74,132
+MymtjWk9brQ6aBqR,2025-06-23 Mon,35,"mug'zee, heads of security",mythic,164.17,wipe,52.75,15.74,133
+MymtjWk9brQ6aBqR,2025-06-23 Mon,37,"mug'zee, heads of security",mythic,276.638,wipe,18.57,15.74,134
+MymtjWk9brQ6aBqR,2025-06-23 Mon,38,"mug'zee, heads of security",mythic,301.855,wipe,15.14,15.14,135
+MymtjWk9brQ6aBqR,2025-06-23 Mon,39,"mug'zee, heads of security",mythic,282.796,wipe,19.4,15.14,136
+MymtjWk9brQ6aBqR,2025-06-23 Mon,40,"mug'zee, heads of security",mythic,280.834,wipe,17.92,15.14,137
+MymtjWk9brQ6aBqR,2025-06-23 Mon,41,"mug'zee, heads of security",mythic,176.383,wipe,51.6,15.14,138
+MymtjWk9brQ6aBqR,2025-06-23 Mon,43,"mug'zee, heads of security",mythic,58.319,wipe,84.75,15.14,139
+MymtjWk9brQ6aBqR,2025-06-23 Mon,45,"mug'zee, heads of security",mythic,328.408,wipe,10.03,10.03,140
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,9,"mug'zee, heads of security",mythic,128.894,wipe,63.91,10.03,141
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,11,"mug'zee, heads of security",mythic,283.587,wipe,18.15,10.03,142
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,12,"mug'zee, heads of security",mythic,312.337,wipe,17.8,10.03,143
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,13,"mug'zee, heads of security",mythic,38.834,wipe,88.03,10.03,144
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,15,"mug'zee, heads of security",mythic,40.5,wipe,87.98,10.03,145
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,16,"mug'zee, heads of security",mythic,158.415,wipe,52.73,10.03,146
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,18,"mug'zee, heads of security",mythic,160.384,wipe,53.65,10.03,147
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,20,"mug'zee, heads of security",mythic,134.731,wipe,63.1,10.03,148
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,22,"mug'zee, heads of security",mythic,306.966,wipe,13.76,10.03,149
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,23,"mug'zee, heads of security",mythic,60.78,wipe,86.66,10.03,150
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,25,"mug'zee, heads of security",mythic,322.906,wipe,15.56,10.03,151
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,26,"mug'zee, heads of security",mythic,287.532,wipe,17.69,10.03,152
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,27,"mug'zee, heads of security",mythic,266.121,wipe,21.1,10.03,153
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,29,"mug'zee, heads of security",mythic,295.14,wipe,12.22,10.03,154
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,30,"mug'zee, heads of security",mythic,128.635,wipe,60.95,10.03,155
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,32,"mug'zee, heads of security",mythic,307.189,wipe,11.34,10.03,156
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,33,"mug'zee, heads of security",mythic,78.553,wipe,76.77,10.03,157
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,34,"mug'zee, heads of security",mythic,129.951,wipe,63.27,10.03,158
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,36,"mug'zee, heads of security",mythic,325.685,wipe,8.55,8.55,159
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,37,"mug'zee, heads of security",mythic,330.145,wipe,10.37,8.55,160
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,38,"mug'zee, heads of security",mythic,235.582,wipe,26.83,8.55,161
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,40,"mug'zee, heads of security",mythic,167.317,wipe,53.56,8.55,162
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,41,"mug'zee, heads of security",mythic,281.471,wipe,17.46,8.55,163
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,44,"mug'zee, heads of security",mythic,258.979,wipe,21.89,8.55,164
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,46,"mug'zee, heads of security",mythic,189.621,wipe,42.88,8.55,165
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,48,"mug'zee, heads of security",mythic,160.473,wipe,51.76,8.55,166
+F9xXwVZj8P4KmkyT,2025-06-25 Wed,49,"mug'zee, heads of security",mythic,60.867,wipe,86.46,8.55,167
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,5,"mug'zee, heads of security",mythic,127.732,wipe,63.17,8.55,168
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,7,"mug'zee, heads of security",mythic,157.742,wipe,56.93,8.55,169
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,9,"mug'zee, heads of security",mythic,67.816,wipe,81.77,8.55,170
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,11,"mug'zee, heads of security",mythic,276.988,wipe,18.11,8.55,171
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,12,"mug'zee, heads of security",mythic,129.793,wipe,62.51,8.55,172
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,14,"mug'zee, heads of security",mythic,224.733,wipe,39.17,8.55,173
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,16,"mug'zee, heads of security",mythic,70.397,wipe,77.69,8.55,174
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,18,"mug'zee, heads of security",mythic,118.732,wipe,67.01,8.55,175
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,20,"mug'zee, heads of security",mythic,184.261,wipe,52.89,8.55,176
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,21,"mug'zee, heads of security",mythic,45.06,wipe,87.12,8.55,177
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,23,"mug'zee, heads of security",mythic,258.677,wipe,26.06,8.55,178
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,25,"mug'zee, heads of security",mythic,54.295,wipe,85.99,8.55,179
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,27,"mug'zee, heads of security",mythic,126.266,wipe,64.47,8.55,180
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,29,"mug'zee, heads of security",mythic,47.181,wipe,85.67,8.55,181
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,31,"mug'zee, heads of security",mythic,332.888,wipe,7.15,7.15,182
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,33,"mug'zee, heads of security",mythic,122.535,wipe,68.18,7.15,183
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,35,"mug'zee, heads of security",mythic,340.327,wipe,6.26,6.26,184
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,36,"mug'zee, heads of security",mythic,221.031,wipe,39.71,6.26,185
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,38,"mug'zee, heads of security",mythic,127.428,wipe,62.51,6.26,186
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,40,"mug'zee, heads of security",mythic,305.199,wipe,13.26,6.26,187
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,42,"mug'zee, heads of security",mythic,305.907,wipe,12.38,6.26,188
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,43,"mug'zee, heads of security",mythic,283.197,wipe,14.92,6.26,189
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,44,"mug'zee, heads of security",mythic,329.228,wipe,9.88,6.26,190
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,45,"mug'zee, heads of security",mythic,278.429,wipe,18.79,6.26,191
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,46,"mug'zee, heads of security",mythic,126.251,wipe,64.37,6.26,192
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,50,"mug'zee, heads of security",mythic,186.179,wipe,46.15,6.26,193
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,51,"mug'zee, heads of security",mythic,52.147,wipe,85.98,6.26,194
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,53,"mug'zee, heads of security",mythic,219.899,wipe,38.97,6.26,195
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,55,"mug'zee, heads of security",mythic,322.949,wipe,10.55,6.26,196
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,56,"mug'zee, heads of security",mythic,193.084,wipe,41.73,6.26,197
+RqBF9J8d7jKzpVDM,2025-06-30 Mon,58,"mug'zee, heads of security",mythic,170.371,wipe,51.08,6.26,198
+XyFknKqWVBzcP2fM,2025-07-02 Wed,6,"mug'zee, heads of security",mythic,307.783,wipe,15.04,6.26,199
+XyFknKqWVBzcP2fM,2025-07-02 Wed,7,"mug'zee, heads of security",mythic,305.527,wipe,11.52,6.26,200
+XyFknKqWVBzcP2fM,2025-07-02 Wed,8,"mug'zee, heads of security",mythic,332.37,kill,0.0,0.0,201
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,11,one-armed bandit,heroic,132.978,wipe,66.67,66.67,1
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,12,one-armed bandit,heroic,132.936,wipe,69.2,66.67,2
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,13,one-armed bandit,heroic,72.516,wipe,80.2,66.67,3
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,14,one-armed bandit,heroic,136.889,wipe,67.37,66.67,4
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,15,one-armed bandit,heroic,182.852,wipe,57.08,57.08,5
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,16,one-armed bandit,heroic,262.829,wipe,38.67,38.67,6
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,17,one-armed bandit,heroic,142.686,wipe,67.9,38.67,7
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,18,one-armed bandit,heroic,369.045,wipe,0.65,0.65,8
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,19,one-armed bandit,heroic,375.847,kill,0.0,0.0,9
+DFANHypwvLTzfWaQ,2025-03-19 Wed,33,one-armed bandit,heroic,307.008,kill,0.0,0.0,10
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,34,one-armed bandit,heroic,261.922,kill,0.0,0.0,11
+c8PFLg3WkCAvBazr,2025-04-09 Wed,10,one-armed bandit,heroic,198.453,wipe,30.44,0.0,12
+c8PFLg3WkCAvBazr,2025-04-09 Wed,11,one-armed bandit,heroic,264.524,kill,0.0,0.0,13
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,8,one-armed bandit,heroic,233.732,kill,0.0,0.0,14
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,7,one-armed bandit,heroic,228.468,kill,0.0,0.0,15
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,7,one-armed bandit,heroic,239.147,kill,0.0,0.0,16
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,10,one-armed bandit,heroic,216.699,kill,0.0,0.0,17
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,12,one-armed bandit,heroic,191.904,kill,0.0,0.0,18
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,8,one-armed bandit,heroic,165.36,kill,0.0,0.0,19
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,10,one-armed bandit,heroic,171.267,kill,0.0,0.0,20
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,9,one-armed bandit,heroic,190.728,kill,0.0,0.0,21
+WF39LNayZYcjkhwH,2025-05-26 Mon,15,one-armed bandit,mythic,63.129,wipe,83.94,83.94,1
+WF39LNayZYcjkhwH,2025-05-26 Mon,16,one-armed bandit,mythic,77.721,wipe,83.53,83.53,2
+WF39LNayZYcjkhwH,2025-05-26 Mon,17,one-armed bandit,mythic,65.932,wipe,83.64,83.53,3
+WF39LNayZYcjkhwH,2025-05-26 Mon,18,one-armed bandit,mythic,73.132,wipe,81.74,81.74,4
+WF39LNayZYcjkhwH,2025-05-26 Mon,19,one-armed bandit,mythic,113.043,wipe,76.55,76.55,5
+WF39LNayZYcjkhwH,2025-05-26 Mon,20,one-armed bandit,mythic,66.437,wipe,82.53,76.55,6
+WF39LNayZYcjkhwH,2025-05-26 Mon,21,one-armed bandit,mythic,66.705,wipe,82.25,76.55,7
+WF39LNayZYcjkhwH,2025-05-26 Mon,23,one-armed bandit,mythic,63.443,wipe,82.92,76.55,8
+WF39LNayZYcjkhwH,2025-05-26 Mon,24,one-armed bandit,mythic,69.402,wipe,81.61,76.55,9
+WF39LNayZYcjkhwH,2025-05-26 Mon,25,one-armed bandit,mythic,214.163,wipe,54.12,54.12,10
+WF39LNayZYcjkhwH,2025-05-26 Mon,26,one-armed bandit,mythic,116.661,wipe,73.38,54.12,11
+WF39LNayZYcjkhwH,2025-05-26 Mon,28,one-armed bandit,mythic,114.406,wipe,73.54,54.12,12
+WF39LNayZYcjkhwH,2025-05-26 Mon,29,one-armed bandit,mythic,176.57,wipe,62.12,54.12,13
+WF39LNayZYcjkhwH,2025-05-26 Mon,30,one-armed bandit,mythic,62.703,wipe,82.07,54.12,14
+WF39LNayZYcjkhwH,2025-05-26 Mon,31,one-armed bandit,mythic,117.9,wipe,72.71,54.12,15
+WF39LNayZYcjkhwH,2025-05-26 Mon,32,one-armed bandit,mythic,106.301,wipe,77.01,54.12,16
+WF39LNayZYcjkhwH,2025-05-26 Mon,34,one-armed bandit,mythic,265.752,wipe,49.19,49.19,17
+WF39LNayZYcjkhwH,2025-05-26 Mon,36,one-armed bandit,mythic,64.198,wipe,84.88,49.19,18
+WF39LNayZYcjkhwH,2025-05-26 Mon,37,one-armed bandit,mythic,165.135,wipe,66.14,49.19,19
+WF39LNayZYcjkhwH,2025-05-26 Mon,38,one-armed bandit,mythic,115.984,wipe,71.91,49.19,20
+WF39LNayZYcjkhwH,2025-05-26 Mon,39,one-armed bandit,mythic,120.117,wipe,71.08,49.19,21
+WF39LNayZYcjkhwH,2025-05-26 Mon,40,one-armed bandit,mythic,76.502,wipe,82.41,49.19,22
+WF39LNayZYcjkhwH,2025-05-26 Mon,41,one-armed bandit,mythic,120.704,wipe,73.88,49.19,23
+WF39LNayZYcjkhwH,2025-05-26 Mon,42,one-armed bandit,mythic,114.841,wipe,72.92,49.19,24
+WF39LNayZYcjkhwH,2025-05-26 Mon,43,one-armed bandit,mythic,114.086,wipe,74.12,49.19,25
+WF39LNayZYcjkhwH,2025-05-26 Mon,45,one-armed bandit,mythic,117.115,wipe,73.22,49.19,26
+WF39LNayZYcjkhwH,2025-05-26 Mon,46,one-armed bandit,mythic,118.387,wipe,71.97,49.19,27
+WF39LNayZYcjkhwH,2025-05-26 Mon,48,one-armed bandit,mythic,209.216,wipe,57.82,49.19,28
+WF39LNayZYcjkhwH,2025-05-26 Mon,49,one-armed bandit,mythic,110.479,wipe,77.54,49.19,29
+WF39LNayZYcjkhwH,2025-05-26 Mon,51,one-armed bandit,mythic,126.281,wipe,69.55,49.19,30
+WF39LNayZYcjkhwH,2025-05-26 Mon,52,one-armed bandit,mythic,114.239,wipe,71.59,49.19,31
+WF39LNayZYcjkhwH,2025-05-26 Mon,53,one-armed bandit,mythic,110.833,wipe,76.96,49.19,32
+WF39LNayZYcjkhwH,2025-05-26 Mon,55,one-armed bandit,mythic,128.091,wipe,69.17,49.19,33
+WF39LNayZYcjkhwH,2025-05-26 Mon,56,one-armed bandit,mythic,84.592,wipe,81.77,49.19,34
+WF39LNayZYcjkhwH,2025-05-26 Mon,57,one-armed bandit,mythic,100.129,wipe,78.57,49.19,35
+WF39LNayZYcjkhwH,2025-05-26 Mon,58,one-armed bandit,mythic,114.301,wipe,73.31,49.19,36
+WF39LNayZYcjkhwH,2025-05-26 Mon,59,one-armed bandit,mythic,115.133,wipe,73.68,49.19,37
+WF39LNayZYcjkhwH,2025-05-26 Mon,63,one-armed bandit,mythic,127.953,wipe,71.6,49.19,38
+WF39LNayZYcjkhwH,2025-05-26 Mon,64,one-armed bandit,mythic,64.376,wipe,83.54,49.19,39
+WF39LNayZYcjkhwH,2025-05-26 Mon,65,one-armed bandit,mythic,124.132,wipe,71.52,49.19,40
+WF39LNayZYcjkhwH,2025-05-26 Mon,66,one-armed bandit,mythic,224.487,wipe,51.32,49.19,41
+WF39LNayZYcjkhwH,2025-05-26 Mon,67,one-armed bandit,mythic,172.401,wipe,62.17,49.19,42
+WF39LNayZYcjkhwH,2025-05-26 Mon,68,one-armed bandit,mythic,217.346,wipe,56.45,49.19,43
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,26,one-armed bandit,mythic,82.023,wipe,81.77,49.19,44
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,27,one-armed bandit,mythic,121.518,wipe,72.72,49.19,45
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,28,one-armed bandit,mythic,114.162,wipe,73.16,49.19,46
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,30,one-armed bandit,mythic,97.185,wipe,79.81,49.19,47
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,32,one-armed bandit,mythic,115.275,wipe,73.13,49.19,48
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,33,one-armed bandit,mythic,216.408,wipe,52.64,49.19,49
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,34,one-armed bandit,mythic,266.895,wipe,34.99,34.99,50
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,35,one-armed bandit,mythic,115.546,wipe,71.31,34.99,51
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,36,one-armed bandit,mythic,115.151,wipe,72.27,34.99,52
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,38,one-armed bandit,mythic,62.083,wipe,82.21,34.99,53
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,39,one-armed bandit,mythic,270.461,wipe,37.35,34.99,54
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,40,one-armed bandit,mythic,164.199,wipe,62.68,34.99,55
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,41,one-armed bandit,mythic,274.796,wipe,39.58,34.99,56
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,42,one-armed bandit,mythic,222.213,wipe,46.32,34.99,57
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,43,one-armed bandit,mythic,114.097,wipe,71.26,34.99,58
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,44,one-armed bandit,mythic,168.251,wipe,58.83,34.99,59
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,45,one-armed bandit,mythic,271.37,wipe,31.63,31.63,60
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,46,one-armed bandit,mythic,217.603,wipe,51.79,31.63,61
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,47,one-armed bandit,mythic,114.53,wipe,71.72,31.63,62
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,48,one-armed bandit,mythic,331.68,wipe,24.05,24.05,63
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,49,one-armed bandit,mythic,76.291,wipe,82.05,24.05,64
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,50,one-armed bandit,mythic,116.537,wipe,73.19,24.05,65
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,51,one-armed bandit,mythic,117.925,wipe,67.48,24.05,66
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,52,one-armed bandit,mythic,268.111,wipe,34.4,24.05,67
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,9,one-armed bandit,mythic,216.145,wipe,48.06,24.05,68
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,10,one-armed bandit,mythic,116.777,wipe,70.73,24.05,69
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,11,one-armed bandit,mythic,112.947,wipe,70.18,24.05,70
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,12,one-armed bandit,mythic,253.838,wipe,42.98,24.05,71
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,13,one-armed bandit,mythic,61.998,wipe,84.01,24.05,72
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,14,one-armed bandit,mythic,333.196,wipe,20.38,20.38,73
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,16,one-armed bandit,mythic,173.61,wipe,57.43,20.38,74
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,17,one-armed bandit,mythic,169.022,wipe,58.04,20.38,75
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,18,one-armed bandit,mythic,122.79,wipe,71.65,20.38,76
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,19,one-armed bandit,mythic,117.131,wipe,69.31,20.38,77
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,20,one-armed bandit,mythic,328.036,wipe,27.4,20.38,78
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,21,one-armed bandit,mythic,162.621,wipe,60.0,20.38,79
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,22,one-armed bandit,mythic,173.48,wipe,55.34,20.38,80
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,23,one-armed bandit,mythic,341.465,wipe,16.96,16.96,81
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,25,one-armed bandit,mythic,118.473,wipe,68.77,16.96,82
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,26,one-armed bandit,mythic,310.785,wipe,27.0,16.96,83
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,28,one-armed bandit,mythic,254.013,wipe,36.4,16.96,84
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,29,one-armed bandit,mythic,350.267,wipe,6.76,6.76,85
+NxRd2Xa3ThnmH4AC,2025-06-02 Mon,30,one-armed bandit,mythic,367.364,kill,0.0,0.0,86
+DFANHypwvLTzfWaQ,2025-03-19 Wed,13,rik reverb,heroic,151.994,wipe,31.14,31.14,1
+DFANHypwvLTzfWaQ,2025-03-19 Wed,15,rik reverb,heroic,190.391,kill,0.0,0.0,2
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,15,rik reverb,heroic,185.505,kill,0.0,0.0,3
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,23,rik reverb,heroic,181.224,kill,0.0,0.0,4
+NydaKxcRtAhBj9D4,2025-03-31 Mon,22,rik reverb,mythic,97.661,wipe,67.08,67.08,1
+NydaKxcRtAhBj9D4,2025-03-31 Mon,23,rik reverb,mythic,121.778,wipe,61.75,61.75,2
+NydaKxcRtAhBj9D4,2025-03-31 Mon,24,rik reverb,mythic,127.548,wipe,58.06,58.06,3
+NydaKxcRtAhBj9D4,2025-03-31 Mon,25,rik reverb,mythic,130.955,wipe,61.54,58.06,4
+NydaKxcRtAhBj9D4,2025-03-31 Mon,26,rik reverb,mythic,128.68,wipe,60.89,58.06,5
+NydaKxcRtAhBj9D4,2025-03-31 Mon,28,rik reverb,mythic,184.701,wipe,56.91,56.91,6
+NydaKxcRtAhBj9D4,2025-03-31 Mon,39,rik reverb,mythic,129.81,wipe,59.52,56.91,7
+NydaKxcRtAhBj9D4,2025-03-31 Mon,40,rik reverb,mythic,208.409,wipe,46.29,46.29,8
+NydaKxcRtAhBj9D4,2025-03-31 Mon,41,rik reverb,mythic,186.096,wipe,58.83,46.29,9
+NydaKxcRtAhBj9D4,2025-03-31 Mon,42,rik reverb,mythic,291.195,wipe,31.3,31.3,10
+NydaKxcRtAhBj9D4,2025-03-31 Mon,43,rik reverb,mythic,210.109,wipe,44.51,31.3,11
+NydaKxcRtAhBj9D4,2025-03-31 Mon,44,rik reverb,mythic,176.465,wipe,55.61,31.3,12
+NydaKxcRtAhBj9D4,2025-03-31 Mon,46,rik reverb,mythic,211.515,wipe,45.49,31.3,13
+NydaKxcRtAhBj9D4,2025-03-31 Mon,48,rik reverb,mythic,130.446,wipe,60.13,31.3,14
+NydaKxcRtAhBj9D4,2025-03-31 Mon,50,rik reverb,mythic,274.446,wipe,29.09,29.09,15
+NydaKxcRtAhBj9D4,2025-03-31 Mon,51,rik reverb,mythic,129.754,wipe,58.57,29.09,16
+NydaKxcRtAhBj9D4,2025-03-31 Mon,52,rik reverb,mythic,171.412,wipe,57.59,29.09,17
+NydaKxcRtAhBj9D4,2025-03-31 Mon,54,rik reverb,mythic,156.804,wipe,56.5,29.09,18
+NydaKxcRtAhBj9D4,2025-03-31 Mon,56,rik reverb,mythic,221.558,wipe,43.93,29.09,19
+NydaKxcRtAhBj9D4,2025-03-31 Mon,57,rik reverb,mythic,176.109,wipe,55.74,29.09,20
+NydaKxcRtAhBj9D4,2025-03-31 Mon,59,rik reverb,mythic,276.284,wipe,31.88,29.09,21
+NydaKxcRtAhBj9D4,2025-03-31 Mon,60,rik reverb,mythic,274.598,wipe,29.01,29.01,22
+NydaKxcRtAhBj9D4,2025-03-31 Mon,62,rik reverb,mythic,353.955,wipe,11.74,11.74,23
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,51,rik reverb,mythic,134.735,wipe,59.05,11.74,24
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,52,rik reverb,mythic,179.525,wipe,54.71,11.74,25
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,53,rik reverb,mythic,218.356,wipe,40.38,11.74,26
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,54,rik reverb,mythic,274.108,wipe,35.56,11.74,27
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,55,rik reverb,mythic,336.413,wipe,28.36,11.74,28
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,56,rik reverb,mythic,176.891,wipe,56.69,11.74,29
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,57,rik reverb,mythic,334.255,wipe,20.79,11.74,30
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,58,rik reverb,mythic,149.599,wipe,56.55,11.74,31
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,59,rik reverb,mythic,284.29,wipe,32.24,11.74,32
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,1,rik reverb,mythic,393.153,kill,0.0,0.0,33
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,38,rik reverb,mythic,173.095,wipe,54.95,0.0,34
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,39,rik reverb,mythic,131.121,wipe,53.48,0.0,35
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,44,rik reverb,mythic,283.556,wipe,17.91,0.0,36
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,45,rik reverb,mythic,360.006,kill,0.0,0.0,37
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,34,rik reverb,mythic,138.812,wipe,52.25,0.0,38
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,36,rik reverb,mythic,284.747,wipe,17.17,0.0,39
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,43,rik reverb,mythic,166.428,wipe,53.93,0.0,40
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,45,rik reverb,mythic,312.74,wipe,16.46,0.0,41
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,46,rik reverb,mythic,325.746,wipe,15.52,0.0,42
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,47,rik reverb,mythic,330.39,kill,0.0,0.0,43
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,31,rik reverb,mythic,153.18,wipe,53.68,0.0,44
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,32,rik reverb,mythic,360.257,kill,0.0,0.0,45
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,32,rik reverb,mythic,205.498,wipe,37.84,0.0,46
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,34,rik reverb,mythic,287.462,wipe,14.32,0.0,47
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,35,rik reverb,mythic,320.24,kill,0.0,0.0,48
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,4,sprocketmonger lockenstock,heroic,254.698,wipe,14.99,14.99,1
+VJKqP6j2zY9QhpH8,2025-03-17 Mon,5,sprocketmonger lockenstock,heroic,272.556,kill,0.0,0.0,2
+DFANHypwvLTzfWaQ,2025-03-19 Wed,26,sprocketmonger lockenstock,heroic,265.71,kill,0.0,0.0,3
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,28,sprocketmonger lockenstock,heroic,241.0,kill,0.0,0.0,4
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,27,sprocketmonger lockenstock,heroic,221.303,kill,0.0,0.0,5
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,13,sprocketmonger lockenstock,mythic,38.437,wipe,90.54,90.54,1
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,14,sprocketmonger lockenstock,mythic,65.455,wipe,80.88,80.88,2
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,15,sprocketmonger lockenstock,mythic,59.724,wipe,81.71,80.88,3
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,16,sprocketmonger lockenstock,mythic,67.473,wipe,79.66,79.66,4
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,17,sprocketmonger lockenstock,mythic,51.346,wipe,82.77,79.66,5
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,18,sprocketmonger lockenstock,mythic,38.173,wipe,90.74,79.66,6
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,19,sprocketmonger lockenstock,mythic,64.564,wipe,78.85,78.85,7
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,20,sprocketmonger lockenstock,mythic,93.961,wipe,78.58,78.58,8
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,23,sprocketmonger lockenstock,mythic,67.35,wipe,82.14,78.58,9
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,24,sprocketmonger lockenstock,mythic,31.632,wipe,99.32,78.58,10
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,25,sprocketmonger lockenstock,mythic,67.832,wipe,77.53,77.53,11
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,26,sprocketmonger lockenstock,mythic,94.655,wipe,71.84,71.84,12
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,27,sprocketmonger lockenstock,mythic,95.036,wipe,70.46,70.46,13
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,28,sprocketmonger lockenstock,mythic,94.82,wipe,72.76,70.46,14
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,29,sprocketmonger lockenstock,mythic,53.133,wipe,85.31,70.46,15
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,30,sprocketmonger lockenstock,mythic,163.146,wipe,62.21,62.21,16
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,31,sprocketmonger lockenstock,mythic,76.699,wipe,76.64,62.21,17
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,32,sprocketmonger lockenstock,mythic,94.647,wipe,71.04,62.21,18
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,33,sprocketmonger lockenstock,mythic,88.635,wipe,77.12,62.21,19
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,34,sprocketmonger lockenstock,mythic,99.755,wipe,71.36,62.21,20
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,35,sprocketmonger lockenstock,mythic,99.005,wipe,70.47,62.21,21
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,36,sprocketmonger lockenstock,mythic,97.374,wipe,69.79,62.21,22
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,37,sprocketmonger lockenstock,mythic,63.179,wipe,78.51,62.21,23
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,38,sprocketmonger lockenstock,mythic,80.394,wipe,75.63,62.21,24
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,39,sprocketmonger lockenstock,mythic,130.575,wipe,65.61,62.21,25
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,40,sprocketmonger lockenstock,mythic,127.434,wipe,64.46,62.21,26
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,41,sprocketmonger lockenstock,mythic,177.745,wipe,59.52,59.52,27
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,42,sprocketmonger lockenstock,mythic,38.556,wipe,89.02,59.52,28
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,43,sprocketmonger lockenstock,mythic,165.251,wipe,61.41,59.52,29
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,44,sprocketmonger lockenstock,mythic,67.547,wipe,78.45,59.52,30
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,45,sprocketmonger lockenstock,mythic,179.966,wipe,56.35,56.35,31
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,46,sprocketmonger lockenstock,mythic,99.501,wipe,70.86,56.35,32
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,49,sprocketmonger lockenstock,mythic,116.632,wipe,68.5,56.35,33
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,50,sprocketmonger lockenstock,mythic,101.07,wipe,70.02,56.35,34
+MtdQYP9rX7GhVwga,2025-04-28 Mon,8,sprocketmonger lockenstock,mythic,38.061,wipe,91.38,56.35,35
+MtdQYP9rX7GhVwga,2025-04-28 Mon,9,sprocketmonger lockenstock,mythic,33.981,wipe,99.95,56.35,36
+MtdQYP9rX7GhVwga,2025-04-28 Mon,10,sprocketmonger lockenstock,mythic,68.102,wipe,78.86,56.35,37
+MtdQYP9rX7GhVwga,2025-04-28 Mon,12,sprocketmonger lockenstock,mythic,38.966,wipe,87.17,56.35,38
+MtdQYP9rX7GhVwga,2025-04-28 Mon,14,sprocketmonger lockenstock,mythic,68.026,wipe,76.98,56.35,39
+MtdQYP9rX7GhVwga,2025-04-28 Mon,16,sprocketmonger lockenstock,mythic,120.151,wipe,71.36,56.35,40
+MtdQYP9rX7GhVwga,2025-04-28 Mon,17,sprocketmonger lockenstock,mythic,68.202,wipe,76.58,56.35,41
+MtdQYP9rX7GhVwga,2025-04-28 Mon,19,sprocketmonger lockenstock,mythic,32.192,wipe,86.65,56.35,42
+MtdQYP9rX7GhVwga,2025-04-28 Mon,20,sprocketmonger lockenstock,mythic,98.501,wipe,67.89,56.35,43
+MtdQYP9rX7GhVwga,2025-04-28 Mon,22,sprocketmonger lockenstock,mythic,56.968,wipe,84.3,56.35,44
+MtdQYP9rX7GhVwga,2025-04-28 Mon,24,sprocketmonger lockenstock,mythic,103.833,wipe,68.23,56.35,45
+MtdQYP9rX7GhVwga,2025-04-28 Mon,26,sprocketmonger lockenstock,mythic,55.585,wipe,84.86,56.35,46
+MtdQYP9rX7GhVwga,2025-04-28 Mon,27,sprocketmonger lockenstock,mythic,97.384,wipe,71.34,56.35,47
+MtdQYP9rX7GhVwga,2025-04-28 Mon,29,sprocketmonger lockenstock,mythic,118.872,wipe,66.84,56.35,48
+MtdQYP9rX7GhVwga,2025-04-28 Mon,31,sprocketmonger lockenstock,mythic,172.432,wipe,58.57,56.35,49
+MtdQYP9rX7GhVwga,2025-04-28 Mon,32,sprocketmonger lockenstock,mythic,127.349,wipe,67.48,56.35,50
+MtdQYP9rX7GhVwga,2025-04-28 Mon,34,sprocketmonger lockenstock,mythic,98.222,wipe,74.0,56.35,51
+MtdQYP9rX7GhVwga,2025-04-28 Mon,35,sprocketmonger lockenstock,mythic,128.173,wipe,66.13,56.35,52
+MtdQYP9rX7GhVwga,2025-04-28 Mon,36,sprocketmonger lockenstock,mythic,58.385,wipe,85.95,56.35,53
+MtdQYP9rX7GhVwga,2025-04-28 Mon,37,sprocketmonger lockenstock,mythic,105.847,wipe,70.76,56.35,54
+MtdQYP9rX7GhVwga,2025-04-28 Mon,39,sprocketmonger lockenstock,mythic,133.335,wipe,60.22,56.35,55
+MtdQYP9rX7GhVwga,2025-04-28 Mon,40,sprocketmonger lockenstock,mythic,58.332,wipe,82.47,56.35,56
+MtdQYP9rX7GhVwga,2025-04-28 Mon,41,sprocketmonger lockenstock,mythic,101.645,wipe,68.25,56.35,57
+MtdQYP9rX7GhVwga,2025-04-28 Mon,42,sprocketmonger lockenstock,mythic,134.586,wipe,65.38,56.35,58
+MtdQYP9rX7GhVwga,2025-04-28 Mon,43,sprocketmonger lockenstock,mythic,147.268,wipe,61.27,56.35,59
+MtdQYP9rX7GhVwga,2025-04-28 Mon,45,sprocketmonger lockenstock,mythic,106.209,wipe,73.07,56.35,60
+MtdQYP9rX7GhVwga,2025-04-28 Mon,47,sprocketmonger lockenstock,mythic,195.895,wipe,53.12,53.12,61
+MtdQYP9rX7GhVwga,2025-04-28 Mon,48,sprocketmonger lockenstock,mythic,215.05,wipe,56.83,53.12,62
+MtdQYP9rX7GhVwga,2025-04-28 Mon,49,sprocketmonger lockenstock,mythic,176.211,wipe,51.85,51.85,63
+MtdQYP9rX7GhVwga,2025-04-28 Mon,51,sprocketmonger lockenstock,mythic,46.887,wipe,84.56,51.85,64
+MtdQYP9rX7GhVwga,2025-04-28 Mon,54,sprocketmonger lockenstock,mythic,70.661,wipe,77.53,51.85,65
+MtdQYP9rX7GhVwga,2025-04-28 Mon,56,sprocketmonger lockenstock,mythic,184.481,wipe,50.66,50.66,66
+MtdQYP9rX7GhVwga,2025-04-28 Mon,57,sprocketmonger lockenstock,mythic,67.76,wipe,80.34,50.66,67
+MtdQYP9rX7GhVwga,2025-04-28 Mon,58,sprocketmonger lockenstock,mythic,94.21,wipe,68.08,50.66,68
+MtdQYP9rX7GhVwga,2025-04-28 Mon,59,sprocketmonger lockenstock,mythic,44.058,wipe,87.4,50.66,69
+MtdQYP9rX7GhVwga,2025-04-28 Mon,60,sprocketmonger lockenstock,mythic,200.625,wipe,48.79,48.79,70
+MtdQYP9rX7GhVwga,2025-04-28 Mon,62,sprocketmonger lockenstock,mythic,24.172,wipe,99.93,48.79,71
+MtdQYP9rX7GhVwga,2025-04-28 Mon,63,sprocketmonger lockenstock,mythic,181.219,wipe,54.84,48.79,72
+MtdQYP9rX7GhVwga,2025-04-28 Mon,65,sprocketmonger lockenstock,mythic,154.444,wipe,60.16,48.79,73
+MtdQYP9rX7GhVwga,2025-04-28 Mon,67,sprocketmonger lockenstock,mythic,72.643,wipe,78.91,48.79,74
+MtdQYP9rX7GhVwga,2025-04-28 Mon,69,sprocketmonger lockenstock,mythic,227.171,wipe,42.2,42.2,75
+MtdQYP9rX7GhVwga,2025-04-28 Mon,71,sprocketmonger lockenstock,mythic,118.045,wipe,66.53,42.2,76
+MtdQYP9rX7GhVwga,2025-04-28 Mon,73,sprocketmonger lockenstock,mythic,196.104,wipe,45.38,42.2,77
+MtdQYP9rX7GhVwga,2025-04-28 Mon,75,sprocketmonger lockenstock,mythic,213.819,wipe,50.96,42.2,78
+MtdQYP9rX7GhVwga,2025-04-28 Mon,76,sprocketmonger lockenstock,mythic,108.846,wipe,69.83,42.2,79
+DAQn38bGZFdRT67j,2025-05-05 Mon,10,sprocketmonger lockenstock,mythic,97.385,wipe,80.14,42.2,80
+DAQn38bGZFdRT67j,2025-05-05 Mon,12,sprocketmonger lockenstock,mythic,94.578,wipe,76.51,42.2,81
+DAQn38bGZFdRT67j,2025-05-05 Mon,14,sprocketmonger lockenstock,mythic,50.714,wipe,85.84,42.2,82
+DAQn38bGZFdRT67j,2025-05-05 Mon,15,sprocketmonger lockenstock,mythic,117.647,wipe,66.65,42.2,83
+DAQn38bGZFdRT67j,2025-05-05 Mon,17,sprocketmonger lockenstock,mythic,97.309,wipe,68.34,42.2,84
+DAQn38bGZFdRT67j,2025-05-05 Mon,19,sprocketmonger lockenstock,mythic,181.88,wipe,52.41,42.2,85
+DAQn38bGZFdRT67j,2025-05-05 Mon,20,sprocketmonger lockenstock,mythic,193.012,wipe,50.22,42.2,86
+DAQn38bGZFdRT67j,2025-05-05 Mon,21,sprocketmonger lockenstock,mythic,23.201,wipe,99.99,42.2,87
+DAQn38bGZFdRT67j,2025-05-05 Mon,22,sprocketmonger lockenstock,mythic,83.649,wipe,74.07,42.2,88
+DAQn38bGZFdRT67j,2025-05-05 Mon,24,sprocketmonger lockenstock,mythic,165.057,wipe,56.44,42.2,89
+DAQn38bGZFdRT67j,2025-05-05 Mon,26,sprocketmonger lockenstock,mythic,51.517,wipe,84.48,42.2,90
+DAQn38bGZFdRT67j,2025-05-05 Mon,27,sprocketmonger lockenstock,mythic,202.501,wipe,47.82,42.2,91
+DAQn38bGZFdRT67j,2025-05-05 Mon,28,sprocketmonger lockenstock,mythic,185.054,wipe,49.87,42.2,92
+DAQn38bGZFdRT67j,2025-05-05 Mon,29,sprocketmonger lockenstock,mythic,32.171,wipe,91.34,42.2,93
+DAQn38bGZFdRT67j,2025-05-05 Mon,30,sprocketmonger lockenstock,mythic,184.991,wipe,49.21,42.2,94
+DAQn38bGZFdRT67j,2025-05-05 Mon,31,sprocketmonger lockenstock,mythic,153.139,wipe,57.46,42.2,95
+DAQn38bGZFdRT67j,2025-05-05 Mon,32,sprocketmonger lockenstock,mythic,82.488,wipe,74.08,42.2,96
+DAQn38bGZFdRT67j,2025-05-05 Mon,33,sprocketmonger lockenstock,mythic,97.291,wipe,67.61,42.2,97
+DAQn38bGZFdRT67j,2025-05-05 Mon,35,sprocketmonger lockenstock,mythic,85.268,wipe,74.78,42.2,98
+DAQn38bGZFdRT67j,2025-05-05 Mon,37,sprocketmonger lockenstock,mythic,188.814,wipe,50.04,42.2,99
+DAQn38bGZFdRT67j,2025-05-05 Mon,38,sprocketmonger lockenstock,mythic,212.014,wipe,45.0,42.2,100
+DAQn38bGZFdRT67j,2025-05-05 Mon,40,sprocketmonger lockenstock,mythic,97.571,wipe,68.44,42.2,101
+DAQn38bGZFdRT67j,2025-05-05 Mon,42,sprocketmonger lockenstock,mythic,228.916,wipe,37.82,37.82,102
+DAQn38bGZFdRT67j,2025-05-05 Mon,44,sprocketmonger lockenstock,mythic,48.027,wipe,83.73,37.82,103
+DAQn38bGZFdRT67j,2025-05-05 Mon,45,sprocketmonger lockenstock,mythic,122.694,wipe,64.01,37.82,104
+DAQn38bGZFdRT67j,2025-05-05 Mon,47,sprocketmonger lockenstock,mythic,111.777,wipe,66.89,37.82,105
+DAQn38bGZFdRT67j,2025-05-05 Mon,51,sprocketmonger lockenstock,mythic,166.658,wipe,56.23,37.82,106
+DAQn38bGZFdRT67j,2025-05-05 Mon,53,sprocketmonger lockenstock,mythic,94.559,wipe,70.33,37.82,107
+DAQn38bGZFdRT67j,2025-05-05 Mon,55,sprocketmonger lockenstock,mythic,244.254,wipe,37.01,37.01,108
+DAQn38bGZFdRT67j,2025-05-05 Mon,56,sprocketmonger lockenstock,mythic,193.01,wipe,48.25,37.01,109
+DAQn38bGZFdRT67j,2025-05-05 Mon,57,sprocketmonger lockenstock,mythic,241.843,wipe,31.69,31.69,110
+DAQn38bGZFdRT67j,2025-05-05 Mon,59,sprocketmonger lockenstock,mythic,219.095,wipe,41.46,31.69,111
+DAQn38bGZFdRT67j,2025-05-05 Mon,60,sprocketmonger lockenstock,mythic,244.504,wipe,32.2,31.69,112
+DAQn38bGZFdRT67j,2025-05-05 Mon,62,sprocketmonger lockenstock,mythic,95.072,wipe,70.91,31.69,113
+DAQn38bGZFdRT67j,2025-05-05 Mon,64,sprocketmonger lockenstock,mythic,185.763,wipe,45.97,31.69,114
+DAQn38bGZFdRT67j,2025-05-05 Mon,66,sprocketmonger lockenstock,mythic,95.209,wipe,70.58,31.69,115
+DAQn38bGZFdRT67j,2025-05-05 Mon,68,sprocketmonger lockenstock,mythic,119.066,wipe,64.04,31.69,116
+DAQn38bGZFdRT67j,2025-05-05 Mon,70,sprocketmonger lockenstock,mythic,98.526,wipe,69.2,31.69,117
+DAQn38bGZFdRT67j,2025-05-05 Mon,72,sprocketmonger lockenstock,mythic,96.042,wipe,67.63,31.69,118
+DAQn38bGZFdRT67j,2025-05-05 Mon,74,sprocketmonger lockenstock,mythic,181.619,wipe,47.8,31.69,119
+DAQn38bGZFdRT67j,2025-05-05 Mon,75,sprocketmonger lockenstock,mythic,165.313,wipe,50.73,31.69,120
+pbzGmXQ8cKA3VRYL,2025-05-12 Mon,12,sprocketmonger lockenstock,mythic,119.631,wipe,68.3,31.69,121
+pbzGmXQ8cKA3VRYL,2025-05-12 Mon,13,sprocketmonger lockenstock,mythic,96.314,wipe,68.53,31.69,122
+pbzGmXQ8cKA3VRYL,2025-05-12 Mon,15,sprocketmonger lockenstock,mythic,219.02,wipe,37.01,31.69,123
+pbzGmXQ8cKA3VRYL,2025-05-12 Mon,19,sprocketmonger lockenstock,mythic,108.099,wipe,69.2,31.69,124
+pbzGmXQ8cKA3VRYL,2025-05-12 Mon,21,sprocketmonger lockenstock,mythic,280.717,wipe,36.43,31.69,125
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,6,sprocketmonger lockenstock,mythic,58.695,wipe,82.97,31.69,126
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,8,sprocketmonger lockenstock,mythic,102.518,wipe,64.96,31.69,127
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,10,sprocketmonger lockenstock,mythic,165.22,wipe,55.49,31.69,128
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,12,sprocketmonger lockenstock,mythic,164.257,wipe,54.52,31.69,129
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,14,sprocketmonger lockenstock,mythic,212.179,wipe,41.62,31.69,130
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,15,sprocketmonger lockenstock,mythic,66.198,wipe,75.35,31.69,131
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,16,sprocketmonger lockenstock,mythic,245.386,wipe,30.89,30.89,132
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,18,sprocketmonger lockenstock,mythic,244.331,wipe,34.95,30.89,133
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,20,sprocketmonger lockenstock,mythic,222.212,wipe,34.97,30.89,134
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,22,sprocketmonger lockenstock,mythic,244.451,wipe,30.83,30.83,135
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,24,sprocketmonger lockenstock,mythic,212.297,wipe,36.02,30.83,136
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,25,sprocketmonger lockenstock,mythic,120.358,wipe,61.72,30.83,137
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,27,sprocketmonger lockenstock,mythic,185.731,wipe,44.03,30.83,138
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,29,sprocketmonger lockenstock,mythic,150.75,wipe,57.6,30.83,139
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,31,sprocketmonger lockenstock,mythic,211.497,wipe,34.61,30.83,140
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,33,sprocketmonger lockenstock,mythic,269.138,wipe,25.29,25.29,141
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,34,sprocketmonger lockenstock,mythic,152.843,wipe,61.91,25.29,142
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,35,sprocketmonger lockenstock,mythic,190.981,wipe,40.96,25.29,143
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,37,sprocketmonger lockenstock,mythic,149.608,wipe,51.32,25.29,144
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,39,sprocketmonger lockenstock,mythic,222.158,wipe,32.15,25.29,145
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,41,sprocketmonger lockenstock,mythic,127.683,wipe,60.13,25.29,146
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,42,sprocketmonger lockenstock,mythic,241.864,wipe,32.46,25.29,147
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,44,sprocketmonger lockenstock,mythic,98.099,wipe,67.21,25.29,148
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,45,sprocketmonger lockenstock,mythic,279.229,wipe,17.59,17.59,149
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,46,sprocketmonger lockenstock,mythic,26.441,wipe,99.99,17.59,150
+xGkZ8HpnyKWrRLg7,2025-05-19 Mon,47,sprocketmonger lockenstock,mythic,242.005,wipe,23.29,17.59,151
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,31,sprocketmonger lockenstock,mythic,101.369,wipe,67.02,17.59,152
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,33,sprocketmonger lockenstock,mythic,175.332,wipe,42.65,17.59,153
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,35,sprocketmonger lockenstock,mythic,36.826,wipe,86.57,17.59,154
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,37,sprocketmonger lockenstock,mythic,32.797,wipe,99.99,17.59,155
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,41,sprocketmonger lockenstock,mythic,244.833,wipe,28.18,17.59,156
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,42,sprocketmonger lockenstock,mythic,280.638,wipe,15.61,15.61,157
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,43,sprocketmonger lockenstock,mythic,164.917,wipe,46.17,15.61,158
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,44,sprocketmonger lockenstock,mythic,362.651,wipe,0.52,0.52,159
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,45,sprocketmonger lockenstock,mythic,116.755,wipe,59.36,0.52,160
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,47,sprocketmonger lockenstock,mythic,247.95,wipe,11.64,0.52,161
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,48,sprocketmonger lockenstock,mythic,311.126,kill,0.0,0.0,162
+DFANHypwvLTzfWaQ,2025-03-19 Wed,21,stix bunkjunker,heroic,314.857,kill,0.0,0.0,1
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,22,stix bunkjunker,heroic,283.895,kill,0.0,0.0,2
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,13,stix bunkjunker,mythic,59.185,wipe,81.0,81.0,1
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,14,stix bunkjunker,mythic,136.315,wipe,67.75,67.75,2
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,19,stix bunkjunker,mythic,144.479,wipe,69.7,67.75,3
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,22,stix bunkjunker,mythic,174.723,wipe,60.35,60.35,4
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,24,stix bunkjunker,mythic,133.569,wipe,67.85,60.35,5
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,28,stix bunkjunker,mythic,141.917,wipe,65.57,60.35,6
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,30,stix bunkjunker,mythic,137.316,wipe,66.15,60.35,7
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,32,stix bunkjunker,mythic,184.974,wipe,52.27,52.27,8
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,33,stix bunkjunker,mythic,149.873,wipe,63.09,52.27,9
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,34,stix bunkjunker,mythic,167.432,wipe,67.96,52.27,10
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,35,stix bunkjunker,mythic,157.827,wipe,67.86,52.27,11
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,39,stix bunkjunker,mythic,26.681,wipe,100.0,52.27,12
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,43,stix bunkjunker,mythic,148.131,wipe,65.99,52.27,13
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,45,stix bunkjunker,mythic,146.199,wipe,64.94,52.27,14
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,46,stix bunkjunker,mythic,135.008,wipe,66.29,52.27,15
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,47,stix bunkjunker,mythic,160.766,wipe,69.74,52.27,16
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,48,stix bunkjunker,mythic,137.371,wipe,69.1,52.27,17
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,50,stix bunkjunker,mythic,192.824,wipe,55.63,52.27,18
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,51,stix bunkjunker,mythic,195.685,wipe,54.83,52.27,19
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,52,stix bunkjunker,mythic,182.571,wipe,58.13,52.27,20
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,53,stix bunkjunker,mythic,184.983,wipe,60.74,52.27,21
+BqNcn4Tbk3M8X92f,2025-04-07 Mon,54,stix bunkjunker,mythic,141.085,wipe,64.67,52.27,22
+d2LVTkthCvnfKPy7,2025-04-14 Mon,9,stix bunkjunker,mythic,21.181,wipe,99.99,52.27,23
+d2LVTkthCvnfKPy7,2025-04-14 Mon,12,stix bunkjunker,mythic,187.286,wipe,56.68,52.27,24
+d2LVTkthCvnfKPy7,2025-04-14 Mon,14,stix bunkjunker,mythic,134.706,wipe,65.75,52.27,25
+d2LVTkthCvnfKPy7,2025-04-14 Mon,16,stix bunkjunker,mythic,206.531,wipe,51.64,51.64,26
+d2LVTkthCvnfKPy7,2025-04-14 Mon,18,stix bunkjunker,mythic,139.455,wipe,69.61,51.64,27
+d2LVTkthCvnfKPy7,2025-04-14 Mon,20,stix bunkjunker,mythic,280.588,wipe,37.8,37.8,28
+d2LVTkthCvnfKPy7,2025-04-14 Mon,21,stix bunkjunker,mythic,136.126,wipe,65.74,37.8,29
+d2LVTkthCvnfKPy7,2025-04-14 Mon,23,stix bunkjunker,mythic,229.096,wipe,46.35,37.8,30
+d2LVTkthCvnfKPy7,2025-04-14 Mon,24,stix bunkjunker,mythic,208.528,wipe,46.54,37.8,31
+d2LVTkthCvnfKPy7,2025-04-14 Mon,25,stix bunkjunker,mythic,190.704,wipe,51.63,37.8,32
+d2LVTkthCvnfKPy7,2025-04-14 Mon,27,stix bunkjunker,mythic,220.252,wipe,49.95,37.8,33
+d2LVTkthCvnfKPy7,2025-04-14 Mon,28,stix bunkjunker,mythic,199.597,wipe,51.03,37.8,34
+d2LVTkthCvnfKPy7,2025-04-14 Mon,29,stix bunkjunker,mythic,283.932,wipe,34.3,34.3,35
+d2LVTkthCvnfKPy7,2025-04-14 Mon,30,stix bunkjunker,mythic,194.198,wipe,54.06,34.3,36
+d2LVTkthCvnfKPy7,2025-04-14 Mon,34,stix bunkjunker,mythic,242.991,wipe,44.42,34.3,37
+d2LVTkthCvnfKPy7,2025-04-14 Mon,36,stix bunkjunker,mythic,162.75,wipe,61.53,34.3,38
+d2LVTkthCvnfKPy7,2025-04-14 Mon,38,stix bunkjunker,mythic,142.954,wipe,66.55,34.3,39
+d2LVTkthCvnfKPy7,2025-04-14 Mon,39,stix bunkjunker,mythic,265.703,wipe,37.53,34.3,40
+d2LVTkthCvnfKPy7,2025-04-14 Mon,40,stix bunkjunker,mythic,154.365,wipe,66.29,34.3,41
+d2LVTkthCvnfKPy7,2025-04-14 Mon,43,stix bunkjunker,mythic,128.526,wipe,75.33,34.3,42
+d2LVTkthCvnfKPy7,2025-04-14 Mon,45,stix bunkjunker,mythic,248.067,wipe,35.51,34.3,43
+d2LVTkthCvnfKPy7,2025-04-14 Mon,47,stix bunkjunker,mythic,203.927,wipe,50.76,34.3,44
+d2LVTkthCvnfKPy7,2025-04-14 Mon,48,stix bunkjunker,mythic,306.856,wipe,29.88,29.88,45
+d2LVTkthCvnfKPy7,2025-04-14 Mon,49,stix bunkjunker,mythic,187.304,wipe,52.98,29.88,46
+d2LVTkthCvnfKPy7,2025-04-14 Mon,51,stix bunkjunker,mythic,200.384,wipe,49.81,29.88,47
+d2LVTkthCvnfKPy7,2025-04-14 Mon,53,stix bunkjunker,mythic,153.129,wipe,64.92,29.88,48
+d2LVTkthCvnfKPy7,2025-04-14 Mon,54,stix bunkjunker,mythic,172.906,wipe,60.28,29.88,49
+d2LVTkthCvnfKPy7,2025-04-14 Mon,55,stix bunkjunker,mythic,396.958,wipe,1.97,1.97,50
+d2LVTkthCvnfKPy7,2025-04-14 Mon,56,stix bunkjunker,mythic,140.921,wipe,61.17,1.97,51
+d2LVTkthCvnfKPy7,2025-04-14 Mon,57,stix bunkjunker,mythic,191.982,wipe,51.21,1.97,52
+d2LVTkthCvnfKPy7,2025-04-14 Mon,59,stix bunkjunker,mythic,259.951,wipe,36.22,1.97,53
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,60,stix bunkjunker,mythic,159.153,wipe,62.78,1.97,54
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,61,stix bunkjunker,mythic,245.948,wipe,38.6,1.97,55
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,62,stix bunkjunker,mythic,168.211,wipe,62.32,1.97,56
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,63,stix bunkjunker,mythic,245.292,wipe,39.65,1.97,57
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,65,stix bunkjunker,mythic,146.615,wipe,63.43,1.97,58
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,66,stix bunkjunker,mythic,355.824,wipe,15.72,1.97,59
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,67,stix bunkjunker,mythic,299.516,wipe,32.08,1.97,60
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,68,stix bunkjunker,mythic,240.654,wipe,44.54,1.97,61
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,70,stix bunkjunker,mythic,328.892,wipe,23.5,1.97,62
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,5,stix bunkjunker,mythic,204.465,wipe,53.59,1.97,63
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,6,stix bunkjunker,mythic,144.213,wipe,61.29,1.97,64
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,7,stix bunkjunker,mythic,159.786,wipe,63.56,1.97,65
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,8,stix bunkjunker,mythic,390.297,wipe,5.3,1.97,66
+xL9yRtDvjZK7QTYJ,2025-04-21 Mon,9,stix bunkjunker,mythic,368.764,kill,0.0,0.0,67
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,52,stix bunkjunker,mythic,207.147,wipe,47.78,0.0,68
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,53,stix bunkjunker,mythic,311.162,wipe,25.04,0.0,69
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,54,stix bunkjunker,mythic,232.2,wipe,42.35,0.0,70
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,56,stix bunkjunker,mythic,372.768,kill,0.0,0.0,71
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,39,stix bunkjunker,mythic,143.616,wipe,63.56,0.0,72
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,40,stix bunkjunker,mythic,265.032,wipe,37.08,0.0,73
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,41,stix bunkjunker,mythic,227.126,wipe,46.05,0.0,74
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,42,stix bunkjunker,mythic,364.93,wipe,14.36,0.0,75
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,43,stix bunkjunker,mythic,122.605,wipe,71.76,0.0,76
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,44,stix bunkjunker,mythic,157.439,wipe,61.98,0.0,77
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,45,stix bunkjunker,mythic,374.97,wipe,11.16,0.0,78
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,47,stix bunkjunker,mythic,308.459,wipe,21.72,0.0,79
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,48,stix bunkjunker,mythic,222.929,wipe,45.7,0.0,80
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,49,stix bunkjunker,mythic,204.364,wipe,46.46,0.0,81
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,50,stix bunkjunker,mythic,236.885,wipe,38.55,0.0,82
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,45,stix bunkjunker,mythic,313.916,wipe,14.78,0.0,83
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,46,stix bunkjunker,mythic,187.895,wipe,46.77,0.0,84
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,48,stix bunkjunker,mythic,199.661,wipe,43.27,0.0,85
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,50,stix bunkjunker,mythic,220.214,wipe,42.64,0.0,86
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,52,stix bunkjunker,mythic,205.245,wipe,42.36,0.0,87
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,53,stix bunkjunker,mythic,220.081,wipe,45.4,0.0,88
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,55,stix bunkjunker,mythic,89.704,wipe,77.08,0.0,89
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,57,stix bunkjunker,mythic,90.23,wipe,75.12,0.0,90
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,58,stix bunkjunker,mythic,153.063,wipe,60.13,0.0,91
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,60,stix bunkjunker,mythic,313.351,wipe,17.86,0.0,92
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,61,stix bunkjunker,mythic,258.174,wipe,28.4,0.0,93
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,63,stix bunkjunker,mythic,261.67,wipe,25.37,0.0,94
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,65,stix bunkjunker,mythic,356.226,kill,0.0,0.0,95
+DFANHypwvLTzfWaQ,2025-03-19 Wed,5,vexie and the geargrinders,heroic,192.039,kill,0.0,0.0,1
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,5,vexie and the geargrinders,heroic,162.086,kill,0.0,0.0,2
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,5,vexie and the geargrinders,heroic,180.824,kill,0.0,0.0,3
+c8PFLg3WkCAvBazr,2025-04-09 Wed,5,vexie and the geargrinders,heroic,158.39,kill,0.0,0.0,4
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,3,vexie and the geargrinders,heroic,153.795,kill,0.0,0.0,5
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,3,vexie and the geargrinders,heroic,137.808,kill,0.0,0.0,6
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,2,vexie and the geargrinders,heroic,158.074,kill,0.0,0.0,7
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,5,vexie and the geargrinders,heroic,133.405,kill,0.0,0.0,8
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,2,vexie and the geargrinders,heroic,24.403,wipe,99.99,0.0,9
+hvzV9HgKJYGBNdCq,2025-05-21 Wed,6,vexie and the geargrinders,heroic,130.572,kill,0.0,0.0,10
+NzGpwY6AqHFRjrvn,2025-05-28 Wed,2,vexie and the geargrinders,heroic,123.192,kill,0.0,0.0,11
+kzTgc1LJ4ZnHhdb6,2025-06-04 Wed,2,vexie and the geargrinders,heroic,123.002,kill,0.0,0.0,12
+jmpyLVFaKX8qvZD7,2025-06-11 Wed,4,vexie and the geargrinders,heroic,119.22,kill,0.0,0.0,13
+J1QWahcLq2XGz76y,2025-03-24 Mon,5,vexie and the geargrinders,mythic,141.97,wipe,75.84,75.84,1
+J1QWahcLq2XGz76y,2025-03-24 Mon,7,vexie and the geargrinders,mythic,322.091,wipe,31.27,31.27,2
+J1QWahcLq2XGz76y,2025-03-24 Mon,9,vexie and the geargrinders,mythic,307.551,wipe,25.94,25.94,3
+J1QWahcLq2XGz76y,2025-03-24 Mon,12,vexie and the geargrinders,mythic,144.733,wipe,75.08,25.94,4
+J1QWahcLq2XGz76y,2025-03-24 Mon,15,vexie and the geargrinders,mythic,397.41,kill,0.0,0.0,5
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,57,vexie and the geargrinders,mythic,311.543,wipe,27.74,0.0,6
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,58,vexie and the geargrinders,mythic,329.669,wipe,21.95,0.0,7
+cb6aVy4NDKAnLr3J,2025-03-26 Wed,59,vexie and the geargrinders,mythic,371.274,kill,0.0,0.0,8
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,34,vexie and the geargrinders,mythic,319.127,wipe,21.43,0.0,9
+GmxPY2Jqpaf3tNwD,2025-04-02 Wed,36,vexie and the geargrinders,mythic,340.621,kill,0.0,0.0,10
+vyAkKQ9zLWFtGbcN,2025-04-16 Wed,29,vexie and the geargrinders,mythic,321.71,kill,0.0,0.0,11
+3aTr1CZGbjHwqxmX,2025-04-23 Wed,21,vexie and the geargrinders,mythic,356.762,kill,0.0,0.0,12
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,20,vexie and the geargrinders,mythic,329.452,wipe,5.9,0.0,13
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,21,vexie and the geargrinders,mythic,319.632,wipe,8.38,0.0,14
+9WCTwGtmkvpLVJzx,2025-04-30 Wed,22,vexie and the geargrinders,mythic,307.147,kill,0.0,0.0,15
+hzQfK6NLbRvWAjrg,2025-05-07 Wed,22,vexie and the geargrinders,mythic,308.922,kill,0.0,0.0,16
