@@ -111,6 +111,8 @@ else:
     chart_data = chart_data.dropna(subset=["first_death_perc"])  # Remove missing pull data
     chart_data = chart_data.sort_values("first_death_perc", ascending=False)
     chart_data = chart_data[chart_data["boss_pulls"] > 99]
+# Remove holy priest
+chart_data = chart_data[chart_data["player_name"] != "evereld"]
 
 # Map class colours
 CLASS_COLOURS = {
@@ -160,6 +162,8 @@ bar_chart = (
 st.subheader(f"first deaths on {selected_boss}")
 
 st.altair_chart(bar_chart, use_container_width=True)
+
+st.caption("holy priests removed from deaths due to misrepresentative data")
 
 st.dataframe(
     chart_data[["player_name", "player_class", "first_death_count", "boss_pulls", "first_death_perc"]],
