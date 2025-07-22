@@ -1,5 +1,5 @@
 [theme]
-base = "light"
+#base = "light"
 primaryColor = '#FF6F61'
 backgroundColor = '#1C1C1C'
 font = "sans serif"  # Options: "sans serif", "serif", "monospace"
