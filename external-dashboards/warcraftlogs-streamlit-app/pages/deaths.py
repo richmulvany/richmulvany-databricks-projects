@@ -81,17 +81,36 @@ df = (
 )
 
 # --- Compute percentage ---
-df["first_death_perc"] = round(100 * df["first_death_count"] / df["boss_pulls"], 2)
-df = df.dropna(subset=["first_death_perc"])  # Remove missing pull data
 
 # --- Boss filter ---
-bosses = sorted(df["boss_name"].unique())
+bosses = [
+    "all bosses", 
+    "vexie and the geargrinders",
+    "cauldron of carnage",
+    "rik reverb",
+    "stix bunkjunker",
+    "sprocketmonger lockenstock",
+    "one-armed bandit",
+    "mug'zee, heads of security",
+    "chrome king gallywix"
+]
 selected_boss = st.selectbox("select a boss:", options=bosses)
 
-chart_data = df[df["boss_name"] == selected_boss].sort_values("first_death_perc", ascending=False)
-
-# Sort by descending first_death_perc
-chart_data["player_sort_order"] = chart_data["first_death_perc"].rank(method="first", ascending=False)
+if selected_boss != "all bosses":
+    df["first_death_perc"] = round(100 * df["first_death_count"] / df["boss_pulls"], 2)
+    df = df.dropna(subset=["first_death_perc"])  # Remove missing pull data
+    chart_data = df[df["boss_name"] == selected_boss].sort_values("first_death_perc", ascending=False)
+else:
+    chart_data = df.groupby("player_name", as_index=False).agg({
+        "first_death_count": "sum",
+        "boss_pulls": "sum"
+    })
+    player_meta = df.drop_duplicates(subset="player_name")[["player_name", "player_class"]]
+    chart_data = chart_data.merge(player_meta, on="player_name", how="left")
+    chart_data["first_death_perc"] = round(100 * chart_data["first_death_count"] / chart_data["boss_pulls"], 2)
+    chart_data = chart_data.dropna(subset=["first_death_perc"])  # Remove missing pull data
+    chart_data = chart_data.sort_values("first_death_perc", ascending=False)
+    chart_data = chart_data[chart_data["boss_pulls"] > 99]
 
 # Map class colours
 CLASS_COLOURS = {
