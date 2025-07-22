@@ -102,7 +102,7 @@ chart_data["player_sort_order"] = chart_data["first_death_perc"].rank(method="fi
 
 # Map class colours
 CLASS_COLOURS = {
-    "death knight": "#C41F3B",
+    "deathknight":  "#C41F3B",
     "demonhunter":  "#A330C9",
     "druid":        "#FF7D0A",
     "evoker":       "#33937F",
