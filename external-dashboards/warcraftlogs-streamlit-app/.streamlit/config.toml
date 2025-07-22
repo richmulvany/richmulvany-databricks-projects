@@ -1,6 +1,6 @@
 [theme]
-#base = "light"
-primaryColor = '#FF6F61'
+base = "dark"
+primaryColor = '#00FF85'
 backgroundColor = '#1C1C1C'
 font = "sans serif"  # Options: "sans serif", "serif", "monospace"
 
