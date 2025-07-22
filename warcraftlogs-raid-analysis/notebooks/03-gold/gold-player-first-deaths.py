@@ -7,7 +7,6 @@ from pyspark.sql.functions import col, lead, count, when, min, row_number
 
 deaths_df = spark.table("02_silver.warcraftlogs.f_tables_summary_deaths").alias("d")
 fights_df = spark.table("02_silver.warcraftlogs.f_fights_boss_pulls").alias("f")
-actors_df = spark.table("02_silver.warcraftlogs.f_actors_players").alias("a")
 
 # COMMAND ----------
 
