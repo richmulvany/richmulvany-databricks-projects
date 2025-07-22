@@ -6,7 +6,7 @@ import altair as alt
 from io import StringIO
 
 # --- GitHub raw base URL ---
-REPO_URL = "https://raw.githubusercontent.com/richmulvany/richmulvany-databricks-projects/test/warcraftlogs-gold-data-exports/data-exports"
+REPO_URL = "https://raw.githubusercontent.com/richmulvany/richmulvany-databricks-projects/main/data-exports"
 
 # --- Helper to load CSVs directly from GitHub ---
 def load_csv(file_name: str) -> pd.DataFrame:
@@ -36,25 +36,14 @@ st.markdown(f"""
 
 st.header("death statistics")
 
-page = st.sidebar.radio("data type:",["deaths", "damage", "healing"])
-
-if page == "d":
-    st.header("death statistics")
-    # your chart logic
-elif page == "damage":
-    st.header("damage")
-    st.markdown("""
-        "damage dashboard"
-    """)
-elif page == "healing":
-    st.header("healing")
-    st.markdown("""
-            "healing dashboard"
-        """)
+difficulty = st.sidebar.radio("raid difficulty:",["all", "mythic", "heroic", "normal"])
 
 with st.spinner("Loading data..."):
     # First-death records (one row per pull)
     first_deaths = load_csv("player_first_deaths.csv")
+
+    # Guild roster
+    roster = load_csv("guild_roster.csv")
 
     # Pull counts
     pulls = load_csv("player_pull_counts.csv")
@@ -66,6 +55,16 @@ with st.spinner("Loading data..."):
 
     # Player disastrous deaths
     disastrous_deaths = load_csv("player_inting.csv")
+
+# Remove non-guildies
+valid_players = roster["player_name"].unique()
+pulls = pulls[pulls["player_name"].isin(valid_players)]
+first_deaths = first_deaths[first_deaths["player_name"].isin(valid_players)]
+
+# Filter difficulty
+if difficulty != "all":
+    pulls = pulls[pulls["raid_difficulty"] == difficulty]
+    first_deaths = first_deaths[first_deaths["raid_difficulty"] == difficulty]
 
 # --- Aggregate first-death counts ---
 first_death_counts = (
@@ -90,12 +89,6 @@ bosses = sorted(df["boss_name"].unique())
 selected_boss = st.selectbox("select a boss:", options=bosses)
 
 chart_data = df[df["boss_name"] == selected_boss].sort_values("first_death_perc", ascending=False)
-
-st.subheader(f"first deaths on {selected_boss}")
-st.dataframe(
-    chart_data[["player_name", "player_class", "first_death_count", "boss_pulls", "first_death_perc"]],
-    hide_index=True,
-)
 
 # Sort by descending first_death_perc
 chart_data["player_sort_order"] = chart_data["first_death_perc"].rank(method="first", ascending=False)
@@ -144,7 +137,15 @@ bar_chart = (
     )
 )
 
+# Present data
+st.subheader(f"first deaths on {selected_boss}")
+
 st.altair_chart(bar_chart, use_container_width=True)
+
+st.dataframe(
+    chart_data[["player_name", "player_class", "first_death_count", "boss_pulls", "first_death_perc"]],
+    hide_index=True,
+)
 
 # --- Aggregate disastrous-death counts ---
 disastrous_death_counts = (
