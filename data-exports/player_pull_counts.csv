@@ -2,6 +2,7 @@ player_name,boss_name,raid_difficulty,total_pulls
 hobbyalkis,cauldron of carnage,mythic,30
 brraga,"mug'zee, heads of security",heroic,12
 dibby,vexie and the geargrinders,heroic,1
+televisions,chrome king gallywix,mythic,30
 dibby,cauldron of carnage,mythic,4
 yevie,sprocketmonger lockenstock,heroic,3
 evereld,sprocketmonger lockenstock,mythic,86
@@ -61,6 +62,7 @@ guolldan,one-armed bandit,heroic,2
 bigboiples,sprocketmonger lockenstock,heroic,6
 lenus,rik reverb,heroic,5
 magicwingers,one-armed bandit,mythic,86
+koriekin,chrome king gallywix,mythic,30
 turbohot,rik reverb,mythic,47
 evereld,vexie and the geargrinders,mythic,7
 vitiblast,rik reverb,heroic,1
@@ -101,6 +103,7 @@ wanchan,sprocketmonger lockenstock,mythic,86
 roropriest,"mug'zee, heads of security",heroic,26
 roropriest,cauldron of carnage,heroic,3
 vinewhip,cauldron of carnage,mythic,2
+willowwisp,chrome king gallywix,mythic,30
 cutefist,stix bunkjunker,heroic,3
 gici,one-armed bandit,heroic,1
 neutralized,"mug'zee, heads of security",heroic,1
@@ -128,6 +131,7 @@ apocryphâ,chrome king gallywix,heroic,1
 enjiie,rik reverb,mythic,45
 krepowl,one-armed bandit,heroic,1
 turbohot,sprocketmonger lockenstock,mythic,86
+cutefist,chrome king gallywix,mythic,30
 wanchan,stix bunkjunker,heroic,3
 hesoyâm,"mug'zee, heads of security",heroic,1
 debiru,"mug'zee, heads of security",mythic,3
@@ -400,6 +404,7 @@ apocryphâ,rik reverb,mythic,2
 gnomerouge,one-armed bandit,heroic,2
 pattern,"mug'zee, heads of security",mythic,121
 turbohot,chrome king gallywix,heroic,33
+enjiie,chrome king gallywix,mythic,30
 guolldan,"mug'zee, heads of security",heroic,1
 willowwisp,stix bunkjunker,heroic,3
 vengaboysfan,one-armed bandit,heroic,1
@@ -413,6 +418,7 @@ gici,chrome king gallywix,heroic,1
 blindviper,"mug'zee, heads of security",mythic,3
 hobbyalkis,"mug'zee, heads of security",heroic,30
 devasjation,vexie and the geargrinders,heroic,1
+rizzleton,chrome king gallywix,mythic,30
 bigboiples,rik reverb,mythic,47
 vengaboysfan,chrome king gallywix,heroic,1
 magicwingers,chrome king gallywix,heroic,33
@@ -433,6 +439,7 @@ maddisonsian,cauldron of carnage,mythic,4
 magicwingers,stix bunkjunker,mythic,41
 turbohot,"mug'zee, heads of security",heroic,32
 mægisk,rik reverb,mythic,24
+jumzo,chrome king gallywix,mythic,30
 cutefist,sprocketmonger lockenstock,mythic,86
 gordog,rik reverb,mythic,2
 lobster,cauldron of carnage,mythic,4
@@ -457,7 +464,10 @@ burka,"mug'zee, heads of security",mythic,3
 vitiblast,"mug'zee, heads of security",heroic,1
 benshammy,chrome king gallywix,heroic,8
 shanaiya,rik reverb,mythic,9
+brickyd,chrome king gallywix,mythic,30
 televisions,"mug'zee, heads of security",mythic,118
+evereld,chrome king gallywix,mythic,30
+ashyminge,chrome king gallywix,mythic,30
 evereld,cauldron of carnage,mythic,11
 mægisk,one-armed bandit,heroic,18
 bamoo,"mug'zee, heads of security",heroic,20
@@ -486,6 +496,8 @@ enjiie,stix bunkjunker,heroic,3
 unrecorded,vexie and the geargrinders,heroic,3
 gnomerouge,chrome king gallywix,heroic,1
 kranar,chrome king gallywix,heroic,1
+bigboiples,chrome king gallywix,mythic,30
+yearning,chrome king gallywix,mythic,30
 benshammy,vexie and the geargrinders,mythic,3
 akcay,"mug'zee, heads of security",mythic,3
 budgetgoku,one-armed bandit,mythic,86
@@ -519,6 +531,7 @@ jumzo,sprocketmonger lockenstock,heroic,6
 koriekin,one-armed bandit,mythic,86
 televisions,sprocketmonger lockenstock,mythic,41
 bensmonk,rik reverb,heroic,2
+delvur,chrome king gallywix,mythic,30
 krepowl,"mug'zee, heads of security",heroic,1
 jumzo,stix bunkjunker,mythic,30
 bpd,rik reverb,mythic,47
@@ -545,6 +558,7 @@ smonkste,one-armed bandit,heroic,2
 wanchan,rik reverb,mythic,47
 gordog,stix bunkjunker,mythic,11
 yearning,cauldron of carnage,heroic,3
+mægisk,chrome king gallywix,mythic,30
 mirmilitz,one-armed bandit,heroic,2
 yearning,vexie and the geargrinders,heroic,8
 burikhu,"mug'zee, heads of security",mythic,3
@@ -599,6 +613,7 @@ bensbear,vexie and the geargrinders,mythic,2
 ashyminge,rik reverb,mythic,47
 thebigstone,chrome king gallywix,heroic,1
 garajamal,one-armed bandit,heroic,1
+lenus,chrome king gallywix,mythic,30
 bensmonk,sprocketmonger lockenstock,heroic,3
 thebigstone,"mug'zee, heads of security",heroic,1
 aivfive,one-armed bandit,mythic,24
@@ -607,6 +622,7 @@ rzoc,vexie and the geargrinders,mythic,3
 bamoo,chrome king gallywix,heroic,7
 unrecorded,one-armed bandit,mythic,43
 allandmore,"mug'zee, heads of security",mythic,3
+magicwingers,chrome king gallywix,mythic,30
 mirmilitz,cauldron of carnage,mythic,1
 koriekin,chrome king gallywix,heroic,1
 apocryphâ,vexie and the geargrinders,mythic,3
@@ -617,6 +633,7 @@ apocryphâ,vexie and the geargrinders,heroic,1
 aivfive,one-armed bandit,heroic,1
 frenzyy,rik reverb,mythic,12
 vitiblast,cauldron of carnage,mythic,4
+boopykid,chrome king gallywix,mythic,30
 explorer,vexie and the geargrinders,heroic,9
 enjiie,"mug'zee, heads of security",heroic,31
 televisions,rik reverb,mythic,47
@@ -640,6 +657,7 @@ chouafa,"mug'zee, heads of security",heroic,1
 shrews,"mug'zee, heads of security",mythic,27
 bensmonk,chrome king gallywix,heroic,7
 ollieyay,rik reverb,heroic,5
+yeviel,chrome king gallywix,mythic,30
 turbohot,one-armed bandit,mythic,86
 dibby,rik reverb,mythic,9
 furioshar,"mug'zee, heads of security",heroic,1
@@ -679,6 +697,7 @@ bigboiples,sprocketmonger lockenstock,mythic,86
 koriekin,one-armed bandit,heroic,1
 gici,"mug'zee, heads of security",heroic,1
 kranar,cauldron of carnage,mythic,1
+hobbyalkis,chrome king gallywix,mythic,30
 budgetgoku,vexie and the geargrinders,mythic,18
 yeviel,sprocketmonger lockenstock,heroic,3
 sillyguy,chrome king gallywix,heroic,3
@@ -749,6 +768,7 @@ glizzyrider,"mug'zee, heads of security",mythic,31
 jumzo,rik reverb,mythic,45
 jumzo,one-armed bandit,heroic,17
 krepowl,stix bunkjunker,mythic,11
+pattern,chrome king gallywix,mythic,30
 oceanblvd,vexie and the geargrinders,heroic,1
 evereld,rik reverb,heroic,1
 grimgriper,chrome king gallywix,heroic,1
@@ -773,6 +793,7 @@ hungbelf,rik reverb,mythic,9
 evereld,"mug'zee, heads of security",mythic,65
 coreydlr,stix bunkjunker,mythic,11
 rizzleton,chrome king gallywix,heroic,33
+turbohot,chrome king gallywix,mythic,30
 gici,rik reverb,mythic,2
 unrecorded,vexie and the geargrinders,mythic,2
 willowwisp,vexie and the geargrinders,heroic,7
