@@ -18,7 +18,7 @@ def load_csv(file_name: str) -> pd.DataFrame:
 # --- Streamlit UI ---
 logo_path = "https://pbs.twimg.com/profile_images/1490380290962952192/qZk9xi5l_200x200.jpg"
 
-st.set_page_config(page_title="sc-warcraftlogs", page_icon=logo_path)
+st.set_page_config(page_title="home \textbullet sc-warcraftlogs", page_icon=logo_path)
 
 st.logo(
     logo_path,
