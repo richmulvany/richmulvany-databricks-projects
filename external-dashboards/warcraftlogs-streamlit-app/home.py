@@ -40,20 +40,25 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+st.markdown("""
 <div style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 20px; margin-top: 10px;">
- 
-src="https://cdn.raiderio.net/images/brand/Mark_White.png" width="32" style="position: relative; top: 2px;" alt="Raider.IO"/>
+
+  <a href="https://raider.io/guilds/eu/twisting-nether/Student%20Council" target="_blank">
+    <img src="https://cdn.raiderio.net/images/brand/Mark_White.png" width="32" style="position: relative; top: 2px;" alt="Raider.IO"/>
   </a>
- 
-src"https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d7f4ef6498ac018f2c55_Symbol.svg" width="32" style="position: relative; top: 4px;" alt="Discord"/>
+
+  <a href="https://discord.gg/studentcouncil" target="_blank">
+    <img src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d7f4ef6498ac018f2c55_Symbol.svg" width="32" style="position: relative; top: 4px;" alt="Discord"/>
   </a>
- 
-src"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/X_logo.jpg/1200px-X_logo.jpg" width="36" style="position: relative; top: 0px;" alt="Twitter/X"/>
+
+  <a href="https://x.com/SCTNGuild" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/X_logo.jpg/1200px-X_logo.jpg" width="36" style="position: relative; top: 0px;" alt="Twitter/X"/>
   </a>
- 
-src"https://assets.rpglogs.com/cms/WCL_White_Icon_01_9b25d38cba.png" width="32" style="position: relative; top: 3px; border-radius: 50%;" alt="Warcraft Logs"/>
+
+  <a href="https://www.warcraftlogs.com/guild/id/586885" target="_blank">
+    <img src="https://assets.rpglogs.com/cms/WCL_White_Icon_01_9b25d38cba.png" width="32" style="position: relative; top: 3px; border-radius: 50%;" alt="Warcraft Logs"/>
   </a>
- 
+
 </div>
 """, unsafe_allow_html=True)
 
