@@ -19,7 +19,7 @@ def load_csv(file_name: str) -> pd.DataFrame:
 logo_path = "https://pbs.twimg.com/profile_images/1490380290962952192/qZk9xi5l_200x200.jpg"
 
 # Set tab config
-st.set_page_config(page_title="home · sc-warcraftlogs", page_icon=logo_path)
+st.set_page_config(page_title="damage · sc-warcraftlogs", page_icon=logo_path)
 
 # Import SC logo
 st.logo(
