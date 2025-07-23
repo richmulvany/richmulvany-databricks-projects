@@ -147,8 +147,58 @@ combined_chart = alt.layer(panel_chart, actual_line, lowest_line).properties(
 # Display chart
 st.altair_chart(combined_chart, use_container_width=True)
 
-# --- Plot Last Pull DPS data --- #
-st.write(most_recent_first_kill)
+# Map class colours
+CLASS_COLOURS = {
+    "deathknight":  "#C41F3B",
+    "demonhunter":  "#A330C9",
+    "druid":        "#FF7D0A",
+    "evoker":       "#33937F",
+    "hunter":       "#ABD473",
+    "mage":         "#69CCF0",
+    "monk":         "#00FF96",
+    "paladin":      "#F58CBA",
+    "priest":       "#FFFFFF",
+    "rogue":        "#FFF569",
+    "shaman":       "#0070DE",
+    "warlock":      "#9482C9",
+    "warrior":      "#C79C6E"
+}
 
+record_kill_report = most_recent_first_kill["report_id"]
+record_kill_pull_number = most_recent_first_kill["report_id"]
+
+# --- Plot Last Pull DPS data --- #
+# Filter dps data to last first kill pull
+player_dps_filered = player_dps[
+    (player_dps["report_id] == record_kill_report) &
+    (player_dps["boss_name] == boss) &
+    (player_dps["pull_number] == record_kill_pull_number)
+]
+
+# Build chart
+bar_chart = (
+    alt.Chart(player_dps_filtered)
+    .mark_bar()
+    .encode(
+        x=alt.X("player_name:N",
+                sort=chart_data["player_name"].tolist(),
+                title=""),
+        y=alt.Y("damage_per_second:Q", title=dps"),
+        color=alt.Color("player_class:N", title="class",
+                        scale=alt.Scale(domain=list(CLASS_COLOURS.keys()),
+                                        range=list(CLASS_COLOURS.values()))).legend(None),
+        tooltip=[
+            alt.Tooltip("player_name", title="player"),
+            alt.Tooltip("player_class", title="class"),
+            alt.Tooltip("damage_per_second", title="dps"),
+            alt.Tooltip("damage_done", title="damage_done"),
+        ],
+    )
+    .properties(
+        width="container",
+        height=400,
+        title=f"dps per player on first {boss} kill"
+    )
+)
 
 # --- Plot Last Pull HPS data --- #
