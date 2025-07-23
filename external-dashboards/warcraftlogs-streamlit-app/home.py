@@ -188,7 +188,7 @@ bar_chart = (
         ],
     )
     .properties(
-        width="container",
+        width=800,
         height=400,
         title=f"dps per player on first {boss} kill"
     )
@@ -224,10 +224,10 @@ bar_chart = (
         ],
     )
     .properties(
-        width="container",
+        width=800,
         height=400,
         title=f"hps per player on first {boss} kill"
     )
 )
 
-st.altair_chart(bar_chart, use_container_width=True)
+st.altair_chart(bar_chart, use_container_width=False)
