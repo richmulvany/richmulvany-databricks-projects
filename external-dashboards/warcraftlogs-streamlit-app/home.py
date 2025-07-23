@@ -102,7 +102,7 @@ actual_line = alt.layer(
 )
 
 # Line for lowest HP so far (running minimum)
-lowest_line = alt.Chart(filtered_df).mark_line(color="red").encode(
+lowest_line = alt.Chart(filtered_df).mark_line(color="#BB86FC").encode(
     x="encounter_order:Q",
     y="boss_hp_lowest_pull:Q",
     tooltip=["encounter_order", "boss_hp_lowest_pull"]
