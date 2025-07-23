@@ -66,7 +66,8 @@ st.divider()
 # --- Import progression data --- #
 with st.spinner("Loading data..."):
     guild_progression = load_csv("guild_progression.csv")
-
+    player_dps = load_csv("player_dps.csv")
+    player_hps = load_csv("player_hps.csv")
 
 # --- Get most recent boss kill --- #
 kills_only = guild_progression[guild_progression["fight_outcome"] == "kill"]
@@ -87,14 +88,14 @@ st.image("https://pbs.twimg.com/media/GwAb3VQWEAEou3T?format=jpg&name=medium", u
 st.caption(f"killed {date}")
 
 # Filter for boss + difficulty
-filtered_df = guild_progression[
+guild_progression_filtered = guild_progression[
     (guild_progression["boss_name"] == boss) &
     (guild_progression["raid_difficulty"] == "mythic")
 ]
 
 # Get min/max encounter_order per report
 panel_df = (
-    filtered_df.groupby("report_date")["encounter_order"]
+    guild_progression_filtered.groupby("report_date")["encounter_order"]
     .agg(["min", "max"])
     .reset_index()
     .rename(columns={"min": "first_pull", "max": "last_pull"})
@@ -119,12 +120,12 @@ y_axis = alt.Y("boss_hp_remaining_pct:Q", title="boss hp remaining (%)", scale=a
 
 # Line for actual boss HP at each pull
 actual_line = alt.layer(
-    alt.Chart(filtered_df).mark_line(color="lightgrey").encode(
+    alt.Chart(guild_progression_filtered).mark_line(color="lightgrey").encode(
     x=x_axis,
     y=y_axis,
     tooltip=["report_date", "fight_outcome", "boss_hp_remaining_pct"]
     ),
-    alt.Chart(filtered_df).mark_point(color="lightgrey", filled=True).encode(
+    alt.Chart(guild_progression_filtered).mark_point(color="lightgrey", filled=True).encode(
     x=x_axis,
     y=y_axis,
     tooltip=["report_date", "fight_outcome", "boss_hp_remaining_pct"]
@@ -132,7 +133,7 @@ actual_line = alt.layer(
 )
 
 # Line for lowest HP so far (running minimum)
-lowest_line = alt.Chart(filtered_df).mark_line(color="#BB86FC").encode(
+lowest_line = alt.Chart(guild_progression_filtered).mark_line(color="#BB86FC").encode(
     x="encounter_order:Q",
     y="boss_hp_lowest_pull:Q",
     tooltip=["encounter_order", "boss_hp_lowest_pull"]
@@ -146,6 +147,8 @@ combined_chart = alt.layer(panel_chart, actual_line, lowest_line).properties(
 # Display chart
 st.altair_chart(combined_chart, use_container_width=True)
 
-# --- Import DPS data --- #
+# --- Plot Last Pull DPS data --- #
+st.write(most_recent_first_kill)
 
-# --- Import HPS data --- #
+
+# --- Plot Last Pull HPS data --- #
