@@ -173,7 +173,7 @@ bar_chart = (
         y=alt.Y("player_name:N",
                 sort=player_dps_filtered["player_name"].tolist(),
                 title="",
-                labelOverlap="parity"),
+                axis=alt.Axis(labelOverlap="parity")),
         x=alt.X("damage_per_second:Q", title="dps"),
         color=alt.Color("player_class:N", title="class",
                         scale=alt.Scale(domain=list(CLASS_COLOURS.keys()),
