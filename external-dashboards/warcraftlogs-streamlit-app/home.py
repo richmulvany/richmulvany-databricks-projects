@@ -183,7 +183,7 @@ bar_chart = (
         x=alt.X("player_name:N",
                 sort=player_dps_filtered["player_name"].tolist(),
                 title=""),
-        y=alt.Y("damage_per_second:Q", title=dps"),
+        y=alt.Y("damage_per_second:Q", title="dps"),
         color=alt.Color("player_class:N", title="class",
                         scale=alt.Scale(domain=list(CLASS_COLOURS.keys()),
                                         range=list(CLASS_COLOURS.values()))).legend(None),
