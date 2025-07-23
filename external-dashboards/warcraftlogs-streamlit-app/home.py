@@ -170,9 +170,9 @@ record_kill_pull_number = most_recent_first_kill["report_id"]
 # --- Plot Last Pull DPS data --- #
 # Filter dps data to last first kill pull
 player_dps_filered = player_dps[
-    (player_dps["report_id] == record_kill_report) &
-    (player_dps["boss_name] == boss) &
-    (player_dps["pull_number] == record_kill_pull_number)
+    (player_dps["report_id"] == record_kill_report) &
+    (player_dps["boss_name"] == boss) &
+    (player_dps["pull_number"] == record_kill_pull_number)
 ]
 
 # Build chart
