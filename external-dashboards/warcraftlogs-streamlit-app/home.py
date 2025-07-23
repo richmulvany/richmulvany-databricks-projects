@@ -163,6 +163,7 @@ player_dps_filtered = player_dps[
     (player_dps["report_id"] == record_kill_report) &
     (player_dps["pull_number"] == record_kill_pull_number)
 ]
+player_dps_filtered = player_dps_filtered.sort_values("damage_per_second", ascending=False)
 
 # --- DPS Bar Chart --- #
 bar_chart = (
@@ -170,7 +171,7 @@ bar_chart = (
     .mark_bar()
     .encode(
         x=alt.X("player_name:N",
-                sort=player_dps_filtered["damage_per_second"].tolist(),
+                sort=player_dps_filtered["player_name"].tolist(),
                 title=""),
         y=alt.Y("damage_per_second:Q", title="dps"),
         color=alt.Color("player_class:N", title="class",
