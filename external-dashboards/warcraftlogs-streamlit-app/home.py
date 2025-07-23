@@ -40,49 +40,22 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# spacer, col1, col2, col3, col4, spacer2 = st.columns([1, 2, 2, 2, 2, 1])
-
-# with col1:
-#     st.link_button("raider.io", "https://raider.io/guilds/eu/twisting-nether/Student%20Council")
-
-# with col2:
-#     st.link_button("discord", "discord.gg/studentcouncil")
-
-# with col3:
-#     st.link_button("twitter", "https://x.com/SCTNGuild")
-
-# with col4:
-#     st.link_button("wclogs", "https://www.warcraftlogs.com/guild/id/586885")
-
-spacer, col1, col2, col3, col4, spacer2 = st.columns([4, 1.5, 1.5, 1.5, 2, 3])
-
-with col1:
-    st.markdown("""
-    <a href="https://raider.io/guilds/eu/twisting-nether/Student%20Council" target="_blank">
-        <img src="https://cdn.raiderio.net/images/brand/Mark_White.png" width="32" style="position: relative; top: 2px;" alt="Raider.IO"/>
-    </a>
-    """, unsafe_allow_html=True)
-
-with col2:
-    st.markdown("""
-    <a href="https://discord.gg/studentcouncil" target="_blank">
-        <img src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d7f4ef6498ac018f2c55_Symbol.svg" width="32" style="position: relative; top: 4px;" alt="Discord"/>
-    </a>
-    """, unsafe_allow_html=True)
-
-with col3:
-    st.markdown("""
-    <a href="https://x.com/SCTNGuild" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/X_logo.jpg/1200px-X_logo.jpg" width="36" style="position: relative; top: 0px;" alt="Twitter/X"/>
-    </a>
-    """, unsafe_allow_html=True)
-
-with col4:
-    st.markdown("""
-    <a href="https://www.warcraftlogs.com/guild/id/586885" target="_blank">
-        <img src="https://assets.rpglogs.com/cms/WCL_White_Icon_01_9b25d38cba.png" width="32" style="position: relative; top: 3px; border-radius: 50%;" alt="Warcraft Logs"/>
-    </a>
-    """, unsafe_allow_html=True)
+<div style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 20px; margin-top: 10px;">
+ 
+https://cdn.raiderio.net/images/brand/Mark_White.png" width="32" style="position: relative; top: 2px;" alt="Raider.IO"/>
+  </a>
+ 
+https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d7f4ef6498ac018f2c55_Symbol.svg" width="32" style="position: relative; top: 4px;" alt="Discord"/>
+  </a>
+ 
+https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/X_logo.jpg/1200px-X_logo.jpg" width="36" style="position: relative; top: 0px;" alt="Twitter/X"/>
+  </a>
+ 
+https://assets.rpglogs.com/cms/WCL_White_Icon_01_9b25d38cba.png" width="32" style="position: relative; top: 3px; border-radius: 50%;" alt="Warcraft Logs"/>
+  </a>
+ 
+</div>
+""", unsafe_allow_html=True)
 
 st.divider()
 # --- Import progression data --- #
