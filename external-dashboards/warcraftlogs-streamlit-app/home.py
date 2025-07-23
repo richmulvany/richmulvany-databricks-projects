@@ -194,7 +194,7 @@ bar_chart = (
     )
 )
 
-st.altair_chart(bar_chart, use_container_width=True)
+st.altair_chart(bar_chart, use_container_width=False)
 
 # --- Filter HPS for the kill --- #
 player_hps_filtered = player_hps[
