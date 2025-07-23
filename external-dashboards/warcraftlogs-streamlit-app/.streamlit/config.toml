@@ -1,9 +1,8 @@
 [theme]
 base = "dark"
-primaryColor = '#FF4500'
-backgroundColor = '#1C1C1C'
-secondaryBackgroundColor = '#F5E8D8'
-dataframeHeaderBackgroundColor = '#F5E8D8'
+primaryColor = '#BB86FC'
+backgroundColor = '#121212'
+secondaryBackgroundColor = '#121212'
 font = "sans serif"  # Options: "sans serif", "serif", "monospace"
 
 
