@@ -181,7 +181,7 @@ bar_chart = (
     .mark_bar()
     .encode(
         x=alt.X("player_name:N",
-                sort=chart_data["player_name"].tolist(),
+                sort=player_dps_filtered["player_name"].tolist(),
                 title=""),
         y=alt.Y("damage_per_second:Q", title=dps"),
         color=alt.Color("player_class:N", title="class",
