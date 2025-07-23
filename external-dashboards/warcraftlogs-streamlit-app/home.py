@@ -199,7 +199,7 @@ player_hps_filtered = player_hps[
     (player_hps["report_id"] == record_kill_report) &
     (player_hps["pull_number"] == record_kill_pull_number)
 ]
-player_hps_filtered = player_hps_filtered.sort_values("damage_per_second", ascending=False)
+player_hps_filtered = player_hps_filtered.sort_values("healing_per_second", ascending=False)
 
 # --- HPS Bar Chart --- #
 bar_chart = (
@@ -210,15 +210,15 @@ bar_chart = (
                 sort=player_hps_filtered["player_name"].tolist(),
                 title="",
                 axis=alt.Axis(labelOverlap="parity")),
-        x=alt.X("damage_per_second:Q", title="hps"),
+        x=alt.X("healing_per_second:Q", title="hps"),
         color=alt.Color("player_class:N", title="class",
                         scale=alt.Scale(domain=list(CLASS_COLOURS.keys()),
                                         range=list(CLASS_COLOURS.values()))).legend(None),
         tooltip=[
             alt.Tooltip("player_name", title="player"),
             alt.Tooltip("player_class", title="class"),
-            alt.Tooltip("damage_per_second", title="hps"),
-            alt.Tooltip("damage_done", title="damage done"),
+            alt.Tooltip("healing_per_second", title="hps"),
+            alt.Tooltip("healing_done", title="healing done"),
         ],
     )
     .properties(
