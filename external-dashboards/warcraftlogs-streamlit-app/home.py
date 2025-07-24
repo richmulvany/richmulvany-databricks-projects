@@ -20,6 +20,10 @@ logo_path = "https://pbs.twimg.com/profile_images/1490380290962952192/qZk9xi5l_2
 
 st.set_page_config(page_title="home · sc-warcraftlogs", page_icon=logo_path, layout="wide")
 
+def st_normal():
+    _, col, _ = st.columns([1, 8.5, 1])
+    return col
+
 st.logo(
     logo_path,
     link="https://www.warcraftlogs.com/guild/id/586885"
@@ -84,9 +88,10 @@ record_kill_report = most_recent_first_kill_row["report_id"]
 record_kill_pull_number = most_recent_first_kill_row["pull_number"]
 
 # --- Show boss kill summary --- #
-st.markdown(f"## last boss kill: **{boss}**")
-st.image("https://pbs.twimg.com/media/GwAb3VQWEAEou3T?format=jpg&name=medium", use_container_width=True)
-st.caption(f"killed {date}")
+with st_normal():
+    st.markdown(f"## last boss kill: **{boss}**")
+    st.image("https://pbs.twimg.com/media/GwAb3VQWEAEou3T?format=jpg&name=medium", use_container_width=True)
+    st.caption(f"killed {date}")
 
 # --- Filter progression data for this boss --- #
 guild_progression_filtered = guild_progression[
@@ -141,7 +146,8 @@ combined_chart = alt.layer(panel_chart, actual_line, lowest_line).properties(
     title=f"{boss} progression"
 )
 
-st.altair_chart(combined_chart, use_container_width=True)
+with st_normal():
+    st.altair_chart(combined_chart, use_container_width=True)
 
 # --- Class colours for DPS bar chart --- #
 CLASS_COLOURS = {
@@ -194,7 +200,8 @@ bar_chart = (
     )
 )
 
-st.altair_chart(bar_chart, use_container_width=False)
+with st_normal():
+    st.altair_chart(bar_chart, use_container_width=True)
 
 # --- Filter HPS for the kill --- #
 player_hps_filtered = player_hps[
@@ -230,4 +237,5 @@ bar_chart = (
     )
 )
 
-st.altair_chart(bar_chart, use_container_width=False)
+with st_normal():
+    st.altair_chart(bar_chart, use_container_width=True)
