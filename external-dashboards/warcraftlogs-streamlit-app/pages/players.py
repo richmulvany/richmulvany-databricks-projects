@@ -1,4 +1,3 @@
-
 # home.py
 import streamlit as st
 import pandas as pd
@@ -59,33 +58,40 @@ with st.spinner("Loading data..."):
     pull_counts = load_csv("player_pull_counts.csv")
     guild_roster = load_csv("guild_roster.csv")
     class_data = load_csv("game_data_classes.csv")
+
+    # Ensure numeric total_pulls
+    pull_counts["total_pulls"] = pd.to_numeric(pull_counts["total_pulls"], errors="coerce")
+
+    # Filter to known players
+    pull_counts = pull_counts[pull_counts["player_name"].isin(guild_roster["player_name"])]
+
     # Player class map
-    class_map = guild_roster[["player_name", "player_class_id"]].drop_duplicates()
-    class_map = class_map.merge(class_data, left_on="player_class_id", right_on="class_id", how="left")
+    class_map = (
+        guild_roster[["player_name", "player_class_id"]]
+        .drop_duplicates()
+        .merge(class_data, left_on="player_class_id", right_on="class_id", how="left")
+        .assign(player_class=lambda df: df["class_name"].str.lower().str.strip())
+        [["player_name", "player_class"]]
+    )
+
     # Map class colours
     CLASS_COLOURS = load_json("class_colours.json")
 
 # --- 1. Per-Boss Attendance Rate ---
-# Remove randoms
-pull_counts = pull_counts[pull_counts["player_name"].isin(guild_roster["player_name"])]
-
-# Find max pulls for each boss/difficulty (i.e. number of wipes)
+pull_counts = pull_counts[pull_counts["raid_difficulty"] == "mythic"]
 boss_totals = (
-    pull_counts.groupby(['boss_name', 'raid_difficulty'])['total_pulls']
+    pull_counts.groupby(['boss_name'])['total_pulls']
     .max()
     .reset_index()
     .rename(columns={'total_pulls': 'boss_max_pulls'})
 )
 
-# Merge to get max pulls per row
-df_with_boss_max = pull_counts.merge(boss_totals, on=['boss_name', 'raid_difficulty'], how='left')
+df_with_boss_max = pull_counts.merge(boss_totals, on=['boss_name'], how='left')
 
-# Calculate per-boss attendance
 df_with_boss_max['attendance_ratio_per_boss'] = (
     df_with_boss_max['total_pulls'] / df_with_boss_max['boss_max_pulls']
 )
 
-# Average this ratio per player
 player_attendance_per_boss = (
     df_with_boss_max.groupby('player_name')['attendance_ratio_per_boss']
     .mean()
@@ -94,55 +100,69 @@ player_attendance_per_boss = (
 )
 
 # --- 2. Overall Attendance Rate ---
-player_totals = pull_counts.groupby('player_name')['total_pulls'].sum().reset_index()
-player_totals['total_pulls'] = pd.to_numeric(player_totals['total_pulls'], errors='coerce')
-max_total = player_totals['total_pulls'].max()
-player_totals['overall_attendance'] = player_totals['total_pulls'] / max_total
-
-# Merge both attendance metrics
-attendance_summary = player_attendance_per_boss.merge(player_totals, on='player_name')
-attendance_summary = attendance_summary.merge(class_map, on='player_name')
-
-# Force float
-attendance_summary["overall_attendance"] = attendance_summary["overall_attendance"].astype(float)
-
-# Sort by overall attendance
-attendance_summary["player_name"] = pd.Categorical(
-    attendance_summary["player_name"],
-    categories=attendance_summary.sort_values("overall_attendance", ascending=False)["player_name"].unique(),
-    ordered=True
+player_totals = (
+    pull_counts.groupby('player_name')['total_pulls']
+    .sum()
+    .reset_index()
 )
+max_total = player_totals['total_pulls'].max()
+player_totals['overall_attendance'] = player_totals['total_pulls'] / max_total*100
+
+# --- Merge & deduplicate ---
+attendance_summary = (
+    player_attendance_per_boss
+    .merge(player_totals, on='player_name', how='left')
+    .merge(class_map, on='player_name', how='left')
+)
+
+# Drop rows with missing attendance (just in case)
+attendance_summary = attendance_summary.dropna(subset=["overall_attendance"])
+
+# Collapse any accidental duplicates
+attendance_summary = (
+    attendance_summary
+    .groupby("player_name", as_index=False)
+    .agg({
+        "overall_attendance": "max",
+        "mean_boss_attendance": "mean",
+        "player_class": "first"
+    })
+)
+
+# Filter to valid classes
+attendance_summary = attendance_summary[
+    attendance_summary["player_class"].isin(CLASS_COLOURS.keys())
+]
 
 # --- Display in Streamlit ---
 
 # Build chart
 bar_chart = (
-    alt.Chart(attendance_summary)
+    alt.Chart(attendance_summary.sort_values("overall_attendance", ascending=False))
     .mark_bar()
     .encode(
-        x=alt.X(
-            "player_name:N",
-            sort=alt.SortField("overall_attendance", order="descending"),
-            title=""
-        ),
-        y=alt.Y("overall_attendance", title="player attendance summary"),
-        color=alt.Color("class_name:N", title="class",
+        x=alt.X("player_name:N", sort=None, title="",
+                axis=alt.Axis(labelOverlap=False)),
+        y=alt.Y("overall_attendance:Q",
+                title="player attendance (%)",
+                scale=alt.Scale(domain=[0, 100])),
+        color=alt.Color("player_class:N", title="class",
                         scale=alt.Scale(domain=list(CLASS_COLOURS.keys()),
-                                        range=list(CLASS_COLOURS.values()))).legend(None),
+                                        range=list(CLASS_COLOURS.values())),
+                        legend=None),
         tooltip=[
             alt.Tooltip("player_name", title="player"),
-            alt.Tooltip("class_name", title="class"),
-            alt.Tooltip("overall_attendance", title="overall_attendance")
+            alt.Tooltip("player_class", title="class"),
+            alt.Tooltip("overall_attendance", title="overall_attendance", format=".2f")
         ],
     )
     .properties(
         width="container",
         height=400,
-        title=f"player attendance summary"
+        title="player attendance summary"
     )
 )
 
 # Present data
-st.subheader(f"player attendance")
-
+st.subheader("player attendance")
 st.altair_chart(bar_chart, use_container_width=True)
