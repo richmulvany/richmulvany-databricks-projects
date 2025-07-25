@@ -4,6 +4,7 @@ import pandas as pd
 import json
 import requests
 import altair as alt
+import plotly.graph_objects as go
 from io import StringIO
 
 # --- GitHub raw base URL ---
@@ -82,6 +83,7 @@ with st.spinner("Loading data..."):
     guild_progression = load_csv("guild_progression.csv")
     player_dps = load_csv("player_dps.csv")
     player_hps = load_csv("player_hps.csv")
+    player_deaths = load_csv("player_deaths.csv")
 
 # --- Determine most recent first kill --- #
 kills_only = guild_progression[guild_progression["fight_outcome"] == "kill"]
@@ -236,41 +238,42 @@ bar_chart = (
 with st_normal():
     st.altair_chart(bar_chart, use_container_width=True)
 
-def make_donut_chart(data, center_label, width=240, height=240, radius=100):
-    # Extract the category values in order (and ensure uniqueness)
-    domain = data["category"].unique().tolist()
-    base = alt.Chart(data).encode(
-        theta=alt.Theta("value:Q", stack=True),
-        color=alt.Color("category:N",
-                        legend=None,
-                        scale=alt.Scale(domain=domain,
-                                        range=["#BB86FC","#3700B3","#03DAC6"])),
-    )
+# --- Show donut stats --- #
 
-    donut = base.mark_arc(innerRadius=radius//1.8, outerRadius=radius).properties(
-        width=width,
-        height=height
-    )
+# --- Deaths --- #
+# Filter deaths
+player_deaths_filtered = player_deaths[
+    (player_deaths["boss_name"] == boss) & 
+    (player_deaths["raid_difficulty"] == "mythic")
+]
 
-    text = alt.Chart(pd.DataFrame({
-        "text": [center_label]
-    })).mark_text(
-        align='center',
-        baseline='middle',
-        fontSize=16,
-        color="white"
-    ).encode(text='text:N').properties(
-        width=width,
-        height=height
-    )
+# Count top 3 death abilities
+top_3_deaths = (
+    player_deaths_filtered["death_ability_name"]
+    .value_counts()
+    .nlargest(3)
+    .reset_index()
+)
 
-    return donut + text
+top_3_deaths.columns = ["category", "value"]
+
+# Define color palette
+color_palette = ["#BB86FC", "#3700B3", "#03DAC6"]
 
 # Sample chart data
 charts_data = [
-    {"data": pd.DataFrame({"category": ["A", "B", "C"], "value": [40, 30, 30]}), "label": "5000 deaths"},
-    {"data": pd.DataFrame({"category": ["X", "Y", "Z"], "value": [20, 50, 30]}), "label": "Chart 2"},
-    {"data": pd.DataFrame({"category": ["Dog", "Cat", "Fish"], "value": [25, 25, 50]}), "label": "Chart 3"}
+    {
+        "data": top_3_deaths,
+        "label": f"{player_deaths_filtered.shape[0]}<br>deaths"
+    },
+    {
+        "data": pd.DataFrame({"category": ["X", "Y", "Z"], "value": [20, 50, 30]}),
+        "label": "Chart 2"
+    },
+    {
+        "data": pd.DataFrame({"category": ["Dog", "Cat", "Fish"], "value": [25, 25, 50]}),
+        "label": "Chart 3"
+    }
 ]
 
 # Use columns for horizontal layout
@@ -278,10 +281,53 @@ cols = st.columns(3)
 
 for i, col in enumerate(cols):
     with col:
-        st.markdown('<div style="display: flex; justify-content: center;">', unsafe_allow_html=True)
-        chart = make_donut_chart(
-            charts_data[i]["data"],
-            charts_data[i]["label"]
+        data = charts_data[i]["data"].copy()
+        label = charts_data[i]["label"]
+
+        # Replace underscores with spaces
+        data["category"] = (
+            data["category"]
+            .str.replace("_", " ")
+            .str.replace(r"\s+", "<br>", n=1, regex=True)
         )
-        st.altair_chart(chart, use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+
+        fig = go.Figure(
+            data=[
+                go.Pie(
+                    labels=data["category"],
+                    values=data["value"],
+                    hole=0.5,
+                    textinfo="label+percent",
+                    textposition="outside",
+                    marker=dict(colors=color_palette[:len(data)]),
+                    showlegend=False,
+                    sort=False,
+                    direction="clockwise",
+                    automargin=True,
+                    rotation=0  # rotates slices to center labels vertically
+                )
+            ]
+        )
+
+        fig.update_traces(
+            textfont=dict(size=13),
+            insidetextorientation="radial"  # helps center any inner labels if shown
+        )
+
+        fig.update_layout(
+            margin=dict(t=20, b=20, l=20, r=20),
+            height=300,
+            width=300,
+            annotations=[
+                dict(
+                    text=label,
+                    x=0.5,
+                    y=0.5,
+                    font_size=16,
+                    showarrow=False,
+                    font_color="white"
+                )
+            ]
+        )
+
+        st.plotly_chart(fig, use_container_width=False)
