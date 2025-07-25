@@ -7,7 +7,7 @@ import altair as alt
 from io import StringIO
 
 # --- GitHub raw base URL ---
-REPO_URL = "https://raw.githubusercontent.com/richmulvany/richmulvany-databricks-projects/tree/main"
+REPO_URL = "https://raw.githubusercontent.com/richmulvany/richmulvany-databricks-projects/main"
 
 # --- Helper to load CSVs directly from GitHub ---
 def load_csv(file_name: str) -> pd.DataFrame:
