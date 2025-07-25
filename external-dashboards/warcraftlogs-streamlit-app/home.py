@@ -6,14 +6,20 @@ import altair as alt
 from io import StringIO
 
 # --- GitHub raw base URL ---
-REPO_URL = "https://raw.githubusercontent.com/richmulvany/richmulvany-databricks-projects/main/data-exports"
+REPO_URL = "https://raw.githubusercontent.com/richmulvany/richmulvany-databricks-projects/main"
 
 # --- Helper to load CSVs directly from GitHub ---
 def load_csv(file_name: str) -> pd.DataFrame:
-    url = f"{REPO_URL}/{file_name}"
+    url = f"{REPO_URL}/data-exports/{file_name}"
     response = requests.get(url)
     response.raise_for_status()
     return pd.read_csv(StringIO(response.text))
+
+def load_json(file_name: str) -> dict:
+    url = f"{REPO_URL}/external-dashboards/warcraftlogs-streamlit-app"
+    response = requests.get(url)
+    response.raise_for_status()
+    return pd.read_json(StringIO(response.text))
 
 # --- Streamlit UI ---
 logo_path = "https://pbs.twimg.com/profile_images/1490380290962952192/qZk9xi5l_200x200.jpg"
@@ -150,21 +156,22 @@ with st_normal():
     st.altair_chart(combined_chart, use_container_width=True)
 
 # --- Class colours for DPS bar chart --- #
-CLASS_COLOURS = {
-    "deathknight":  "#C41F3B",
-    "demonhunter":  "#A330C9",
-    "druid":        "#FF7D0A",
-    "evoker":       "#33937F",
-    "hunter":       "#ABD473",
-    "mage":         "#69CCF0",
-    "monk":         "#00FF96",
-    "paladin":      "#F58CBA",
-    "priest":       "#FFFFFF",
-    "rogue":        "#FFF569",
-    "shaman":       "#0070DE",
-    "warlock":      "#9482C9",
-    "warrior":      "#C79C6E"
-}
+CLASS_COLOURS = load_json("class_colours.json")
+# CLASS_COLOURS = {
+#     "deathknight":  "#C41F3B",
+#     "demonhunter":  "#A330C9",
+#     "druid":        "#FF7D0A",
+#     "evoker":       "#33937F",
+#     "hunter":       "#ABD473",
+#     "mage":         "#69CCF0",
+#     "monk":         "#00FF96",
+#     "paladin":      "#F58CBA",
+#     "priest":       "#FFFFFF",
+#     "rogue":        "#FFF569",
+#     "shaman":       "#0070DE",
+#     "warlock":      "#9482C9",
+#     "warrior":      "#C79C6E"
+# }
 
 # --- Filter DPS data for the kill --- #
 player_dps_filtered = player_dps[
