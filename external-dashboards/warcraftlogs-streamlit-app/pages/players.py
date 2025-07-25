@@ -26,7 +26,7 @@ def load_json(file_name: str) -> dict:
 logo_path = "https://pbs.twimg.com/profile_images/1490380290962952192/qZk9xi5l_200x200.jpg"
 
 # Set tab config
-st.set_page_config(page_title="players · sc-warcraftlogs", page_icon=logo_path)
+st.set_page_config(page_title="players · sc-warcraftlogs", page_icon=logo_path, layout="wide")
 
 # Function to workaround container size
 def st_normal():

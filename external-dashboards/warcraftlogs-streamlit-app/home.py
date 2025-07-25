@@ -26,7 +26,7 @@ def load_json(file_name: str) -> dict:
 logo_path = "https://pbs.twimg.com/profile_images/1490380290962952192/qZk9xi5l_200x200.jpg"
 
 # Set tab config
-st.set_page_config(page_title="players · sc-warcraftlogs", page_icon=logo_path)
+st.set_page_config(page_title="players · sc-warcraftlogs", page_icon=logo_path, layout="wide")
 
 
 # Function to workaround container size
@@ -235,3 +235,53 @@ bar_chart = (
 
 with st_normal():
     st.altair_chart(bar_chart, use_container_width=True)
+
+def make_donut_chart(data, center_label, width=240, height=240, radius=100):
+    # Extract the category values in order (and ensure uniqueness)
+    domain = data["category"].unique().tolist()
+    base = alt.Chart(data).encode(
+        theta=alt.Theta("value:Q", stack=True),
+        color=alt.Color("category:N",
+                        legend=None,
+                        scale=alt.Scale(domain=domain,
+                                        range=["#BB86FC","#3700B3","#03DAC6"])),
+    )
+
+    donut = base.mark_arc(innerRadius=radius//1.8, outerRadius=radius).properties(
+        width=width,
+        height=height
+    )
+
+    text = alt.Chart(pd.DataFrame({
+        "text": [center_label]
+    })).mark_text(
+        align='center',
+        baseline='middle',
+        fontSize=16,
+        color="white"
+    ).encode(text='text:N').properties(
+        width=width,
+        height=height
+    )
+
+    return donut + text
+
+# Sample chart data
+charts_data = [
+    {"data": pd.DataFrame({"category": ["A", "B", "C"], "value": [40, 30, 30]}), "label": "5000 deaths"},
+    {"data": pd.DataFrame({"category": ["X", "Y", "Z"], "value": [20, 50, 30]}), "label": "Chart 2"},
+    {"data": pd.DataFrame({"category": ["Dog", "Cat", "Fish"], "value": [25, 25, 50]}), "label": "Chart 3"}
+]
+
+# Use columns for horizontal layout
+cols = st.columns(3)
+
+for i, col in enumerate(cols):
+    with col:
+        st.markdown('<div style="display: flex; justify-content: center;">', unsafe_allow_html=True)
+        chart = make_donut_chart(
+            charts_data[i]["data"],
+            charts_data[i]["label"]
+        )
+        st.altair_chart(chart, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
