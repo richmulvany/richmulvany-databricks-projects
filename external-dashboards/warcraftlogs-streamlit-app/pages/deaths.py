@@ -129,21 +129,7 @@ else:
 chart_data = chart_data[chart_data["player_name"] != "evereld"]
 
 # Map class colours
-CLASS_COLOURS = {
-    "deathknight":  "#C41F3B",
-    "demonhunter":  "#A330C9",
-    "druid":        "#FF7D0A",
-    "evoker":       "#33937F",
-    "hunter":       "#ABD473",
-    "mage":         "#69CCF0",
-    "monk":         "#00FF96",
-    "paladin":      "#F58CBA",
-    "priest":       "#FFFFFF",
-    "rogue":        "#FFF569",
-    "shaman":       "#0070DE",
-    "warlock":      "#9482C9",
-    "warrior":      "#C79C6E"
-}
+CLASS_COLOURS = load_json("class_colours.json")
 
 # Build chart
 bar_chart = (
