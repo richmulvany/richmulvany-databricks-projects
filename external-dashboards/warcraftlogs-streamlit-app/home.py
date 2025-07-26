@@ -84,6 +84,7 @@ with st.spinner("Loading data..."):
     player_dps = load_csv("player_dps.csv")
     player_hps = load_csv("player_hps.csv")
     player_deaths = load_csv("player_deaths.csv")
+    composition = load_csv("composition.csv")
 
 # --- Determine most recent first kill --- #
 kills_only = guild_progression[guild_progression["fight_outcome"] == "kill"]
@@ -163,6 +164,99 @@ with st_normal():
 
 # --- Class colours for bar charts --- #
 CLASS_COLOURS = load_json("class_colours.json")
+
+# --- Composition --- #
+
+# Filter to only include players from the kill pull
+composition = composition[
+    (composition["report_id"] == record_kill_report)
+].drop_duplicates()
+
+spec_range_type = {
+    ("hunter", "beast mastery"): "ranged",
+    ("hunter", "marksmanship"): "ranged",
+    ("hunter", "survival"): "melee",
+
+    ("mage", "arcane"): "ranged",
+    ("mage", "fire"): "ranged",
+    ("mage", "frost"): "ranged",
+
+    ("warlock", "destruction"): "ranged",
+    ("warlock", "affliction"): "ranged",
+    ("warlock", "demonology"): "ranged",
+
+    ("druid", "balance"): "ranged",
+    ("druid", "feral"): "melee",
+
+    ("shaman", "elemental"): "ranged",
+    ("shaman", "enhancement"): "melee",
+
+    ("evoker", "devastation"): "ranged",
+    ("evoker", "augmentation"): "ranged",
+
+    ("priest", "shadow"): "ranged",
+
+    ("rogue", "assassination"): "melee",
+    ("rogue", "subtlety"): "melee",
+    ("rogue", "outlaw"): "melee",
+
+    ("monk", "windwalker"): "melee",
+
+    ("demonhunter", "havoc"): "melee",
+
+    ("warrior", "arms"): "melee",
+    ("warrior", "fury"): "melee",
+
+    ("deathknight", "unholy"): "melee",
+    ("deathknight", "frost"): "melee",
+
+    ("paladin", "retribution"): "melee",
+}
+
+# Normalize both class and spec to lowercase
+composition["player_class_lower"] = composition["player_class"].str.lower()
+composition["player_spec_lower"] = composition["player_spec"].str.lower()
+
+# Map (class, spec) tuple to range type
+composition["range_type"] = composition.apply(
+    lambda row: spec_range_type.get(
+        (row["player_class_lower"], row["player_spec_lower"]), 
+        "ranged"  # fallback
+    ),
+    axis=1
+)
+
+composition.loc[composition["player_role"] == "dps", "player_role"] = (
+    composition[composition["player_role"] == "dps"]["range_type"]
+    .apply(lambda x: f"{x} dps")
+)
+
+role_order = ["tank", "healer", "melee dps", "ranged dps"]
+composition["player_role"] = pd.Categorical(
+    composition["player_role"], categories=role_order, ordered=True
+)
+
+# Assign a row position within each role
+composition["dot_x"] = composition.groupby("player_role").cumcount() + 1
+
+# Create the chart
+chart = alt.Chart(composition).mark_circle(size=400).encode(
+    x=alt.X("dot_x:O", title=None, axis=None),
+    y=alt.Y("player_role:N", sort=role_order, title=None),
+    color=alt.Color(
+        "player_class:N",
+        scale=alt.Scale(domain=list(CLASS_COLOURS.keys()), range=list(CLASS_COLOURS.values())),
+        legend=None
+    ),
+    tooltip=["player_name", "player_role", "player_class", "player_spec"]
+).properties(
+    width=400,
+    height=200,
+    title=f"{boss} kill composition"
+)
+
+with st_normal():
+    chart
 
 # --- Filter DPS data for the kill --- #
 player_dps_filtered = player_dps[
@@ -254,8 +348,45 @@ top_3_deaths = (
     .nlargest(3)
     .reset_index()
 )
-
 top_3_deaths.columns = ["category", "value"]
+
+# --- Progression Time --- #
+# Filter pulls
+guild_progression_boss = guild_progression[
+    (guild_progression["boss_name"] == boss) &
+    (guild_progression["raid_difficulty"] == "mythic")
+]
+
+# Calculate time spent on boss
+progression_time = (
+    guild_progression_boss.groupby("report_id")
+    .agg({
+        "pull_start_time": "min",
+        "pull_end_time": "max",
+        "fight_duration_sec": "sum"
+    })
+    .rename(columns={
+        "pull_start_time": "raid_start",
+        "pull_end_time": "raid_end",
+        "fight_duration_sec": "pull_time"
+    })
+)
+
+# Compute derived times
+progression_time["raid_time"] = (progression_time["raid_end"] - progression_time["raid_start"]) / 1000 
+progression_time["yap_time"] = progression_time["raid_time"] - progression_time["pull_time"]
+
+# Sum each of those across all reports
+raid_time = round(progression_time["raid_time"].sum() / 60 / 60, 1)
+pull_time = round(progression_time["pull_time"].sum() / 60 / 60, 1)
+yap_time = round(progression_time["yap_time"].sum() / 60 / 60, 1)
+
+progression_slices = pd.DataFrame({
+    "category": ["time pulling", "time yapping"],
+    "value": [pull_time, yap_time]
+})
+
+# Create progression time dataframe
 
 # Define color palette
 color_palette = ["#BB86FC", "#3700B3", "#03DAC6"]
@@ -264,11 +395,11 @@ color_palette = ["#BB86FC", "#3700B3", "#03DAC6"]
 charts_data = [
     {
         "data": top_3_deaths,
-        "label": f"{player_deaths_filtered.shape[0]}<br>deaths"
+        "label": f"boss deaths:<br>{player_deaths_filtered.shape[0]}"
     },
     {
-        "data": pd.DataFrame({"category": ["X", "Y", "Z"], "value": [20, 50, 30]}),
-        "label": "Chart 2"
+        "data": progression_slices,
+        "label": f"boss time:<br>{raid_time}hr"
     },
     {
         "data": pd.DataFrame({"category": ["Dog", "Cat", "Fish"], "value": [25, 25, 50]}),
@@ -330,4 +461,5 @@ for i, col in enumerate(cols):
             ]
         )
 
-        st.plotly_chart(fig, use_container_width=False)
+        st.plotly_chart(fig, use_container_width=True)
+
