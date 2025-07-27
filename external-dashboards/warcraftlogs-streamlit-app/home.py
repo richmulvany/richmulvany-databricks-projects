@@ -188,7 +188,12 @@ def render_donut_stats(player_deaths, guild_progression, boss):
     boss_prog = guild_progression[
         (guild_progression["boss_name"] == boss) &
         (guild_progression["raid_difficulty"] == "mythic")
-    ]
+    ].copy()
+
+    boss_prog["pull_start_time"] = pd.to_datetime(boss_prog["pull_start_time"], unit="ms")
+    boss_prog["pull_end_time"] = pd.to_datetime(boss_prog["pull_end_time"], unit="ms")
+
+    # Group by report_id — each report is a distinct log session
     timing = boss_prog.groupby("report_id").agg({
         "pull_start_time": "min",
         "pull_end_time": "max",
@@ -198,9 +203,12 @@ def render_donut_stats(player_deaths, guild_progression, boss):
         "pull_end_time": "raid_end",
         "fight_duration_sec": "pull_time"
     })
-    timing["raid_time"] = (timing["raid_end"] - timing["raid_start"]) / 1000
-    timing["yap_time"] = timing["raid_time"] - timing["pull_time"]
 
+    # Compute real raid time and yap time
+    timing["raid_time"] = (timing["raid_end"] - timing["raid_start"]).dt.total_seconds()
+    timing["yap_time"] = (timing["raid_time"] - timing["pull_time"]).clip(lower=0)
+
+    # Final totals
     raid_time = round(timing["raid_time"].sum() / 3600, 1)
     pull_time = round(timing["pull_time"].sum() / 3600, 1)
     yap_time = round(timing["yap_time"].sum() / 3600, 1)
@@ -208,7 +216,7 @@ def render_donut_stats(player_deaths, guild_progression, boss):
     time_df = pd.DataFrame({"category": ["time pulling", "time yapping"], "value": [pull_time, yap_time]})
 
     # --- Phases --- #
-    pulls = boss_prog.drop_duplicates(subset=["report_id", "pull_number"])
+    pulls = boss_prog.drop_duplicates(subset=["report_id", "pull_number"]).copy()
 
     def label_phase(row):
         if row["last_phase_is_intermission"]:
@@ -228,7 +236,7 @@ def render_donut_stats(player_deaths, guild_progression, boss):
         {"data": time_df, "label": f"boss time:<br>{raid_time}hr"},
         {"data": phase_counts, "label": f"pulls:<br>{total_pulls}"}
     ]
-
+    
     cols = st.columns(3)
     for i, col in enumerate(cols):
         with col:
@@ -261,7 +269,7 @@ def render_donut_stats(player_deaths, guild_progression, boss):
                 ]
             )
             st.plotly_chart(fig, use_container_width=True)
-            
+
 # --- Additional Charts --- #
 def render_dps_chart(df, report_id, pull_number, boss, class_colours):
     df = df[(df["report_id"] == report_id) & (df["pull_number"] == pull_number)]
@@ -335,3 +343,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
