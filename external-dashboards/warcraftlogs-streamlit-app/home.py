@@ -72,7 +72,7 @@ def render_kill_summary(boss: str, date: str):
             <div style="text-align: center;">
                 ## last boss kill: **{boss}**
             <\div>
-        """)
+        """, unsafe_allow_html=True)
         st.image("https://pbs.twimg.com/media/GwAb3VQWEAEou3T?format=jpg&name=medium", use_container_width=True)
         st.caption(f"killed {date}")
 
