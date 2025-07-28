@@ -323,7 +323,7 @@ def render_dps_chart(df, report_id, pull_number, boss, class_colours):
                 alt.Tooltip("damage_per_second", title="dps"),
                 alt.Tooltip("damage_done", title="damage done"),
             ]
-        ).properties(width=800, height=25 * len(df), title=f"dps per player on first {boss} kill")
+        ).properties(width=800, height=25 * len(df), title=f"dps on first {boss} kill")
     )
 
     with st_normal():
@@ -344,7 +344,7 @@ def render_hps_chart(df, report_id, pull_number, boss, class_colours):
                 alt.Tooltip("healing_per_second", title="hps"),
                 alt.Tooltip("healing_done", title="healing done"),
             ]
-        ).properties(width=800, height=25 * len(df), title=f"hps per player on first {boss} kill")
+        ).properties(width=800, height=25 * len(df), title=f"hps on first {boss} kill")
     )
 
     with st_normal():
