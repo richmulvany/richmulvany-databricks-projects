@@ -68,7 +68,11 @@ def render_header():
 # --- Visualizations --- #
 def render_kill_summary(boss: str, date: str):
     with st_normal():
-        st.markdown(f"## last boss kill: **{boss}**")
+        st.markdown(f"""
+            <div style="text-align: center;">
+                ## last boss kill: **{boss}**
+            <\div>
+        """)
         st.image("https://pbs.twimg.com/media/GwAb3VQWEAEou3T?format=jpg&name=medium", use_container_width=True)
         st.caption(f"killed {date}")
 
