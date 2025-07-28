@@ -1,6 +1,7 @@
 # deaths.py
 import streamlit as st
 import pandas as pd
+import json
 import requests
 import altair as alt
 from io import StringIO
