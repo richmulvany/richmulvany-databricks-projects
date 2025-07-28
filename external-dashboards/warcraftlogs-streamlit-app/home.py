@@ -287,7 +287,7 @@ def render_ilvl_chart(df, report_id):
     chart = (histogram).properties(
         width=800,
         height=300,
-        title="Item Level Distribution"
+        title="item level distribution"
     )
 
     with st_normal():
