@@ -155,7 +155,7 @@ def render_kill_composition(df: pd.DataFrame, boss: str, report_id: str, class_c
     df["player_role"] = pd.Categorical(df["player_role"], categories=role_order, ordered=True)
     df["dot_x"] = df.groupby("player_role").cumcount() + 1
 
-    chart = alt.Chart(df).mark_circle(size=400).encode(
+    chart = alt.Chart(df).mark_circle(size=400, opacity=1.0).encode(
         x=alt.X("dot_x:O", title=None, axis=None),
         y=alt.Y("player_role:N", sort=role_order, title=None),
         color=alt.Color(
@@ -173,10 +173,10 @@ def render_kill_composition(df: pd.DataFrame, boss: str, report_id: str, class_c
     with st_normal():
         st.altair_chart(chart, use_container_width=True)
 
+# --- Donut Stats --- #
 def render_donut_stats(player_deaths, guild_progression, boss):
     color_palette = ["#BB86FC", "#3700B3", "#03DAC6"]
 
-    # --- Deaths --- #
     deaths_filtered = player_deaths[
         (player_deaths["boss_name"] == boss) &
         (player_deaths["raid_difficulty"] == "mythic")
@@ -184,16 +184,13 @@ def render_donut_stats(player_deaths, guild_progression, boss):
     top_3_deaths = deaths_filtered["death_ability_name"].value_counts().nlargest(3).reset_index()
     top_3_deaths.columns = ["category", "value"]
 
-    # --- Progression Time --- #
     boss_prog = guild_progression[
         (guild_progression["boss_name"] == boss) &
         (guild_progression["raid_difficulty"] == "mythic")
-    ].copy()
-
+    ].copy().drop_duplicates(subset=["report_id", "pull_number"])
     boss_prog["pull_start_time"] = pd.to_datetime(boss_prog["pull_start_time"], unit="ms")
     boss_prog["pull_end_time"] = pd.to_datetime(boss_prog["pull_end_time"], unit="ms")
 
-    # Group by report_id — each report is a distinct log session
     timing = boss_prog.groupby("report_id").agg({
         "pull_start_time": "min",
         "pull_end_time": "max",
@@ -203,40 +200,32 @@ def render_donut_stats(player_deaths, guild_progression, boss):
         "pull_end_time": "raid_end",
         "fight_duration_sec": "pull_time"
     })
-
-    # Compute real raid time and yap time
     timing["raid_time"] = (timing["raid_end"] - timing["raid_start"]).dt.total_seconds()
     timing["yap_time"] = (timing["raid_time"] - timing["pull_time"]).clip(lower=0)
 
-    # Final totals
     raid_time = round(timing["raid_time"].sum() / 3600, 1)
     pull_time = round(timing["pull_time"].sum() / 3600, 1)
     yap_time = round(timing["yap_time"].sum() / 3600, 1)
+    time_df = pd.DataFrame({"category": ["pulling", "yapping"], "value": [pull_time, yap_time]})
 
-    time_df = pd.DataFrame({"category": ["time pulling", "time yapping"], "value": [pull_time, yap_time]})
-
-    # --- Phases --- #
     pulls = boss_prog.drop_duplicates(subset=["report_id", "pull_number"]).copy()
-
     def label_phase(row):
         if row["last_phase_is_intermission"]:
             return "phase 2"
         elif row["last_phase"] == 2:
             return "phase 3"
         return f"phase {row['last_phase']}"
-
     pulls["category"] = pulls.apply(label_phase, axis=1)
     phase_counts = pulls["category"].value_counts().reset_index()
     phase_counts.columns = ["category", "value"]
     total_pulls = len(pulls)
 
-    # --- Assemble Data --- #
     charts_data = [
+        {"data": phase_counts, "label": f"boss pulls:<br>{total_pulls}"},
         {"data": top_3_deaths, "label": f"boss deaths:<br>{deaths_filtered.shape[0]}"},
-        {"data": time_df, "label": f"boss time:<br>{raid_time}hr"},
-        {"data": phase_counts, "label": f"pulls:<br>{total_pulls}"}
+        {"data": time_df, "label": f"boss time:<br>{raid_time}hr"}
     ]
-    
+
     cols = st.columns(3)
     for i, col in enumerate(cols):
         with col:
@@ -250,23 +239,26 @@ def render_donut_stats(player_deaths, guild_progression, boss):
                     values=data["value"],
                     hole=0.5,
                     textinfo="label+percent",
-                    textposition="outside",
+                    textposition="inside", 
                     marker=dict(colors=color_palette[:len(data)]),
                     showlegend=False,
-                    sort=False,
+                    sort=True,
                     direction="clockwise",
-                    automargin=True,
+                    automargin=False,
                     rotation=0
                 )
             ])
-            fig.update_traces(textfont=dict(size=13), insidetextorientation="radial")
+            fig.update_traces(
+                textfont=dict(size=12),
+                insidetextorientation="radial"
+            )
             fig.update_layout(
-                margin=dict(t=20, b=20, l=20, r=20),
                 height=300,
                 width=300,
-                annotations=[
-                    dict(text=label, x=0.5, y=0.5, font_size=16, showarrow=False, font_color="white")
-                ]
+                margin=dict(t=20, b=20, l=20, r=20),
+                annotations=[dict(text=label, x=0.5, y=0.5, font_size=14, showarrow=False, font_color="white")],
+                uniformtext_minsize=10,
+                uniformtext_mode="hide"
             )
             st.plotly_chart(fig, use_container_width=True)
 
@@ -277,7 +269,7 @@ def render_dps_chart(df, report_id, pull_number, boss, class_colours):
 
     chart = (
         alt.Chart(df).mark_bar().encode(
-            y=alt.Y("player_name:N", sort=df["player_name"].tolist(), title="", axis=alt.Axis(labelOverlap=False)),
+            y=alt.Y("player_name:N", sort="-x", title="", axis=alt.Axis(labelOverlap=False)),
             x=alt.X("damage_per_second:Q", title="dps"),
             color=alt.Color("player_class:N", scale=alt.Scale(domain=list(class_colours.keys()), range=list(class_colours.values())), legend=None),
             tooltip=[
@@ -286,7 +278,7 @@ def render_dps_chart(df, report_id, pull_number, boss, class_colours):
                 alt.Tooltip("damage_per_second", title="dps"),
                 alt.Tooltip("damage_done", title="damage done"),
             ]
-        ).properties(width=800, height=400, title=f"dps per player on first {boss} kill")
+        ).properties(width=800, height=25 * len(df), title=f"dps per player on first {boss} kill")
     )
 
     with st_normal():
@@ -298,7 +290,7 @@ def render_hps_chart(df, report_id, pull_number, boss, class_colours):
 
     chart = (
         alt.Chart(df).mark_bar().encode(
-            y=alt.Y("player_name:N", sort=df["player_name"].tolist(), title="", axis=alt.Axis(labelOverlap=False)),
+            y=alt.Y("player_name:N", sort="-x", title="", axis=alt.Axis(labelOverlap=False)),
             x=alt.X("healing_per_second:Q", title="hps"),
             color=alt.Color("player_class:N", scale=alt.Scale(domain=list(class_colours.keys()), range=list(class_colours.values())), legend=None),
             tooltip=[
@@ -307,7 +299,7 @@ def render_hps_chart(df, report_id, pull_number, boss, class_colours):
                 alt.Tooltip("healing_per_second", title="hps"),
                 alt.Tooltip("healing_done", title="healing done"),
             ]
-        ).properties(width=800, height=400, title=f"hps per player on first {boss} kill")
+        ).properties(width=800, height=25 * len(df), title=f"hps per player on first {boss} kill")
     )
 
     with st_normal():
