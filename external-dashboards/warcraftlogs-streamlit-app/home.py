@@ -70,7 +70,7 @@ def render_kill_summary(boss: str, date: str):
     with st_normal():
         st.markdown(f"""
             <div style="text-align: center;">
-                ## last boss kill: **{boss}**
+                <h2 style="margin: 0;">last boss kill: {boss}</h2>
             <\div>
         """, unsafe_allow_html=True)
         st.image("https://pbs.twimg.com/media/GwAb3VQWEAEou3T?format=jpg&name=medium", use_container_width=True)
