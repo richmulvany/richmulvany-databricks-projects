@@ -262,6 +262,51 @@ def render_donut_stats(player_deaths, guild_progression, boss):
             )
             st.plotly_chart(fig, use_container_width=True)
 
+# --- ItemLevel Distribution --- #
+def render_ilvl_chart(df, report_id):
+    df = df[df["report_id"] == report_id].copy()
+    df["player_item_level"] = pd.to_numeric(df["player_item_level"], errors="coerce")
+    df = df.dropna(subset=["player_item_level"])
+
+    base = alt.Chart(df).transform_density(
+        "player_item_level",
+        as_=["item_level", "density"],
+        bandwidth=1
+    )
+
+    # density = base.mark_area(opacity=1.0, color='#BB86FC').encode(
+    #     x=alt.X("item_level:Q", title="item level"),
+    #     y=alt.Y("density:Q", title="density")
+    # )
+
+    histogram = alt.Chart(df).mark_bar(opacity=1.0, color='#BB86FC').encode(
+        x=alt.X("player_item_level:Q", bin=alt.Bin(maxbins=8), title="item level"),
+        y=alt.Y("count()", title="player count")
+    )
+
+    chart = (histogram).properties(
+        width=800,
+        height=300,
+        title="Item Level Distribution"
+    )
+
+    with st_normal():
+        st.altair_chart(chart, use_container_width=True)
+
+# --- Player Breakdown --- #
+def render_player_breakdown(df, report_id):
+    df = df[df["report_id"] == report_id].copy()
+    breakdown = df[[
+        "player_name","player_role","player_class","player_spec","player_item_level"
+        ]
+    ].sort_values("player_item_level", ascending=False)
+
+    with st_normal():
+        st.dataframe(
+        breakdown,
+        hide_index=True,
+    )
+
 # --- Additional Charts --- #
 def render_dps_chart(df, report_id, pull_number, boss, class_colours):
     df = df[(df["report_id"] == report_id) & (df["pull_number"] == pull_number)]
@@ -313,7 +358,7 @@ def main():
     with st.spinner("Loading data..."):
         dfs = {name.replace(".csv", ""): load_csv(name) for name in [
             "guild_progression.csv", "player_dps.csv", "player_hps.csv",
-            "player_deaths.csv", "composition.csv"]}
+            "player_deaths.csv", "composition.csv", "player_details.csv"]}
         class_colours = load_json("class_colours.json")
 
     # Extract recent kill info
@@ -329,10 +374,12 @@ def main():
     render_kill_summary(boss, date)
     render_progression_chart(dfs["guild_progression"], boss)
     render_kill_composition(dfs["composition"], boss, report_id, class_colours)
+    render_ilvl_chart(dfs["player_details"], report_id)
+    render_player_breakdown(dfs["player_details"], report_id)
     render_dps_chart(dfs["player_dps"], report_id, pull_number, boss, class_colours)
     render_hps_chart(dfs["player_hps"], report_id, pull_number, boss, class_colours)
     render_donut_stats(dfs["player_deaths"], dfs["guild_progression"], boss)
 
+
 if __name__ == "__main__":
     main()
-
