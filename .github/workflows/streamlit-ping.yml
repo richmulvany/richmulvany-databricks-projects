@@ -1,4 +1,4 @@
-name: scheduled-ping-streamlit-app
+name: Scheduled Ping Streamlit App
 on:
   schedule:
     - cron:  '0 */6 * * *'
