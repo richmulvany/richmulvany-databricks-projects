@@ -1,0 +1,15 @@
+bundle:
+  name: warcraftlogs-raid-analysis
+
+include:
+  - jobs/*.yml
+  - libraries/*.yml
+
+targets:
+  prod:
+    mode: production
+    default: true
+    workspace:
+      host: ${{ secrets.DATABRICKS_HOST }}
+      root_path: /Workspace/${bundle.name}
+      file_path: /Workspace/${bundle.name}
