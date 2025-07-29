@@ -1,0 +1,13 @@
+name: ping-streamlit-app
+
+on:
+  schedule:
+    - cron: '0 */12 * * *' # Every 12 hrs
+
+jobs:
+  curl-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ping-streamlit-app
+        run: curl -sSf
+https://sc-throughput-statistics.streamlit.app/
