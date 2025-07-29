@@ -10,6 +10,6 @@ targets:
     mode: production
     default: true
     workspace:
-      host: ${{ secrets.DATABRICKS_HOST }}
+      host: $DATABRICKS_HOST
       root_path: /Workspace/${bundle.name}
       file_path: /Workspace/${bundle.name}
