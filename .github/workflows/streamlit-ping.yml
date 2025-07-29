@@ -5,7 +5,7 @@ on:
 
 jobs:
   pinger_job:
-    name: A job to ping
+    name: ping-streamlit-app
     runs-on: ubuntu-latest
     env:
       URL: 'https://sc-throughput-statistics.streamlit.app/'
