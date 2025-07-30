@@ -100,9 +100,4 @@ jobs:
       - name: ⏸️ Pause schedule
         run: |
           echo "Pausing job ${{ steps.lookup.outputs.job_id }}"
-          databricks jobs update --json '{
-            "job_id": '${{ steps.lookup.outputs.job_id }}',
-            "new_settings": {
-              "schedule": { "pause_status": "PAUSED" }
-            }
-          }'
+          databricks jobs pause --job_id '${{ steps.lookup.outputs.job_id }}'
