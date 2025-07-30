@@ -96,8 +96,25 @@ jobs:
           JOB_ID=$(databricks jobs list --name "bronze-ingestion-extraction-job" --output json \
             | jq -r '.[0].job_id')
           echo "::set-output name=job_id::$JOB_ID"
- 
-      - name: ⏸️ Pause schedule
+
+      - name: 🔎 Fetch current schedule
         run: |
-          echo "Pausing job ${{ steps.lookup.outputs.job_id }}"
-          databricks jobs pause --job_id '${{ steps.lookup.outputs.job_id }}'
+          JOB_JSON=$(databricks jobs get --job-id $JOB_ID --output json)
+          CRON=$(echo "$JOB_JSON" | jq -r '.settings.schedule.quartz_cron_expression')
+          TZ=$(echo "$JOB_JSON" | jq -r '.settings.schedule.timezone_id')
+          echo "cron=$CRON" >> $GITHUB_OUTPUT
+          echo "tz=$TZ"   >> $GITHUB_OUTPUT
+        id: fetch
+       
+      - name: ⏸️ Pause schedule (full payload)
+        run: |
+          databricks jobs update --json "{
+            \"job_id\": $JOB_ID,
+            \"new_settings\": {
+              \"schedule\": {
+                \"quartz_cron_expression\": \"${{ steps.fetch.outputs.cron }}\",
+          \"timezone_id\": \"${{ steps.fetch.outputs.tz }}\",
+                \"pause_status\": \"PAUSED\"
+              }
+            }
+          }"
