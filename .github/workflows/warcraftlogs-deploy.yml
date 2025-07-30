@@ -117,8 +117,8 @@ jobs:
             \"new_settings\": {
               \"schedule\": {
                 \"quartz_cron_expression\": \"${{ steps.fetch.outputs.cron }}\",
-          \"timezone_id\": \"${{ steps.fetch.outputs.tz }}\",
+                \"timezone_id\": \"${{ steps.fetch.outputs.tz }}\",
                 \"pause_status\": \"PAUSED\"
-              }
+              } 
             }
           }"
