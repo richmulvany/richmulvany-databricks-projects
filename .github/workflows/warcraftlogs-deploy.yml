@@ -98,13 +98,17 @@ jobs:
           echo "::set-output name=job_id::$JOB_ID"
 
       - name: 🔎 Fetch current schedule
+        id: fetch
         run: |
-          JOB_JSON=$(databricks jobs get {{ steps.lookup.outputs.job_id }} --output json)
+          JOB_ID=${{ steps.lookup.outputs.job_id }}
+          echo "Looking up job $JOB_ID"
+          JOB_JSON=$(databricks jobs get \
+            --job-id $JOB_ID \
+            --output JSON)
           CRON=$(echo "$JOB_JSON" | jq -r '.settings.schedule.quartz_cron_expression')
           TZ=$(echo "$JOB_JSON" | jq -r '.settings.schedule.timezone_id')
           echo "cron=$CRON" >> $GITHUB_OUTPUT
           echo "tz=$TZ"   >> $GITHUB_OUTPUT
-        id: fetch
        
       - name: ⏸️ Pause schedule (full payload)
         run: |
