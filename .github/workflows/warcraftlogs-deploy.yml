@@ -113,7 +113,7 @@ jobs:
       - name: ⏸️ Pause schedule (full payload)
         run: |
           databricks jobs update --json "{
-            \"job_id\": $JOB_ID,
+            \"job_id\": ${{ steps.lookup.outputs.job_id }},
             \"new_settings\": {
               \"schedule\": {
                 \"quartz_cron_expression\": \"${{ steps.fetch.outputs.cron }}\",
