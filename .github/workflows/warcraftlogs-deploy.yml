@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       job_to_run:
-        description: 'Which operation do you want to perform?'
+        type: choice
+        description: 'operation:'
         required: true
         default: 'deploy-only'
         options:
@@ -15,10 +16,6 @@ on:
         description: 'JSON array of report IDs (only for run-bronze)'
         required: false
         default: '[]'
-      bronze_job_name:
-        description: 'Name of the bronze ingestion job to pause (only for pause-bronze)'
-        required: false
-        default: 'bronze-ingestion-extraction-job'
  
 env:
   DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
@@ -96,7 +93,7 @@ jobs:
       - name: 🔎 Look up job ID
         id: lookup
         run: |
-          JOB_ID=$(databricks jobs list --name "${{ inputs.bronze_job_name }}" --output json \
+          JOB_ID=$(databricks jobs list --name "bronze-ingestion-extraction-job" --output json \
             | jq -r '.[0].job_id')
           echo "::set-output name=job_id::$JOB_ID"
  
