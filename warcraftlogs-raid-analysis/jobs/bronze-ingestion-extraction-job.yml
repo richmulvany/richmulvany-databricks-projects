@@ -13,7 +13,7 @@ tasks:
       task:
         task_key: bronze_ingestion_iteration
         notebook_task:
-          notebook_path: ${workspace.file_path}/notebooks/01-bronze/bronze-ingestion
+          notebook_path: /Workspace/deployment/notebooks/01-bronze/bronze-ingestion
           base_parameters:
             report_id: "{{report_id}}"
             fight_id: ""
@@ -26,7 +26,7 @@ tasks:
     depends_on:
       - task_key: bronze_ingestion-task
     notebook_task:
-      notebook_path: ${workspace.file_path}/notebooks/01-bronze/bronze-ingestion
+      notebook_path: /Workspace/deployment/notebooks/01-bronze/bronze-ingestion
       base_parameters:
         report_id: "{{report_id}}"
         fight_id: ""
@@ -37,7 +37,7 @@ tasks:
     depends_on:
       - task_key: bronze_ingestion_events-task
     notebook_task:
-      notebook_path: ${workspace.file_path}/notebooks/01-bronze/bronze-ingestion-logger
+      notebook_path: /Workspace/deployment/notebooks/01-bronze/bronze-ingestion-logger
       source: WORKSPACE
 
   - task_key: bronze_extraction-task
@@ -49,7 +49,7 @@ tasks:
       task:
         task_key: bronze_extraction_iteration
         notebook_task:
-          notebook_path: ${workspace.file_path}/notebooks/01-bronze/bronze-extraction
+          notebook_path: /Workspace/deployment/notebooks/01-bronze/bronze-extraction
           base_parameters:
             fight_id: ""
             data_source: "{{input}}"
@@ -59,7 +59,7 @@ tasks:
     depends_on:
       - task_key: bronze_extraction-task
     notebook_task:
-      notebook_path: ${workspace.file_path}/notebooks/01-bronze/bronze-extraction-logger
+      notebook_path: /Workspace/deployment/notebooks/01-bronze/bronze-extraction-logger
     source: WORKSPACE
 
 queue:
