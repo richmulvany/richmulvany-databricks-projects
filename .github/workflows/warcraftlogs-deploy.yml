@@ -99,7 +99,7 @@ jobs:
 
       - name: 🔎 Fetch current schedule
         run: |
-          JOB_JSON=$(databricks jobs get --job-id $JOB_ID --output json)
+          JOB_JSON=$(databricks jobs get $JOB_ID --output json)
           CRON=$(echo "$JOB_JSON" | jq -r '.settings.schedule.quartz_cron_expression')
           TZ=$(echo "$JOB_JSON" | jq -r '.settings.schedule.timezone_id')
           echo "cron=$CRON" >> $GITHUB_OUTPUT
