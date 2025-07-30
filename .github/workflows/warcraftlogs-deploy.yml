@@ -103,7 +103,7 @@ jobs:
           JOB_ID=${{ steps.lookup.outputs.job_id }}
           echo "Looking up job $JOB_ID"
           JOB_JSON=$(databricks jobs get \
-            --job-id $JOB_ID \
+            $JOB_ID \
             --output JSON)
           CRON=$(echo "$JOB_JSON" | jq -r '.settings.schedule.quartz_cron_expression')
           TZ=$(echo "$JOB_JSON" | jq -r '.settings.schedule.timezone_id')
