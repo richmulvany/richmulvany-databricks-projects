@@ -145,21 +145,21 @@ report_id = meta["code"]
 # COMMAND ----------
 
 # DBTITLE 1,Check Ingestion
-def was_ingested(code: str) -> bool:
-    """
-    Checks the ingestion log table to determine if the given report has already
-    been ingested.  Returns True if a row exists for this report code.
-    """
-    try:
-        df = spark.table(INGEST_LOG_TABLE)
-        return df.filter(col("report_id") == code).limit(1).count() > 0
-    except Exception:
-        return False
+# def was_ingested(code: str) -> bool:
+#     """
+#     Checks the ingestion log table to determine if the given report has already
+#     been ingested.  Returns True if a row exists for this report code.
+#     """
+#     try:
+#         df = spark.table(INGEST_LOG_TABLE)
+#         return df.filter(col("report_id") == code).limit(1).count() > 0
+#     except Exception:
+#         return False
 
-# Short‑circuit if this report code was already ingested
-if was_ingested(report_id):
-    print(f"⏭ Report {report_id} already ingested. Skipping.")
-    dbutils.notebook.exit("Skipped - already ingested")
+# # Short‑circuit if this report code was already ingested
+# if was_ingested(report_id):
+#     print(f"⏭ Report {report_id} already ingested. Skipping.")
+#     dbutils.notebook.exit("Skipped - already ingested")
 
 # COMMAND ----------
 
