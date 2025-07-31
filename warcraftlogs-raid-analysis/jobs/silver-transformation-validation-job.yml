@@ -90,7 +90,17 @@ resources:
           depends_on:
             - task_key: guild_roster_silver_transformation-task
           notebook_task:
-            notebook_path: /Workspace/warcraftlogs-raid-analysis/notebooks/02-silver/validate/silver-validate-guild-roster         
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/notebooks/02-silver/validate/silver-validate-guild-roster   
+
+        - task_key: silver_transformation_rankings-task
+          notebook_task: 
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/notebooks/02-silver/transform/silver-transform-rankings
+
+        - task_key: silver_validation_rankings-task
+          depends_on:
+            - task_key: silver_transformation_rankings-task
+          notebook_task:
+            notebook_path: /Workspace/warcraftlogs-raid-analysis/notebooks/02-silver/validate/silver-validate-rankings
       
       targets:
       default:
