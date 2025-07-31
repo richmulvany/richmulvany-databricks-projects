@@ -14,7 +14,7 @@ fights_df = spark.table("02_silver.warcraftlogs.f_fights_boss_pulls")
 players_df = fights_df.join(actors_df, on="report_id")
 
 # Step 2: Group by player_name and boss_name and count pulls
-pull_counts = players_df.groupBy("player_name", "boss_name").agg(
+pull_counts = players_df.groupBy("player_name", "boss_name", "raid_difficulty").agg(
     count("pull_number").alias("total_pulls")
     )
 
