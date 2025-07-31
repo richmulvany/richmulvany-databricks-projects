@@ -9,15 +9,11 @@ from pyspark.sql.types import (
 
 # COMMAND ----------
 # DBTITLE 1,Configure Notebook / Assign Variables
-# try:
-#     report_id = dbutils.jobs.taskValues.get(key="report_id", taskKey="bronze_ingestion_events-task")
-# except Exception as e:
-#     print(f"⚠️ Could not retrieve 'report_id': {e}")
-#     dbutils.notebook.exit("Exiting: report_id not available")
-
-# Temp
-dbutils.widgets.text("report_id", "")
-report_id = dbutils.widgets.get("report_id")
+try:
+    report_id = dbutils.jobs.taskValues.get(key="report_id", taskKey="bronze_ingestion_events-task")
+except Exception as e:
+    print(f"⚠️ Could not retrieve 'report_id': {e}")
+    dbutils.notebook.exit("Exiting: report_id not available")
 
 # Widget for fight_id (not used for tables)
 dbutils.widgets.text("fight_id", "")
