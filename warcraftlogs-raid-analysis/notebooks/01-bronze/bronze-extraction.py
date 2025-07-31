@@ -1,6 +1,6 @@
 # Databricks notebook source
 # DBTITLE 1,Import Dependencies
-from pyspark.sql.functions import col, explode, lit, regexp_extract, current_timestamp, from_json
+from pyspark.sql.functions import col, explode, lit, regexp_extract, current_timestamp, from_json, to_json
 from pyspark.sql import DataFrame
 from pyspark.sql.types import (
     StructType, StructField,
