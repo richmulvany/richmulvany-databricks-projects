@@ -83,7 +83,7 @@ if difficulty != "all":
 
 # --- Aggregate first-death counts ---
 first_death_counts = (
-    first_deaths.groupby(["player_name", "boss_name"])
+    first_deaths.groupby(["player_name", "boss_name", "raid_difficulty"])
     .size()
     .reset_index(name="first_death_count")
 )
