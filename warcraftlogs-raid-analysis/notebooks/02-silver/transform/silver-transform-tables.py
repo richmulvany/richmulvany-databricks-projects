@@ -210,6 +210,14 @@ summary_df_deaths = (
         "player_id", "player_guid", "player_name", "player_class",
         "player_spec", "death_time", "death_ability_guid", "death_ability_name"
     )
+    .withColumn(
+    "death_ability_guid",
+    when(col("death_ability_guid").isNull(), lit(0)).otherwise(col("death_ability_guid"))
+    )
+    .withColumn(
+        "death_ability_name",
+        when(col("death_ability_name").isNull(), lit("falling")).otherwise(col("death_ability_name"))
+    )
     .filter(col("player_class").isin(classes))
 )
 

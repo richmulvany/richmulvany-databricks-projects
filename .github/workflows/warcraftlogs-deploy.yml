@@ -1,86 +1,124 @@
-name: Deploy and Run WarcraftLogs Job
-
+name: Databricks Bundle CI
+ 
 on:
   workflow_dispatch:
     inputs:
+      job_to_run:
+        type: choice
+        description: 'operation:'
+        required: true
+        default: 'deploy-only'
+        options:
+          - deploy-only
+          - run-bronze
+          - pause-bronze
       report_ids:
-        description: 'JSON array of report IDs'
+        description: 'JSON array of report IDs (only for run-bronze)'
         required: false
         default: '[]'
-
+ 
 env:
   DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
   DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-
+ 
 jobs:
-  deploy-bundle:
-    name: "📦 Deploy Asset Bundle"
+ 
+  # ─────────────────────────────────────────────────────────────
+  deploy-only:
+    name: ✅ Validate & Deploy Bundle
+    if: ${{ inputs.job_to_run == 'deploy-only' }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: "📥 Checkout repo"
-        uses: actions/checkout@v3
-
-      - name: "🛠️ Install Databricks CLI"
+      - uses: actions/checkout@v3
+ 
+      - name: 🛠️ Install & configure Databricks CLI
         uses: databricks/setup-cli@main
-
-      - name: "⚙️ Configure Databricks CLI"
-        run: |
-          mkdir -p ~/.databricks
-          cat <<EOF > ~/.databrickscfg
-          [DEFAULT]
-          host = $DATABRICKS_HOST
-          token = $DATABRICKS_TOKEN
-          EOF
-
-      - name: "🧹 Copy deployable files"
-        run: |
-          mkdir deploy-dir
-          cp warcraftlogs-raid-analysis/databricks.yml deploy-dir/
-          cp -r warcraftlogs-raid-analysis/jobs \
-                warcraftlogs-raid-analysis/notebooks \
-                warcraftlogs-raid-analysis/utils \
-                warcraftlogs-raid-analysis/dashboards \
-                deploy-dir/
-
-      - name: "✅ Validate DAB Bundle"
-        working-directory: deploy-dir
+        with:
+          host: ${{ env.DATABRICKS_HOST }}
+          token: ${{ env.DATABRICKS_TOKEN }}
+ 
+      - name: 🔍 Validate bundle
+        working-directory: warcraftlogs-raid-analysis
         run: databricks bundle validate
-
-      - name: "🚀 Deploy Asset Bundle"
-        working-directory: deploy-dir
+ 
+      - name: 🚀 Deploy bundle
+        working-directory: warcraftlogs-raid-analysis
         run: databricks bundle deploy --force-lock
-
+ 
+  # ─────────────────────────────────────────────────────────────
   run-bronze:
-    name: "🔁 Run Bronze"
-    needs: deploy-bundle
+    name: 🔁 Deploy (if needed) & Run Bronze
+    if: ${{ inputs.job_to_run == 'run-bronze' }}
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        report_id: ${{ fromJson(github.event.inputs.report_ids) }}
-      max-parallel: 1
-
     steps:
-      - name: "📥 Checkout repo"
-        uses: actions/checkout@v3
-
-      - name: "🛠️ Install Databricks CLI"
+      - uses: actions/checkout@v3
+ 
+      - name: 🛠️ Install & configure Databricks CLI
         uses: databricks/setup-cli@main
-
-      - name: "⚙️ Configure Databricks CLI"
-        run: |
-          mkdir -p ~/.databricks
-          cat <<EOF > ~/.databrickscfg
-          [DEFAULT]
-          host = $DATABRICKS_HOST
-          token = $DATABRICKS_TOKEN
-          EOF
-
-      - name: "🚀 Run Bronze Ingestion for ${{ matrix.report_id }}"
+        with:
+          host: ${{ env.DATABRICKS_HOST }}
+          token: ${{ env.DATABRICKS_TOKEN }}
+ 
+      - name: ✅ Validate & 🚀 Deploy Bundle
         working-directory: warcraftlogs-raid-analysis
         run: |
-          databricks bundle run bronze-ingestion-extraction-job \
-            --refresh-all \
-            --params report_id=${{ matrix.report_id }}
+          databricks bundle validate
+          databricks bundle deploy --force-lock
+ 
+      - name: ▶️ Run Bronze Ingestion
+        working-directory: warcraftlogs-raid-analysis
+        run: |
+          echo "Incoming report IDs: ${{ inputs.report_ids }}"
+          for id in $(echo '${{ inputs.report_ids }}' | jq -r '.[]'); do
+            echo " • Running bronze job for $id"
+            databricks bundle run bronze-ingestion-extraction-job \
+              --refresh-all \
+              --params report_id=$id
+          done
+ 
+  # ─────────────────────────────────────────────────────────────
+  pause-bronze:
+    name: ⏸️ Pause Bronze Job
+    if: ${{ inputs.job_to_run == 'pause-bronze' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+ 
+      - name: 🛠️ Install & configure Databricks CLI
+        uses: databricks/setup-cli@main
+        with:
+          host: ${{ env.DATABRICKS_HOST }}
+          token: ${{ env.DATABRICKS_TOKEN }}
+ 
+      - name: 🔎 Look up job ID
+        id: lookup
+        run: |
+          JOB_ID=$(databricks jobs list --name "bronze-ingestion-extraction-job" --output json \
+            | jq -r '.[0].job_id')
+          echo "::set-output name=job_id::$JOB_ID"
+
+      - name: 🔎 Fetch current schedule
+        id: fetch
+        run: |
+          JOB_ID=${{ steps.lookup.outputs.job_id }}
+          echo "Looking up job $JOB_ID"
+          JOB_JSON=$(databricks jobs get \
+            $JOB_ID \
+            --output JSON)
+          CRON=$(echo "$JOB_JSON" | jq -r '.settings.schedule.quartz_cron_expression')
+          TZ=$(echo "$JOB_JSON" | jq -r '.settings.schedule.timezone_id')
+          echo "cron=$CRON" >> $GITHUB_OUTPUT
+          echo "tz=$TZ"   >> $GITHUB_OUTPUT
+       
+      - name: ⏸️ Pause schedule (full payload)
+        run: |
+          databricks jobs update --json "{
+            \"job_id\": ${{ steps.lookup.outputs.job_id }},
+            \"new_settings\": {
+              \"schedule\": {
+                \"quartz_cron_expression\": \"${{ steps.fetch.outputs.cron }}\",
+                \"timezone_id\": \"${{ steps.fetch.outputs.tz }}\",
+                \"pause_status\": \"PAUSED\"
+              } 
+            }
+          }"

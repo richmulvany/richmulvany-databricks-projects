@@ -1,0 +1,16 @@
+name: Scheduled Ping Streamlit App
+on:
+  schedule:
+    - cron:  '0 */6 * * *'
+
+jobs:
+  pinger_job:
+    name: ping-streamlit-app
+    runs-on: ubuntu-latest
+    env:
+      URL: 'https://sc-throughput-statistics.streamlit.app/'
+      METHOD: GET  # the method used to make the request. It is GET by default
+    steps:
+      - id: ping
+        uses: sisodiya2421/pinger@master
+        

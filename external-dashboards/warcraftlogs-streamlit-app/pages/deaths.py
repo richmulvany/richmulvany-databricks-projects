@@ -1,22 +1,37 @@
 # deaths.py
 import streamlit as st
 import pandas as pd
+import json
 import requests
 import altair as alt
 from io import StringIO
 
 # --- GitHub raw base URL ---
-REPO_URL = "https://raw.githubusercontent.com/richmulvany/richmulvany-databricks-projects/main/data-exports"
+REPO_URL = "https://raw.githubusercontent.com/richmulvany/richmulvany-databricks-projects/main"
 
-# --- Helper to load CSVs directly from GitHub ---
+# --- Helpers to load files directly from GitHub ---
 def load_csv(file_name: str) -> pd.DataFrame:
-    url = f"{REPO_URL}/{file_name}"
+    url = f"{REPO_URL}/data-exports/{file_name}"
     response = requests.get(url)
     response.raise_for_status()
     return pd.read_csv(StringIO(response.text))
 
+def load_json(file_name: str) -> dict:
+    url = f"{REPO_URL}/external-dashboards/warcraftlogs-streamlit-app/{file_name}"
+    response = requests.get(url)
+    response.raise_for_status()
+    return json.loads(response.text)
+
 # --- Streamlit UI ---
 logo_path = "https://pbs.twimg.com/profile_images/1490380290962952192/qZk9xi5l_200x200.jpg"
+
+# Set tab config
+st.set_page_config(page_title="players · sc-warcraftlogs", page_icon=logo_path)
+
+# Function to workaround container size
+def st_normal():
+    _, col, _ = st.columns([1, 8.5, 1])
+    return col
 
 st.logo(
     logo_path,
@@ -36,25 +51,14 @@ st.markdown(f"""
 
 st.header("death statistics")
 
-page = st.sidebar.radio("data type:",["deaths", "damage", "healing"])
-
-if page == "d":
-    st.header("death statistics")
-    # your chart logic
-elif page == "damage":
-    st.header("damage")
-    st.markdown("""
-        "damage dashboard"
-    """)
-elif page == "healing":
-    st.header("healing")
-    st.markdown("""
-            "healing dashboard"
-        """)
+difficulty = st.sidebar.radio("raid difficulty:",["all", "mythic", "heroic", "normal"])
 
 with st.spinner("Loading data..."):
     # First-death records (one row per pull)
     first_deaths = load_csv("player_first_deaths.csv")
+
+    # Guild roster
+    roster = load_csv("guild_roster.csv")
 
     # Pull counts
     pulls = load_csv("player_pull_counts.csv")
@@ -67,9 +71,19 @@ with st.spinner("Loading data..."):
     # Player disastrous deaths
     disastrous_deaths = load_csv("player_inting.csv")
 
+# Remove non-guildies
+valid_players = roster["player_name"].unique()
+pulls = pulls[pulls["player_name"].isin(valid_players)]
+first_deaths = first_deaths[first_deaths["player_name"].isin(valid_players)]
+
+# Filter difficulty
+if difficulty != "all":
+    pulls = pulls[pulls["raid_difficulty"] == difficulty]
+    first_deaths = first_deaths[first_deaths["raid_difficulty"] == difficulty]
+
 # --- Aggregate first-death counts ---
 first_death_counts = (
-    first_deaths.groupby(["player_name", "boss_name"])
+    first_deaths.groupby(["player_name", "boss_name", "raid_difficulty"])
     .size()
     .reset_index(name="first_death_count")
 )
@@ -82,40 +96,41 @@ df = (
 )
 
 # --- Compute percentage ---
-df["first_death_perc"] = round(100 * df["first_death_count"] / df["boss_pulls"], 2)
-df = df.dropna(subset=["first_death_perc"])  # Remove missing pull data
 
 # --- Boss filter ---
-bosses = sorted(df["boss_name"].unique())
+bosses = [
+    "all bosses", 
+    "vexie and the geargrinders",
+    "cauldron of carnage",
+    "rik reverb",
+    "stix bunkjunker",
+    "sprocketmonger lockenstock",
+    "one-armed bandit",
+    "mug'zee, heads of security",
+    "chrome king gallywix"
+]
 selected_boss = st.selectbox("select a boss:", options=bosses)
 
-chart_data = df[df["boss_name"] == selected_boss].sort_values("first_death_perc", ascending=False)
-
-st.subheader(f"first deaths on {selected_boss}")
-st.dataframe(
-    chart_data[["player_name", "player_class", "first_death_count", "boss_pulls", "first_death_perc"]],
-    hide_index=True,
-)
-
-# Sort by descending first_death_perc
-chart_data["player_sort_order"] = chart_data["first_death_perc"].rank(method="first", ascending=False)
+if selected_boss != "all bosses":
+    df["first_death_perc"] = round(100 * df["first_death_count"] / df["boss_pulls"], 2)
+    df = df.dropna(subset=["first_death_perc"])  # Remove missing pull data
+    chart_data = df[df["boss_name"] == selected_boss].sort_values("first_death_perc", ascending=False)
+else:
+    chart_data = df.groupby("player_name", as_index=False).agg({
+        "first_death_count": "sum",
+        "boss_pulls": "sum"
+    })
+    player_meta = df.drop_duplicates(subset="player_name")[["player_name", "player_class"]]
+    chart_data = chart_data.merge(player_meta, on="player_name", how="left")
+    chart_data["first_death_perc"] = round(100 * chart_data["first_death_count"] / chart_data["boss_pulls"], 2)
+    chart_data = chart_data.dropna(subset=["first_death_perc"])  # Remove missing pull data
+    chart_data = chart_data.sort_values("first_death_perc", ascending=False)
+    chart_data = chart_data[chart_data["boss_pulls"] > 99]
+# Remove holy priest
+chart_data = chart_data[chart_data["player_name"] != "evereld"]
 
 # Map class colours
-CLASS_COLOURS = {
-    "death knight": "#C41F3B",
-    "demonhunter":  "#A330C9",
-    "druid":        "#FF7D0A",
-    "evoker":       "#33937F",
-    "hunter":       "#ABD473",
-    "mage":         "#69CCF0",
-    "monk":         "#00FF96",
-    "paladin":      "#F58CBA",
-    "priest":       "#FFFFFF",
-    "rogue":        "#FFF569",
-    "shaman":       "#0070DE",
-    "warlock":      "#9482C9",
-    "warrior":      "#C79C6E"
-}
+CLASS_COLOURS = load_json("class_colours.json")
 
 # Build chart
 bar_chart = (
@@ -144,7 +159,17 @@ bar_chart = (
     )
 )
 
+# Present data
+st.subheader(f"first deaths on {selected_boss}")
+
 st.altair_chart(bar_chart, use_container_width=True)
+
+st.caption("holy priests removed from deaths due to misrepresentative data")
+
+st.dataframe(
+    chart_data[["player_name", "player_class", "first_death_count", "boss_pulls", "first_death_perc"]],
+    hide_index=True,
+)
 
 # --- Aggregate disastrous-death counts ---
 disastrous_death_counts = (
