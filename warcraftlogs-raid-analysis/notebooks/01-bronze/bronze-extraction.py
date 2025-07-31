@@ -242,7 +242,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
             "worldData.expansions   AS expansions",
             "worldData.regions      AS regions",
             "worldData.zones        AS zones",
-            "source_file", "report_start"
+            "source_file", "__metadata__.report_start AS report_start"
         )
         exploded_df = extracted
     elif data_source == "guild_roster":
@@ -272,7 +272,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         # result will be null, which validation can catch later.
         extracted = raw_json_df.selectExpr(
             "reportData.report.rankings AS rankings",
-            "source_file", "report_start"
+            "source_file", "__metadata__.report_start AS report_start"
         )
         exploded_df = extracted
     else:
