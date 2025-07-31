@@ -11,8 +11,8 @@ resources:
       tasks:
         - task_key: bronze_ingestion-task
           for_each_task:
-            inputs: '["fights", "actors", "tables", "game_data", "world_data", "guild_roster", "player_details"]'
-            concurrency: 7
+            inputs: '["fights", "actors", "tables", "game_data", "world_data", "guild_roster", "player_details", "rankings_dps", "rankings_hps"]'
+            concurrency: 4
             task:
               task_key: bronze_ingestion_iteration
               notebook_task:
@@ -47,8 +47,8 @@ resources:
           depends_on:
             - task_key: bronze_ingestion_events-task
           for_each_task:
-            inputs: '["fights", "actors", "tables", "game_data", "world_data", "guild_roster", "player_details", "events"]'
-            concurrency: 7
+            inputs: '["fights", "actors", "tables", "game_data", "world_data", "guild_roster", "player_details", "events", "rankings_dps", "rankings_hps"]'
+            concurrency: 4
             task:
               task_key: bronze_extraction_iteration
               notebook_task:
