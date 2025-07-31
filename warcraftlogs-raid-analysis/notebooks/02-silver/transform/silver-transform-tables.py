@@ -187,8 +187,8 @@ summary_df_deaths = summary_df.filter(
 summary_df_deaths = (
     summary_df_deaths
     .select(
-    "report_id", "report_date", "pull_number",
-    explode("table_json.data.deathEvents").alias("death_event")
+        "report_id", "report_date", "pull_number",
+        explode("table_json.data.deathEvents").alias("death_event")
     )
     .select(
         "report_id", "report_date", "pull_number",
@@ -197,8 +197,10 @@ summary_df_deaths = (
         lower(col("death_event.name")).alias("player_name"),
         lower(col("death_event.icon")).alias("icon"),
         col("death_event.deathTime").alias("death_time"),
-        col("death_event.ability.guid").alias("death_ability_guid"),
-        regexp_replace(lower(col("death_event.ability.name")), r' ', '_').alias("death_ability_name")
+        when(col("death_event.ability").isNotNull(), col("death_event.ability.guid")).otherwise(lit(0)).alias("death_ability_guid"),
+        when(col("death_event.ability").isNotNull(),
+             regexp_replace(lower(col("death_event.ability.name")), r' ', '_')
+        ).otherwise(lit("falling")).alias("death_ability_name")
     )
     .withColumn("cls_spec", split(col("icon"), "-"))
     .withColumn("player_class", col("cls_spec")[0])
@@ -207,14 +209,6 @@ summary_df_deaths = (
         "report_id", "report_date", "pull_number",
         "player_id", "player_guid", "player_name", "player_class",
         "player_spec", "death_time", "death_ability_guid", "death_ability_name"
-    )
-    .withColumn(
-    "death_ability_guid",
-    when(col("death_ability_guid").isNull(), lit(0)).otherwise(col("death_ability_guid"))
-    )
-    .withColumn(
-        "death_ability_name",
-        when(col("death_ability_name").isNull(), lit("falling")).otherwise(col("death_ability_name"))
     )
     .filter(col("player_class").isin(classes))
 )

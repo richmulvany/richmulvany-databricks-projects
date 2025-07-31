@@ -26,6 +26,8 @@ df = df.select(
     col("averageItemLevel").alias("average_item_level"),
     col("startTime").alias("pull_start_time"),
     col("endTime").alias("pull_end_time"),
+    col("lastPhase").alias("last_phase"),
+    col("lastPhaseIsIntermission").alias("last_phase_is_intermission"),
     col("fightPercentage").alias("boss_percentage"),
     "kill"
 )

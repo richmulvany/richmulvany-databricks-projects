@@ -172,7 +172,8 @@ def fetch_fights():
     q = """query($code: String!) { reportData { report(code: $code) {
       fights {
         id name startTime endTime kill difficulty
-        averageItemLevel bossPercentage fightPercentage
+        averageItemLevel bossPercentage fightPercentage, 
+        lastPhase, lastPhaseIsIntermission,
         gameZone { id name }
       }
     } } }"""
