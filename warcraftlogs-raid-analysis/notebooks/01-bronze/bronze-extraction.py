@@ -242,7 +242,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
             "worldData.expansions   AS expansions",
             "worldData.regions      AS regions",
             "worldData.zones        AS zones",
-            "source_file", "__metadata__.report_start AS report_start"
+            "source_file", "report_start"
         )
         exploded_df = extracted
     elif data_source == "guild_roster":
@@ -266,13 +266,20 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         )
         exploded_df = extracted
     elif data_source.startswith("rankings_"):
-        # Rankings returns a JSON scalar in the GraphQL response.  Preserve the
-        # entire rankings object for downstream processing.  We use a generic
-        # selectExpr to access the nested field; if the field is absent the
-        # result will be null, which validation can catch later.
+        # Rankings return a nested struct that may evolve over time (e.g. new
+        # pagination fields).  To avoid Delta merge conflicts when the schema
+        # changes between runs, we serialise the entire rankings struct into a
+        # single JSON string.  This preserves the raw payload for later
+        # parsing in the silver layer and guarantees a consistent column type.
         extracted = raw_json_df.selectExpr(
             "reportData.report.rankings AS rankings",
-            "source_file", "__metadata__.report_start AS report_start"
+            "source_file", "report_start"
+        )
+        # Convert the rankings struct into a JSON string to ensure a stable
+        # schema across ingestions.
+        extracted = extracted.select(
+            to_json(col("rankings")).alias("rankings"),
+            "source_file", "report_start"
         )
         exploded_df = extracted
     else:
@@ -296,7 +303,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         final_df.write.mode("append").format("delta").option("mergeSchema", True).saveAsTable(table_name)
     else:
         final_df.write.mode("overwrite").format("delta").option("mergeSchema", True).saveAsTable(table_name)
-    print(f"✅ Extracted and saved: {data_source} → {table_name}")
+    print(f"âœ… Extracted and saved: {data_source} â†’ {table_name}")
     return final_df
 
 # COMMAND ----------
