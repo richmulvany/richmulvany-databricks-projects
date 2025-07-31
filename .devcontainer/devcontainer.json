@@ -4,7 +4,9 @@
   "customizations": {
     "codespaces": {
       "features": {
-        "ghcr.io/devcontainers/features/sshd:1": {}
+        "ghcr.io/devcontainers/features/sshd:1": {
+          "version": "latest"
+        }
       },
       "openFiles": [
         "README.md",
