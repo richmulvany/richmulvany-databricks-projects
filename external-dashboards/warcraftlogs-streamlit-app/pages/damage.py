@@ -140,7 +140,7 @@ if selected_roles:
 
 # Filter for raiders and their alts
 players_df = players_df[players_df["guild_rank"] < 8]
-ranks_df = ranks_df[ranks_df["player_name"].isin(players_df["player_name"])
+ranks_df = ranks_df[ranks_df["player_name"].isin(players_df["player_name"])]
 
 # -------------------------------------------------------------------
 # Aggregation for parse percent and DPS by player
