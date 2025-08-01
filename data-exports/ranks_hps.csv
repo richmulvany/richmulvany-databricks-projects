@@ -1,4 +1,4 @@
-report_id,boss_name,pull_number,player_role,player_id,player_name,player_class,player_spec,dps_amount,total_parses,parse_percent,bracket_percent,parse_rank
+report_id,boss_name,pull_number,player_role,player_id,player_name,player_class,player_spec,hps_amount,total_parses,parse_percent,bracket_percent,parse_rank
 XyFknKqWVBzcP2fM,"mug’zee, heads of security",8,dps,86658927,willowwisp,druid,balance,2655899.1395132,4811,56,78,2116
 XyFknKqWVBzcP2fM,"mug’zee, heads of security",8,dps,93284326,bensbear,druid,balance,2367205.8067816,4811,28,77,3463
 XyFknKqWVBzcP2fM,"mug’zee, heads of security",8,dps,96742367,koriekin,druid,balance,2626038.4210368,4811,53,74,2261
