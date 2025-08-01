@@ -61,19 +61,18 @@ def st_normal():
 # Display the logo with a link back to the Warcraft Logs guild page
 st.logo(logo_path, link="https://www.warcraftlogs.com/guild/id/586885")
 
-# Title area
-st.markdown(
-    """
+# --- Main Title & Logo --- #
+st.markdown(f"""
+<div style="display: flex; align-items: center;">
+    <a href="/" style="text-decoration: none;">
+        <img src="{logo_path}" width="64" style="border-radius: 100%; border: 2px solid #FFFFFF; margin-right: 12px;">
+    </a>
+    <a href="/" style="text-decoration: none; color: inherit;">
+        <h1 style="margin: 0;">sc warcraftlogs</h1>
+    </a>
+</div>
+""", unsafe_allow_html=True)
 
-
-
-
-sc warcraftlogs 
-
-
-""",
-    unsafe_allow_html=True,
-)
 st.header("death statistics")
 
 # -------------------------------------------------------------------
