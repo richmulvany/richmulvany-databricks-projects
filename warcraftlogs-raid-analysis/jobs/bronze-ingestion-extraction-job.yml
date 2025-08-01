@@ -11,8 +11,8 @@ resources:
       tasks:
         - task_key: bronze_ingestion-task
           for_each_task:
-            inputs: '["fights", "actors", "tables", "game_data", "world_data", "guild_roster", "player_details"]'
-            concurrency: 7
+            inputs: '["fights", "actors", "events", "tables", "player_details", "game_data", "world_data", "guild_roster", "rankings_dps", "rankings_hps"]'
+            concurrency: 4
             task:
               task_key: bronze_ingestion_iteration
               notebook_task:
@@ -24,31 +24,20 @@ resources:
                 source: WORKSPACE
               min_retry_interval_millis: 900000
               disable_auto_optimization: true
-      
-        - task_key: bronze_ingestion_events-task
+
+        - task_key: bronze_ingestion_logger-task
           depends_on:
             - task_key: bronze_ingestion-task
           notebook_task:
-            notebook_path: /Workspace/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-ingestion
-            base_parameters:
-              report_id: "{{report_id}}"
-              fight_id: ""
-              data_source: "events"
-            source: WORKSPACE
-      
-        - task_key: bronze_ingestion_logger-task
-          depends_on:
-            - task_key: bronze_ingestion_events-task
-          notebook_task:
             notebook_path: /Workspace/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-ingestion-logger
             source: WORKSPACE
-      
+
         - task_key: bronze_extraction-task
           depends_on:
-            - task_key: bronze_ingestion_events-task
+            - task_key: bronze_ingestion-task
           for_each_task:
-            inputs: '["fights", "actors", "tables", "game_data", "world_data", "guild_roster", "player_details", "events"]'
-            concurrency: 7
+            inputs: '["fights", "actors", "events", "tables", "player_details", "game_data", "world_data", "guild_roster", "rankings_dps", "rankings_hps"]'
+            concurrency: 4
             task:
               task_key: bronze_extraction_iteration
               notebook_task:
@@ -57,14 +46,16 @@ resources:
                   fight_id: ""
                   data_source: "{{input}}"
                 source: WORKSPACE
-      
+
+        # Logger task for extraction.
         - task_key: bronze_extraction_logger-task
           depends_on:
             - task_key: bronze_extraction-task
           notebook_task:
             notebook_path: /Workspace/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-extraction-logger
           source: WORKSPACE
-      
+
+      # Job runs on the standard queue.
       queue:
         enabled: true
       performance_target: STANDARD

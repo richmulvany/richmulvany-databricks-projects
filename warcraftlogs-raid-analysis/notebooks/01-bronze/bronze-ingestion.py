@@ -25,20 +25,26 @@ RAW_BASE_PATH = "/Volumes/01_bronze/warcraftlogs/raw_api_calls"
 
 # DBTITLE 1,Configure Notebook
 widgets = dbutils.widgets
+# Report ID passed in for targeted ingestion (optional)
 widgets.text("report_id", "")
+# The data_source widget now includes new ranking data sources.  Users can
+# select `rankings_dps` or `rankings_hps` to pull DPS or HPS rankings for
+# the report.  The default remains "fights" for backwards compatibility.
 widgets.dropdown(
     "data_source", "fights",
     [
         "fights", "actors", "events", "tables", "player_details",
-        "game_data", "world_data", "guild_roster"
+        "game_data", "world_data", "guild_roster",
+        # new data sources for player rankings
+        "rankings_dps", "rankings_hps"
     ]
 )
- 
+
 # Guild overrides
 widgets.text("guild_name", GUILD_NAME)
 widgets.text("guild_server_slug", GUILD_SERVER_SLUG)
 widgets.text("guild_server_region", GUILD_SERVER_REGION)
- 
+
 # Read widget values
 report_id = widgets.get("report_id") or None
 data_source = widgets.get("data_source")
@@ -60,7 +66,7 @@ def get_access_token():
     resp = requests.post("https://www.warcraftlogs.com/oauth/token", data=payload)
     resp.raise_for_status()
     return resp.json()["access_token"]
- 
+
 _token = get_access_token()
 HEADERS = {"Authorization": f"Bearer {_token}"}
 
@@ -77,20 +83,18 @@ def gql_query(query: str, variables: dict = None, max_retries: int = 5) -> dict:
             resp = requests.post(BASE_URL, json=body, headers=HEADERS)
             resp.raise_for_status()
             data = resp.json()
+            # If GraphQL errors are returned, retry.
             if "errors" not in data:
                 return data.get("data")
-            # GraphQL-level errors
             error_list = data["errors"]
             logging.warning(f"GraphQL errors on attempt {attempt}: {error_list}")
             last_error = RuntimeError(f"GraphQL errors: {error_list}")
         except Exception as e:
             logging.warning(f"Exception on attempt {attempt}: {e}")
             last_error = e
-
+        # If this was the final attempt, re‑raise the last error
         if attempt == max_retries:
-            # All retries exhausted
             raise last_error
-
         # Exponential backoff with jitter
         backoff_seconds = (2 ** attempt) + random.random()
         time.sleep(backoff_seconds)
@@ -99,6 +103,11 @@ def gql_query(query: str, variables: dict = None, max_retries: int = 5) -> dict:
 
 # DBTITLE 1,Retrieve Report Metadata
 def get_report_metadata(report_code: str = None) -> dict:
+    """
+    Retrieve the report code and start time for a given report.  If no
+    report_code is provided, this function queries the most recent report for
+    the configured guild.
+    """
     if report_code:
         q = '''
         query($code: String!) {
@@ -125,7 +134,6 @@ def get_report_metadata(report_code: str = None) -> dict:
         if not data:
             raise ValueError("No reports found for guild")
         rep = data[0]
- 
     code = rep["code"]
     ts_ms = int(rep["startTime"])
     ts = datetime.fromtimestamp(ts_ms / 1000, tz=timezone.utc)
@@ -137,21 +145,31 @@ report_id = meta["code"]
 # COMMAND ----------
 
 # DBTITLE 1,Check Ingestion
-def was_ingested(code: str) -> bool:
-    try:
-        df = spark.table(INGEST_LOG_TABLE)
-        return df.filter(col("report_id") == code).limit(1).count() > 0
-    except Exception:
-        return False
-    
-if was_ingested(report_id):
-    print(f"⏭ Report {report_id} already ingested. Skipping.")
-    dbutils.notebook.exit("Skipped - already ingested")
+# def was_ingested(code: str) -> bool:
+#     """
+#     Checks the ingestion log table to determine if the given report has already
+#     been ingested.  Returns True if a row exists for this report code.
+#     """
+#     try:
+#         df = spark.table(INGEST_LOG_TABLE)
+#         return df.filter(col("report_id") == code).limit(1).count() > 0
+#     except Exception:
+#         return False
+
+# # Short‑circuit if this report code was already ingested
+# if was_ingested(report_id):
+#     print(f"⏭ Report {report_id} already ingested. Skipping.")
+#     dbutils.notebook.exit("Skipped - already ingested")
 
 # COMMAND ----------
 
 # DBTITLE 1,Establish Functions
 def save_json(subfolder: str, filename: str, payload: dict):
+    """
+    Persist a dictionary as JSON into the RAW_BASE_PATH directory, namespaced
+    by report id and the provided subfolder.  Additional metadata such as the
+    report id and report start are injected into the saved payload.
+    """
     target = Path(RAW_BASE_PATH) / report_id / subfolder
     target.mkdir(parents=True, exist_ok=True)
     path = target / filename
@@ -182,7 +200,6 @@ def fetch_fights():
         "fights", f"{report_id}_fights_{datetime.utcnow():%Y%m%dT%H%M%S}.json", data
     )
 
-
 def fetch_actors():
     q = """query($code: String!) { reportData { report(code: $code) {
       masterData(translate:false) {
@@ -195,8 +212,8 @@ def fetch_actors():
         "actors", f"{report_id}_actors_{datetime.utcnow():%Y%m%dT%H%M%S}.json", data
     )
 
-
 def fetch_events():
+    # Retrieve a list of fights for the report so we can iterate through
     fights = gql_query(
         """query($code: String!) { reportData { report(code: $code) { fights { id startTime endTime name } } }}""",
         {"code": report_id},
@@ -205,7 +222,7 @@ def fetch_events():
         fid, start_ms, end_ms = fight["id"], fight["startTime"], fight["endTime"]
         page, cursor = 1, start_ms
         while True:
-            q = f"""query {{ reportData {{ report(code: "{report_id}") {{ events(
+            q = f"""query {{ reportData {{ report(code: \"{report_id}\") {{ events(
                 fightIDs: [{fid}], startTime: {cursor}, endTime: {end_ms},
                 dataType: All, includeResources: true, limit: 10000
             ) {{ data nextPageTimestamp }} }} }} }}"""
@@ -220,7 +237,6 @@ def fetch_events():
                 break
             cursor, page = next_ts, page + 1
 
-
 def fetch_tables():
     fights = gql_query(
         """query($c:String!){ reportData{ report(code:$c){ fights{id} }}}""",
@@ -229,11 +245,10 @@ def fetch_tables():
     for fight in fights:
         fid = fight["id"]
         for dt in ["Summary", "DamageDone", "Dispels", "Healing", "Buffs", "Casts"]:
-            q = f"""query {{ reportData {{ report(code: "{report_id}") {{ table(dataType: {dt}, fightIDs: [{fid}]) }} }} }}"""
+            q = f"""query {{ reportData {{ report(code: \"{report_id}\") {{ table(dataType: {dt}, fightIDs: [{fid}]) }} }} }}"""
             res = gql_query(q)
             fname = f"{report_id}_fight{fid}_table_{dt}_{datetime.utcnow():%Y%m%dT%H%M%S}.json"
             save_json("tables", fname, res)
-
 
 def fetch_game_data():
     # Fetch static game metadata with corrected fields
@@ -248,9 +263,8 @@ def fetch_game_data():
     data = gql_query(q)
     save_json("game_data", f"game_data_{datetime.utcnow():%Y%m%dT%H%M%S}.json", data)
 
-
 def fetch_world_data():
-    # Fetch expansions, regions, and zones in one call
+    # Fetch expansions, regions, and zones including encounters (bosses) in one call
     q = """query {
       worldData {
         expansions {
@@ -266,12 +280,15 @@ def fetch_world_data():
           id
           name
           frozen
+          encounters {
+            id
+            name
+          }
         }
       }
     }"""
     data = gql_query(q)
     save_json("world_data", f"world_data_{datetime.utcnow():%Y%m%dT%H%M%S}.json", data)
-
 
 def fetch_guild_roster(limit: int = 100):
     q = """query($name:String!,$slug:String!,$region:String!,$limit:Int!) {
@@ -310,7 +327,6 @@ def fetch_guild_roster(limit: int = 100):
         data,
     )
 
-
 def fetch_player_details():
     # Get all fight IDs for the report
     fights_q = """query($code:String!){
@@ -322,7 +338,6 @@ def fetch_player_details():
     }"""
     fights_data = gql_query(fights_q, {"code": report_id})
     fight_ids = [f["id"] for f in fights_data["reportData"]["report"]["fights"]]
-
     # Fetch playerDetails using those fight IDs
     pd_q = """query($code:String!,$fids:[Int!]!) {
       reportData {
@@ -336,6 +351,29 @@ def fetch_player_details():
         "player_details",
         f"{report_id}_playerDetails_{datetime.utcnow():%Y%m%dT%H%M%S}.json",
         data,
+    )
+
+def fetch_rankings_dps():
+    """
+    Fetch DPS rankings for the current report.  The `playerMetric` argument of
+    `rankings` is specified inline as `dps`.  The full JSON response is saved
+    without transformation so downstream processing can interpret it as needed.
+    """
+    q = """query($code: String!) { reportData { report(code: $code) { rankings(playerMetric: dps) } } }"""
+    data = gql_query(q, {"code": report_id})
+    save_json(
+        "rankings_dps", f"{report_id}_rankings_dps_{datetime.utcnow():%Y%m%dT%H%M%S}.json", data
+    )
+
+def fetch_rankings_hps():
+    """
+    Fetch HPS rankings for the current report.  This is analogous to the DPS
+    rankings call, but sets the `playerMetric` argument to `hps`.
+    """
+    q = """query($code: String!) { reportData { report(code: $code) { rankings(playerMetric: hps) } } }"""
+    data = gql_query(q, {"code": report_id})
+    save_json(
+        "rankings_hps", f"{report_id}_rankings_hps_{datetime.utcnow():%Y%m%dT%H%M%S}.json", data
     )
 
 # COMMAND ----------
@@ -357,6 +395,10 @@ elif data_source == "guild_roster":
     fetch_guild_roster()
 elif data_source == "player_details":
     fetch_player_details()
+elif data_source == "rankings_dps":
+    fetch_rankings_dps()
+elif data_source == "rankings_hps":
+    fetch_rankings_hps()
 else:
     raise ValueError(f"Unknown data_source: {data_source}")
 
