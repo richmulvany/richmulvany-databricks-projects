@@ -288,11 +288,11 @@ death_chart = (
             alt.Tooltip("death_perc:Q", title="death %"),
         ],
     )
-    .properties(
-        width="container",
-        height=400,
-        title=None,
-    )
+    # .properties(
+    #     width="container",
+    #     height=400,
+    #     title=None,
+    # )
 )
 st.altair_chart(death_chart, use_container_width=True)
 
@@ -318,7 +318,7 @@ first_chart = (
             alt.Tooltip("first_death_perc:Q", title="first death %"),
         ],
     )
-    .properties(width="container", height=400, title=None)
+    # .properties(width="container", height=400, title=None)
 )
 st.altair_chart(first_chart, use_container_width=True)
 
@@ -344,7 +344,7 @@ inting_chart = (
             alt.Tooltip("inting_perc:Q", title="disastrous death %"),
         ],
     )
-    .properties(width="container", height=400, title=None)
+    # .properties(width="container", height=400, title=None)
 )
 st.altair_chart(inting_chart, use_container_width=True)
 
