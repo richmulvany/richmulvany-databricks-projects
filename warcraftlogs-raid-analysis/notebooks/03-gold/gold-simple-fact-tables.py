@@ -15,6 +15,8 @@ player_deaths = spark.table("`02_silver`.warcraftlogs.f_tables_summary_deaths").
 boss_pulls = spark.table("`02_silver`.warcraftlogs.f_fights_boss_pulls").alias("p")
 actors = spark.table("`02_silver`.warcraftlogs.f_actors_players").alias("a")
 player_details = spark.table("`02_silver`.warcraftlogs.f_player_details").alias("pd")
+ranks_dps = spark.table("`02_silver`.warcraftlogs.f_rankings_dps").alias("rd")
+ranks_hps = spark.table("`02_silver`.warcraftlogs.f_rankings_hps").alias("rh")
 
 # COMMAND ----------
 
@@ -47,3 +49,5 @@ player_details_clean = player_details.dropDuplicates()
 composition.write.mode("overwrite").saveAsTable("`03_gold`.warcraftlogs.composition")
 player_deaths_joined.write.mode("overwrite").saveAsTable("`03_gold`.warcraftlogs.player_deaths")
 player_details_clean.write.mode("overwrite").saveAsTable("`03_gold`.warcraftlogs.player_details")
+ranks_dps.write.mode("overwrite").saveAsTable("`03_gold`.warcraftlogs.ranks_dps")
+ranks_hps.write.mode("overwrite").saveAsTable("`03_gold`.warcraftlogs.ranks_hps")
