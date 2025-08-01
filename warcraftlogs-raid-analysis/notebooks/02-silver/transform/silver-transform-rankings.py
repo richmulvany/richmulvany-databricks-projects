@@ -61,9 +61,9 @@ report_schema = StructType([
 ])
 
 # helper to extract and tag each role
-def explode_role(role_name, role_struct_path):
+def explode_role(df, role_name, role_struct_path):
     return (
-        dps_fights
+        df
         .select(
             col("report_id"),
             col("fight.fightID").alias("fight_id"),
@@ -98,9 +98,9 @@ dps_fights = dps_nonempty.select(
     explode(col("parsed.data")).alias("fight")
 )
 
-dps_df_dps = explode_role("dps", "fight.roles.dps.characters")
-healers_df_dps = explode_role("healers", "fight.roles.healers.characters")
-tanks_df_dps = explode_role("tanks", "fight.roles.tanks.characters")
+dps_df_dps = explode_role(dps_fights, "dps", "fight.roles.dps.characters")
+healers_df_dps = explode_role(dps_fights, "healers", "fight.roles.healers.characters")
+tanks_df_dps = explode_role(dps_fights, "tanks", "fight.roles.tanks.characters")
 
 # union all roles
 dps_combined = dps_df_dps.unionByName(healers_df_dps).unionByName(tanks_df_dps)
@@ -130,10 +130,6 @@ dps_final = (
 
 # COMMAND ----------
 
-display(dps_final)
-
-# COMMAND ----------
-
 # DBTITLE 1,Parse HPS Rankings
 hps_parsed = rankings_hps_raw.withColumn("parsed", from_json(col("rankings"), report_schema))
 
@@ -146,9 +142,9 @@ hps_fights = hps_nonempty.select(
     explode(col("parsed.data")).alias("fight")
 )
 
-dps_df_hps = explode_role("dps", "fight.roles.dps.characters")
-healers_df_hps = explode_role("healers", "fight.roles.healers.characters")
-tanks_df_hps = explode_role("tanks", "fight.roles.tanks.characters")
+dps_df_hps = explode_role(hps_fights, "dps", "fight.roles.dps.characters")
+healers_df_hps = explode_role(hps_fights, "healers", "fight.roles.healers.characters")
+tanks_df_hps = explode_role(hps_fights, "tanks", "fight.roles.tanks.characters")
 
 # union all roles
 hps_combined = dps_df_hps.unionByName(healers_df_hps).unionByName(tanks_df_hps)
@@ -182,5 +178,5 @@ hps_final = (
 # Write each ranking DataFrame to its own staging table. 
 dps_final.write.mode("overwrite").saveAsTable("02_silver.staging.warcraftlogs_rankings_dps")
 print("✅ Table 02_silver.staging.warcraftlogs_rankings_dps written.")
-dps_final.write.mode("overwrite").saveAsTable("02_silver.staging.warcraftlogs_rankings_hps")
+hps_final.write.mode("overwrite").saveAsTable("02_silver.staging.warcraftlogs_rankings_hps")
 print("✅ Table 02_silver.staging.warcraftlogs_rankings_hps written.")
