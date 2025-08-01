@@ -1,25 +1,18 @@
 resources:
   jobs:
     bronze-ingestion-extraction-job:
-      # This job has been trimmed down to only ingest and extract the
-      # world_data and rankings tables (DPS/HPS) for each report.  By
-      # restricting the `inputs` lists to these three data sources we
-      # avoid running the long‑running event, fights or actor ingestions.
       name: bronze-ingestion-extraction-job
       schedule:
-        # Retain the existing schedule from the main job.  Adjust as needed.
         quartz_cron_expression: '0 15 22 ? * MON,WED *'
         timezone_id: 'Europe/London'
       parameters:
         - name: report_id
           default: ""
       tasks:
-        # Ingest the raw API calls for the selected data sources.  The
-        # concurrency can be kept at 3 because we only have three inputs.
         - task_key: bronze_ingestion-task
           for_each_task:
-            inputs: '["world_data", "rankings_dps", "rankings_hps"]'
-            concurrency: 3
+            inputs: '["fights", "actors", "events", "tables", "player_details", "game_data", "world_data", "guild_roster", "rankings_dps", "rankings_hps"]'
+            concurrency: 4
             task:
               task_key: bronze_ingestion_iteration
               notebook_task:
@@ -29,12 +22,9 @@ resources:
                   fight_id: ""
                   data_source: "{{input}}"
                 source: WORKSPACE
-              # Keep retry and optimisation settings consistent with the original job.
               min_retry_interval_millis: 900000
               disable_auto_optimization: true
 
-        # A lightweight logger task that runs after all ingestion iterations have
-        # completed.  This replaces the original events‑based propagation step.
         - task_key: bronze_ingestion_logger-task
           depends_on:
             - task_key: bronze_ingestion-task
@@ -42,14 +32,12 @@ resources:
             notebook_path: /Workspace/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-ingestion-logger
             source: WORKSPACE
 
-        # Extract the JSON from each of the ingested raw API calls.  Again we
-        # limit the inputs list to only the sources we care about.
         - task_key: bronze_extraction-task
           depends_on:
             - task_key: bronze_ingestion-task
           for_each_task:
-            inputs: '["world_data", "rankings_dps", "rankings_hps"]'
-            concurrency: 3
+            inputs: '["fights", "actors", "events", "tables", "player_details", "game_data", "world_data", "guild_roster", "rankings_dps", "rankings_hps"]'
+            concurrency: 4
             task:
               task_key: bronze_extraction_iteration
               notebook_task:
