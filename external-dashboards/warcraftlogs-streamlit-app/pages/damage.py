@@ -78,6 +78,7 @@ with st.spinner("Loading data…"):
     dps_df = load_csv("player_dps.csv")
     ranks_df = load_csv("ranks_dps.csv")
     details_df = load_csv("player_details.csv")
+    players_df = load_csv("guild_roster.csv")
     CLASS_COLOURS = load_json("class_colours.json")
 
 if difficulty != "all":
@@ -136,6 +137,10 @@ selected_roles = st.sidebar.multiselect(
 
 if selected_roles:
     ranks_df = ranks_df[ranks_df["player_role"].isin(selected_roles)]
+
+# Filter for raiders and their alts
+players_df = players_df[players_df["guild_rank"] < 8]
+ranks_df = ranks_df[ranks_df["player_name"].isin(players_df["player_name"])
 
 # -------------------------------------------------------------------
 # Aggregation for parse percent and DPS by player
