@@ -279,11 +279,15 @@ def main() -> None:
         )
         filtered_pulls = filtered_pulls.merge(role_map, on="player_id", how="inner")
 
-    if not filtered_pulls.empty:
+     if not filtered_pulls.empty:
         id_cols = [col for col in ["report_id", "raid_name"] if col in filtered_pulls.columns]
-        filtered_pulls = filter_to_kills(
-            filtered_pulls, include_wipes=include_wipes, id_cols=id_cols
-        )
+        if "pull_number" in filtered_pulls.columns and "boss_name" in filtered_pulls.columns:
+            filtered_pulls = filter_to_kills(
+                filtered_pulls, include_wipes=include_wipes, id_cols=id_cols
+            )
+        else:
+            # if we can’t meaningfully filter to kills, leave as-is or log/notify
+            st.warning("Skipping kill/wipe filtering because required columns are missing.")
 
     if metric_choice == "attendance":
         if filtered_pulls.empty:
