@@ -458,11 +458,11 @@ def main() -> None:
                             alt.Tooltip("item_level", title="item level"),
                         ],
                     )
-                    .properties(
-                        width="container",
-                        height=400,
-                        title="item level over time"
-                    )
+                    # .properties(
+                    #     width="container",
+                    #     height=400,
+                    #     title="item level over time"
+                    # )
                 )
                 st.altair_chart(line, use_container_width=True)
 
