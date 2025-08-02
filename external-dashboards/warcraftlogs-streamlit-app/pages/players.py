@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import altair as alt
@@ -15,18 +14,7 @@ REPO_URL = (
 
 
 def load_csv(file_name: str) -> pd.DataFrame:
-    """Load a CSV from the data-exports folder of the repository.
-
-    Parameters
-    ----------
-    file_name : str
-        File name relative to the ``data-exports`` directory.
-
-    Returns
-    -------
-    pd.DataFrame
-        DataFrame containing the CSV contents.
-    """
+    """Load a CSV from the data-exports folder of the repository."""
     url = f"{REPO_URL}/data-exports/{file_name}"
     response = requests.get(url)
     response.raise_for_status()
@@ -34,18 +22,7 @@ def load_csv(file_name: str) -> pd.DataFrame:
 
 
 def load_json(file_name: str) -> dict:
-    """Load a JSON file from the Streamlit app directory of the repository.
-
-    Parameters
-    ----------
-    file_name : str
-        File name relative to ``external-dashboards/warcraftlogs-streamlit-app``.
-
-    Returns
-    -------
-    dict
-        Parsed JSON object.
-    """
+    """Load a JSON file from the Streamlit app directory of the repository."""
     url = f"{REPO_URL}/external-dashboards/warcraftlogs-streamlit-app/{file_name}"
     response = requests.get(url)
     response.raise_for_status()
@@ -55,10 +32,11 @@ def load_json(file_name: str) -> dict:
 def filter_to_kills(
     df: pd.DataFrame, include_wipes: bool, id_cols: List[str]
 ) -> pd.DataFrame:
-    """Filter a DataFrame of pulls to include only the kill pull for each
-    boss/report combination when ``include_wipes`` is False.
-    """
+    """Safe no-op if required columns missing; otherwise filter to only kill pulls."""
     if include_wipes:
+        return df.copy()
+    if "pull_number" not in df.columns or "boss_name" not in df.columns:
+        # no-op if schema doesn't include needed columns
         return df.copy()
     group_cols = id_cols + ["boss_name"]
     max_pulls = (
@@ -151,10 +129,14 @@ def build_parse_chart(
 
 
 def main() -> None:
+    """Run the Streamlit player statistics page."""
+
+    # --- Page setup ---
     logo_path = "https://pbs.twimg.com/profile_images/1490380290962952192/qZk9xi5l_200x200.jpg"
     st.set_page_config(
         page_title="players · sc-warcraftlogs", page_icon=logo_path, layout="wide"
     )
+    # Header with logo and title
     st.logo(logo_path, link="https://www.warcraftlogs.com/guild/id/586885")
     st.markdown(
         f"""
@@ -171,6 +153,7 @@ def main() -> None:
     )
     st.header("player statistics")
 
+    # --- Load data ---
     with st.spinner("Loading data..."):
         pull_counts = load_csv("player_pull_counts.csv")
         player_details = load_csv("player_details.csv")
@@ -180,10 +163,12 @@ def main() -> None:
         class_data = load_csv("game_data_classes.csv")
         class_colours = load_json("class_colours.json")
 
+    # Ensure numeric total pulls
     pull_counts["total_pulls"] = pd.to_numeric(
         pull_counts.get("total_pulls", 0), errors="coerce"
     ).fillna(0)
 
+    # Map players to their classes (lowercase) using guild roster and game data
     class_map = (
         guild_roster[["player_id", "player_class_id"]]
         .drop_duplicates()
@@ -217,6 +202,7 @@ def main() -> None:
             how="left",
         )
 
+    # Determine unique filter values from data
     difficulties = (
         pull_counts["raid_difficulty"].dropna().unique().tolist()
         if "raid_difficulty" in pull_counts.columns
@@ -227,6 +213,7 @@ def main() -> None:
         if "raid_name" in player_dps.columns
         else []
     )
+    # Sidebar filters
     st.sidebar.header("filters")
     selected_difficulty = st.sidebar.selectbox(
         "select difficulty", options=["all"] + sorted(difficulties), index=1 if "mythic" in difficulties else 0
@@ -257,6 +244,7 @@ def main() -> None:
         "metric", options=["attendance", "parse vs bracket", "item level (coming soon)"]
     )
 
+    # Filter data according to selections (no kill/wipe filtering)
     filtered_pulls = pull_counts.copy()
     if selected_difficulty != "all" and "raid_difficulty" in filtered_pulls.columns:
         filtered_pulls = filtered_pulls[
@@ -278,17 +266,8 @@ def main() -> None:
             .query("player_role in @selected_roles")
         )
         filtered_pulls = filtered_pulls.merge(role_map, on="player_id", how="inner")
-        
-    if not filtered_pulls.empty:
-        id_cols = [col for col in ["report_id", "raid_name"] if col in filtered_pulls.columns]
-        if "pull_number" in filtered_pulls.columns and "boss_name" in filtered_pulls.columns:
-            filtered_pulls = filter_to_kills(
-                filtered_pulls, include_wipes=include_wipes, id_cols=id_cols
-            )
-        else:
-            # if we can’t meaningfully filter to kills, leave as-is or log/notify
-            st.warning("Skipping kill/wipe filtering because required columns are missing.")
 
+    # Attendance metric
     if metric_choice == "attendance":
         if filtered_pulls.empty:
             st.info(
@@ -324,6 +303,8 @@ def main() -> None:
                 ),
                 use_container_width=True,
             )
+
+    # Parse vs bracket metric
     elif metric_choice == "parse vs bracket":
         ranks = ranks_dps.copy()
         ranks["parse_percent"] = pd.to_numeric(ranks.get("parse_percent"), errors="coerce")
@@ -401,11 +382,14 @@ def main() -> None:
                 ),
                 use_container_width=True,
             )
+
+    # Item level progression based on player_details.csv
     else:
         st.subheader("item level progression")
+
         pd_details = player_details.copy()
         pd_details["report_date_parsed"] = (
-            pd.to_datetime(pd_details["report_date"].str.extract(r"^(\\d{4}-\\d{2}-\\d{2})")[0], errors="coerce")
+            pd.to_datetime(pd_details["report_date"].str.extract(r"^(\d{4}-\d{2}-\d{2})")[0], errors="coerce")
         )
         pd_details["player_class"] = pd_details.get("player_class", "").astype(str).str.lower().str.strip()
         pd_details["player_spec"] = pd_details.get("player_spec", "").astype(str).str.lower().str.strip()
@@ -423,7 +407,7 @@ def main() -> None:
                 "select players to compare",
                 options=players,
                 default=players[:5] if len(players) > 0 else [],
-                help="Compare item level progression for specific players."
+                help="Compare item level progression for specific players.",
             )
 
             if selected_players:
@@ -450,10 +434,7 @@ def main() -> None:
                     .encode(
                         x=alt.X("report_date_parsed:T", title="report date"),
                         y=alt.Y("item_level:Q", title="item level"),
-                        color=alt.Color(
-                            "player_name:N",
-                            legend=alt.Legend(title="player"),
-                        ),
+                        color=alt.Color("player_name:N", legend=alt.Legend(title="player")),
                         tooltip=[
                             alt.Tooltip("player_name", title="player"),
                             alt.Tooltip("player_class", title="class"),
@@ -462,11 +443,7 @@ def main() -> None:
                             alt.Tooltip("item_level", title="item level"),
                         ],
                     )
-                    # .properties(
-                    #     width="container",
-                    #     height=400,
-                    #     title="item level over time"
-                    # )
+                    .properties(width="container", height=400, title="item level over time")
                 )
                 st.altair_chart(line, use_container_width=True)
 
