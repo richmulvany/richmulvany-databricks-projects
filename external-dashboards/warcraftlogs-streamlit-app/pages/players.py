@@ -278,8 +278,8 @@ def main() -> None:
             .query("player_role in @selected_roles")
         )
         filtered_pulls = filtered_pulls.merge(role_map, on="player_id", how="inner")
-
-     if not filtered_pulls.empty:
+        
+    if not filtered_pulls.empty:
         id_cols = [col for col in ["report_id", "raid_name"] if col in filtered_pulls.columns]
         if "pull_number" in filtered_pulls.columns and "boss_name" in filtered_pulls.columns:
             filtered_pulls = filter_to_kills(
