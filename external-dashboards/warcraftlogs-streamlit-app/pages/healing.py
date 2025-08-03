@@ -55,7 +55,7 @@ st.header("healing statistics")
 difficulty = st.sidebar.radio(
     "raid difficulty:",
     ["all", "mythic", "heroic", "normal"],
-    index=0,
+    index=1,
 )
 
 include_wipes = st.sidebar.checkbox(
@@ -160,7 +160,7 @@ agg_parse = (
 
 hps_df["healing_per_second"] = pd.to_numeric(hps_df["healing_per_second"], errors="coerce")
 avg_hps = (
-    hps_df.groupby("player_name", as_index=False)["healing_per_second"].mean()
+    hps_df.groupby("player_name", as_index=False)["healing_per_second"].mean().round(0)
     .rename(columns={"healing_per_second": "avg_hps"})
 )
 
@@ -261,13 +261,13 @@ display_df = chart_df[
     ]
 ].rename(
     columns={
-        "player_name": "Player",
-        "player_class": "Class",
-        "player_spec": "Spec",
-        "avg_parse": "Avg Parse (%)",
-        "best_parse": "Best Parse (%)",
-        "avg_hps": "Avg hps",
-        "parses": "Log Count",
+        "player_name": "player",
+        "player_class": "class",
+        "player_spec": "spec",
+        "avg_parse": "avg Parse (%)",
+        "best_parse": "best Parse (%)",
+        "avg_hps": "avg hps",
+        "parses": "log Count",
     }
 )
 st.dataframe(display_df, hide_index=True)
