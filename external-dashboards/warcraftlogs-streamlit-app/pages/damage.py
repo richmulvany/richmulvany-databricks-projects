@@ -269,7 +269,7 @@ display_df = chart_df[
         "player_spec": "spec",
         "avg_parse": "avg parse (%)",
         "best_parse": "best parse (%)",
-        "avg_dps": "avg DPS",
+        "avg_dps": "avg dps",
         "parses": "log count",
     }
 )
