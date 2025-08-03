@@ -1,0 +1,27 @@
+[[pages]]
+# Define the order in which Streamlit pages should appear in the sidebar.
+# Without a pages.toml file, Streamlit orders pages alphabetically by file name.
+# This configuration ensures the pages appear in a logical flow: home
+# overview first, then damage statistics, healing statistics, deaths, and players.
+
+# The path is relative to the root of the Streamlit app (external‑dashboards/warcraftlogs‑streamlit‑app).
+# The name field controls the label shown in the sidebar.
+
+path = "home.py"
+name = "home"
+
+[[pages]]
+path = "pages/damage.py"
+name = "damage"
+
+[[pages]]
+path = "pages/healing.py"
+name = "healing"
+
+[[pages]]
+path = "pages/deaths.py"
+name = "deaths"
+
+[[pages]]
+path = "pages/players.py"
+name = "players"

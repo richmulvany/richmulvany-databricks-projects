@@ -196,6 +196,7 @@ bar_chart = (
             "player_name:N",
             sort=chart_df["player_name"].tolist(),
             title="",
+            axis=alt.Axis(labelOverlap=False)
         ),
         y=alt.Y(f"{parse_field}:Q", title=parse_label),
         color=alt.Color(
