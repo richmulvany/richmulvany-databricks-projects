@@ -152,11 +152,14 @@ ranks_df["parse_percent"] = ranks_df["parse_percent"].clip(upper=100)
 agg_parse = (
     ranks_df.groupby(["player_name", "player_class", "player_spec"], as_index=False)
     .agg(
-        avg_parse=("parse_percent", "mean").round(0),
-        best_parse=("parse_percent", "max").round(0),
+        avg_parse=("parse_percent", "mean"),
+        best_parse=("parse_percent", "max"),
         parses=("parse_percent", "count"),
     )
 )
+
+# Round avg_parse to nearest integer
+agg_parse["avg_parse"] = agg_parse["avg_parse"].round(0).astype(int)
 
 hps_df["healing_per_second"] = pd.to_numeric(hps_df["healing_per_second"], errors="coerce")
 avg_hps = (
