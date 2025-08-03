@@ -152,8 +152,8 @@ ranks_df["parse_percent"] = ranks_df["parse_percent"].clip(upper=100)
 agg_parse = (
     ranks_df.groupby(["player_name", "player_class", "player_spec"], as_index=False)
     .agg(
-        avg_parse=("parse_percent", "mean"),
-        best_parse=("parse_percent", "max"),
+        avg_parse=("parse_percent", "mean").round(0),
+        best_parse=("parse_percent", "max").round(0),
         parses=("parse_percent", "count"),
     )
 )
