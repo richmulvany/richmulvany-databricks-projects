@@ -26,10 +26,6 @@ def load_json(file_name: str) -> dict:
 logo_path = "https://pbs.twimg.com/profile_images/1490380290962952192/qZk9xi5l_200x200.jpg"
 st.set_page_config(page_title="players · sc-warcraftlogs", page_icon=logo_path)
 
-def st_normal():
-    _, col, _ = st.columns([1, 8.5, 1])
-    return col
-
 st.logo(logo_path, link="https://www.warcraftlogs.com/guild/id/586885")
 st.markdown(f"""
 <div style="display: flex; align-items: center;">
@@ -43,9 +39,10 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 st.header("death statistics")
-difficulty = st.sidebar.radio("raid difficulty:", ["all", "mythic", "heroic", "normal"])
+difficulty = st.sidebar.radio("raid difficulty:", ["all", "mythic", "heroic", "normal"], index=1)
 
 with st.spinner("Loading data..."):
+    player_deaths = load_csv("player_deaths.csv")
     first_deaths = load_csv("player_first_deaths.csv")
     roster = load_csv("guild_roster.csv")
     pulls = load_csv("player_pull_counts.csv")
@@ -56,14 +53,15 @@ with st.spinner("Loading data..."):
 
 valid_players = roster["player_name"].unique()
 pulls = pulls[pulls["player_name"].isin(valid_players)]
+player_deaths = player_deaths[player_deaths["player_name"].isin(valid_players)]
 first_deaths = first_deaths[first_deaths["player_name"].isin(valid_players)]
+disastrous_deaths = disastrous_deaths[disastrous_deaths["player_name"].isin(valid_players)]
 
-# --- Filter difficulty ---
 if difficulty != "all":
     pulls = pulls[pulls["raid_difficulty"] == difficulty]
     first_deaths = first_deaths[first_deaths["raid_difficulty"] == difficulty]
 
-# --- Aggregate first-death counts ---
+# --- First Deaths ---
 first_death_counts = (
     first_deaths.groupby(["player_name", "boss_name", "raid_difficulty"])
     .size()
@@ -81,13 +79,19 @@ selected_boss = st.selectbox("boss:", options=["all bosses"] + available_bosses,
 
 if selected_boss != "all bosses":
     df = df[df["boss_name"] == selected_boss]
+    if difficulty == "all":
+        df = (
+            df.groupby("player_name", as_index=False)
+            .agg({"first_death_count": "sum", "boss_pulls": "sum"})
+            .merge(class_map, on="player_name", how="left")
+        )
     df["first_death_perc"] = round(100 * df["first_death_count"] / df["boss_pulls"], 2)
     chart_data = df.dropna(subset=["first_death_perc"]).sort_values("first_death_perc", ascending=False)
 else:
     chart_data = (
         df.groupby("player_name", as_index=False)
         .agg({"first_death_count": "sum", "boss_pulls": "sum"})
-        .merge(df.drop_duplicates("player_name")[["player_name", "player_class"]], on="player_name", how="left")
+        .merge(class_map, on="player_name", how="left")
     )
     chart_data["first_death_perc"] = round(100 * chart_data["first_death_count"] / chart_data["boss_pulls"], 2)
     chart_data = chart_data.dropna(subset=["first_death_perc"]).sort_values("first_death_perc", ascending=False)
@@ -123,7 +127,7 @@ st.dataframe(
     hide_index=True,
 )
 
-# --- Disastrous deaths ---
+# --- Disastrous Deaths ---
 disastrous_death_counts = (
     disastrous_deaths.groupby(["player_name", "boss_name"])
     .size()
@@ -138,13 +142,19 @@ df = (
 
 if selected_boss != "all bosses":
     df = df[df["boss_name"] == selected_boss]
+    if difficulty == "all":
+        df = (
+            df.groupby("player_name", as_index=False)
+            .agg({"disastrous_death_count": "sum", "boss_pulls": "sum"})
+            .merge(class_map, on="player_name", how="left")
+        )
     df["disastrous_death_perc"] = round(100 * df["disastrous_death_count"] / df["boss_pulls"], 2)
     chart_data = df.dropna(subset=["disastrous_death_perc"]).sort_values("disastrous_death_perc", ascending=False)
 else:
     chart_data = (
         df.groupby("player_name", as_index=False)
         .agg({"disastrous_death_count": "sum", "boss_pulls": "sum"})
-        .merge(df.drop_duplicates("player_name")[["player_name", "player_class"]], on="player_name", how="left")
+        .merge(class_map, on="player_name", how="left")
     )
     chart_data["disastrous_death_perc"] = round(100 * chart_data["disastrous_death_count"] / chart_data["boss_pulls"], 2)
     chart_data = chart_data.dropna(subset=["disastrous_death_perc"]).sort_values("disastrous_death_perc", ascending=False)
@@ -171,13 +181,45 @@ bar_chart = (
 )
 
 st.altair_chart(bar_chart, use_container_width=True)
-
 st.dataframe(
     chart_data[["player_name", "player_class", "disastrous_death_count", "boss_pulls", "disastrous_death_perc"]],
     hide_index=True,
 )
-
 st.caption("disastrous deaths are defined by deaths which are the first to occur in a chain reaction of more than 3 deaths")
 
+# --- Cause of Deaths ---
 st.subheader(f"cause of deaths on {selected_boss}")
 
+death_causes = player_deaths[player_deaths["player_name"].isin(valid_players)]
+if difficulty != "all":
+    death_causes = death_causes[death_causes["raid_difficulty"] == difficulty]
+if selected_boss != "all bosses":
+    death_causes = death_causes[death_causes["boss_name"] == selected_boss]
+
+top_abilities = (
+    death_causes.groupby("death_ability_name")
+    .size()
+    .reset_index(name="death_count")
+    .sort_values("death_count", ascending=False)
+    .head(15)
+)
+
+top_abilities["death_ability_name"] = top_abilities["death_ability_name"].astype(str)
+
+if top_abilities.empty:
+    st.info("No death cause data available for this selection.")
+else:
+    chart = (
+        alt.Chart(top_abilities)
+        .mark_bar(color="#BB86FC")
+        .encode(
+            x=alt.X("death_count:Q", title="death count"),
+            y=alt.Y("death_ability_name:N", sort="-x", title="ability"),
+            tooltip=[
+                alt.Tooltip("death_ability_name", title="ability"),
+                alt.Tooltip("death_count", title="death count"),
+            ],
+        )
+        .properties(width="container", height=400, title=f"top death-causing abilities on {selected_boss}")
+    )
+    st.altair_chart(chart, use_container_width=True)
