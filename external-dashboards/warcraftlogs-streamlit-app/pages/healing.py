@@ -270,7 +270,7 @@ display_df = chart_df[
         "avg_parse": "avg parse (%)",
         "best_parse": "best parse (%)",
         "avg_hps": "avg hps",
-        "parses": "log Count",
+        "parses": "log count",
     }
 )
 st.dataframe(display_df, hide_index=True)
