@@ -55,7 +55,7 @@ st.header("damage statistics")
 difficulty = st.sidebar.radio(
     "raid difficulty:",
     ["all", "mythic", "heroic", "normal"],
-    index=0,
+    index=1,
 )
 
 include_wipes = st.sidebar.checkbox(
@@ -158,9 +158,12 @@ agg_parse = (
     )
 )
 
+# Round avg_parse to nearest integer
+agg_parse["avg_parse"] = agg_parse["avg_parse"].round(0).astype(int)
+
 dps_df["damage_per_second"] = pd.to_numeric(dps_df["damage_per_second"], errors="coerce")
 avg_dps = (
-    dps_df.groupby("player_name", as_index=False)["damage_per_second"].mean()
+    dps_df.groupby("player_name", as_index=False)["damage_per_second"].mean().round(0)
     .rename(columns={"damage_per_second": "avg_dps"})
 )
 
@@ -261,13 +264,13 @@ display_df = chart_df[
     ]
 ].rename(
     columns={
-        "player_name": "Player",
-        "player_class": "Class",
-        "player_spec": "Spec",
-        "avg_parse": "Avg Parse (%)",
-        "best_parse": "Best Parse (%)",
-        "avg_dps": "Avg DPS",
-        "parses": "Log Count",
+        "player_name": "player",
+        "player_class": "class",
+        "player_spec": "spec",
+        "avg_parse": "avg parse (%)",
+        "best_parse": "best parse (%)",
+        "avg_dps": "avg DPS",
+        "parses": "log count",
     }
 )
 st.dataframe(display_df, hide_index=True)
