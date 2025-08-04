@@ -81,7 +81,7 @@ if difficulty != "all":
 # First Deaths Chart
 # -------------------------------------------------------------------
 first_death_counts = (
-    first_deaths.groupby(["player_name", "boss_name", "raid_difficulty"], as_index=False).size()
+    first_deaths.groupby(["player_name", "boss_name", "raid_difficulty"], observed=True, as_index=False).size()
     .rename(columns={"size": "first_death_count"})
 )
 
@@ -97,7 +97,7 @@ if selected_boss != "all bosses":
     df = df[df["boss_name"] == selected_boss]
 
 chart_data = (
-    df.groupby("player_name", as_index=False)
+    df.groupby("player_name", observed=True, as_index=False)
     .agg({"first_death_count": "sum", "boss_pulls": "sum"})
     .merge(class_map, on="player_name", how="left")
 )
@@ -140,7 +140,7 @@ st.caption("holy priests are removed from deaths due to misrepresentative data")
 # Disastrous Deaths Chart
 # -------------------------------------------------------------------
 disastrous_counts = (
-    disastrous_deaths.groupby(["player_name", "boss_name"], as_index=False).size()
+    disastrous_deaths.groupby(["player_name", "boss_name"], observed=True, as_index=False).size()
     .rename(columns={"size": "disastrous_death_count"})
 )
 
@@ -153,7 +153,7 @@ if selected_boss != "all bosses":
     df = df[df["boss_name"] == selected_boss]
 
 chart_data = (
-    df.groupby("player_name", as_index=False)
+    df.groupby("player_name", observed=True, as_index=False)
     .agg({"disastrous_death_count": "sum", "boss_pulls": "sum"})
     .merge(class_map, on="player_name", how="left")
 )
@@ -201,7 +201,7 @@ if selected_boss != "all bosses":
     death_causes = death_causes[death_causes["boss_name"] == selected_boss]
 
 top_abilities = (
-    death_causes.groupby("death_ability_name", as_index=False).size()
+    death_causes.groupby("death_ability_name", observed=True, as_index=False).size()
     .rename(columns={"size": "death_count"})
     .sort_values("death_count", ascending=False)
     .head(15)

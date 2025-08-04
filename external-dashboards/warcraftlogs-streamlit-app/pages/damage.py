@@ -88,7 +88,7 @@ if difficulty != "all":
 
 if not include_wipes:
     kill_pulls = (
-        dps_df.groupby(["report_id", "boss_name"], as_index=False)["pull_number"]
+        dps_df.groupby(["report_id", "boss_name"], observed=True, as_index=False)["pull_number"]
         .max()
         .rename(columns={"pull_number": "kill_pull"})
     )
@@ -150,7 +150,7 @@ ranks_df["parse_percent"] = pd.to_numeric(ranks_df["parse_percent"], errors="coe
 ranks_df["parse_percent"] = ranks_df["parse_percent"].clip(upper=100)
 
 agg_parse = (
-    ranks_df.groupby(["player_name", "player_class", "player_spec"], as_index=False)
+    ranks_df.groupby(["player_name", "player_class", "player_spec"], observed=True, as_index=False)
     .agg(
         avg_parse=("parse_percent", "mean"),
         best_parse=("parse_percent", "max"),
@@ -163,7 +163,7 @@ agg_parse["avg_parse"] = agg_parse["avg_parse"].round(0).astype(int)
 
 dps_df["damage_per_second"] = pd.to_numeric(dps_df["damage_per_second"], errors="coerce")
 avg_dps = (
-    dps_df.groupby("player_name", as_index=False)["damage_per_second"].mean().round(0)
+    dps_df.groupby("player_name", observed=True, as_index=False)["damage_per_second"].mean().round(0)
     .rename(columns={"damage_per_second": "avg_dps"})
 )
 
@@ -171,7 +171,7 @@ avg_dps = (
 primary_spec = (
     agg_parse
     .sort_values(["player_name", parse_field], ascending=[True, False])
-    .groupby("player_name", as_index=False)
+    .groupby("player_name", observed=True, as_index=False)
     .first()
 )
 agg_df = primary_spec.merge(avg_dps, on="player_name", how="left")

@@ -80,7 +80,7 @@ def render_progression_chart(df: pd.DataFrame, boss: str):
     df = df[(df["boss_name"] == boss) & (df["raid_difficulty"] == "mythic")]
 
     panel_df = (
-        df.groupby("report_date")["encounter_order"]
+        df.groupby("report_date", observed=True)["encounter_order"]
         .agg(["min", "max"])
         .reset_index()
         .rename(columns={"min": "first_pull", "max": "last_pull"})
@@ -157,7 +157,7 @@ def render_kill_composition(df: pd.DataFrame, boss: str, report_id: str, class_c
 
     role_order = ["tank", "healer", "melee dps", "ranged dps"]
     df["player_role"] = pd.Categorical(df["player_role"], categories=role_order, ordered=True)
-    df["dot_x"] = df.groupby("player_role").cumcount() + 1
+    df["dot_x"] = df.groupby("player_role", observed=True).cumcount() + 1
 
     chart = alt.Chart(df).mark_circle(size=400, opacity=1.0).encode(
         x=alt.X("dot_x:O", title=None, axis=None),
@@ -195,7 +195,7 @@ def render_donut_stats(player_deaths, guild_progression, boss):
     boss_prog["pull_start_time"] = pd.to_datetime(boss_prog["pull_start_time"], unit="ms")
     boss_prog["pull_end_time"] = pd.to_datetime(boss_prog["pull_end_time"], unit="ms")
 
-    timing = boss_prog.groupby("report_id").agg({
+    timing = boss_prog.groupby("report_id", observed=True).agg({
         "pull_start_time": "min",
         "pull_end_time": "max",
         "fight_duration_sec": "sum"

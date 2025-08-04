@@ -120,7 +120,7 @@ def main() -> None:
         st.info("No attendance data available for the selected filters.")
     else:
         attendance_totals = (
-            filtered_pulls.groupby(["player_name", "player_class"])["total_pulls"]
+            filtered_pulls.groupby(["player_name", "player_class"], observed=True)["total_pulls"]
             .sum()
             .reset_index()
         )
@@ -179,7 +179,7 @@ def main() -> None:
         st.altair_chart(ilvl_chart, use_container_width=True)
         latest_ilvl = (
             plot_df.sort_values("date")
-            .groupby("player_name").tail(1)
+            .groupby("player_name", observed=True).tail(1)
             .sort_values("player_item_level", ascending=False)
             [["player_name", "player_role", "player_class", "player_spec", "player_item_level"]]
             .rename(columns={"player_item_level": "latest_item_level"})
@@ -191,7 +191,7 @@ def main() -> None:
         )
     # --- Guild avg / min / max item level chart ---
     ilvl_agg = (
-        plot_df.groupby("date")
+        plot_df.groupby("date", observed=True)
         .agg(
             avg_ilvl=("player_item_level", "mean"),
             std_ilvl=("player_item_level", "std"),
