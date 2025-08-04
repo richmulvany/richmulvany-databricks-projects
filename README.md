@@ -1,259 +1,215 @@
-Student Council WarcraftLogs Analysis
-Overview
+# Student Council WarcraftLogs Analysis
 
-This repository contains an end‑to‑end analytics project for Student Council’s
-World of Warcraft guild. The project ingests raw combat logs from
-Warcraft Logs via their API, stages the data on
-the Databricks Lakehouse using a classic bronze/silver/gold medallion
-architecture, and serves interactive dashboards through a Streamlit
-application. The dashboards allow guild members to explore their raid
-performance, track progression and gear, and identify areas for improvement.
+## Overview
+
+This repository contains an end‑to‑end analytics project for *Student Council’s* World of Warcraft guild.  
+The project ingests raw combat logs from [Warcraft Logs](https://www.warcraftlogs.com/) via their API, stages the data on the Databricks Lakehouse using a classic **bronze/silver/gold medallion architecture**, and serves interactive dashboards through a **Streamlit application**.
+
+The dashboards allow guild members to:
+- Explore their raid performance
+- Track progression and gear
+- Identify areas for improvement
+
+### Project Structure
 
 The project is organised into two main parts:
 
-    warcraftlogs‑raid‑analysis/ – Databricks notebooks for ingesting
-    Warcraft Logs API data, transforming it into structured tables, and
-    computing aggregated metrics (DPS, HPS, deaths, attendance, etc.).
+- `warcraftlogs-raid-analysis/` – Databricks notebooks for ingesting Warcraft Logs API data, transforming it into structured tables, and computing aggregated metrics (DPS, HPS, deaths, attendance, etc.).
+- `external-dashboards/warcraftlogs-streamlit-app/` – A Streamlit app that uses the exported gold tables to build interactive dashboards for raid performance analysis.
 
-    external‑dashboards/warcraftlogs‑streamlit‑app/ – a Streamlit
-    application that uses the exported gold tables to build interactive
-    dashboards for raid performance analysis.
+---
 
-Databricks medallion pipeline
-Bronze layer
+## Databricks Medallion Pipeline
 
-Raw data from the Warcraft Logs API is loaded into the bronze layer.
-These tables mirror the JSON returned by the API. For example, the
-events table contains one row per event (damage, heal, ability cast,
-debuff apply/remove, etc.), with fields such as timestamp, sourceID,
-targetID, abilityGameID and so on. The bronze layer retains these
-events exactly as received, ensuring that no information is lost.
-Silver layer
+### Bronze Layer
 
-The silver layer normalises the bronze data, splitting it into
-logical tables for easier querying and joining. The notebook
-silver‑transform‑events reads the raw events table and writes out a
-separate Delta table for each event type. A table_map defines which
-event types belong to each table; for example, events_damage stores
-damage and absorbed events, events_heal stores heal events,
-and events_combatant stores create, combatantinfo, summon and
-resurrect events
-raw.githubusercontent.com
-. The notebook partitions the
-output tables by pull number and writes them back to the silver
-staging area
-raw.githubusercontent.com
-.
+- Raw data from the Warcraft Logs API is loaded here.
+- These tables **mirror the JSON** returned by the API.
+- Example: `events` table includes `timestamp`, `sourceID`, `targetID`, `abilityGameID`, etc.
+- **No transformations** – raw ingestion only.
 
-Another silver notebook, silver‑transform‑actors, flattens player
-metadata from the bronze actors and player_details tables. It
-extracts each player’s class and spec from the icon field, converts
-the nested id and server fields to a clean schema, and produces a
-table with columns such as player_id, player_name, player_class,
-player_spec, player_role, report_date and report_id
-raw.githubusercontent.com
-.
-Gold layer
+### Silver Layer
 
-The gold layer derives aggregated statistics that underpin the
-dashboards. Each notebook in notebooks/03‑gold reads one or more
-silver tables, performs metric calculations, and writes the results as
-Delta tables under the 03_gold.warcraftlogs schema. Notable gold
-notebooks include:
+- Normalises bronze data into **logical tables** for easier analysis.
+- Example: `silver-transform-events.py` creates:
+  - `events_damage` for damage and absorbed events
+  - `events_heal` for heal events
+  - `events_combatant` for combat metadata like create/summon/resurrect
 
-    gold‑player‑dps.py – joins the fights table with summary damage
-    data, computes the length of each pull and calculates each player’s
-    damage per second (DPS). The output includes columns for
-    report_id, raid_name, boss_name, raid_difficulty, pull
-    number, player identifiers, total damage and DPS
-    raw.githubusercontent.com
-    .
+- `silver-transform-actors.py` flattens player metadata:
+  - Extracts player class/spec from icons
+  - Normalises nested fields
+  - Output includes `player_name`, `player_class`, `player_role`, `report_date`, `report_id`, etc.
 
-    gold‑player‑hps.py – mirrors the DPS notebook but for
-    healing per second (HPS), joining healing summary tables with
-    fights and deriving healing_per_second for each player
-    raw.githubusercontent.com
-    .
+### Gold Layer
 
-    gold‑player‑inting.py – analyses death events to identify
-    "death cascades" (sometimes called inting). It joins the deaths
-    table with fight metadata, uses window functions to look ahead to the
-    next three deaths, flags deaths where three subsequent deaths occur
-    within 15 seconds
-    raw.githubusercontent.com
-    , keeps only the first such
-    trigger per fight and writes a table of inting events.
+Aggregated statistics that power the dashboards:
 
-    gold‑player‑item‑level.py – computes each player’s average item
-    level per pull by exploding the gear information contained in
-    combatant‑info events and summarising it across the pull. This file
-    is provided in this repository and should be executed to produce the
-    03_gold.warcraftlogs.player_item_level table.
+- **`gold-player-dps.py`**
+  - Joins `fights` with damage summaries
+  - Calculates DPS and outputs: `report_id`, `boss_name`, `player_name`, `damage`, `dps`, etc.
 
-After the gold tables have been created, selected metrics are exported
-to CSV via the data‑exports folder. These CSVs are small enough to
-be consumed by the Streamlit app directly via GitHub’s raw URLs.
-Data exports
+- **`gold-player-hps.py`**
+  - Like DPS, but for healing
 
-The data‑exports directory contains CSVs derived from the gold tables.
-Examples include:
+- **`gold-player-inting.py`**
+  - Identifies death cascades ("inting") using window functions
+  - Flags if 3+ deaths occur within 15s after one death
 
-    player_dps.csv – per‑pull DPS for every player. Fields include
-    report_id, report_date, raid_name, boss_name,
-    raid_difficulty, pull_number, player_id, player_name,
-    player_class, total damage and damage_per_second
-    raw.githubusercontent.com
-    .
+- **`gold-player-item-level.py`**
+  - Explodes gear data from combatant-info events
+  - Computes average item level per pull
 
-    ranks_dps.csv – parse ranking data from Warcraft Logs. It
-    contains per‑pull DPS alongside ranking statistics such as
-    total_parses, parse_percent and bracket_percent (parse
-    percentile normalised by item level)
-    raw.githubusercontent.com
-    .
+---
 
-    player_details.csv – metadata for each player on each raid
-    report. It holds fields such as player_name, player_role,
-    player_class, player_spec and a player_item_level column
-    which records the player’s gear level
-    raw.githubusercontent.com
-    .
+## Data Exports
 
-Many other exports exist (healing, deaths, inting, pull counts,
-guild roster, game data), but the above illustrate the typical schema.
-Streamlit dashboard
+CSV files derived from the gold layer, stored in `data-exports/`:
 
-The external‑dashboards/warcraftlogs‑streamlit‑app folder contains a
-multi‑page Streamlit application. It reads the exported CSVs directly
-from GitHub and renders charts with Altair and Plotly. The pages are
-configured through .streamlit/pages.toml to appear in the sidebar in
-the following order: home, damage, healing, deaths and
-players. Each page shares a consistent header with the guild logo
-and links to Raider.IO, Discord, X (Twitter) and Warcraft Logs.
-Home page
+- **`player_dps.csv`** – per-pull DPS with player/raid metadata
+- **`ranks_dps.csv`** – parse percentile and ranking data
+- **`player_details.csv`** – player metadata including class, role, spec, and gear level
 
-The landing page shows your guild’s latest boss kill and presents
-progression charts for each boss. A kill summary component displays the
-boss name and kill date alongside an image
-raw.githubusercontent.com
-.
-Progression charts layer a band showing the range of pull numbers on
-each raid night, a line for boss health remaining over successive pulls
-and another line for the lowest boss health achieved
-raw.githubusercontent.com
-.
-There is also a kill composition dot chart which groups players by
-role (tank, healer, melee DPS, ranged DPS) and colours them by class
-using a predefined palette
-raw.githubusercontent.com
-.
-Damage page
+> Also includes healing, deaths, inting, pull counts, guild roster, and other files.
 
-This page provides selectors for raid, boss, difficulty, player roles and
-whether to include wipes. It loads player_dps.csv and ranks_dps.csv
-to show each player’s average parse percentile (clipped at 100),
-average bracket percentile and their difference. Bar charts display
-these comparisons by class, and a separate chart plots DPS against
-parse percentile. A table summarises each player’s average and best
-parses, average DPS and log count. The data is filtered to kill pulls
-by default.
-Healing page
+---
 
-Mirroring the damage page, the healing page reads player_hps.csv and
-ranks_healing.csv (not shown here) to present HPS metrics and parse
-percentiles for healers. It uses the same filters and colour palette.
-Deaths page
+## Streamlit Dashboard
 
-The deaths page analyses player survivability. It loads player_deaths.csv,
-player_first_deaths.csv, player_pull_counts.csv and player_inting.csv to
-compute per‑player death counts, first‑death rates and inting
-incidents (death cascades). Charts display death rates by class and
-a table reports counts, rates and the percentage of pulls where a
-player was the first to die. A kill/wipe toggle lets you include only
-successful pulls when calculating these metrics.
-Players page
+Located in `external-dashboards/warcraftlogs-streamlit-app/`.  
+Reads CSVs from GitHub using raw URLs and visualises data using Altair and Plotly.
 
-The players page brings together attendance, parse vs bracket and gear
-progression metrics. Attendance is calculated from player_pull_counts.csv
-by normalising each player’s total pulls against the raid night with the
-highest pulls; results are shown in a bar chart. The parse vs
-bracket view compares each player’s average parse percentile against
-the bracket percentile from Warcraft Logs and highlights the
-difference. The item level view reads player_details.csv,
-converts the report_date to a real date and plots each selected
-player’s player_item_level over time. A table lists the most
-recent item level for the selected players.
-Getting started
-Requirements
+### Pages (sidebar order in `.streamlit/pages.toml`)
 
-    Databricks: to run the notebooks. The pipeline uses
-    Databricks Runtime with PySpark. You will need a cluster with
-    adequate permissions and the Databricks CLI configured to access
-    your workspace.
+1. **Home**
+2. **Damage**
+3. **Healing**
+4. **Deaths**
+5. **Players**
 
-    Python 3.9+ with streamlit, pandas, altair, requests and
-    plotly to run the dashboard locally.
+Each page shares a common header with the guild logo and links to:
+- Raider.IO  
+- Discord  
+- Twitter/X  
+- Warcraft Logs
 
-Running the Databricks pipeline
+---
 
-    Clone this repository to your Databricks workspace or mount it via
-    Databricks Repos.
+## Page Details
 
-    Configure a Warcraft Logs API key as a secret in your
-    workspace. The bronze ingestion notebooks (not included here) expect
-    this secret to fetch data.
+### Home Page
 
-    Run the notebooks in order:
+- Shows the latest boss kill and progression charts
+- Kill summary component (boss + kill date + image)
+- Charts show:
+  - Range of pull numbers per night
+  - Boss health over time
+  - Kill composition by class and role
 
-        Ingest raw events and metadata into the bronze schema.
+### Damage Page
 
-        Execute the silver transformation notebooks (e.g.
-        silver‑transform‑events.py, silver‑transform‑actors.py).
+- Filters: raid, boss, difficulty, roles, wipe toggle
+- Reads: `player_dps.csv`, `ranks_dps.csv`
+- Visualisations:
+  - Bar charts for parse vs bracket percentile
+  - DPS vs parse percentile scatter plot
+- Table includes avg/best parse %, avg DPS, log count
 
-        Execute the gold notebooks (gold‑player‑dps.py, gold‑player‑hps.py,
-        gold‑player‑inting.py, gold‑player‑item‑level.py) to compute
-        aggregated metrics.
+### Healing Page
 
-    Optionally run any export notebooks to save the gold tables as
-    CSVs into the data‑exports folder.
+- Mirrors the Damage page but for healers
+- Reads: `player_hps.csv`, `ranks_healing.csv`
 
-Running the Streamlit app locally
+### Deaths Page
 
-    Install the required Python packages:
+- Reads: `player_deaths.csv`, `player_first_deaths.csv`, `player_pull_counts.csv`, `player_inting.csv`
+- Shows:
+  - Per-player death counts
+  - First death rate
+  - Inting incidents
+- Charts by class; tables for pull/death stats
 
+### Players Page
+
+- Combines attendance, parse vs bracket, and item level
+- Attendance = normalised pull count
+- Item level plotted over time from `player_details.csv`
+- Table shows most recent item level per player
+
+---
+
+## Getting Started
+
+### Requirements
+
+- **Databricks** (PySpark, Databricks Runtime)
+- **Python 3.9+** with:
+  - `streamlit`
+  - `pandas`
+  - `altair`
+  - `plotly`
+  - `requests`
+
+---
+
+## Running the Databricks Pipeline
+
+1. Clone this repository into your Databricks workspace or mount with Repos.
+2. Store your Warcraft Logs API key as a **Databricks secret**.
+3. Run notebooks in order:
+
+```text
+→ Bronze: Ingest raw events and metadata  
+→ Silver: silver-transform-events.py, silver-transform-actors.py  
+→ Gold: gold-player-dps.py, gold-player-hps.py, gold-player-inting.py, gold-player-item-level.py  
+```
+
+4. Export gold tables to `data-exports/` if needed.
+
+---
+
+## Running the Streamlit App Locally
+
+Install dependencies:
+
+```bash
 pip install streamlit pandas altair plotly requests
+```
 
-Navigate to the dashboard directory and start the app:
+Run the app:
 
-    cd external‑dashboards/warcraftlogs‑streamlit‑app
-    streamlit run home.py
+```bash
+cd external-dashboards/warcraftlogs-streamlit-app
+streamlit run home.py
+```
 
-    Streamlit will read the CSV exports directly from GitHub via the
-    functions defined in each page (for example, load_csv uses
-    https://raw.githubusercontent.com/.../data‑exports/player_dps.csv to
-    download the data).
+> App will fetch CSV data directly from GitHub raw URLs.  
+> Use the sidebar to filter by boss, difficulty, roles, etc.
 
-    Use the sidebar to navigate between pages and adjust filters such as
-    raid, boss, difficulty and player roles.
+---
 
-Deploying on Databricks Lakehouse Apps
+## Deploying on Databricks Lakehouse Apps
 
-Databricks Lakehouse Apps allow you to deploy Streamlit apps within
-Databricks. To do this:
+1. Create a **Lakehouse Apps workspace**
+2. Upload or link this repository
+3. Set Entry point file to:
 
-    Create a Lakehouse Apps workspace and upload or link this
-    repository.
+```
+external-dashboards/warcraftlogs-streamlit-app/home.py
+```
 
-    Set the Entry point file to external‑dashboards/warcraftlogs‑streamlit‑app/home.py.
+4. Ensure gold tables are available and update `REPO_URL` if needed.
 
-    Ensure that your gold tables are accessible in the workspace and
-    update the REPO_URL constants in each page if the CSVs are stored
-    somewhere other than GitHub.
+---
 
-Contributing
+## Contributing
 
-Contributions are welcome! If you wish to add new metrics, improve
-visualisations or support other content types (e.g. Mythic+), please
-open an issue or a pull request. When adding new gold metrics, use
-the existing notebooks as templates. Remember to add an export to
-data‑exports and update the Streamlit app accordingly.
+Contributions welcome!
+
+- Add new metrics using gold notebook templates
+- Add corresponding CSV export to `data-exports/`
+- Update the Streamlit app to reflect new data
+
+Please open an issue or pull request to propose improvements – especially support for other formats like **Mythic+**.
+
+---
