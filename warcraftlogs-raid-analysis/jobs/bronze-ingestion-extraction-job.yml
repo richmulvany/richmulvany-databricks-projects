@@ -38,14 +38,14 @@ resources:
 
         - task_key: bronze_ingestion_logger-task
           depends_on:
-            - task_key: bronze_ingestion-task
+            - task_key: bronze_ingestion_events-task
           notebook_task:
             notebook_path: /Workspace/warcraftlogs-raid-analysis/notebooks/01-bronze/bronze-ingestion-logger
             source: WORKSPACE
 
         - task_key: bronze_extraction-task
           depends_on:
-            - task_key: bronze_ingestion-task
+            - task_key: bronze_ingestion_events-task
           for_each_task:
             inputs: '["fights", "actors", "events", "tables", "player_details", "game_data", "world_data", "guild_roster", "rankings_dps", "rankings_hps"]'
             concurrency: 4
