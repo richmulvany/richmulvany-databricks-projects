@@ -8,6 +8,7 @@ from pyspark.sql.types import (
 )
 
 # COMMAND ----------
+
 # DBTITLE 1,Configure Notebook / Assign Variables
 try:
     # Pull the report_id propagated from the events ingestion task.  If this
@@ -44,6 +45,7 @@ data_source = dbutils.widgets.get("data_source")
 raw_json_path = f"/Volumes/01_bronze/warcraftlogs/raw_api_calls/{report_id}/{data_source}/*.json"
 
 # COMMAND ----------
+
 # DBTITLE 1,Define Extract & Load
 def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
     """
@@ -205,17 +207,28 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
         # Flatten fights
         extracted = raw_json_df.selectExpr(
             "reportData.report.fights AS fights",
-            "source_file", "report_start"
+            "source_file", 
+            "__metadata__.report_start AS report_start"
         )
         exploded_df = extracted.withColumn("fight", explode("fights")).select(
             "fight.*", "source_file", "report_start"
         )
+    elif data_source == "tables":
+    # Bring the table.data struct out and keep report_start/source_file
+    extracted = raw_json_df.selectExpr(
+        "reportData.report.table.data AS tables",
+        "source_file", "report_start"
+    )
+    exploded_df = extracted.withColumn("table", explode("tables")).select(
+        "table.*", "source_file", "report_start"
+    )
     elif data_source == "events":
         # Events are already saved in separate files per page, so we can just
         # explode the events list.  Each row represents an individual event.
         extracted = raw_json_df.selectExpr(
             "reportData.report.events.data AS events",
-            "source_file", "report_start"
+            "source_file", 
+            "__metadata__.report_start AS report_start"
         )
         exploded_df = extracted.withColumn("event", explode("events")).select(
             "event.*", "source_file", "report_start"
@@ -223,7 +236,8 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
     elif data_source == "actors":
         extracted = raw_json_df.selectExpr(
             "reportData.report.masterData.actors AS actors",
-            "source_file", "report_start"
+            "source_file",
+            "__metadata__.report_start AS report_start"
         )
         exploded_df = extracted.withColumn("actor", explode("actors")).select(
             "actor.*", "source_file", "report_start"
@@ -234,7 +248,8 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
             "gameData.classes          AS classes",
             "gameData.items.data       AS items",
             "gameData.zones.data       AS zones",
-            "source_file", "report_start"
+            "source_file", 
+            "__metadata__.report_start AS report_start"
         )
         exploded_df = extracted
     elif data_source == "world_data":
@@ -242,7 +257,8 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
             "worldData.expansions   AS expansions",
             "worldData.regions      AS regions",
             "worldData.zones        AS zones",
-            "source_file", "__metadata__.report_start AS report_start"
+            "source_file",
+            "__metadata__.report_start AS report_start"
         )
         exploded_df = extracted
     elif data_source == "guild_roster":
@@ -250,7 +266,8 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
             "guildData.guild.id           AS guild_id",
             "guildData.guild.name         AS guild_name",
             "guildData.guild.members.data AS records",
-            "source_file", "report_start"
+            "source_file", 
+            "__metadata__.report_start AS report_start"
         )
         exploded_df = extracted \
             .withColumn("member", explode(col("records"))) \
@@ -262,7 +279,8 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
     elif data_source == "player_details":
         extracted = raw_json_df.selectExpr(
             "reportData.report.playerDetails AS player_details",
-            "source_file", "report_start"
+            "source_file", 
+            "__metadata__.report_start AS report_start"
         )
         exploded_df = extracted
     elif data_source.startswith("rankings_"):
@@ -307,6 +325,7 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
     return final_df
 
 # COMMAND ----------
+
 # DBTITLE 1,Write to Unity Catalog
 extract_json_to_bronze_table(
     json_path=raw_json_path,
