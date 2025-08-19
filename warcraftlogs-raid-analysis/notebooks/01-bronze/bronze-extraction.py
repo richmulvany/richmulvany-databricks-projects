@@ -214,14 +214,14 @@ def extract_json_to_bronze_table(json_path: str, data_source: str) -> DataFrame:
             "fight.*", "source_file", "report_start"
         )
     elif data_source == "tables":
-    # Bring the table.data struct out and keep report_start/source_file
-    extracted = raw_json_df.selectExpr(
-        "reportData.report.table.data AS tables",
-        "source_file", "report_start"
-    )
-    exploded_df = extracted.withColumn("table", explode("tables")).select(
-        "table.*", "source_file", "report_start"
-    )
+        # Bring the table.data struct out and keep report_start/source_file
+        extracted = raw_json_df.selectExpr(
+            "reportData.report.table.data AS tables",
+            "source_file", "report_start"
+        )
+        exploded_df = extracted.withColumn("table", explode("tables")).select(
+            "table.*", "source_file", "report_start"
+        )
     elif data_source == "events":
         # Events are already saved in separate files per page, so we can just
         # explode the events list.  Each row represents an individual event.
