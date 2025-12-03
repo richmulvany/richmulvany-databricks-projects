@@ -1,0 +1,18 @@
+query FightMetadata($code: String!) {
+  reportData {
+    report(code: $code) {
+      fights {
+        id
+        encounterID
+        name
+        difficulty
+        size
+        kill
+        percentage
+        fightPercentage
+        startTime
+        endTime
+      }
+    }
+  }
+}

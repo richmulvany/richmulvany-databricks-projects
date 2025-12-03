@@ -1,0 +1,23 @@
+query GuildLatestReports(
+  $guildSlug: String!,
+  $serverSlug: String!,
+  $serverRegion: String!,
+  $limit: Int!
+) {
+  guild(
+    code: $guildSlug,
+    serverSlug: $serverSlug,
+    serverRegion: $serverRegion
+  ) {
+    reports(limit: $limit) {
+      data {
+        id
+        title
+        startTime
+        endTime
+        zone { name }
+        owner { name }
+      }
+    }
+  }
+}

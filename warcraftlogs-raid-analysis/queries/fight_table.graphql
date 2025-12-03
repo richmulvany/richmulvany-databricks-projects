@@ -1,0 +1,20 @@
+query FightTable(
+  $code: String!,
+  $fightID: Int!,
+  $dataType: TableDataType!,
+  $startTime: Float,
+  $endTime: Float
+) {
+  reportData {
+    report(code: $code) {
+      table(
+        dataType: $dataType,
+        fightIDs: [$fightID],
+        startTime: $startTime,
+        endTime: $endTime
+      ) {
+        data
+      }
+    }
+  }
+}

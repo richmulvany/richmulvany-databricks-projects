@@ -1,0 +1,30 @@
+query ReportSummary($code: String!) {
+  reportData {
+    report(code: $code) {
+      id
+      title
+      zone {
+        id
+        name
+      }
+      zoneID
+      region {
+        slug
+        name
+      }
+      startTime
+      endTime
+      fights {
+        id
+        encounterID
+        name
+        startTime
+        endTime
+        bossPercentage
+        difficulty
+        size
+        kill
+      }
+    }
+  }
+}

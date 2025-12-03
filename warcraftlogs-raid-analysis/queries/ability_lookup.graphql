@@ -1,0 +1,10 @@
+query AbilityLookup($abilityIDs: [Int!]!) {
+  gameData {
+    abilities(ids: $abilityIDs) {
+      id
+      name
+      icon
+      school
+    }
+  }
+}

@@ -1,0 +1,57 @@
+bundle:
+  name: warcraftlogs-etl
+  version: 1.0.0
+
+workspace:
+  root_path: /Workspace/Users/${workspace.current_user.userName}/warcraftlogs-etl
+
+  files_includes:
+    - src/**
+    - notebooks/**
+    - queries/**
+
+targets:
+  dev:
+    mode: development
+
+    default: true
+
+    workspace:
+      root_path: /Workspace/Users/${workspace.current_user.userName}/warcraftlogs-etl/dev
+
+    bundles:
+      remote:
+        enabled: true
+
+    run_as:
+      # Free Edition: this must be the current workspace user
+      user_name: ${workspace.current_user.userName}
+
+    resources:
+      jobs:
+        warcraftlogs_ingest_job:
+          name: WCL - Ingestion Job (Dev)
+
+          schedule:
+            quartz_cron_expression: "0 */15 * * * ?"  # every 15 minutes
+            timezone: "UTC"
+
+          tasks:
+            - task_key: ingest_latest_report
+              description: "Fetch latest report and write bronze tables"
+              notebook_task:
+                notebook_path: ${workspace.target_path}/notebooks/ingest_latest_report
+                base_parameters:
+                  environment: "dev"
+              job_cluster_key: serverless_cluster
+
+          job_clusters:
+            - job_cluster_key: serverless_cluster
+              new_cluster:
+                spark_version: "13.3.x-scala2.12"   # Free Edition supported runtime
+                num_workers: 1
+                data_security_mode: "SINGLE_USER"
+                # Must be serverless compute in free tier
+                custom_tags:
+                  workload: "streaming-etl"
+                serverless: true
