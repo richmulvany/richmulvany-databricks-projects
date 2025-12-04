@@ -24,7 +24,7 @@ jobs:
 
       # Configure Databricks authentication (OIDC or token-based)
       - name: Configure Databricks CLI auth
-        uses: databricks/setup-cli@v1
+        uses: databricks/setup-cli@main
         with:
           host: ${{ secrets.DATABRICKS_HOST }}
           # If using PAT:
