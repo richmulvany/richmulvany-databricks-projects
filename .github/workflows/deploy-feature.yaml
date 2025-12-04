@@ -22,31 +22,34 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Configure Databricks authentication (OIDC or token-based)
-      - name: Configure Databricks CLI auth
-        uses: databricks/setup-cli@main
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          host: ${{ secrets.DATABRICKS_HOST }}
-          # If using PAT:
-          token: ${{ secrets.DATABRICKS_TOKEN }}
-          # If using OIDC, use these instead:
-          # client-id: ${{ secrets.DATABRICKS_CLIENT_ID }}
-          # workspace-resource-id: ${{ secrets.DATABRICKS_WORKSPACE_RESOURCE_ID }}
+          python-version: "3.11"   # Supported by Databricks CLI + bundles
 
-      # Validate bundle using Databricks official container
+      - name: Install Databricks CLI + bundles (safe PyYAML version)
+        run: |
+          pip install --upgrade pip
+          pip install PyYAML==6.0.1
+          pip install databricks-cli databricks-bundle
+
+      - name: Configure Databricks auth
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          mkdir -p ~/.databricks
+          cat <<EOF > ~/.databricks/config
+          [DEFAULT]
+          host = $DATABRICKS_HOST
+          token = $DATABRICKS_TOKEN
+          EOF
+
       - name: Validate bundle (dev target)
-        uses: docker://ghcr.io/databricks/bundle-runner:latest
-        with:
-          args: bundle validate --environment dev --workspace
+        run: databricks bundle validate -t dev
 
-      # Deploy bundle
       - name: Deploy bundle to Databricks (dev target)
-        uses: docker://ghcr.io/databricks/bundle-runner:latest
-        with:
-          args: bundle deploy --environment dev --workspace
+        run: databricks bundle deploy -t dev
 
-      # Run ingestion job
       - name: Run ingestion job
-        uses: docker://ghcr.io/databricks/bundle-runner:latest
-        with:
-          args: bundle run warcraftlogs_ingest_job --environment dev --workspace
+        run: databricks bundle run warcraftlogs_ingest_job -t dev
