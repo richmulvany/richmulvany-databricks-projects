@@ -27,6 +27,8 @@ jobs:
 
       - name: Install Databricks CLI + bundle plugin
         run: |
+          pip install --upgrade pip setuptools wheel
+          pip install PyYAML==5.4.1 --only-binary=:all: || pip install PyYAML==5.4.1
           pip install databricks-cli databricks-bundle
 
       - name: Configure Databricks auth
