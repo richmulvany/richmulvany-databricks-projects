@@ -1,0 +1,25 @@
+name: warcraftlogs_ingestion_job
+type: notebook
+description: "Ingest WarcraftLogs data using the ingestion notebook"
+tags:
+  - ingestion
+tasks:
+  - name: run_ingestion
+    type: notebook
+    path: /Repos/<your-repo-path>/warcraftlogs_ingestion
+    cluster:
+      spark_version: "13.3.x-cpu-ml-scala2.12"
+      node_type_id: "Standard_DS3_v2"
+      num_workers: 1
+    timeout_seconds: 3600
+    parameters:
+      - name: report_id
+        value: ""
+      - name: data_source
+        value: "fights"
+      - name: guild_name
+        value: "Student Council"
+      - name: guild_server_slug
+        value: "twisting-nether"
+      - name: guild_server_region
+        value: "EU"
