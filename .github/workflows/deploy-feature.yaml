@@ -1,0 +1,54 @@
+name: Databricks DAB — Feature Branch Deploy
+
+on:
+  # Manual trigger from the GitHub UI
+  workflow_dispatch:
+
+  # Auto trigger when pushing to any feature branch
+  push:
+    branches:
+      - "feat/*"
+      - "feature/*"
+      - "wcl/*"
+
+jobs:
+  deploy-feature:
+    name: Deploy Bundle to Databricks (Feature Branch)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Databricks CLI + bundle plugin
+        run: |
+          pip install databricks-cli databricks-bundle
+
+      - name: Configure Databricks auth
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          mkdir -p ~/.databricks
+          cat <<EOF > ~/.databricks/config
+          [DEFAULT]
+          host = $DATABRICKS_HOST
+          token = $DATABRICKS_TOKEN
+          EOF
+
+      - name: Validate bundle (feature target)
+        run: |
+          databricks bundle validate -t dev
+
+      - name: Deploy bundle to Databricks (dev target)
+        run: |
+          databricks bundle deploy -t dev
+
+      - name: Run ingestion job
+        run: |
+          databricks bundle run warcraftlogs_ingest_job -t dev
