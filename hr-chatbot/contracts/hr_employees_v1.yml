@@ -1,1 +1,46 @@
+dataset: hr_employees
+version: 1.0.0
+owner: hr_analytics
+description: Employee-level HR dataset for attrition and compensation analysis.
 
+primary_key:
+  - employee_id
+
+columns:
+
+  - name: employee_id
+    type: integer
+    nullable: false
+    description: Unique employee identifier.
+    sensitivity: internal
+
+  - name: department
+    type: string
+    nullable: false
+    description: Business department the employee belongs to.
+    sensitivity: internal
+
+  - name: job_role
+    type: string
+    nullable: false
+    description: Specific job title of the employee.
+    sensitivity: internal
+
+  - name: monthly_income
+    type: integer
+    nullable: false
+    description: Gross monthly salary in USD.
+    sensitivity: confidential
+
+  - name: attrition
+    type: boolean
+    nullable: false
+    description: Indicates whether the employee has left the company.
+    sensitivity: internal
+
+  - name: overtime
+    type: string
+    nullable: false
+    allowed_values: ["Yes", "No"]
+    description: Whether the employee works overtime.
+    sensitivity: internal
