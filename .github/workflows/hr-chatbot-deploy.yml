@@ -39,8 +39,8 @@ jobs:
         run: |
           mkdir deploy-dir
           cp hr-chatbot/resources/databricks.yml deploy-dir/
-          cp -r warcraftlogs-raid-analysis/contracts \
-                warcraftlogs-raid-analysis/jobs \
+          cp -r whr-chatbot/contracts \
+                hr-chatbot/jobs \
                 deploy-dir/
 
       - name: "✅ Validate DAB Bundle"
