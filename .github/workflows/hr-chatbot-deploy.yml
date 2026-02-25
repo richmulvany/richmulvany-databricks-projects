@@ -10,29 +10,44 @@ on:
       - 'resources/databricks.yml'
   workflow_dispatch:
 
+env:
+  DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+  DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
 jobs:
-  deploy-contract:
-    runs-on: ubuntu-24.04
+  deploy-bundle:
+    name: "📦 Deploy Asset Bundle"
+    runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
-      - name: Checkout repo
+      - name: "📥 Checkout repo"
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup Python
-      - name: Setup Python 3.11
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
+      - name: "🛠️ Install Databricks CLI"
+        uses: databricks/setup-cli@main
 
-      # 3️⃣ Install dependencies
-      - name: Install dependencies
+      - name: "⚙️ Configure Databricks CLI"
         run: |
-          pip install --upgrade pip
-          pip install databricks-cli PyYAML
+          mkdir -p ~/.databricks
+          cat <<EOF > ~/.databrickscfg
+          [DEFAULT]
+          host = $DATABRICKS_HOST
+          token = $DATABRICKS_TOKEN
+          EOF
 
-      # 4️⃣ Configure Databricks CLI
-      - name: Set Databricks environment variables
+      - name: "🧹 Copy deployable files"
         run: |
-          echo "DATABRICKS_HOST=${{ secrets.DATABRICKS_HOST }}" >> $GITHUB_ENV
-          echo "DATABRICKS_TOKEN=${{ secrets.DATABRICKS_TOKEN }}" >> $GITHUB_ENV
+          mkdir deploy-dir
+          cp hr-chatbot/resources/databricks.yml deploy-dir/
+          cp -r warcraftlogs-raid-analysis/contracts \
+                warcraftlogs-raid-analysis/jobs \
+                deploy-dir/
+
+      - name: "✅ Validate DAB Bundle"
+        working-directory: deploy-dir
+        run: databricks bundle validate
+
+      - name: "🚀 Deploy Asset Bundle"
+        working-directory: deploy-dir
+        run: databricks bundle deploy --force-lock
+        
