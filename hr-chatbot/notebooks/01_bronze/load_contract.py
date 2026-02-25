@@ -6,7 +6,7 @@ from pyspark.sql.functions import current_timestamp
 # COMMAND ----------
 
 # Load contract YAML
-contract_path = "/Workspace/Users/you/contracts/hr_employees_v1.yaml"
+contract_path = "/Workspace/Users/you/contracts/hr_employees_v0.yaml"
 
 with open(contract_path, "r") as f:
     contract_raw = f.read()
