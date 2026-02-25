@@ -3,7 +3,7 @@ bundle:
 
 include:
   - jobs/*.yml
-  - contracts/*.yml
+  - libraries/*.yml
 
 targets:
   prod:
