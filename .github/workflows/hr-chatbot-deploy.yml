@@ -42,6 +42,7 @@ jobs:
           cp hr-chatbot/resources/databricks.yml deploy-dir/
           cp -r hr-chatbot/contracts \
                 hr-chatbot/jobs \
+                hr-chatbot/notebooks \
                 deploy-dir/
 
       - name: "✅ Validate DAB Bundle"
