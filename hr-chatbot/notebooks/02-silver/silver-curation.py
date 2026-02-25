@@ -8,7 +8,7 @@ from functools import reduce
 from datetime import datetime
 
 # COMMAND ----------
-
+# DBTITLE 1,Configure Paths and Tables
 DATASET_NAME = "hr_employees"
 BRONZE_TABLE = "01_bronze.hr.ibm_analytics_hr_employees"
 SILVER_TABLE = "02_silver.hr.ibm_analytics_hr_employees"
@@ -16,7 +16,6 @@ CONTRACT_REGISTRY = "00_governance.contracts.contract_registry"
 SILVER_SCHEMA_HASH = "00_governance.contracts.silver_schema_hash"
 
 # COMMAND ----------
-
 # DBTITLE 1,Load Active Contract From Registry
 contract_row = (
     spark.table(CONTRACT_REGISTRY)
@@ -32,13 +31,16 @@ if not contract_row:
 contract = yaml.safe_load(contract_row[0]["contract_yaml"])
 schema_hash = contract_row[0]["schema_hash"]
 
-# COMMAND ----------
+# Extract business and derived columns
+business_cols = contract["schema"]["business_columns"]
+derived_cols = contract["schema"]["derived_columns"]
+all_cols = business_cols + derived_cols
 
+# COMMAND ----------
 # DBTITLE 1,Load Bronze
 df_bronze = spark.table(BRONZE_TABLE)
 
 # COMMAND ----------
-
 # DBTITLE 1,Type Enforcement
 type_mapping = {
     "string": "string",
@@ -49,7 +51,7 @@ type_mapping = {
 
 df_silver = df_bronze
 
-for col in contract["columns"]:
+for col in all_cols:
     col_name = col["name"]
     col_type = type_mapping[col["type"].lower()]
 
@@ -71,12 +73,10 @@ for col in contract["columns"]:
         )
 
 # COMMAND ----------
-
 # DBTITLE 1,Deduplicate
-df_silver = df_silver.dropDuplicates(contract["primary_key"])
+df_silver = df_silver.dropDuplicates(contract["schema"]["primary_key"])
 
 # COMMAND ----------
-
 # DBTITLE 1,Derived Columns
 if "YearsAtCompany" in df_silver.columns:
     df_silver = df_silver.withColumn(
@@ -91,6 +91,7 @@ if {"YearsInCurrentRole", "YearsAtCompany"}.issubset(df_silver.columns):
         "TenureRatio",
         F.when(F.col("YearsAtCompany") > 0,
                F.col("YearsInCurrentRole") / F.col("YearsAtCompany"))
+         .otherwise(None)
     )
 
 if {"MonthlyIncome", "YearsAtCompany"}.issubset(df_silver.columns):
@@ -98,13 +99,13 @@ if {"MonthlyIncome", "YearsAtCompany"}.issubset(df_silver.columns):
         "IncomePerYearAtCompany",
         F.when(F.col("YearsAtCompany") > 0,
                F.col("MonthlyIncome") / F.col("YearsAtCompany"))
+         .otherwise(None)
     )
 
 # COMMAND ----------
-
 # DBTITLE 1,Reorder Columns
-business_cols = [c["name"] for c in contract["columns"] if not c.get("derived", False)]
-derived_cols = [c["name"] for c in contract["columns"] if c.get("derived", False)]
+business_col_names = [c["name"] for c in business_cols]
+derived_col_names = [c["name"] for c in derived_cols]
 
 metadata_cols = [
     "_ingestion_timestamp",
@@ -113,12 +114,10 @@ metadata_cols = [
     "_load_id"
 ]
 
-final_cols = business_cols + derived_cols + metadata_cols
-
+final_cols = business_col_names + derived_col_names + metadata_cols
 df_silver = df_silver.select(*[c for c in final_cols if c in df_silver.columns])
 
 # COMMAND ----------
-
 # DBTITLE 1,Write Silver
 df_silver.write \
     .format("delta") \
@@ -127,7 +126,6 @@ df_silver.write \
     .saveAsTable(SILVER_TABLE)
 
 # COMMAND ----------
-
 # DBTITLE 1,Update Schema Hash Table
 spark.createDataFrame([{
     "table_name": SILVER_TABLE,
@@ -136,12 +134,11 @@ spark.createDataFrame([{
 }]).write.format("delta").mode("append").saveAsTable(SILVER_SCHEMA_HASH)
 
 # COMMAND ----------
-
 # DBTITLE 1,Update Column Comments
-for col in contract["columns"]:
+for col in all_cols:
     description = col.get("description", "").replace("'", "''")
     spark.sql(f"""
-        COMMENT ON COLUMN {SILVER_TABLE}.{col["name"]}
+        COMMENT ON COLUMN {SILVER_TABLE}.{col['name']}
         IS '{description}'
     """)
 
@@ -149,4 +146,19 @@ for col in contract["columns"]:
 spark.sql(f"""
 COMMENT ON COLUMN {SILVER_TABLE}._ingestion_timestamp
 IS 'Timestamp when record was ingested into Bronze layer.'
+""")
+
+spark.sql(f"""
+COMMENT ON COLUMN {SILVER_TABLE}._source_file
+IS 'Path of the source file ingested.'
+""")
+
+spark.sql(f"""
+COMMENT ON COLUMN {SILVER_TABLE}._contract_version
+IS 'Version of the contract used for ingestion.'
+""")
+
+spark.sql(f"""
+COMMENT ON COLUMN {SILVER_TABLE}._load_id
+IS 'Unique identifier for the ingestion load.'
 """)
