@@ -8,6 +8,7 @@ on:
       - 'contracts/**'
       - 'jobs/**'
       - 'resources/databricks.yml'
+  workflow_dispatch:
 
 jobs:
   deploy-contract:
