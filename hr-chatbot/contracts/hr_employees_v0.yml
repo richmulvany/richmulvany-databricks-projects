@@ -5,9 +5,9 @@ dataset:
   owner: hr_analytics
 
 evolution:
-  version: 0.2.0
-  change_type: major
-  breaking_change: true
+  version: 0.2.1
+  change_type: minor
+  breaking_change: false
 
 schema:
 
@@ -267,9 +267,13 @@ governance:
     - confidential
     - sensitive
 
-  pii_columns:
-    - Gender
-    - MaritalStatus
+    pii_columns:
+  - EmployeeNumber
+  - Age
+  - Gender
+  - MaritalStatus
+  - Education
+  - EducationField
 
   refresh_frequency: daily
   sla_minutes: 120
