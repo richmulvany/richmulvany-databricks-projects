@@ -14,10 +14,13 @@ DATASET_NAME = "hr_employees"
 RAW_PATH = "/Volumes/01_bronze/hr/ibm_analytics/WA_Fn-UseC_-HR-Employee-Attrition.csv"
 BRONZE_TABLE = "01_bronze.hr.ibm_analytics_hr_employees"
 VIOLATIONS_TABLE = "00_governance.contracts.contract_violations"
-FAIL_ON_VIOLATION = True  # Set False for soft enforcement
 
+FAIL_ON_VIOLATION = True
 load_id = str(uuid.uuid4())
 
+# COMMAND ----------
+
+# DBTITLE 1,Establish Violation Logger
 def log_violation(
     violation_type,
     column_name,
@@ -61,7 +64,10 @@ if not contract_row:
     raise Exception(f"No active contract found for {DATASET_NAME}")
 
 contract_yaml = yaml.safe_load(contract_row[0]["contract_yaml"])
+
+CONTRACT_VERSION = contract_yaml["version"]
 expected_columns = contract_yaml["columns"]
+primary_keys = contract_yaml["primary_key"]
 
 # COMMAND ----------
 
@@ -74,45 +80,52 @@ df_raw = (
 
 # COMMAND ----------
 
-# DBTITLE 1,Map Col Types
+# DBTITLE 1,Validate Column Names
+actual_cols = set(df_raw.columns)
+expected_cols = {c["name"] for c in expected_columns}
+
+missing = expected_cols - actual_cols
+extra = actual_cols - expected_cols
+
+if missing:
+    log_violation(
+        "MISSING_COLUMNS",
+        "N/A",
+        f"Missing columns: {missing}",
+        0
+    )
+
+if extra:
+    log_violation(
+        "UNEXPECTED_COLUMNS",
+        "N/A",
+        f"Unexpected columns: {extra}",
+        0
+    )
+
+# COMMAND ----------
+
+# DBTITLE 1,Apply Contract Schema
+
 type_mapping = {
     "string": StringType(),
     "integer": IntegerType(),
     "boolean": BooleanType()
 }
 
-truct_fields = []
-
 for col in expected_columns:
     col_name = col["name"]
     col_type = col["type"].lower()
-    nullable = col["nullable"]
 
     spark_type = type_mapping.get(col_type)
 
     if not spark_type:
         raise Exception(f"Unsupported type in contract: {col_type}")
 
-    struct_fields.append(
-        StructField(col_name, spark_type, nullable)
+    df_raw = df_raw.withColumn(
+        col_name,
+        F.col(col_name).cast(spark_type)
     )
-
-dynamic_schema = StructType(struct_fields)
-
-# COMMAND ----------
-
-# DBTITLE 1,Check Column Names
-actual_column_names = set(df_raw.columns)
-expected_column_names = {c["name"] for c in expected_columns}
-
-missing = expected_column_names - actual_column_names
-extra = actual_column_names - expected_column_names
-
-if missing:
-    raise Exception(f"Missing columns: {missing}")
-
-if extra:
-    raise Exception(f"Unexpected columns: {extra}")
 
 # COMMAND ----------
 
@@ -120,9 +133,13 @@ if extra:
 for col in expected_columns:
     if not col["nullable"]:
         null_count = df_raw.filter(F.col(col["name"]).isNull()).count()
+
         if null_count > 0:
-            raise Exception(
-                f"Column '{col['name']}' contains {null_count} NULL values but is non-nullable."
+            log_violation(
+                "NULLABILITY_VIOLATION",
+                col["name"],
+                "Non-nullable column contains NULL values",
+                null_count
             )
 
 # COMMAND ----------
@@ -140,9 +157,31 @@ for col in expected_columns:
         )
 
         if invalid_count > 0:
-            raise Exception(
-                f"Column '{col_name}' contains {invalid_count} values outside allowed set {allowed}"
+            log_violation(
+                "DOMAIN_VIOLATION",
+                col_name,
+                f"Values outside allowed set {allowed}",
+                invalid_count
             )
+
+# COMMAND ----------
+
+# DBTITLE 1,Check Primary Key Uniqueness
+duplicate_count = (
+    df_raw
+    .groupBy(primary_keys)
+    .count()
+    .filter(F.col("count") > 1)
+    .count()
+)
+
+if duplicate_count > 0:
+    log_violation(
+        "PRIMARY_KEY_VIOLATION",
+        ",".join(primary_keys),
+        "Duplicate primary keys detected",
+        duplicate_count
+    )
 
 # COMMAND ----------
 
@@ -154,49 +193,33 @@ if spark.catalog.tableExists(BRONZE_TABLE):
 
     expected_fields = {
         col["name"]: type_mapping[col["type"].lower()].simpleString()
-        for col in columns
+        for col in expected_columns
     }
 
-    # Only compare business columns (exclude metadata fields)
     for field_name, field_type in expected_fields.items():
         if field_name in existing_fields:
             if existing_fields[field_name] != field_type:
-                raise Exception(
-                    f"Schema evolution detected for column '{field_name}': "
-                    f"expected {field_type}, found {existing_fields[field_name]}"
+                log_violation(
+                    "SCHEMA_EVOLUTION",
+                    field_name,
+                    f"Expected {field_type}, found {existing_fields[field_name]}",
+                    0
                 )
 
 # COMMAND ----------
 
-# DBTITLE 1,Check Primary Key Uniqueness
-primary_keys = contract_yaml["primary_key"]
-
-duplicate_count = (
-    df_raw
-    .groupBy(primary_keys)
-    .count()
-    .filter(F.col("count") > 1)
-    .count()
-)
-
-if duplicate_count > 0:
-    raise Exception(
-        f"Primary key violation: {duplicate_count} duplicate key(s) found."
-    )
-
-# COMMAND ----------
-
-df_raw.printSchema()
-
-# COMMAND ----------
-
+# DBTITLE 1,Add Metadata
 df_bronze = (
     df_raw
     .withColumn("_ingestion_timestamp", F.current_timestamp())
-    .withColumn("_source_file", F.input_file_name())
+    .withColumn("_source_file", F.col('_metadata.file_path'))
     .withColumn("_contract_version", F.lit(CONTRACT_VERSION))
     .withColumn("_load_id", F.lit(load_id))
 )
+
+# COMMAND ----------
+
+df_bronze.printSchema()
 
 # COMMAND ----------
 
