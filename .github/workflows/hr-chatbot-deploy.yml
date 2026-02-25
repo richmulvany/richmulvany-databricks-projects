@@ -1,1 +1,49 @@
+name: hr-chatbot-deploy
 
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'contracts/**'
+      - 'jobs/**'
+      - 'resources/databricks.yml'
+
+jobs:
+  deploy-contract:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout repository
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      # 2️⃣ Setup Python (needed for Databricks CLI)
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      # 3️⃣ Install Databricks CLI
+      - name: Install Databricks CLI
+        run: |
+          pip install databricks-cli databricks-bundle-cli
+
+      # 4️⃣ Authenticate Databricks CLI
+      - name: Configure Databricks CLI
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          databricks configure --token <<< "$DATABRICKS_HOST\n$DATABRICKS_TOKEN"
+
+      # 5️⃣ Deploy Databricks bundle
+      - name: Deploy DAB bundle
+        run: |
+          databricks bundle validate
+          databricks bundle deploy
+
+      # 6️⃣ Run load_contract job
+      - name: Run load_contract job
+        run: |
+          databricks jobs run-now --job-id <YOUR_JOB_ID>
