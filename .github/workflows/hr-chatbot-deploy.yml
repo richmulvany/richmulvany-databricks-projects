@@ -32,12 +32,10 @@ jobs:
           pip install databricks-cli PyYAML
 
       # 4️⃣ Configure Databricks CLI
-      - name: Configure Databricks CLI
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      - name: Set Databricks environment variables
         run: |
-          databricks configure --token <<< "$DATABRICKS_HOST\n$DATABRICKS_TOKEN"
+          echo "DATABRICKS_HOST=${{ secrets.DATABRICKS_HOST }}" >> $GITHUB_ENV
+          echo "DATABRICKS_TOKEN=${{ secrets.DATABRICKS_TOKEN }}" >> $GITHUB_ENV
 
       # 5️⃣ Trigger load_contract job
       - name: Run load_contract job
