@@ -30,7 +30,6 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install databricks-cli PyYAML
-          pip install git+https://github.com/databricks/databricks-bundle.git
 
       # 4️⃣ Configure Databricks CLI
       - name: Configure Databricks CLI
@@ -40,13 +39,7 @@ jobs:
         run: |
           databricks configure --token <<< "$DATABRICKS_HOST\n$DATABRICKS_TOKEN"
 
-      # 5️⃣ Validate and deploy DAB bundle
-      - name: Deploy DAB bundle
-        run: |
-          databricks bundle validate
-          databricks bundle deploy
-
-      # 6️⃣ Trigger load_contract job
+      # 5️⃣ Trigger load_contract job
       - name: Run load_contract job
         run: |
-          databricks jobs run-now --job-id <YOUR_JOB_ID>
+          databricks jobs run-now --job-id load_contract.py
