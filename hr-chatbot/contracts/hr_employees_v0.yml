@@ -1,227 +1,278 @@
-dataset: hr_employees
-version: 0.1.0
-owner: hr_analytics
-description: Employee-level HR dataset for attrition and compensation analysis.
+dataset:
+  name: hr_employees
+  domain: hr
+  description: Employee-level HR dataset for attrition and compensation analysis.
+  owner: hr_analytics
 
-primary_key:
-  - EmployeeNumber
+evolution:
+  version: 0.2.0
+  change_type: major
+  breaking_change: true
 
-columns:
+schema:
 
-  - name: Age
-    type: integer
-    nullable: false
-    description: Employee age.
-    sensitivity: internal
+  primary_key:
+    - EmployeeNumber
 
-  - name: Attrition
-    type: string
-    nullable: false
-    allowed_values: ["Yes", "No"]
-    description: Whether the employee left the company.
-    sensitivity: internal
+  business_columns:
 
-  - name: BusinessTravel
-    type: string
-    nullable: false
-    allowed_values: ["Travel_Rarely", "Travel_Frequently", "Non-Travel"]
-    description: Frequency of business travel.
-    sensitivity: internal
+    - name: EmployeeNumber
+      type: integer
+      nullable: false
+      unique: true
+      description: Unique employee identifier.
+      sensitivity: internal
 
-  - name: DailyRate
-    type: integer
-    nullable: false
-    description: Daily salary rate.
-    sensitivity: confidential
+    - name: Age
+      type: integer
+      nullable: false
+      description: Employee age.
+      sensitivity: internal
 
-  - name: Department
-    type: string
-    nullable: false
-    allowed_values: ["Sales", "Research & Development", "Human Resources"]
-    description: Department the employee belongs to.
-    sensitivity: internal
+    - name: Attrition
+      type: string
+      nullable: false
+      allowed_values: ["Yes", "No"]
+      description: Whether the employee left the company.
+      sensitivity: internal
 
-  - name: DistanceFromHome
-    type: integer
-    nullable: false
-    description: Distance from home to workplace.
-    sensitivity: internal
+    - name: BusinessTravel
+      type: string
+      nullable: false
+      allowed_values: ["Travel_Rarely", "Travel_Frequently", "Non-Travel"]
+      description: Frequency of business travel.
+      sensitivity: internal
 
-  - name: Education
-    type: integer
-    nullable: false
-    description: Education level (1-5).
-    sensitivity: internal
+    - name: Department
+      type: string
+      nullable: false
+      allowed_values: ["Sales", "Research & Development", "Human Resources"]
+      description: Department the employee belongs to.
+      sensitivity: internal
 
-  - name: EducationField
-    type: string
-    nullable: false
-    description: Field of education.
-    sensitivity: internal
+    - name: JobRole
+      type: string
+      nullable: false
+      description: Job role of employee.
+      sensitivity: internal
 
-  - name: EmployeeCount
-    type: integer
-    nullable: false
-    description: Count of employees (constant value).
-    sensitivity: internal
+    - name: Gender
+      type: string
+      nullable: false
+      allowed_values: ["Male", "Female"]
+      description: Gender of employee.
+      sensitivity: sensitive
 
-  - name: EmployeeNumber
-    type: integer
-    nullable: false
-    description: Unique employee identifier.
-    sensitivity: internal
+    - name: MaritalStatus
+      type: string
+      nullable: false
+      allowed_values: ["Single", "Married", "Divorced"]
+      description: Marital status.
+      sensitivity: sensitive
 
-  - name: EnvironmentSatisfaction
-    type: integer
-    nullable: false
-    description: Satisfaction with work environment (1-4).
-    sensitivity: internal
+    - name: Education
+      type: integer
+      nullable: false
+      description: Education level (1–5).
+      sensitivity: internal
 
-  - name: Gender
-    type: string
-    nullable: false
-    allowed_values: ["Male", "Female"]
-    description: Gender of employee.
-    sensitivity: sensitive
+    - name: EducationField
+      type: string
+      nullable: false
+      description: Field of education.
+      sensitivity: internal
 
-  - name: HourlyRate
-    type: integer
-    nullable: false
-    description: Hourly salary rate.
-    sensitivity: confidential
+    - name: DistanceFromHome
+      type: integer
+      nullable: false
+      description: Distance from home to workplace.
+      sensitivity: internal
 
-  - name: JobInvolvement
-    type: integer
-    nullable: false
-    description: Job involvement level (1-4).
-    sensitivity: internal
+    - name: DailyRate
+      type: integer
+      nullable: false
+      description: Daily salary rate.
+      sensitivity: confidential
 
-  - name: JobLevel
-    type: integer
-    nullable: false
-    description: Job level (1-5).
-    sensitivity: internal
+    - name: HourlyRate
+      type: integer
+      nullable: false
+      description: Hourly salary rate.
+      sensitivity: confidential
 
-  - name: JobRole
-    type: string
-    nullable: false
-    description: Job role of employee.
-    sensitivity: internal
+    - name: MonthlyIncome
+      type: integer
+      nullable: false
+      description: Monthly salary.
+      sensitivity: confidential
 
-  - name: JobSatisfaction
-    type: integer
-    nullable: false
-    description: Job satisfaction level (1-4).
-    sensitivity: internal
+    - name: MonthlyRate
+      type: integer
+      nullable: false
+      description: Monthly rate.
+      sensitivity: confidential
 
-  - name: MaritalStatus
-    type: string
-    nullable: false
-    allowed_values: ["Single", "Married", "Divorced"]
-    description: Marital status.
-    sensitivity: sensitive
+    - name: PercentSalaryHike
+      type: integer
+      nullable: false
+      description: Percentage salary increase.
+      sensitivity: confidential
 
-  - name: MonthlyIncome
-    type: integer
-    nullable: false
-    description: Monthly salary.
-    sensitivity: confidential
+    - name: StockOptionLevel
+      type: integer
+      nullable: false
+      description: Stock option level (0–3).
+      sensitivity: confidential
 
-  - name: MonthlyRate
-    type: integer
-    nullable: false
-    description: Monthly rate.
-    sensitivity: confidential
+    - name: NumCompaniesWorked
+      type: integer
+      nullable: false
+      description: Number of companies previously worked for.
+      sensitivity: internal
 
-  - name: NumCompaniesWorked
-    type: integer
-    nullable: false
-    description: Number of companies previously worked for.
-    sensitivity: internal
+    - name: TotalWorkingYears
+      type: integer
+      nullable: false
+      description: Total years worked.
+      sensitivity: internal
 
-  - name: Over18
-    type: string
-    nullable: false
-    allowed_values: ["Y"]
-    description: Indicates employee is over 18.
-    sensitivity: internal
+    - name: YearsAtCompany
+      type: integer
+      nullable: false
+      description: Years at the company.
+      sensitivity: internal
 
-  - name: OverTime
-    type: string
-    nullable: false
-    allowed_values: ["Yes", "No"]
-    description: Whether the employee works overtime.
-    sensitivity: internal
+    - name: YearsInCurrentRole
+      type: integer
+      nullable: false
+      description: Years in current role.
+      sensitivity: internal
 
-  - name: PercentSalaryHike
-    type: integer
-    nullable: false
-    description: Percentage salary increase.
-    sensitivity: confidential
+    - name: YearsSinceLastPromotion
+      type: integer
+      nullable: false
+      description: Years since last promotion.
+      sensitivity: internal
 
-  - name: PerformanceRating
-    type: integer
-    nullable: false
-    description: Performance rating.
-    sensitivity: internal
+    - name: YearsWithCurrManager
+      type: integer
+      nullable: false
+      description: Years with current manager.
+      sensitivity: internal
 
-  - name: RelationshipSatisfaction
-    type: integer
-    nullable: false
-    description: Relationship satisfaction level (1-4).
-    sensitivity: internal
+    - name: JobLevel
+      type: integer
+      nullable: false
+      description: Job level (1–5).
+      sensitivity: internal
 
-  - name: StandardHours
-    type: integer
-    nullable: false
-    description: Standard working hours.
-    sensitivity: internal
+    - name: JobInvolvement
+      type: integer
+      nullable: false
+      description: Job involvement level (1–4).
+      sensitivity: internal
 
-  - name: StockOptionLevel
-    type: integer
-    nullable: false
-    description: Stock option level (0-3).
-    sensitivity: confidential
+    - name: JobSatisfaction
+      type: integer
+      nullable: false
+      description: Job satisfaction level (1–4).
+      sensitivity: internal
 
-  - name: TotalWorkingYears
-    type: integer
-    nullable: false
-    description: Total years worked.
-    sensitivity: internal
+    - name: RelationshipSatisfaction
+      type: integer
+      nullable: false
+      description: Relationship satisfaction level (1–4).
+      sensitivity: internal
 
-  - name: TrainingTimesLastYear
-    type: integer
-    nullable: false
-    description: Training sessions attended last year.
-    sensitivity: internal
+    - name: EnvironmentSatisfaction
+      type: integer
+      nullable: false
+      description: Satisfaction with work environment (1–4).
+      sensitivity: internal
 
-  - name: WorkLifeBalance
-    type: integer
-    nullable: false
-    description: Work-life balance score (1-4).
-    sensitivity: internal
+    - name: WorkLifeBalance
+      type: integer
+      nullable: false
+      description: Work-life balance score (1–4).
+      sensitivity: internal
 
-  - name: YearsAtCompany
-    type: integer
-    nullable: false
-    description: Years at the company.
-    sensitivity: internal
+    - name: TrainingTimesLastYear
+      type: integer
+      nullable: false
+      description: Training sessions attended last year.
+      sensitivity: internal
 
-  - name: YearsInCurrentRole
-    type: integer
-    nullable: false
-    description: Years in current role.
-    sensitivity: internal
+    - name: PerformanceRating
+      type: integer
+      nullable: false
+      description: Performance rating.
+      sensitivity: internal
 
-  - name: YearsSinceLastPromotion
-    type: integer
-    nullable: false
-    description: Years since last promotion.
-    sensitivity: internal
+    - name: EmployeeCount
+      type: integer
+      nullable: false
+      description: Count of employees (dataset-provided value).
+      sensitivity: internal
 
-  - name: YearsWithCurrManager
-    type: integer
-    nullable: false
-    description: Years with current manager.
-    sensitivity: internal
-    
+    - name: StandardHours
+      type: integer
+      nullable: false
+      description: Standard working hours.
+      sensitivity: internal
+
+    - name: Over18
+      type: string
+      nullable: false
+      allowed_values: ["Y"]
+      description: Indicates employee is over 18.
+      sensitivity: internal
+
+    - name: OverTime
+      type: string
+      nullable: false
+      allowed_values: ["Yes", "No"]
+      description: Whether the employee works overtime.
+      sensitivity: internal
+
+
+  derived_columns:
+
+    - name: YearsAtCompanyBucket
+      type: string
+      nullable: true
+      description: Tenure bucket grouped as 0–2, 3–5, 6+ years.
+      calculation: |
+        CASE
+          WHEN YearsAtCompany < 3 THEN '0-2'
+          WHEN YearsAtCompany < 6 THEN '3-5'
+          ELSE '6+'
+        END
+
+    - name: TenureRatio
+      type: double
+      nullable: true
+      description: YearsInCurrentRole divided by YearsAtCompany.
+      calculation: YearsInCurrentRole / YearsAtCompany
+
+    - name: IncomePerYearAtCompany
+      type: double
+      nullable: true
+      description: MonthlyIncome divided by YearsAtCompany.
+      calculation: MonthlyIncome / YearsAtCompany
+
+
+governance:
+  sensitivity_levels:
+    - internal
+    - confidential
+    - sensitive
+
+  pii_columns:
+    - Gender
+    - MaritalStatus
+
+  refresh_frequency: daily
+  sla_minutes: 120
+
+
+quality: []
