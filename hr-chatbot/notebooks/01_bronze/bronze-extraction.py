@@ -219,10 +219,6 @@ df_bronze = (
 
 # COMMAND ----------
 
-df_bronze.printSchema()
-
-# COMMAND ----------
-
 # DBTITLE 1,Write to Bronze
 (
     df_bronze
