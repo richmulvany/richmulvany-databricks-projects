@@ -39,7 +39,7 @@ jobs:
         run: |
           mkdir deploy-dir
           cp hr-chatbot/resources/databricks.yml deploy-dir/
-          cp -r whr-chatbot/contracts \
+          cp -r hr-chatbot/contracts \
                 hr-chatbot/jobs \
                 deploy-dir/
 
