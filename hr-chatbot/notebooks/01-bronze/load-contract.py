@@ -17,7 +17,17 @@ dataset_name = contract["dataset"]
 version = contract["version"]
 
 def compute_schema_hash(contract_yaml):
-    schema_str = yaml.dump(contract_yaml["columns"], sort_keys=True)
+    structural_schema = []
+
+    for col in contract_yaml["columns"]:
+        structural_schema.append({
+            "name": col["name"],
+            "type": col["type"],
+            "nullable": col.get("nullable", True),
+            "derived": col.get("derived", False)
+        })
+
+    schema_str = yaml.dump(structural_schema, sort_keys=True)
     return hashlib.md5(schema_str.encode()).hexdigest()
 
 schema_hash = compute_schema_hash(contract)
@@ -33,5 +43,13 @@ spark.sql(f"""
 
 spark.sql(f"""
   INSERT INTO 00_governance.contracts.contract_registry
-  VALUES ('{dataset_name}', '{version}', '{contract_raw}', true, current_timestamp(), '{schema_hash}')
+  (dataset_name, version, contract_yaml, is_active, deployed_at, schema_hash)
+  VALUES (
+      '{dataset_name}',
+      '{version}',
+      '{contract_raw.replace("'", "''")}',
+      true,
+      current_timestamp(),
+      '{schema_hash}'
+      )
 """)
