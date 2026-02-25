@@ -16,8 +16,8 @@ CONTRACT_REGISTRY = "00_governance.contracts.contract_registry"
 SILVER_SCHEMA_HASH = "00_governance.contracts.silver_schema_hash"
 
 # COMMAND ----------
-# DBTITLE 1,Load Active Contract From Registry
 
+# DBTITLE 1,Load Active Contract From Registry
 contract_row = (
     spark.table(CONTRACT_REGISTRY)
     .filter((F.col("dataset_name") == DATASET_NAME) & (F.col("is_active") == True))
@@ -33,13 +33,13 @@ contract = yaml.safe_load(contract_row[0]["contract_yaml"])
 schema_hash = contract_row[0]["schema_hash"]
 
 # COMMAND ----------
-# DBTITLE 1,Load Bronze
 
+# DBTITLE 1,Load Bronze
 df_bronze = spark.table(BRONZE_TABLE)
 
 # COMMAND ----------
-# DBTITLE 1,Type Enforcement
 
+# DBTITLE 1,Type Enforcement
 type_mapping = {
     "string": "string",
     "integer": "int",
@@ -71,13 +71,13 @@ for col in contract["columns"]:
         )
 
 # COMMAND ----------
-# DBTITLE 1,Deduplicate
 
+# DBTITLE 1,Deduplicate
 df_silver = df_silver.dropDuplicates(contract["primary_key"])
 
 # COMMAND ----------
-# DBTITLE 1,Derived Columns
 
+# DBTITLE 1,Derived Columns
 if "YearsAtCompany" in df_silver.columns:
     df_silver = df_silver.withColumn(
         "YearsAtCompanyBucket",
@@ -101,8 +101,8 @@ if {"MonthlyIncome", "YearsAtCompany"}.issubset(df_silver.columns):
     )
 
 # COMMAND ----------
-# DBTITLE 1,Reorder Columns
 
+# DBTITLE 1,Reorder Columns
 business_cols = [c["name"] for c in contract["columns"] if not c.get("derived", False)]
 derived_cols = [c["name"] for c in contract["columns"] if c.get("derived", False)]
 
@@ -118,8 +118,8 @@ final_cols = business_cols + derived_cols + metadata_cols
 df_silver = df_silver.select(*[c for c in final_cols if c in df_silver.columns])
 
 # COMMAND ----------
-# DBTITLE 1,Write Silver
 
+# DBTITLE 1,Write Silver
 df_silver.write \
     .format("delta") \
     .mode("overwrite") \
@@ -127,8 +127,8 @@ df_silver.write \
     .saveAsTable(SILVER_TABLE)
 
 # COMMAND ----------
-# DBTITLE 1,Update Schema Hash Table
 
+# DBTITLE 1,Update Schema Hash Table
 spark.createDataFrame([{
     "table_name": SILVER_TABLE,
     "schema_hash": schema_hash,
@@ -136,8 +136,8 @@ spark.createDataFrame([{
 }]).write.format("delta").mode("append").saveAsTable(SILVER_SCHEMA_HASH)
 
 # COMMAND ----------
-# DBTITLE 1,Update Column Comments
 
+# DBTITLE 1,Update Column Comments
 for col in contract["columns"]:
     description = col.get("description", "").replace("'", "''")
     spark.sql(f"""

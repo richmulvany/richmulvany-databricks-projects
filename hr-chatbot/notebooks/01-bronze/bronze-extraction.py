@@ -65,17 +65,18 @@ if not contract_row:
 
 contract_yaml = yaml.safe_load(contract_row[0]["contract_yaml"])
 
-CONTRACT_VERSION = contract_yaml["version"]
-expected_columns = contract_yaml["columns"]
-primary_keys = contract_yaml["primary_key"]
+CONTRACT_VERSION = contract_yaml["evolution"]["version"]
+expected_columns = contract_yaml["schema"]["business_columns"]
+primary_keys = contract_yaml["schema"]["primary_key"]
 
 # COMMAND ----------
 
 # DBTITLE 1,Read Raw Data
 df_raw = (
     spark.read
+    .format("csv")
     .option("header", True)
-    .csv(RAW_PATH)
+    .load(RAW_PATH)
 )
 
 # COMMAND ----------
@@ -152,7 +153,10 @@ for col in expected_columns:
 
         invalid_count = (
             df_raw
-            .filter(~F.col(col_name).isin(allowed))
+            .filter(
+                F.col(col_name).isNotNull() &
+                ~F.col(col_name).isin(allowed)
+            )
             .count()
         )
 
