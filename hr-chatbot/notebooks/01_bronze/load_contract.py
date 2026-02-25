@@ -1,4 +1,5 @@
 # Databricks notebook source
+import hashlib
 import yaml
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import current_timestamp
@@ -15,6 +16,16 @@ contract = yaml.safe_load(contract_raw)
 dataset_name = contract["dataset"]
 version = contract["version"]
 
+def compute_schema_hash(contract_yaml):
+    schema_str = yaml.dump(contract_yaml["columns"], sort_keys=True)
+    return hashlib.md5(schema_str.encode()).hexdigest()
+
+schema_hash = compute_schema_hash(contract)
+
+# COMMAND ----------
+
+print(schema_hash)
+
 # COMMAND ----------
 
 # Upsert into Delta table
@@ -26,5 +37,5 @@ spark.sql(f"""
 
 spark.sql(f"""
   INSERT INTO 00_governance.contracts.contract_registry
-  VALUES ('{dataset_name}', '{version}', '{contract_raw}', true, current_timestamp())
+  VALUES ('{dataset_name}', '{version}', '{contract_raw}', true, current_timestamp(), '{schema_hash}')
 """)
