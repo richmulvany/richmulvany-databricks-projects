@@ -36,8 +36,3 @@ jobs:
         run: |
           echo "DATABRICKS_HOST=${{ secrets.DATABRICKS_HOST }}" >> $GITHUB_ENV
           echo "DATABRICKS_TOKEN=${{ secrets.DATABRICKS_TOKEN }}" >> $GITHUB_ENV
-
-      # 5️⃣ Trigger load_contract job
-      - name: Run load_contract job
-        run: |
-          databricks jobs run-now --job-id load_contract.py
