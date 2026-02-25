@@ -3,52 +3,47 @@
 import yaml
 import hashlib
 from pyspark.sql import functions as F
-from pyspark.sql import Row
 from pyspark.sql.types import BooleanType
-from datetime import datetime
 from functools import reduce
+from datetime import datetime
 
 # COMMAND ----------
 
-# DBTITLE 1,Configure Paths and Tables
 DATASET_NAME = "hr_employees"
-CONTRACT_PATH = "/Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/hr-chatbot/contracts/hr_employees_v0.yml"
-
 BRONZE_TABLE = "01_bronze.hr.ibm_analytics_hr_employees"
 SILVER_TABLE = "02_silver.hr.ibm_analytics_hr_employees"
-
 CONTRACT_REGISTRY = "00_governance.contracts.contract_registry"
 SILVER_SCHEMA_HASH = "00_governance.contracts.silver_schema_hash"
 
 # COMMAND ----------
+# DBTITLE 1,Load Active Contract From Registry
 
-# DBTITLE 1,Load Latest Contract
-with open(CONTRACT_PATH, "r") as f:
-    contract_raw = f.read()
+contract_row = (
+    spark.table(CONTRACT_REGISTRY)
+    .filter((F.col("dataset_name") == DATASET_NAME) & (F.col("is_active") == True))
+    .orderBy(F.col("deployed_at").desc())
+    .limit(1)
+    .collect()
+)
 
-contract = yaml.safe_load(contract_raw)
-CONTRACT_VERSION = contract["version"]
+if not contract_row:
+    raise Exception("No active contract found.")
 
-def compute_schema_hash(contract_yaml):
-    schema_str = yaml.dump(contract_yaml["columns"], sort_keys=True)
-    return hashlib.md5(schema_str.encode()).hexdigest()
-
-schema_hash = compute_schema_hash(contract)
+contract = yaml.safe_load(contract_row[0]["contract_yaml"])
+schema_hash = contract_row[0]["schema_hash"]
 
 # COMMAND ----------
-
-# DBTITLE 1,Load Bronze Table
-if not spark.catalog.tableExists(BRONZE_TABLE):
-    raise Exception(f"Bronze table {BRONZE_TABLE} does not exist")
+# DBTITLE 1,Load Bronze
 
 df_bronze = spark.table(BRONZE_TABLE)
 
 # COMMAND ----------
+# DBTITLE 1,Type Enforcement
 
-# DBTITLE 1,Schema Enforcement & Type Casting
 type_mapping = {
     "string": "string",
     "integer": "int",
+    "double": "double",
     "boolean": "boolean"
 }
 
@@ -57,73 +52,32 @@ df_silver = df_bronze
 for col in contract["columns"]:
     col_name = col["name"]
     col_type = type_mapping[col["type"].lower()]
-    
+
     if col_name not in df_silver.columns:
         continue
 
-    if col_type == "int":
+    if col_type == "boolean":
         df_silver = df_silver.withColumn(
             col_name,
-            F.col(col_name).cast("int")
-        )
-
-    elif col_type == "boolean":
-        # Proper Yes/No -> Boolean handling
-        df_silver = df_silver.withColumn(
-            col_name,
-            F.when(F.col(col_name).isin("Yes", "yes", "1", 1), True)
+            F.when(F.col(col_name).isin("Yes", "yes", "1", 1, "Y"), True)
              .when(F.col(col_name).isin("No", "no", "0", 0), False)
              .otherwise(None)
              .cast(BooleanType())
         )
-
     else:
         df_silver = df_silver.withColumn(
             col_name,
-            F.trim(F.col(col_name)).cast("string")
+            F.col(col_name).cast(col_type)
         )
 
 # COMMAND ----------
+# DBTITLE 1,Deduplicate
 
-# DBTITLE 1,Normalize String Columns
-string_cols = [
-    c["name"]
-    for c in contract["columns"]
-    if c["type"].lower() == "string"
-]
-
-for col_name in string_cols:
-    if col_name in df_silver.columns:
-        df_silver = df_silver.withColumn(
-            col_name,
-            F.initcap(F.trim(F.col(col_name)))
-        )
+df_silver = df_silver.dropDuplicates(contract["primary_key"])
 
 # COMMAND ----------
+# DBTITLE 1,Derived Columns
 
-# DBTITLE 1,Deduplicate on Primary Key
-primary_keys = contract["primary_key"]
-df_silver = df_silver.dropDuplicates(primary_keys)
-
-# COMMAND ----------
-
-# DBTITLE 1,Filter Critical Nulls
-critical_cols = [
-    c["name"]
-    for c in contract["columns"]
-    if not c.get("nullable", True)
-]
-
-if critical_cols:
-    df_silver = df_silver.filter(
-        reduce(lambda a, b: a & b,
-               [F.col(c).isNotNull() for c in critical_cols])
-    )
-
-# COMMAND ----------
-
-# DBTITLE 1,Derived / Structural Columns
-# Years at Company Bucket
 if "YearsAtCompany" in df_silver.columns:
     df_silver = df_silver.withColumn(
         "YearsAtCompanyBucket",
@@ -132,62 +86,40 @@ if "YearsAtCompany" in df_silver.columns:
          .otherwise("6+")
     )
 
-# Tenure Ratio
 if {"YearsInCurrentRole", "YearsAtCompany"}.issubset(df_silver.columns):
     df_silver = df_silver.withColumn(
         "TenureRatio",
         F.when(F.col("YearsAtCompany") > 0,
                F.col("YearsInCurrentRole") / F.col("YearsAtCompany"))
-         .otherwise(None)
     )
 
-# Income Per Year at Company
 if {"MonthlyIncome", "YearsAtCompany"}.issubset(df_silver.columns):
     df_silver = df_silver.withColumn(
         "IncomePerYearAtCompany",
         F.when(F.col("YearsAtCompany") > 0,
                F.col("MonthlyIncome") / F.col("YearsAtCompany"))
-         .otherwise(None)
     )
 
 # COMMAND ----------
+# DBTITLE 1,Reorder Columns
 
-# DBTITLE 1,Detect Silver Table Drift
-if spark.catalog.tableExists(SILVER_TABLE):
+business_cols = [c["name"] for c in contract["columns"] if not c.get("derived", False)]
+derived_cols = [c["name"] for c in contract["columns"] if c.get("derived", False)]
 
-    silver_schema = spark.table(SILVER_TABLE).schema
-    silver_columns = {f.name: f.dataType.simpleString() for f in silver_schema}
+metadata_cols = [
+    "_ingestion_timestamp",
+    "_source_file",
+    "_contract_version",
+    "_load_id"
+]
 
-    last_hash_row = spark.table(SILVER_SCHEMA_HASH) \
-        .filter(F.col("table_name") == SILVER_TABLE) \
-        .orderBy(F.col("migrated_at").desc()) \
-        .select("schema_hash") \
-        .first()
+final_cols = business_cols + derived_cols + metadata_cols
 
-    last_hash = last_hash_row["schema_hash"] if last_hash_row else None
-
-else:
-    silver_columns = {}
-    last_hash = None
-
-alter_statements = []
-
-for col in contract["columns"]:
-    col_name = col["name"]
-    col_type = type_mapping[col["type"].lower()].upper()
-
-    if col_name not in silver_columns:
-        alter_statements.append(
-            f"ALTER TABLE {SILVER_TABLE} ADD COLUMN {col_name} {col_type}"
-        )
-
-for stmt in alter_statements:
-    print(f"Executing: {stmt}")
-    spark.sql(stmt)
+df_silver = df_silver.select(*[c for c in final_cols if c in df_silver.columns])
 
 # COMMAND ----------
+# DBTITLE 1,Write Silver
 
-# DBTITLE 1,Write Silver Table
 df_silver.write \
     .format("delta") \
     .mode("overwrite") \
@@ -195,28 +127,26 @@ df_silver.write \
     .saveAsTable(SILVER_TABLE)
 
 # COMMAND ----------
+# DBTITLE 1,Update Schema Hash Table
 
-# DBTITLE 1,Update Silver Schema Hash Table
-migration_row = Row(
-    table_name=SILVER_TABLE,
-    schema_hash=schema_hash,
-    migrated_at=datetime.utcnow()
-)
-
-spark.createDataFrame([migration_row]) \
-    .write \
-    .format("delta") \
-    .mode("append") \
-    .saveAsTable(SILVER_SCHEMA_HASH)
+spark.createDataFrame([{
+    "table_name": SILVER_TABLE,
+    "schema_hash": schema_hash,
+    "migrated_at": datetime.utcnow()
+}]).write.format("delta").mode("append").saveAsTable(SILVER_SCHEMA_HASH)
 
 # COMMAND ----------
+# DBTITLE 1,Update Column Comments
 
-# DBTITLE 1,Update Unity Catalog Column Comments
 for col in contract["columns"]:
-    col_name = col["name"]
     description = col.get("description", "").replace("'", "''")
-
     spark.sql(f"""
-        COMMENT ON COLUMN {SILVER_TABLE}.{col_name} 
+        COMMENT ON COLUMN {SILVER_TABLE}.{col["name"]}
         IS '{description}'
     """)
+
+# Metadata comments
+spark.sql(f"""
+COMMENT ON COLUMN {SILVER_TABLE}._ingestion_timestamp
+IS 'Timestamp when record was ingested into Bronze layer.'
+""")
