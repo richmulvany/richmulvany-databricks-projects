@@ -1,4 +1,4 @@
-name: hr-chatbot-deploy
+name: Deploy HR Bot
 
 on:
   push:
@@ -8,29 +8,30 @@ on:
       - 'contracts/**'
       - 'jobs/**'
       - 'resources/databricks.yml'
-  workflow_dispatch:
 
 jobs:
   deploy-contract:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       # 1️⃣ Checkout repository
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup Python (needed for Databricks CLI)
-      - name: Setup Python
+      # 2️⃣ Setup Python
+      - name: Setup Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: 3.11
 
-      # 3️⃣ Install Databricks CLI
-      - name: Install Databricks CLI
+      # 3️⃣ Install dependencies
+      - name: Install dependencies
         run: |
-          pip install databricks-cli databricks-bundle-cli
+          pip install --upgrade pip
+          pip install databricks-cli PyYAML
+          pip install git+https://github.com/databricks/databricks-bundle.git
 
-      # 4️⃣ Authenticate Databricks CLI
+      # 4️⃣ Configure Databricks CLI
       - name: Configure Databricks CLI
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
@@ -38,13 +39,13 @@ jobs:
         run: |
           databricks configure --token <<< "$DATABRICKS_HOST\n$DATABRICKS_TOKEN"
 
-      # 5️⃣ Deploy Databricks bundle
+      # 5️⃣ Validate and deploy DAB bundle
       - name: Deploy DAB bundle
         run: |
           databricks bundle validate
           databricks bundle deploy
 
-      # 6️⃣ Run load_contract job
+      # 6️⃣ Trigger load_contract job
       - name: Run load_contract job
         run: |
           databricks jobs run-now --job-id <YOUR_JOB_ID>
