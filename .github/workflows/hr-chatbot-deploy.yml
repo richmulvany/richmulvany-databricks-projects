@@ -22,8 +22,6 @@ jobs:
       # 2️⃣ Setup Python (needed for Databricks CLI)
       - name: Setup Python
         uses: actions/setup-python@v4
-        with:
-          python-version: 3.10
 
       # 3️⃣ Install Databricks CLI
       - name: Install Databricks CLI
