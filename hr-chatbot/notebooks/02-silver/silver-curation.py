@@ -9,8 +9,8 @@ from datetime import datetime
 from functools import reduce
 
 # COMMAND ----------
-# DBTITLE 1,Configure Paths and Tables
 
+# DBTITLE 1,Configure Paths and Tables
 DATASET_NAME = "hr_employees"
 CONTRACT_PATH = "/Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/hr-chatbot/contracts/hr_employees_v0.yml"
 
@@ -21,8 +21,8 @@ CONTRACT_REGISTRY = "00_governance.contracts.contract_registry"
 SILVER_SCHEMA_HASH = "00_governance.contracts.silver_schema_hash"
 
 # COMMAND ----------
-# DBTITLE 1,Load Latest Contract
 
+# DBTITLE 1,Load Latest Contract
 with open(CONTRACT_PATH, "r") as f:
     contract_raw = f.read()
 
@@ -36,16 +36,16 @@ def compute_schema_hash(contract_yaml):
 schema_hash = compute_schema_hash(contract)
 
 # COMMAND ----------
-# DBTITLE 1,Load Bronze Table
 
+# DBTITLE 1,Load Bronze Table
 if not spark.catalog.tableExists(BRONZE_TABLE):
     raise Exception(f"Bronze table {BRONZE_TABLE} does not exist")
 
 df_bronze = spark.table(BRONZE_TABLE)
 
 # COMMAND ----------
-# DBTITLE 1,Schema Enforcement & Type Casting
 
+# DBTITLE 1,Schema Enforcement & Type Casting
 type_mapping = {
     "string": "string",
     "integer": "int",
@@ -84,8 +84,8 @@ for col in contract["columns"]:
         )
 
 # COMMAND ----------
-# DBTITLE 1,Normalize String Columns (Safe Standardization)
 
+# DBTITLE 1,Normalize String Columns
 string_cols = [
     c["name"]
     for c in contract["columns"]
@@ -100,14 +100,14 @@ for col_name in string_cols:
         )
 
 # COMMAND ----------
-# DBTITLE 1,Deduplicate on Primary Key
 
+# DBTITLE 1,Deduplicate on Primary Key
 primary_keys = contract["primary_key"]
 df_silver = df_silver.dropDuplicates(primary_keys)
 
 # COMMAND ----------
-# DBTITLE 1,Filter Critical Nulls (Contract-Driven)
 
+# DBTITLE 1,Filter Critical Nulls
 critical_cols = [
     c["name"]
     for c in contract["columns"]
@@ -121,23 +121,8 @@ if critical_cols:
     )
 
 # COMMAND ----------
-# DBTITLE 1,Filter Critical Nulls (Contract-Driven)
 
-critical_cols = [
-    c["name"]
-    for c in contract["columns"]
-    if not c.get("nullable", True)
-]
-
-if critical_cols:
-    df_silver = df_silver.filter(
-        reduce(lambda a, b: a & b,
-               [F.col(c).isNotNull() for c in critical_cols])
-    )
-
-# COMMAND ----------
-# DBTITLE 1,Derived / Structural Columns (Silver-Appropriate)
-
+# DBTITLE 1,Derived / Structural Columns
 # Years at Company Bucket
 if "YearsAtCompany" in df_silver.columns:
     df_silver = df_silver.withColumn(
@@ -147,7 +132,7 @@ if "YearsAtCompany" in df_silver.columns:
          .otherwise("6+")
     )
 
-# Tenure Ratio (Safe division)
+# Tenure Ratio
 if {"YearsInCurrentRole", "YearsAtCompany"}.issubset(df_silver.columns):
     df_silver = df_silver.withColumn(
         "TenureRatio",
@@ -166,8 +151,8 @@ if {"MonthlyIncome", "YearsAtCompany"}.issubset(df_silver.columns):
     )
 
 # COMMAND ----------
-# DBTITLE 1,Detect Silver Table Drift
 
+# DBTITLE 1,Detect Silver Table Drift
 if spark.catalog.tableExists(SILVER_TABLE):
 
     silver_schema = spark.table(SILVER_TABLE).schema
@@ -201,8 +186,8 @@ for stmt in alter_statements:
     spark.sql(stmt)
 
 # COMMAND ----------
-# DBTITLE 1,Write Silver Table
 
+# DBTITLE 1,Write Silver Table
 df_silver.write \
     .format("delta") \
     .mode("overwrite") \
@@ -210,8 +195,8 @@ df_silver.write \
     .saveAsTable(SILVER_TABLE)
 
 # COMMAND ----------
-# DBTITLE 1,Update Silver Schema Hash Table
 
+# DBTITLE 1,Update Silver Schema Hash Table
 migration_row = Row(
     table_name=SILVER_TABLE,
     schema_hash=schema_hash,
@@ -225,8 +210,8 @@ spark.createDataFrame([migration_row]) \
     .saveAsTable(SILVER_SCHEMA_HASH)
 
 # COMMAND ----------
-# DBTITLE 1,Update Unity Catalog Column Comments
 
+# DBTITLE 1,Update Unity Catalog Column Comments
 for col in contract["columns"]:
     col_name = col["name"]
     description = col.get("description", "").replace("'", "''")
