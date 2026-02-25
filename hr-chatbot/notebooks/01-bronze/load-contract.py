@@ -24,10 +24,6 @@ schema_hash = compute_schema_hash(contract)
 
 # COMMAND ----------
 
-print(schema_hash)
-
-# COMMAND ----------
-
 # Upsert into Delta table
 spark.sql(f"""
   UPDATE 00_governance.contracts.contract_registry
