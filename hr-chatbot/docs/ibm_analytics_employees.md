@@ -41,8 +41,8 @@
 | StandardHours | integer | False | False | Standard working hours. | internal |
 | Over18 | string | False | False | Indicates employee is over 18. | internal |
 | OverTime | string | False | False | Whether the employee works overtime. | internal |
-| YearsAtCompanyBucket | string | True | False | Tenure bucket grouped as 0–2, 3–5, 6+ years. | internal |
-| TenureRatio | double | True | False | YearsInCurrentRole divided by YearsAtCompany. | internal |
-| IncomePerYearAtCompany | double | True | False | MonthlyIncome divided by YearsAtCompany. | internal |
+| YearsAtCompanyBucket | string | True | True | Tenure bucket grouped as 0–2, 3–5, 6+ years. | internal |
+| TenureRatio | double | True | True | YearsInCurrentRole divided by YearsAtCompany. | internal |
+| IncomePerYearAtCompany | double | True | True | MonthlyIncome divided by YearsAtCompany. | internal |
 | _load_id | metadata | True | False | Metadata column _load_id | internal |
 | _generated_at | metadata | True | False | Metadata column _generated_at | internal |

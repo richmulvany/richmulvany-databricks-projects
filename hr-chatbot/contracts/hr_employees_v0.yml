@@ -239,6 +239,7 @@ schema:
 
     - name: YearsAtCompanyBucket
       type: string
+      derived: true
       nullable: true
       description: Tenure bucket grouped as 0–2, 3–5, 6+ years.
       calculation: |
@@ -251,6 +252,7 @@ schema:
 
     - name: TenureRatio
       type: double
+      derived: true
       nullable: true
       description: YearsInCurrentRole divided by YearsAtCompany.
       calculation: YearsInCurrentRole / YearsAtCompany
@@ -258,6 +260,7 @@ schema:
 
     - name: IncomePerYearAtCompany
       type: double
+      derived: true
       nullable: true
       description: MonthlyIncome divided by YearsAtCompany.
       calculation: MonthlyIncome / YearsAtCompany
