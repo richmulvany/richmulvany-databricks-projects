@@ -7,6 +7,7 @@ import yaml
 import uuid
 
 # COMMAND ----------
+
 # DBTITLE 1,Configure Paths & Tables
 DATASET_NAME = "hr_employees"
 SILVER_TABLE = "02_silver.hr.ibm_analytics_hr_employees"
@@ -18,12 +19,14 @@ GOLD_JOB_TABLE = "03_gold.hr.ibm_analytics_job_summary"
 GOLD_KPI_TABLE = "03_gold.hr.ibm_analytics_kpi_metrics"
 
 # COMMAND ----------
+
 # DBTITLE 1,Load Silver Table
 df_silver = spark.table(SILVER_TABLE)
 load_id = str(uuid.uuid4())
 generated_at = datetime.utcnow()
 
 # COMMAND ----------
+
 # DBTITLE 1,Create Employee-Level Gold Table
 df_emp_gold = df_silver.withColumn("_load_id", F.lit(load_id)) \
                        .withColumn("_generated_at", F.lit(generated_at))
@@ -34,6 +37,7 @@ df_emp_gold.write.format("delta") \
     .saveAsTable(GOLD_EMP_TABLE)
 
 # COMMAND ----------
+
 # DBTITLE 1,Create Department Summary
 dept_agg_exprs = [
     F.count("*").alias("num_employees"),
@@ -55,6 +59,7 @@ df_dept_gold.write.format("delta") \
     .saveAsTable(GOLD_DEPT_TABLE)
 
 # COMMAND ----------
+
 # DBTITLE 1,Create Job Role Summary
 job_agg_exprs = [
     F.count("*").alias("num_employees"),
@@ -76,6 +81,7 @@ df_job_gold.write.format("delta") \
     .saveAsTable(GOLD_JOB_TABLE)
 
 # COMMAND ----------
+
 # DBTITLE 1,Create KPI / Metrics Table
 df_kpi_gold = df_silver.agg(
     F.count("*").alias("total_employees"),
@@ -94,6 +100,7 @@ df_kpi_gold.write.format("delta") \
     .saveAsTable(GOLD_KPI_TABLE)
 
 # COMMAND ----------
+
 # DBTITLE 1,Automatically Generate Column Comments
 contract_path = "/Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/hr-chatbot/contracts/hr_employees_v0.yml"
 with open(contract_path, "r") as f:
@@ -126,4 +133,4 @@ generate_comments(GOLD_JOB_TABLE, job_columns)
 kpi_columns = {c: c.replace("_", " ").capitalize() for c in df_kpi_gold.columns}
 generate_comments(GOLD_KPI_TABLE, kpi_columns)
 
-print("✅ Gold layer tables created with 'ibm_analytics_' prefix and rounded numeric metrics.")
+print("✅ Gold layer tables created.")
