@@ -35,13 +35,14 @@ schema_hash = contract_row[0]["schema_hash"]
 business_cols = contract["schema"]["business_columns"]
 derived_cols = contract["schema"]["derived_columns"]
 all_cols = business_cols + derived_cols
+primary_keys = contract["schema"]["primary_key"]
 
 # COMMAND ----------
 # DBTITLE 1,Load Bronze
 df_bronze = spark.table(BRONZE_TABLE)
 
 # COMMAND ----------
-# DBTITLE 1,Type Enforcement
+# DBTITLE 1,Type Enforcement (including doubles for derived)
 type_mapping = {
     "string": "string",
     "integer": "int",
@@ -53,12 +54,18 @@ df_silver = df_bronze
 
 for col in all_cols:
     col_name = col["name"]
-    col_type = type_mapping[col["type"].lower()]
+    col_type = col["type"].lower()
+
+    # Use double for derived columns that are numeric
+    if col.get("derived", False) and col_type in ["integer", "double"]:
+        cast_type = "double"
+    else:
+        cast_type = type_mapping[col_type]
 
     if col_name not in df_silver.columns:
         continue
 
-    if col_type == "boolean":
+    if cast_type == "boolean":
         df_silver = df_silver.withColumn(
             col_name,
             F.when(F.col(col_name).isin("Yes", "yes", "1", 1, "Y"), True)
@@ -67,14 +74,11 @@ for col in all_cols:
              .cast(BooleanType())
         )
     else:
-        df_silver = df_silver.withColumn(
-            col_name,
-            F.col(col_name).cast(col_type)
-        )
+        df_silver = df_silver.withColumn(col_name, F.col(col_name).cast(cast_type))
 
 # COMMAND ----------
 # DBTITLE 1,Deduplicate
-df_silver = df_silver.dropDuplicates(contract["schema"]["primary_key"])
+df_silver = df_silver.dropDuplicates(primary_keys)
 
 # COMMAND ----------
 # DBTITLE 1,Derived Columns
@@ -90,7 +94,7 @@ if {"YearsInCurrentRole", "YearsAtCompany"}.issubset(df_silver.columns):
     df_silver = df_silver.withColumn(
         "TenureRatio",
         F.when(F.col("YearsAtCompany") > 0,
-               F.col("YearsInCurrentRole") / F.col("YearsAtCompany"))
+               (F.col("YearsInCurrentRole") / F.col("YearsAtCompany")).cast("double"))
          .otherwise(None)
     )
 
@@ -98,7 +102,7 @@ if {"MonthlyIncome", "YearsAtCompany"}.issubset(df_silver.columns):
     df_silver = df_silver.withColumn(
         "IncomePerYearAtCompany",
         F.when(F.col("YearsAtCompany") > 0,
-               F.col("MonthlyIncome") / F.col("YearsAtCompany"))
+               (F.col("MonthlyIncome") / F.col("YearsAtCompany")).cast("double"))
          .otherwise(None)
     )
 
@@ -106,19 +110,12 @@ if {"MonthlyIncome", "YearsAtCompany"}.issubset(df_silver.columns):
 # DBTITLE 1,Reorder Columns
 business_col_names = [c["name"] for c in business_cols]
 derived_col_names = [c["name"] for c in derived_cols]
-
-metadata_cols = [
-    "_ingestion_timestamp",
-    "_source_file",
-    "_contract_version",
-    "_load_id"
-]
-
+metadata_cols = ["_ingestion_timestamp", "_source_file", "_contract_version", "_load_id"]
 final_cols = business_col_names + derived_col_names + metadata_cols
 df_silver = df_silver.select(*[c for c in final_cols if c in df_silver.columns])
 
 # COMMAND ----------
-# DBTITLE 1,Write Silver
+# DBTITLE 1,Write Silver Table
 df_silver.write \
     .format("delta") \
     .mode("overwrite") \
@@ -134,31 +131,18 @@ spark.createDataFrame([{
 }]).write.format("delta").mode("append").saveAsTable(SILVER_SCHEMA_HASH)
 
 # COMMAND ----------
-# DBTITLE 1,Update Column Comments
-for col in all_cols:
-    description = col.get("description", "").replace("'", "''")
+# DBTITLE 1,Update Column Comments (Refactored)
+# Single loop to add all column descriptions including metadata
+comments = {c["name"]: c.get("description", "") for c in all_cols}
+comments.update({
+    "_ingestion_timestamp": "Timestamp when record was ingested into Bronze layer.",
+    "_source_file": "Path of the source file ingested.",
+    "_contract_version": "Version of the contract used for ingestion.",
+    "_load_id": "Unique identifier for the ingestion load."
+})
+
+for col_name, desc in comments.items():
+    desc_escaped = desc.replace("'", "''")
     spark.sql(f"""
-        COMMENT ON COLUMN {SILVER_TABLE}.{col['name']}
-        IS '{description}'
+        COMMENT ON COLUMN {SILVER_TABLE}.{col_name} IS '{desc_escaped}'
     """)
-
-# Metadata comments
-spark.sql(f"""
-COMMENT ON COLUMN {SILVER_TABLE}._ingestion_timestamp
-IS 'Timestamp when record was ingested into Bronze layer.'
-""")
-
-spark.sql(f"""
-COMMENT ON COLUMN {SILVER_TABLE}._source_file
-IS 'Path of the source file ingested.'
-""")
-
-spark.sql(f"""
-COMMENT ON COLUMN {SILVER_TABLE}._contract_version
-IS 'Version of the contract used for ingestion.'
-""")
-
-spark.sql(f"""
-COMMENT ON COLUMN {SILVER_TABLE}._load_id
-IS 'Unique identifier for the ingestion load.'
-""")
