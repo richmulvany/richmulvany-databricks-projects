@@ -4,6 +4,7 @@ import yaml
 from pathlib import Path
 
 # COMMAND ----------
+
 # DBTITLE 1,Paths
 contract_path = "/Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/hr-chatbot/contracts/hr_employees_v0.yml"
 docs_output_dir = "/Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databricks-projects/hr-chatbot/docs/"
@@ -11,6 +12,7 @@ docs_output_dir = "/Workspace/Users/ricard.mulvany@gmail.com/richmulvany-databri
 Path(docs_output_dir).mkdir(parents=True, exist_ok=True)
 
 # COMMAND ----------
+
 # DBTITLE 1,Load Contract
 with open(contract_path, "r") as f:
     contract = yaml.safe_load(f)
@@ -26,6 +28,15 @@ primary_keys = contract["schema"]["primary_key"]
 pii_columns = contract.get("governance", {}).get("pii_columns", [])
 
 # COMMAND ----------
+
+# DBTITLE 1,Load Gold Tables
+df_emp_gold = spark.table("03_gold.hr.ibm_analytics_employees")
+df_dept_gold = spark.table("03_gold.hr.ibm_analytics_department_summary")
+df_job_gold = spark.table("03_gold.hr.ibm_analytics_job_summary")
+df_kpi_gold = spark.table("03_gold.hr.ibm_analytics_kpi_metrics")
+
+# COMMAND ----------
+
 # DBTITLE 1,Generate Markdown for Employee Table
 md_lines = [
     f"# Table: ibm_analytics_employees",
@@ -59,6 +70,7 @@ with open(emp_md_path, "w") as f:
 print(f"✅ Employee table documentation written to {emp_md_path}")
 
 # COMMAND ----------
+
 # DBTITLE 1,Generate Markdown for Department Summary
 dept_cols = df_dept_gold.columns
 md_lines = [
@@ -80,6 +92,7 @@ with open(dept_md_path, "w") as f:
 print(f"✅ Department summary documentation written to {dept_md_path}")
 
 # COMMAND ----------
+
 # DBTITLE 1,Generate Markdown for Job Summary
 job_cols = df_job_gold.columns
 md_lines = [
@@ -101,6 +114,7 @@ with open(job_md_path, "w") as f:
 print(f"✅ Job summary documentation written to {job_md_path}")
 
 # COMMAND ----------
+
 # DBTITLE 1,Generate Markdown for KPI / Metrics Table
 kpi_cols = df_kpi_gold.columns
 md_lines = [
@@ -122,4 +136,5 @@ with open(kpi_md_path, "w") as f:
 print(f"✅ KPI/metrics documentation written to {kpi_md_path}")
 
 # COMMAND ----------
+
 print("✅ All Gold layer tables documented in Markdown.")
