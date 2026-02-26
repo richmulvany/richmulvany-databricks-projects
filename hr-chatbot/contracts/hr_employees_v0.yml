@@ -5,7 +5,7 @@ dataset:
   owner: hr_analytics
 
 evolution:
-  version: 0.2.2
+  version: 0.2.3
   change_type: minor
   breaking_change: false
 
@@ -247,18 +247,21 @@ schema:
           WHEN YearsAtCompany < 6 THEN '3-5'
           ELSE '6+'
         END
+      sensitivity: internal
 
     - name: TenureRatio
       type: double
       nullable: true
       description: YearsInCurrentRole divided by YearsAtCompany.
       calculation: YearsInCurrentRole / YearsAtCompany
+      sensitivity: internal
 
     - name: IncomePerYearAtCompany
       type: double
       nullable: true
       description: MonthlyIncome divided by YearsAtCompany.
       calculation: MonthlyIncome / YearsAtCompany
+      sensitivity: internal
 
 
 governance:
