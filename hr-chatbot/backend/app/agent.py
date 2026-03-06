@@ -1,4 +1,4 @@
-from langchain.agents import create_sql_agent
+from langchain.agents import create_agent
 from langchain.agents.agent_toolkits import SQLDatabaseToolkit
 from langchain.agents.agent_types import AgentType
 from app.db import get_database
@@ -9,7 +9,7 @@ def ask_agent(question):
     llm = get_llm()
 
     toolkit = SQLDatabaseToolkit(db=db, llm=llm)
-    agent = create_sql_agent(
+    agent = create_agent(
         llm=llm,
         toolkit=toolkit,
         agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
