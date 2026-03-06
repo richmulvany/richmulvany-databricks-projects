@@ -1,1 +1,8 @@
-
+fastapi
+uvicorn[standard]
+python-dotenv
+databricks-sql-connector
+sqlalchemy
+langchain
+langchain-openai
+openai
