@@ -11,7 +11,7 @@ def get_database() -> SQLDatabase:
         raise ValueError("DATABRICKS_HOST, DATABRICKS_TOKEN, and DATABRICKS_WAREHOUSE_ID must be set")
 
     engine = create_engine(
-        f"databricks+connector://token:{token}@{host}:443/{http_path}"
+        f"databricks+connector://token:{token}@{host}:443/{http_path}&catalog=03_gold&schema=hr"
     )
 
     return SQLDatabase(engine)
