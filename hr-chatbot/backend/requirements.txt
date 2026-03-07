@@ -7,3 +7,4 @@ langchain==1.1.0
 langchain_community
 langchain_openai
 openai
+databricks-sql-connector[sqlalchemy]
