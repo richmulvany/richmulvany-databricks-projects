@@ -1,8 +1,8 @@
 fastapi
 uvicorn[standard]
 python-dotenv
-databricks-sql-connector>=0.8.0
 sqlalchemy>=2.0.20
+databricks-sqlalchemy
 langchain==1.1.0
 langchain_community
 langchain_openai
