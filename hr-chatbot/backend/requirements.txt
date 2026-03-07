@@ -3,7 +3,7 @@ uvicorn[standard]
 python-dotenv
 databricks-sql-connector
 sqlalchemy>=2.0.0
-databricks-sqlalchemy
+databricks-sqlalchemy~=1.0
 langchain==1.1.0
 langchain_community
 langchain_openai
