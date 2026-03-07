@@ -1,16 +1,18 @@
-from langchain_experimental.sql import SQLDatabaseChain
-from langchain_experimental.sql import SQLDatabase
+from langchain.agents import create_agent
+from langchain.agents.agent_toolkits import SQLDatabaseToolkit
+from langchain.agents.agent_types import AgentType
 from app.db import get_database
 from app.llm import get_llm
 
 def ask_agent(question):
-    db = get_database()  # this should return a SQLAlchemy engine or connection
+    db = get_database()
     llm = get_llm()
 
-    # Wrap your database
-    db_wrapper = SQLDatabase(engine=db)  # or SQLDatabase.from_uri("sqlite:///my.db")
-
-    # Create the chain/agent
-    db_chain = SQLDatabaseChain(llm=llm, database=db_wrapper, verbose=True)
-
-    return db_chain.run(question)
+    toolkit = SQLDatabaseToolkit(db=db, llm=llm)
+    agent = create_agent(
+        llm=llm,
+        toolkit=toolkit,
+        agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+        verbose=True
+    )
+    return agent.run(question)
