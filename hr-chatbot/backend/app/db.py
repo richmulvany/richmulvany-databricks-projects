@@ -10,15 +10,13 @@ def get_database() -> SQLDatabase:
     schema = os.getenv("DATABRICKS_SCHEMA")
 
     if not host or not token or not http_path:
-        raise ValueError("DATABRICKS_HOST, DATABRICKS_TOKEN, and DATABRICKS_WAREHOUSE_ID must be set")
+        raise ValueError(
+            "DATABRICKS_HOST, DATABRICKS_TOKEN, and DATABRICKS_WAREHOUSE_ID must be set"
+        )
 
     engine = create_engine(
-        f"databricks+connector://token:{token}@{host}:443/{http_path}&catalog=03_gold&schema=hr"
+        f"databricks://token:{token}@{host}"
+        f"?http_path={http_path}&catalog={catalog}&schema={schema}"
     )
-
-    engine = create_engine(
-  url = f"databricks://token:{token}@{host}?" +
-        f"http_path={http_path}&catalog={catalog}&schema={schema}"
-)
 
     return SQLDatabase(engine)
