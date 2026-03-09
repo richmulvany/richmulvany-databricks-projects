@@ -1,20 +1,25 @@
+# Stage 1: Build React frontend
+FROM node:20 AS frontend-build
+WORKDIR /frontend
+
+COPY frontend/package*.json ./
+RUN npm install
+
+COPY frontend/ ./
+RUN npm run build
+
+
+# Stage 2: FastAPI backend
 FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements first (better layer caching)
-COPY requirements.txt .
+COPY backend/app ./app
+COPY backend/requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application
-COPY app ./app
+COPY --from=frontend-build /frontend/build ./frontend_build
 
 EXPOSE 8000
 

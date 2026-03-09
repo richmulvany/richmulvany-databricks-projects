@@ -1,9 +1,13 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
 from app.agent import ask_agent, ask_agent_debug, get_database
 import logging
 
+
 app = FastAPI(title="Databricks SQL Agent")
 logger = logging.getLogger("databricks_agent")
+
+app.mount("/", StaticFiles(directory="frontend_build", html=True), name="frontend")
 
 @app.on_event("startup")
 def warmup_databricks():
