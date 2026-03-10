@@ -7,8 +7,6 @@ import logging
 app = FastAPI(title="Databricks SQL Agent")
 logger = logging.getLogger("databricks_agent")
 
-app.mount("/", StaticFiles(directory="frontend_build", html=True), name="frontend")
-
 @app.on_event("startup")
 def warmup_databricks():
     try:
@@ -37,3 +35,5 @@ def ask_debug(question: str):
         return ask_agent_debug(question)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+app.mount("/", StaticFiles(directory="frontend_build", html=True), name="frontend")
