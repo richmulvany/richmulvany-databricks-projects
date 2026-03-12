@@ -8,5 +8,6 @@ def get_llm():
     return ChatOpenAI(
         model="gpt-4o-mini",
         api_key=api_key,
+        streaming=True,  # enable token streaming for real-time reasoning updates
         temperature=0  # deterministic SQL responses
     )

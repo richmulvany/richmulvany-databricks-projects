@@ -1,13 +1,89 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out;
+}
+
+/* Smooth scroll for chat */
+#chat-container {
+  scroll-behavior: smooth;
+}
+
+/* =========================
+   Theme Colors
+========================= */
+
+:root {
+  --color-main: #d9d9d9;
+  --color-second: #ff4d4d;
+  --color-third: #4dffbc;
+  --color-back: #898989;
+}
+
+
+/* =========================
+   Global Base Styles
+========================= */
+
+@layer base {
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-back text-white antialiased;
+  }
+
+}
+
+
+/* =========================
+   Scrollbar Styling
+========================= */
+
+@layer utilities {
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #666;
+  }
+
+}
+
+@layer utilities {
+
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
+  .panel {
+    @apply bg-back border border-white/10 rounded-2xl shadow-2xl;
+  }
+
 }

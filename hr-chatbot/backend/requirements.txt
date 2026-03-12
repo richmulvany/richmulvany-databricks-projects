@@ -4,6 +4,9 @@ python-dotenv
 databricks-sql-connector[sqlalchemy]
 databricks-sqlalchemy
 langchain
+langchain_classic
+langchain-core
 langchain_community
 langchain_openai
+langgraph
 openai

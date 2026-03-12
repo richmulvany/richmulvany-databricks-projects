@@ -1,23 +1,18 @@
-from sqlalchemy import create_engine
-from langchain_community.utilities import SQLDatabase
 import os
+from sqlalchemy import create_engine
 
-def get_database() -> SQLDatabase:
-    host = os.getenv("DATABRICKS_HOST")
-    token = os.getenv("DATABRICKS_TOKEN")
+
+def get_engine():
+
+    server_hostname = os.getenv("DATABRICKS_SERVER_HOSTNAME")
     http_path = os.getenv("DATABRICKS_HTTP_PATH")
-    catalog = os.getenv("DATABRICKS_CATALOG", "main")
-    schema = os.getenv("DATABRICKS_SCHEMA", "default")
+    access_token = os.getenv("DATABRICKS_TOKEN")
 
-    if not host or not token or not http_path:
-        raise ValueError(
-            "DATABRICKS_HOST, DATABRICKS_TOKEN, and DATABRICKS_HTTP_PATH must be set"
-        )
-
-    engine = create_engine(
-        f"databricks://token:{token}@{host}"
-        f"?http_path={http_path}&catalog={catalog}&schema={schema}"
+    connection_string = (
+        f"databricks://token:{access_token}@{server_hostname}"
+        f"?http_path={http_path}"
     )
 
-    # sample_rows_in_table_info helps LLM generate better queries
-    return SQLDatabase(engine, sample_rows_in_table_info=2)
+    engine = create_engine(connection_string)
+
+    return engine

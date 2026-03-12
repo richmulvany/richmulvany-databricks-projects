@@ -1,51 +1,62 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.staticfiles import StaticFiles
-from fastapi.middleware.cors import CORSMiddleware
-from app.agent import ask_agent, ask_agent_debug, get_database
+import asyncio
+import uuid
 import logging
+from concurrent.futures import ThreadPoolExecutor
 
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
+from pydantic import BaseModel
 
-app = FastAPI(title="Databricks SQL Agent")
-logger = logging.getLogger("databricks_agent")
+from app.agent import ask_agent
+
+logging.basicConfig(level=logging.INFO)
+
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:8000"
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-@app.on_event("startup")
-def warmup_databricks():
-    try:
-        db = get_database()
-        with db.engine.connect() as conn:
-            conn.execute("SELECT 1")
-        logger.info("Databricks warehouse warmup successful")
-    except Exception as e:
-        logger.warning("Databricks warehouse warmup failed: %s", e)
 
-@app.get("/ask")
-def ask(question: str):
-    if not question.strip():
+class QuestionRequest(BaseModel):
+    question: str
+    session_id: str | None = None
+
+
+@app.post("/ask_stream")
+async def ask_stream(request: QuestionRequest):
+
+    if not request.question.strip():
         raise HTTPException(status_code=400, detail="Question cannot be empty")
-    try:
-        response = ask_agent(question)
-        return {"question": question, "response": response}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/ask_debug")
-def ask_debug(question: str):
-    if not question.strip():
-        raise HTTPException(status_code=400, detail="Question cannot be empty")
-    try:
-        return ask_agent_debug(question)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    session_id = request.session_id or str(uuid.uuid4())
 
-app.mount("/", StaticFiles(directory="frontend_build", html=True), name="frontend")
+    loop = asyncio.get_event_loop()
+    executor = ThreadPoolExecutor(max_workers=1)
+
+    def run_agent():
+        return ask_agent(request.question, session_id)
+
+    future = loop.run_in_executor(executor, run_agent)
+
+    async def stream():
+
+        while not future.done():
+            await asyncio.sleep(0.05)
+
+        result = await future
+
+        for step in result["trace"]:
+            yield f"trace|{step}\n"
+            await asyncio.sleep(0.05)
+
+        for token in result["answer"].split(" "):
+            yield f"bot|{token} \n"
+            await asyncio.sleep(0.02)
+
+    return StreamingResponse(stream(), media_type="text/plain")
