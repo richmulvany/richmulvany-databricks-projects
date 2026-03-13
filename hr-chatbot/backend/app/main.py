@@ -1,14 +1,13 @@
-import asyncio
-import uuid
+import os
+import json
 import logging
-from concurrent.futures import ThreadPoolExecutor
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
+from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 
-from app.agent import ask_agent
+from app.agent import app_graph
 
 logging.basicConfig(level=logging.INFO)
 
@@ -22,41 +21,65 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+frontend_dir = os.path.join(os.getcwd(), "frontend_build")
 
-class QuestionRequest(BaseModel):
-    question: str
-    session_id: str | None = None
+if os.path.exists(frontend_dir):
+
+    app.mount(
+        "/static",
+        StaticFiles(directory=os.path.join(frontend_dir, "static")),
+        name="static"
+    )
+
+    @app.get("/")
+    async def serve_frontend():
+        return FileResponse(os.path.join(frontend_dir, "index.html"))
 
 
-@app.post("/ask_stream")
-async def ask_stream(request: QuestionRequest):
+@app.get("/ask_stream")
+async def ask_stream(question: str):
 
-    if not request.question.strip():
-        raise HTTPException(status_code=400, detail="Question cannot be empty")
+    def event_generator():
 
-    session_id = request.session_id or str(uuid.uuid4())
+        state = {
+            "question": question,
+            "tables": None,
+            "schema": None,
+            "sql_query": None,
+            "sql_error": None,
+            "results": None,
+            "answer": None,
+            "trace": [],
+            "retry_count": 0
+        }
 
-    loop = asyncio.get_event_loop()
-    executor = ThreadPoolExecutor(max_workers=1)
+        last_trace_len = 0
 
-    def run_agent():
-        return ask_agent(request.question, session_id)
+        for step in app_graph.stream(state):
 
-    future = loop.run_in_executor(executor, run_agent)
+            # Each step is {"node_name": state_update}
+            for node, update in step.items():
 
-    async def stream():
+                # STREAM TRACE
+                if "trace" in update:
 
-        while not future.done():
-            await asyncio.sleep(0.05)
+                    trace = update["trace"]
 
-        result = await future
+                    if len(trace) > last_trace_len:
 
-        for step in result["trace"]:
-            yield f"trace|{step}\n"
-            await asyncio.sleep(0.05)
+                        new_entries = trace[last_trace_len:]
 
-        for token in result["answer"].split(" "):
-            yield f"bot|{token} \n"
-            await asyncio.sleep(0.02)
+                        for entry in new_entries:
+                            yield f"data: {json.dumps({'trace': entry})}\n\n"
 
-    return StreamingResponse(stream(), media_type="text/plain")
+                        last_trace_len = len(trace)
+
+                # STREAM FINAL ANSWER
+                if "answer" in update:
+
+                    yield f"data: {json.dumps({'answer': update['answer']})}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream"
+    )
