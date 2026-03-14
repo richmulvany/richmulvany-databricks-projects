@@ -111,19 +111,22 @@ export default function Chat() {
   return (
 
     <div className="flex h-screen bg-gray-800 text-black p-6 gap-6">
-
-      <div className="w-64 bg-main border border-back rounded-2xl p-4 flex flex-col gap-4">
-
-        <h2 className="text-lg font-semibold mb-2 text-gray-800 text-center">
+      <div clasName="w-64 p4 flex flex-row flex-col gap-4">
+        {/* Floating HR Assistant Title */}
+        <div className="top-6 left-6 px-4 py-2 rounded-xl max-w-48 max-h-24 flex-none font-bold text-lg text-main">
           HR Assistant
-        </h2>
+        </div>
 
-        <button className="bg-second hover:bg-third border border-back rounded-lg p-2 text-black font-semibold w-full">
-          + New Chat
-        </button>
+        <div className="w-64 bg-main border border-back rounded-2xl p-4 flex-row-auto gap-4">
 
+          <button className="bg-second hover:bg-third border border-back rounded-lg p-2 max-h-46 text-black font-semibold w-full">
+            + New Chat
+          </button>
+
+        </div>
+        <div className="top-6 left-6 px-4 py-2 h-728 rounded-xl flex-row-auto">
+        </div>
       </div>
-
       <div className="flex flex-col flex-1 max-w-3xl bg-gray-800 rounded-2xl overflow-hidden">
 
         <div className="flex-1 overflow-y-auto p-6 space-y-3">
@@ -188,19 +191,16 @@ export default function Chat() {
               className="w-16 h-[46px] bg-second rounded-xl hover:bg-third text-black font-semibold transition-colors"
             >
 
-              <svg
+              <svg 
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
+                viewBox="-1.95 -4.4 10 10"
                 fill="none"
-                stroke="currentColor"
-                strokeWidth={2.2}
+                strokeWidth={0.4}
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="w-5 h-5"
+                className="w-16 h-12 stroke-main hover:stroke-second"
               >
-                <path d="M4 12h11" />
-                <path d="M11 7l5 5-5 5" />
-                <path d="M20 5v6a3 3 0 0 1-3 3h-4" opacity="0.5"/>
+                <path d="m0 0 0 2c0 1 1 1 1 1l4 0c1 0 1-1 1-1l0-4 1 1-1-1-1 1 1-1 0 0" />
               </svg>
 
             </button>
@@ -218,11 +218,11 @@ export default function Chat() {
           className="bg-main border border-back rounded-2xl p-4 overflow-y-auto h-full"
         >
 
-          <h2 className="text-lg font-semibold mb-6 text-gray-900">
+          <h2 className="text-lg font-semibold mb-2 mr-2 m text-gray-900">
             Query Log
           </h2>
 
-          <div className="text-sm text-gray-900">
+          <div className="text-xs text-gray-900">
             {reasoning.split("\n").map((line, idx) => {
               if (line.startsWith("###### ")) {
                 return <h5 key={idx} className="font-semibold text-gray-700">{line.replace("###### ", "")}</h5>;
