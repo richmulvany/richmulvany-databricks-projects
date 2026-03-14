@@ -36,10 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-@theme {
-  --color-main: #000000;
-  --color-second: #2CFF05;
-  --color-third: #BF00FF;
-  --color-back: #2D2D2D;
-}

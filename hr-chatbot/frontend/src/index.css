@@ -31,6 +31,8 @@
   --color-second: #ff4d4d;
   --color-third: #4dffbc;
   --color-back: #898989;
+  --color-sql-table: #0d47a1;
+  --color-sql-number: #bf360c;
 }
 
 
@@ -45,11 +47,11 @@
   }
 
   body {
-    @apply bg-back text-white antialiased;
+    @apply bg-gray-800 text-white antialiased;
+    height: 100%;
   }
 
 }
-
 
 /* =========================
    Scrollbar Styling
