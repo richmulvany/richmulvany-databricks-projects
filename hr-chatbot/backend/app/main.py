@@ -3,11 +3,13 @@ import json
 import logging
 
 from fastapi import FastAPI
+from fastapi import Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.agent import app_graph
+from app.llm import get_llm
 
 logging.basicConfig(level=logging.INFO)
 
@@ -20,6 +22,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+llm = get_llm()
 
 frontend_dir = os.path.join(os.getcwd(), "frontend_build")
 
@@ -83,3 +87,28 @@ async def ask_stream(question: str):
         event_generator(),
         media_type="text/event-stream"
     )
+
+@app.post("/chat_title")
+async def generate_chat_title(data: dict = Body(...)):
+
+    message = data.get("message", "")
+
+    prompt = f"""
+        Generate a very short chat title (max 5 words) for this user question.
+
+        Question:
+        {message}
+
+        Return ONLY the title text.
+    """
+
+    response = llm.invoke(prompt)
+
+    title = (
+    response.content
+    .strip()
+    .replace('"', "")
+    .replace("\n", "")
+)
+
+    return title
