@@ -88,4 +88,32 @@
     @apply bg-back border border-white/10 rounded-2xl shadow-2xl;
   }
 
+  .scrollbar-query {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: transparent transparent; /* hidden by default in Firefox */
+  }
+
+  .scrollbar-query::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-query::-webkit-scrollbar-track {
+    background: transparent; /* invisible by default */
+  }
+
+  .scrollbar-query::-webkit-scrollbar-thumb {
+    background-color: transparent; /* hidden by default */
+    border-radius: 9999px;
+  }
+
+  /* Show on hover */
+  .scrollbar-query:hover::-webkit-scrollbar-thumb {
+    background-color: #4dffbc; 
+  }
+
+  .scrollbar-query:hover {
+    scrollbar-color: #4dffbc transparent; /* Firefox */
+  }
+
 }

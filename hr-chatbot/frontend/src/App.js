@@ -13,6 +13,7 @@ export default function Chat() {
   const [boxFocussed, setBoxFocussed] = useState(false);
   const [boxInput, setBoxInput] = useState(false);
   const [boxInputDelay, setBoxInputDelay] = useState(false);
+  const [shrink, setShrink] = useState(false);
 
   const messagesEndRef = useRef(null);
   const eventSourceRef = useRef(null);
@@ -32,9 +33,7 @@ export default function Chat() {
   const messages = currentSession?.messages || [];
 
   const hasStarted = messages.length > 0 || isTyping;
-  const [started, setStarted] = useState(false);
-  
-  const otherSessions = sessions.filter(s => s.id !== currentSessionId);
+  const showHero = messages.length === 0 && !isTyping;
 
   const [mounted, setMounted] = useState(false);
 
@@ -67,6 +66,14 @@ export default function Chat() {
 
   };
 
+  const newChatButton = () => {
+    if (sidebarOpen) {
+      return "+ New Chat";}
+    if (!sidebarOpen) {
+      return "+";}
+
+  }
+
   const newChat = () => {
 
     if (eventSourceRef.current) {
@@ -74,17 +81,9 @@ export default function Chat() {
       setIsTyping(false);
     }
 
-    const newSession = {
-      id: Date.now(),
-      title: "New Chat",
-      messages: []
-    };
-
-    setSessions(prev => [newSession, ...prev]);
-    setCurrentSessionId(newSession.id);
+    setCurrentSessionId(null);
     setReasoning("");
-
-  };
+};
 
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
@@ -155,14 +154,6 @@ function highlightSQL(line) {
   const handleInput = (e) => {
     setInput(e.target.value);
 
-    // Trigger "started" as soon as user types
-    if (!started && e.target.value.trim() !== "") {
-      setStarted(true);
-      setBoxInput(true); 
-      setTimeout(() => setBoxInput(false), 1000); // Reset after 1 seconds
-      setTimeout(() => setBoxInputDelay(true), 200); // Delay 200ms
-    }
-
     const el = inputRef.current;
     el.style.height = "auto";
     el.style.height = el.scrollHeight + "px";
@@ -175,43 +166,55 @@ function highlightSQL(line) {
 
     if (!userMessage.trim()) return;
 
-    if (!currentSessionId) {
-      newChat();
-      return;
-    }
+    let activeSessionId = currentSessionId;
 
-    if (!started) setStarted(true);
+    if (!activeSessionId) {
+
+      const newSession = {
+        id: Date.now(),
+        title: "New Chat",
+        messages: []
+      };
+
+      activeSessionId = newSession.id;
+
+      setSessions(prev => [...prev, newSession]);
+      setCurrentSessionId(activeSessionId);
+    }
 
     setSessions(prev =>
       prev.map(session => {
-        if (session.id !== activeSessionRef.current) return session;
+
+        if (session.id !== activeSessionId) return session;
 
         const newMessages = [...session.messages, { type: "user", text: userMessage }];
 
+        // trigger title generation only once
+        if (session.title === "New Chat") {
+
+          generateTitle(userMessage).then(title => {
+
+            const cleanTitle = title.replace(/["'`]/g, "");
+
+            setSessions(prev =>
+              prev.map(s =>
+                s.id === activeSessionId
+                  ? { ...s, title: cleanTitle }
+                  : s
+              )
+            );
+
+          });
+
+        }
+
         return {
           ...session,
-          title: session.title,
           messages: newMessages
         };
+
       })
     );
-
-    if (currentSession?.title === "New Chat") {
-
-      generateTitle(userMessage).then(title => {
-        const cleanTitle = title.replace(/["'`]/g, "");
-
-        setSessions(prev =>
-          prev.map(s =>
-            s.id === activeSessionId
-              ? { ...s, title: cleanTitle }
-              : s
-          )
-        );
-
-      });
-
-    }
 
     setInput("");
     setReasoning("");
@@ -221,8 +224,7 @@ function highlightSQL(line) {
 
     const url =
       `http://localhost:8000/ask_stream?question=${encodeURIComponent(userMessage)}`;
-    
-    const activeSessionId = currentSessionId;
+
 
     const source = new EventSource(url);
     eventSourceRef.current = source;
@@ -305,9 +307,11 @@ function highlightSQL(line) {
 
         <label htmlFor="query-toggle"
         className={`text-sm cursor-pointer ${
-          queryLogEnabled
-          ? "text-gray-800" 
-          : "text-main"
+          reasoning.length === 0 
+          ? "text-main" 
+          : !queryLogEnabled
+            ? "text-main"
+            : "text-gray-800"
         }`}
         >
           See Log
@@ -331,154 +335,150 @@ function highlightSQL(line) {
         </div>
 
       </div>
-
-      {/* Sidebar */}
-      <div className="fixed px-4 py-1 rounded-xl font-bold text-3xl text-main">
+      <div className="bg-none flex flex-col min-w-[19rem]">
+        {/* Title */}
+        <div className="fixed px-4 mt-0 rounded-xl font-bold text-3xl text-main">
           HR Assistant
-      </div>
-      <div
-        className={`top-20 py-14 w-[19rem] flex flex-col flex-initial transition-all duration-700`}
-      >
-      
-        <div className={`rounded-2xl p-3 flex flex-col gap-2 " ${
-          sidebarOpen && hasStarted
-            ? "bg-main translate-y-0"
-            : sidebarOpen && !hasStarted
-              ? "bg-main"
-              : !sidebarOpen && !hasStarted
-                ? "bg-none "
-                : ""
-        }`}
-        >
-          <div className="flex flex-row gap-3 mr-4 mt-1">
-            <button
-              onClick={() => setSidebarOpen(prev => !prev)}
-              className={`flex ml-1 rounded-lg text-2xl ${
-                sidebarOpen
-                  ? !hasStarted
-                    ? "hover:text-second"
-                    : "hover:text-second"
-                  : !hasStarted
-                    ? "text-main hover:text-third"
-                    : "text-main hover:text-third"
-              }`}
-            >
-              ☰
-            </button>
-            <button x
-            onClick={newChat}
-            className={`border border-gray-800 rounded-lg p-2 text-black font-semibold w-full w-min-128 flex ${
-              hasStarted
-                ? sidebarOpen
-                  ? "bg-second hover:bg-third"
-                  : "bg-third hover:bg-second"
-                : "opacity-0 pointer-events-none"
-            }`}
-            >
-              + New Chat
-            </button>
-          </div>
-          <div className={`flex flex-col gap-2 mt-2 transition-all duration-700 ${
-            sidebarOpen
-              ? "opacity-100"
-              : "opacity-0 pointer-events-none"
-          }`}
-          >
-            
-            {sidebarOpen && (
-              <div>
-              {/* Current Chat */}
-              {currentSession && (
-                <div className="flex p-2 text-sm font-semibold border-b border-main">
-                  {currentSession.title || "New Chat"}
-                </div>
-              )}
+        </div>
 
-              {/* Other Sessions */}
-              {otherSessions.map(session => (
+        {/* Sidebar */}
+        <div
+          className={`top-20 py-7 flex flex-col flex-initial transition-all duration-500 truncate
+          ${sidebarOpen ? "w-[19rem]" : "w-14"}
+        `}
+        >
+          <div className="bg-none flex flex-col min-w-[19rem]">
+            {/* Controls — always visible */}
+            <div className="flex flex-row mt-5 gap-3 mr-10 max-h-12  px-3">
+              <button
+                onClick={() => {setSidebarOpen(prev => !prev); setShrink(true); setTimeout(() => setShrink(false), 700);}}
+                className={`z-50 flex ml-1 rounded-lg text-2xl text-main transition-transform duration-300 ${
+                  sidebarOpen ? "hover:text-second rotate-90" : "hover:text-third rotate-0"
+                }`}
+              >
+                ☰
+              </button>
+
+              <button
+                onClick={newChat}
+                className={`transition-transform duration-700 ease-in-out
+                ${
+                  hasStarted
+                    ? sidebarOpen
+                      ? "rounded-xl p-2 text-black text-nowrap bg-third hover:bg-second font-semibold w-full flex translate-x-0 opacity-100 "
+                      : shrink
+                        ? "z-0 fixed px-10 py-[0.09vh] bg-opacity-0 hover:text-third text-main text-2xl"
+                        : "z-0 fixed px-10 py-[0.09vh] bg-opacity-0 hover:text-third text-main text-2xl"
+                    : "opacity-0 pointer-events-none"
+                }`}
+              >
+                {newChatButton()}
+              </button>
+            </div>
+          </div>
+          {/* Animated panel */}
+          <div
+            className={`rounded-2xl p-3 flex flex-col gap-2 mt-2
+            transition-all duration-300 ease-[cubic-bezier(.34,1.56,1.34,1)]
+            origin-top-left
+            ${
+              sidebarOpen
+                ? "bg-main  opacity-100 "
+                : "bg-main  opacity-0 pointer-events-none"
+            }`}
+          >
+
+            {/* Chat Sessions */}
+            {[...sessions].reverse().map((session, i) => {
+
+              const isCurrent = session.id === currentSessionId;
+
+              return (
 
                 <div
                   key={session.id}
-                  className="flex flex-row group rounded-lg hover:bg-third "
+                  style={{ transitionDelay: `${i * 20}ms` }}
+                  className={`flex flex-row group rounded-lg
+                  transition-all duration-100
+                  ${
+                    sidebarOpen
+                      ? "opacity-100 translate-x-0"
+                      : "opacity-0 -translate-x-2"
+                  }
+                  ${!isCurrent ? "hover:bg-third" : "bg-second"}
+                  `}
                 >
 
-                  {editingSessionId === session.id ? (
+                {editingSessionId === session.id ? (
 
-                    <input
-                      autoFocus
-                      value={editingTitle}
-                      onChange={(e) => setEditingTitle(e.target.value)}
-                      onBlur={() => {
-                        setSessions(prev =>
-                          prev.map(s =>
-                            s.id === session.id ? { ...s, title: editingTitle } : s
-                          )
-                        );
-                        setEditingSessionId(null);
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") e.target.blur();
-                      }}
-                      className="text-sm p-2 flex-col flex-1 bg-transparent outline-none"
-                    />
+                  <input
+                    autoFocus
+                    value={editingTitle}
+                    onChange={(e) => setEditingTitle(e.target.value)}
+                    onBlur={() => {
+                      setSessions(prev =>
+                        prev.map(s =>
+                          s.id === session.id ? { ...s, title: editingTitle } : s
+                        )
+                      );
+                      setEditingSessionId(null);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") e.target.blur();
+                    }}
+                    className="text-sm p-2 flex-col flex-1 bg-transparent outline-none"
+                  />
 
-                  ) : (
+                ) : (
 
                     <button
-                      title={session.title}
-                      onClick={() => {
+                    title={session.title}
+                    onClick={() => {
+                      if (!isCurrent) {
                         setCurrentSessionId(session.id);
                         setReasoning("");
-                      }}
-                      onDoubleClick={() => {
-                        setEditingSessionId(session.id);
-                        setEditingTitle(session.title || "");
-                      }}
-                      className="text-left text-sm p-2 flex-1 truncate"
-                    >
-                      {session.title || "New Chat"}
-                    </button>
-
-                  )}
-
-                  {/* delete button */}
-                  <button
-                    onClick={() => deleteSession(session.id)}
-                    className="w-6 opacity-0 mr-1 group-hover:opacity-100 text-gray-800 font-bold text-sm"
+                      }
+                    }}
+                    onDoubleClick={() => {
+                      setEditingSessionId(session.id);
+                      setEditingTitle(session.title || "");
+                    }}
+                    className={`text-left text-sm p-2 flex-1 truncate
+                      ${isCurrent ? "font-bold" : ""}
+                    `}
                   >
-                    ✕
+                    {session.title || "New Chat"}
                   </button>
 
-                </div>
+                )}
 
-              ))}
-            </div>)}
+                {/* delete button */}
+                <button
+                  onClick={() => deleteSession(session.id)}
+                  className="w-6 opacity-0 mr-1 group-hover:opacity-100 text-gray-800 font-bold text-sm"
+                >
+                  ✕
+                </button>
+
+              </div>
+              );
+            })}
           </div>
         </div>
-
       </div>
-
       {/* Chat Container */}
       <div className={`flex flex-col flex-1 items-center max-w-5xl w-full transition-opacity duration-300 ${
-        boxInput
-          ? "opacity-0" : ""
-        }`}>
+              !sidebarOpen
+                ?  "" : ""
+            }`}
+      >
         <div
-          className={`w-16 h-64 bg-gray-800 flex flex-col transition-all duration-700 ${
-            !started
-              ? ""
-              : "w-0 h-0"
-          }`}
-          >
-
-        </div>
-        <div
-          className={`w-full flex flex-col transition-transform duration-700 ease-in-out will-change-transform
-            ${started && mounted ? "max-w-3xl mt-auto" : "max-w-5xl"}
+          className={`w-full flex flex-col mt-auto transition-transform duration-700 ease-in-out will-change-transform
+            ${hasStarted && mounted ? "max-w-3xl mt-auto" : "max-w-5xl"} 
           `}
         >
           {/* Hero Section */}
-          {!started && (
+          {showHero && (
             <div className="text-center mb-4 select-none transition-opacity duration-700">
               <h1 className="text-5xl text-main mb-3">Ask About HR Analytics</h1>
               <div className="flex flex-wrap justify-center gap-3 mt-6">
@@ -502,10 +502,10 @@ function highlightSQL(line) {
 
           {/* Messages */}
           <div
-            className="flex flex-col space-y-3 px-6 transition-all duration-700"
+            className="flex flex-col space-y-3 px-6 transition-all duration-700 scrollbar-query"
             style={{
               maxHeight: "calc(100vh - 150px)",
-              overflowY: hasStarted ? "auto" : "visible",
+              overflowY: hasStarted ? "scroll" : "visible",
             }}
           >
             {messages.map((msg, i) => (
@@ -576,7 +576,8 @@ function highlightSQL(line) {
 
       {/* Query Log */}
       <div
-        className={`group transition-all duration-700 w-80 flex flex-col flex-initial ${
+        className={`group w-80 flex flex-col flex-initial transition-all duration-300
+          ease-[cubic-bezier(.34,1.56,1.34,1)] origin-top-right ${
           queryLogEnabled && (reasoning.length > 0)
             ? "opacity-100 translate-x-0"
             : hasStarted
@@ -629,15 +630,17 @@ function highlightSQL(line) {
               setQueryLogCopied(true); 
               setTimeout(() => setQueryLogCopied(false), 3000); // Reset after 3 seconds
             }}
-            className={`text-[1.7rem] font-bold text-main flex flex-row hover:text-third opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-300 ${
-              reasoning.length > 0
-              ? ""
-              : "opacity-0 pointer-events-none"
+            className={`text-[1.3rem] font-bold text-main flex flex-row mt-1 hover:text-third opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-300 ${
+              queryLogCopied 
+              ? "opacity-100"
+              : reasoning.length === 0
+                ? "opacity-0 pointer-events-none"
+                :  ""
             }`}
           >
-            ⎘
+            ⧉
           </button>
-          <div className={`text-[0.6rem] text-main opacity-0 pointer-events-none transition-opacity duration-300 flex flex-row mt-4 ${
+          <div className={`text-[0.6rem] text-main opacity-0 pointer-events-none transition-opacity duration-300 flex flex-row mt-[1.6vh] ${
             queryLogCopied 
             ? "opacity-100" : ""
             }`}
