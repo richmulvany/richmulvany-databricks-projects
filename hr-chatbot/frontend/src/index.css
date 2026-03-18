@@ -109,11 +109,67 @@
 
   /* Show on hover */
   .scrollbar-query:hover::-webkit-scrollbar-thumb {
-    background-color: #4dffbc; 
+    background-color: #ff4d4d; 
   }
 
   .scrollbar-query:hover {
+    scrollbar-color: #ff4d4d transparent; /* Firefox */
+  }
+
+  .scrollbar-side {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: transparent transparent; /* hidden by default in Firefox */
+  }
+
+  .scrollbar-side::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-side::-webkit-scrollbar-track {
+    background: transparent; /* invisible by default */
+  }
+
+  .scrollbar-side::-webkit-scrollbar-thumb {
+    background-color: transparent; /* hidden by default */
+    border-radius: 9999px;
+  }
+  /* Show on hover */
+  .scrollbar-side:hover::-webkit-scrollbar-thumb {
+    background-color: transparent; 
+  }
+
+  .scrollbar-side:hover {
+    scrollbar-color:  transparent; /* Firefox */
+  }
+
+  .scrollbar-chat {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: transparent transparent; /* hidden by default in Firefox */
+  }
+
+  .scrollbar-chat::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-chat::-webkit-scrollbar-track {
+    background: transparent; /* invisible by default */
+  }
+
+  .scrollbar-chat::-webkit-scrollbar-thumb {
+    background-color: transparent; /* hidden by default */
+    border-radius: 9999px;
+  }
+
+  /* Show on hover */
+  .scrollbar-chat:hover::-webkit-scrollbar-thumb {
+    background-color: #4dffbc; 
+  }
+
+  .scrollbar-chat:hover {
     scrollbar-color: #4dffbc transparent; /* Firefox */
   }
+
 
 }

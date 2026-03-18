@@ -166,6 +166,12 @@ function highlightSQL(line) {
 
     if (!userMessage.trim()) return;
 
+  
+    setBoxInput(true);
+    setTimeout(() => setBoxInput(false), 500); 
+    setTimeout(() => setBoxInputDelay(true), 0);
+    
+
     let activeSessionId = currentSessionId;
 
     if (!activeSessionId) {
@@ -218,6 +224,7 @@ function highlightSQL(line) {
 
     setInput("");
     setReasoning("");
+    
     setIsTyping(true);
 
     if (inputRef.current) inputRef.current.style.height = "auto";
@@ -343,7 +350,7 @@ function highlightSQL(line) {
 
         {/* Sidebar */}
         <div
-          className={`top-20 py-7 flex flex-col flex-initial transition-all duration-500 truncate
+          className={`top-20 py-[4.25vh] flex flex-col flex-initial transition-all duration-500 truncate
           ${sidebarOpen ? "w-[19rem]" : "w-14"}
         `}
         >
@@ -378,13 +385,13 @@ function highlightSQL(line) {
           </div>
           {/* Animated panel */}
           <div
-            className={`rounded-2xl p-3 flex flex-col gap-2 mt-2
+            className={`rounded-2xl p-3 flex flex-col gap-2 mt-4
             transition-all duration-300 ease-[cubic-bezier(.34,1.56,1.34,1)]
-            origin-top-left
+            origin-left overflow-y-auto scrollbar-side
             ${
               sidebarOpen
                 ? "bg-main  opacity-100 "
-                : "bg-main  opacity-0 pointer-events-none"
+                : "bg-main  -translate-y-10 -translate-x-10 opacity-0 pointer-events-none"
             }`}
           >
 
@@ -467,16 +474,22 @@ function highlightSQL(line) {
         </div>
       </div>
       {/* Chat Container */}
+
       <div className={`flex flex-col flex-1 items-center max-w-5xl w-full transition-opacity duration-300 ${
-              !sidebarOpen
-                ?  "" : ""
+              hasStarted && mounted ? "max-w-3xl mt-auto" : "max-w-5xl"}
             }`}
       >
         <div
-          className={`w-full flex flex-col mt-auto transition-transform duration-700 ease-in-out will-change-transform
+          className={`w-full flex flex-col mt-auto transition-all duration-700 ease-in-out will-change-transform
             ${hasStarted && mounted ? "max-w-3xl mt-auto" : "max-w-5xl"} 
           `}
         >
+          <div className={`absolute inset-0 z-50 bg-gray-800 transition-opacity duration-500 ${
+            boxInput
+              ? "opacity-40" : "opacity-0 pointer-events-none"
+          }`}
+          >
+          </div>
           {/* Hero Section */}
           {showHero && (
             <div className="text-center mb-4 select-none transition-opacity duration-700">
@@ -502,7 +515,7 @@ function highlightSQL(line) {
 
           {/* Messages */}
           <div
-            className="flex flex-col space-y-3 px-6 transition-all duration-700 scrollbar-query"
+            className="flex flex-col space-y-3 px-6 transition-all duration-700 scrollbar-chat"
             style={{
               maxHeight: "calc(100vh - 150px)",
               overflowY: hasStarted ? "scroll" : "visible",
@@ -541,8 +554,10 @@ function highlightSQL(line) {
               rows={1}
               className={`flex-1 p-3 rounded-xl text-black bg-main resize-none overflow-hidden max-h-32
                 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-third placeholder-back
-                transition-all duration-700
-                ${input.length > 0 ? "mr-4" : ""}`}
+                transition-all duration-700 ease-in-out
+                  ${boxInputDelay
+                    ? "mb-0" : "mb-[40vh]"
+                  }`}
               value={input}
               onChange={handleInput}
               onKeyDown={handleKeyDown}
@@ -587,7 +602,7 @@ function highlightSQL(line) {
       >
         <div
           ref={reasoningContainerRef}
-          className="group bg-main rounded-2xl px-3 py-[0.4rem] overflow-y-auto min-h-16"
+          className="group bg-main rounded-2xl px-3 py-[0.75vh] overflow-y-auto scrollbar-query min-h-16 mb-0"
         >
           <h2 className="text-lg font-semibold mb-2 text-gray-900">
             Query Log
@@ -622,7 +637,7 @@ function highlightSQL(line) {
         </div>
 
         <div
-        className="flex flex-row max-h-32 px-3 gap-2"
+        className="flex flex-row max-h-10 px-3 gap-2"
         >
           <button
             onClick={async () => {
@@ -650,13 +665,15 @@ function highlightSQL(line) {
 
         </div>
 
-        <div
-        className="flex flex-row flex-1 w-8"
+        {/* <div
+        className="flex flex-row flex-1 min-h-1 w-8"
         >
-        </div>
+          
+        </div> */}
 
       </div>
-
+         
     </div>
+    
   );
 }
