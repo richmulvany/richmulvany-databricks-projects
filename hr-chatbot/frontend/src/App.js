@@ -363,7 +363,7 @@ function highlightSQL(line) {
                 hasStarted
                  ? "opacity-0 pointer-events-none" : ""
               }`}>
-                <Link to={`https://github.com/richmulvany/richmulvany-databricks-projects" className="flex items-center`}>
+                <Link to="https://github.com/richmulvany/richmulvany-databricks-projects">
                   <img src={logo} alt="richmulvany data projects" className="h-10 w-auto px-4" />
                 </Link>
               </div>
