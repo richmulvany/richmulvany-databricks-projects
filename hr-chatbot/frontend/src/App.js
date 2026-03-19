@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import logo from "./logo.png";
+import { Link } from "react-router-dom";
 
 export default function Chat() {
 
@@ -344,9 +346,9 @@ function highlightSQL(line) {
       </div>
       <div className="bg-none flex flex-col min-w-[19rem]">
         {/* Title */}
-        <div className="fixed px-4 mt-0 rounded-xl font-bold text-3xl text-main">
-          HR Assistant
-        </div>
+          <div className="fixed px-4 mt-0 rounded-xl font-bold text-3xl text-main">
+            HR Assistant
+          </div>
 
         {/* Sidebar */}
         <div
@@ -357,6 +359,14 @@ function highlightSQL(line) {
           <div className="bg-none flex flex-col min-w-[19rem]">
             {/* Controls — always visible */}
             <div className="flex flex-row mt-5 gap-3 mr-10 max-h-12  px-3">
+              <div className={`fixed left-[8.75vh] top 64 ${
+                hasStarted
+                 ? "opacity-0 pointer-events-none" : ""
+              }`}>
+                <Link to={`https://github.com/richmulvany/richmulvany-databricks-projects" className="flex items-center`}>
+                  <img src={logo} alt="richmulvany data projects" className="h-10 w-auto px-4" />
+                </Link>
+              </div>
               <button
                 onClick={() => {setSidebarOpen(prev => !prev); setShrink(true); setTimeout(() => setShrink(false), 700);}}
                 className={`z-50 flex ml-1 rounded-lg text-2xl text-main transition-transform duration-300 ${
