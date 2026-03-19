@@ -14,8 +14,8 @@ from app.llm import get_llm
 logger = logging.getLogger("sql_agent")
 logging.getLogger("databricks.sql").setLevel(logging.ERROR)
 logging.getLogger("urllib3").setLevel(logging.ERROR)
-catalog = _require_env("DATABRICKS_CATALOG",)
-schema = _require_env("DATABRICKS_SCHEMA")
+catalog = os.getenv("DATABRICKS_CATALOG",)
+schema = os.getenv("DATABRICKS_SCHEMA")
 
 class AgentState(TypedDict):
     question: str

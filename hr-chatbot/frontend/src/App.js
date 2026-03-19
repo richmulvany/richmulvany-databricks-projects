@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import logo from "./logo.png";
-import { Link } from "react-router-dom";
+// import logo from "./logo.png";
+// import { Link } from "react-router-dom";
+import { REACT_APP_API_URL } from "."; 
+
 
 export default function Chat() {
 
   // const [messages, setMessages] = useState([]);
+  const url_host = REACT_APP_API_URL;
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [reasoning, setReasoning] = useState("");
@@ -111,7 +114,7 @@ async function generateTitle(message) {
 
   try {
 
-    const res = await fetch("http://localhost:8000/chat_title", {
+    const res = await fetch(`${url_host}/chat_title`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message })
@@ -152,7 +155,10 @@ function highlightSQL(line) {
 
   return formatted;
 }
-
+    useEffect(() => {
+    inputRef.current?.focus();
+  }, []); 
+  
   const handleInput = (e) => {
     setInput(e.target.value);
 
@@ -232,7 +238,7 @@ function highlightSQL(line) {
     if (inputRef.current) inputRef.current.style.height = "auto";
 
     const url =
-      `http://localhost:8000/ask_stream?question=${encodeURIComponent(userMessage)}`;
+      `${url_host}/ask_stream?question=${encodeURIComponent(userMessage)}`;
 
 
     const source = new EventSource(url);
@@ -359,7 +365,7 @@ function highlightSQL(line) {
           <div className="bg-none flex flex-col min-w-[19rem]">
             {/* Controls — always visible */}
             <div className="flex flex-row mt-5 gap-3 mr-10 max-h-12  px-3">
-              <div className={`fixed left-[3.75vh] -mt-[1.7vh] ${
+              {/* <div className={`fixed left-[3.75vh] -mt-[1.7vh] ${
                 hasStarted
                  ? "opacity-0 pointer-events-none" : ""
               }`}>
@@ -369,7 +375,7 @@ function highlightSQL(line) {
                     <span class="w-full">richmulvany data projects</span>
                     <svg class="w-10 h-10 ms-1 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/></svg>
                 </a> 
-              </div>
+              </div> */}
               <button
                 onClick={() => {setSidebarOpen(prev => !prev); setShrink(true); setTimeout(() => setShrink(false), 700);}}
                 className={`z-50 flex ml-1 rounded-lg text-2xl text-main transition-transform duration-300 ${
@@ -497,12 +503,12 @@ function highlightSQL(line) {
             ${hasStarted && mounted ? "max-w-3xl mt-auto" : "max-w-5xl"} 
           `}
         >
-          <div className={`absolute inset-0 z-50 bg-gray-800 transition-opacity duration-500 ${
+          {/* <div className={`absolute inset-0 z-50 bg-gray-800 transition-opacity duration-500 ${
             boxInput
-              ? "opacity-40" : "opacity-0 pointer-events-none"
+              ? "opacity-0" : "opacity-0 pointer-events-none"
           }`}
           >
-          </div>
+          </div> */}
           {/* Hero Section */}
           {showHero && (
             <div className="text-center mb-4 select-none transition-opacity duration-700">
@@ -565,11 +571,14 @@ function highlightSQL(line) {
               }}
               ref={inputRef}
               rows={1}
-              className={`flex-1 p-3 rounded-xl text-black bg-main resize-none overflow-hidden max-h-32
+              className={`flex-1 p-3 rounded-xl text-black bg-main resize-none overflow-hidden max-h-32 has-focus
                 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-third placeholder-back
                 transition-all duration-700 ease-in-out
                   ${boxInputDelay
                     ? "mb-0" : "mb-[40vh]"
+                  } ${
+                    input.length > 0
+                    ? "mr-2 focus:duration-0" : ""
                   }`}
               value={input}
               onChange={handleInput}
@@ -581,8 +590,13 @@ function highlightSQL(line) {
             <button
               onClick={sendMessage}
               className={`flex items-center justify-center rounded-xl
-                transition-all duration-700
-                ${input.length > 0 ? "w-16 opacity-100" : "w-0 opacity-0 overflow-hidden"}`}
+                transition-all duration-700 focus:duration-0 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-third
+                ${input.length > 0 ? "w-16 opacity-100" : "w-0 opacity-0 overflow-hidden"
+                } ${
+                  boxInputDelay
+                    ? "mb-0" : "mb-[40vh]"
+                  } 
+                }`}
             >
               <div className="w-16 h-[46px] bg-second hover:bg-third rounded-xl flex items-center justify-center active:scale-90 outline-third">
                 <svg
