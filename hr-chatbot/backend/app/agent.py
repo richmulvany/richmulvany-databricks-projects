@@ -1,5 +1,6 @@
 import logging
 import re
+import os
 from typing import TypedDict, Optional, List, Dict, Any
 from functools import lru_cache
 
@@ -13,7 +14,8 @@ from app.llm import get_llm
 logger = logging.getLogger("sql_agent")
 logging.getLogger("databricks.sql").setLevel(logging.ERROR)
 logging.getLogger("urllib3").setLevel(logging.ERROR)
-
+catalog = _require_env("DATABRICKS_CATALOG",)
+schema = _require_env("DATABRICKS_SCHEMA")
 
 class AgentState(TypedDict):
     question: str
@@ -50,7 +52,7 @@ def get_table_schema(tables: List[str]):
     fq_table_info = {}
 
     for t in tables:
-        fq_name = f"03_gold.hr.{t}"
+        fq_name = f"{catalog}.{schema}.{t}"
         fq_table_info[fq_name] = table_info
 
     return fq_table_info
