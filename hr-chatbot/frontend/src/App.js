@@ -359,13 +359,16 @@ function highlightSQL(line) {
           <div className="bg-none flex flex-col min-w-[19rem]">
             {/* Controls — always visible */}
             <div className="flex flex-row mt-5 gap-3 mr-10 max-h-12  px-3">
-              <div className={`fixed left-[8.75vh] top 64 ${
+              <div className={`fixed left-[3.75vh] -mt-[1.7vh] ${
                 hasStarted
                  ? "opacity-0 pointer-events-none" : ""
               }`}>
-                <Link to="https://github.com/richmulvany/richmulvany-databricks-projects">
-                  <img src={logo} alt="richmulvany data projects" className="h-10 w-auto px-4" />
-                </Link>
+
+                <a href="https://github.com/richmulvany/richmulvany-databricks-projects" target="_blank" class="flex flex-intline flex items-center gap-6 justify-center p-2 text-main font-xl border border-default hover:border-default-medium text-main rounded-xl bg-none hover:text-third hover:border-third scale-[70%] group">
+                    <img src="/logo512.png" alt="richmulvany data projects" className="bg-main rounded-lg h-12 w-auto group-hover:border group-hover:border-third group-hover:border-2" />                                         
+                    <span class="w-full">richmulvany data projects</span>
+                    <svg class="w-10 h-10 ms-1 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/></svg>
+                </a> 
               </div>
               <button
                 onClick={() => {setSidebarOpen(prev => !prev); setShrink(true); setTimeout(() => setShrink(false), 700);}}
